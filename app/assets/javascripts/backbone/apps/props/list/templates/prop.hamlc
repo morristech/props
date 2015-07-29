@@ -11,12 +11,4 @@
       .col-xs-12.prop-footer
         .prop-create-at.pull-left
           #{@created_at}
-        .upvote-area.pull-right
-          .btn-group
-            - if @upvotes_count > 0
-              %button.btn.btn-default.disabled
-                Rating
-                = "+#{@upvotes_count}"
-            - if @is_upvote_possible
-              %button.btn.btn-success{ 'js-upvote' => true }
-                = '+1'
+        .upvote-area

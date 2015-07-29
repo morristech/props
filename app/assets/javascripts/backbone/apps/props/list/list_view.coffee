@@ -65,12 +65,11 @@
     template: 'props/list/templates/prop'
     tagName: 'li'
     className: 'list-group-item props-list-item'
-    triggers:
-      'click [js-upvote]': 'prop:upvote:clicked'
     modelEvents:
       'change' : 'render'
     ui:
       propsReceivers: '.props-receivers'
+      upvoteArea: '.upvote-area'
 
     serializeData: ->
       _.extend super,
@@ -78,6 +77,17 @@
 
     onRender: ->
       @insertReceivers()
+      @renderVoteComponent()
+
+    renderVoteComponent: ->
+      React.render(React.createElement(VoteComponent,
+        upvotesCount: @model.get('upvotes_count')
+        isUpvotePossible: @model.get('is_upvote_possible')
+        onUpvote: @onUpvote.bind(@)
+      ), @ui.upvoteArea[0])
+
+    onUpvote: ->
+      @trigger 'prop:upvote:clicked', model: @model
 
     insertReceivers: ->
       React.render(React.createElement(ReceiversComponent,
