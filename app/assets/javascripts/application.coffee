@@ -13,6 +13,7 @@
 #= require_tree ./libs
 #= require_tree ./config
 
+#= require components
 #= require backbone/app
 
 #= require_tree ./backbone/lib/entities
@@ -23,4 +24,3 @@
 
 #= require_tree ./backbone/entities
 #= require_tree ./backbone/apps
-
