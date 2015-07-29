@@ -68,31 +68,16 @@
     modelEvents:
       'change' : 'render'
     ui:
-      propsReceivers: '.props-receivers'
-      upvoteArea: '.upvote-area'
+      propArea: '.prop-area'
 
     serializeData: ->
       _.extend super,
         created_at: moment(@model.get('created_at')).fromNow()
 
     onRender: ->
-      @insertReceivers()
-      @renderVoteComponent()
-
-    renderVoteComponent: ->
-      React.render(React.createElement(VoteComponent,
-        upvotesCount: @model.get('upvotes_count')
-        isUpvotePossible: @model.get('is_upvote_possible')
-        onUpvote: @onUpvote.bind(@)
-      ), @ui.upvoteArea[0])
-
-    onUpvote: ->
-      @trigger 'prop:upvote:clicked', model: @model
-
-    insertReceivers: ->
-      React.render(React.createElement(ReceiversComponent,
-        receivers: @model.get('users')
-      ), @ui.propsReceivers[0])
+      React.render(React.createElement(PropComponent,
+        prop: @model
+      ), @ui.propArea[0])
 
   class List.EmptyView extends App.Views.ItemView
     template: 'props/list/templates/empty'

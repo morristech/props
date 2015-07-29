@@ -1,14 +1,1 @@
-.row
-  .col-xs-12.prop-users
-    %a.prop-gaver{ href: "#users/#{@propser?.id}" }
-      %img{ src: @propser?.avatar_url}
-    %i.glyphicon.glyphicon-chevron-right.prop-to
-    .props-receivers
-  .col-xs-12.prop-content
-    %p.lead.prop-body
-      #{@body}
-    .row
-      .col-xs-12.prop-footer
-        .prop-create-at.pull-left
-          #{@created_at}
-        .upvote-area
+.row.prop-area
