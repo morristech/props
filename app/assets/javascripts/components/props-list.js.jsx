@@ -44,7 +44,9 @@ class PropsList extends React.Component {
 
     return (
       <div>
-        <div>{list.length > 0 ? list : emptyView}</div>
+        <div className="col-xs-12">
+          {list.length > 0 ? list : emptyView}
+        </div>
         <PaginationComponent
           currentPage={this.state.props.state.currentPage}
           onNextPageClick={this.onNextPage}
