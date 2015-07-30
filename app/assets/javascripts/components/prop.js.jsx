@@ -21,7 +21,7 @@ class Prop extends React.Component {
     });
 
     return (
-      <div>
+      <li className = "row list-group-item props-list-item">
         <div className="col-xs-12 prop-users">
           <UserComponent user={this.props.prop.get('propser')}/>
           <i className="glyphicon glyphicon-chevron-right prop-to"></i>
@@ -44,8 +44,8 @@ class Prop extends React.Component {
             </div>
           </div>
         </div>
-      </div>
-    );
+      </li>
+  );
   }
 }
 
