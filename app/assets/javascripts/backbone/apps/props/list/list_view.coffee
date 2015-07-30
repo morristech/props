@@ -90,6 +90,8 @@
     emptyView: List.EmptyView
     events:
       'click [data-page]' : 'pageSelected'
+    ui:
+      paginationRegion: '.pagination-region'
 
     initialize: (options) ->
       @listenTo @, 'add:child', @showPagination
@@ -98,25 +100,18 @@
       @collection.state.currentPage
 
     showPagination: ->
-      $pagination = @$('.pagination-region')
-      paginationData =
-        currentPage: @currentPage()
+      React.render(React.createElement(PaginationComponent,
+        currentPage: @collection.state.currentPage
+        hasNextPage: @collection.hasNextPage()
+        hasPreviousPage: @collection.hasPreviousPage()
+        onNextPageClick: @getNextPage.bind(this)
+        onPrevPageClick: @getPreviousPage.bind(this)
+      ), @ui.paginationRegion[0])
 
-      html = if @collection.state.totalPages == 1
-        ''
-      else
-        Marionette.Renderer.render('props/list/templates/pagination', paginationData)
-
-      $pagination.html html
-
-      $prevPage = @$('.previous-page')
-      $nextPage = @$('.next-page')
-      $prevPage.hide() unless @collection.hasPreviousPage()
-      $nextPage.hide() unless @collection.hasNextPage()
-
-    pageSelected: (e) ->
+    getNextPage: (e) ->
       e.preventDefault()
-      if $(e.target).data().page == 'next'
-        @collection.getNextPage()
-      else
-        @collection.getPreviousPage()
+      @collection.getNextPage()
+
+    getPreviousPage: (e) ->
+      e.preventDefault()
+      @collection.getPreviousPage()
