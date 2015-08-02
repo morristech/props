@@ -28,13 +28,11 @@
       @ui.input.on 'change', @onSelectChange
 
     onSelectChange: (e) =>
-      selectedUsers = @users.filter (user) ->
-        _.include e.val, String(user.get('id'))
-      return if !selectedUsers?
-      @ui.selectedUsers.html('')
+      avatars = e.val.reverse().map (id) => @users.get(id).get('avatar_url');
 
-      _.each selectedUsers.reverse(), (u) =>
-        @ui.selectedUsers.append(@userBigTemplate(u))
+      React.render(React.createElement(SelectedUsersComponent,
+        avatars: avatars
+      ), @ui.selectedUsers[0])
 
     renderSelectItems: (users) ->
       users_data = users.map (user) ->
@@ -51,9 +49,6 @@
 
     userSmallTemplate: (user) ->
       "<img class='user-small-face' src='" + user.avatar_url + "'/>" + user.text
-
-    userBigTemplate: (user) ->
-      "<img class='praised-person-avatar' src='" + user.get('avatar_url') + "'/>"
 
   class List.Header extends App.Views.Layout
     template: 'props/list/templates/header'
