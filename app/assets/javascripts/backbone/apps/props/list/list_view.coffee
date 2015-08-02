@@ -19,6 +19,7 @@
       input: 'input'
       praisedPersonAvatar: '.praised-person-avatar'
       selectedUsers: '.selected-users'
+      usersSelect: '.users-select'
 
     initialize: (options) ->
       @users ||= options.users
@@ -27,28 +28,27 @@
       @renderSelectItems @users
       @ui.input.on 'change', @onSelectChange
 
-    onSelectChange: (e) =>
-      avatars = e.val.reverse().map (id) => @users.get(id).get('avatar_url');
+    onSelectChange: (ids) ->
+      avatars = if !ids then [] else ids.split(',').reverse().map (id) =>
+        @users.get(id).get('avatar_url')
 
       React.render(React.createElement(SelectedUsersComponent,
         avatars: avatars
       ), @ui.selectedUsers[0])
 
-    renderSelectItems: (users) ->
-      users_data = users.map (user) ->
-        { id: user.get('id'), text: user.get('name' ), avatar_url: user.get('avatar_url')}
 
-      @ui.input.select2
-        placeholder: 'Who do you want to prop?'
-        allowClear: true
-        dropdownAutoWidth: true
-        multiple: true
-        data: users_data
-        width: 'resolve'
-        formatResult: @userSmallTemplate
+    renderSelectItems: ->
+      usersData = @users.map (user) ->
+        { value: user.get('id'), label: user.get('name'), avatarUrl: user.get('avatar_url')}
 
-    userSmallTemplate: (user) ->
-      "<img class='user-small-face' src='" + user.avatar_url + "'/>" + user.text
+      React.render(React.createElement(Select,
+        options: usersData
+        multi: true
+        optionComponent: UserOptionComponent
+        name: 'user_ids'
+        placeholder: 'Whot do you want to prop?'
+        onChange: @onSelectChange.bind(this)
+      ), @ui.usersSelect[0])
 
   class List.Header extends App.Views.Layout
     template: 'props/list/templates/header'
