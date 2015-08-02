@@ -1,3 +1,4 @@
+@import 'vendor/react-select';
 @import 'netguru-theme';
 
 @import 'select2';
@@ -10,7 +11,6 @@
 @import 'components/loading';
 @import 'components/announcement_screen';
 @import 'controllers/login';
-@import 'vendor/react-select';
 
 @media (min-width: $screen-md-max) {
   .container {
