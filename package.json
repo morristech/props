@@ -9,7 +9,8 @@
     "babelify": "^6.1.3",
     "browserify": "^10.2.6",
     "browserify-incremental": "^3.0.1",
-    "react": "^0.13.3"
+    "react": "^0.13.3",
+    "react-select": "git://github.com/jniechcial/react-select#master"
   },
   "license": "MIT",
   "engines": {
