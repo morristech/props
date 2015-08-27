@@ -4,7 +4,15 @@
     template: 'users/list/templates/user'
     triggers:
       'click a' : 'user:clicked'
-    className: 'col-xs-6 col-sm-3 col-md-2'
+
+    onShow: ->
+      data =
+        id: @model.get('id')
+        avatar_url: @model.get('avatar_url')
+        name: @model.get('name')
+      React.render(React.createElement(UserThumb,
+        user: data
+      ), @el)
 
   class List.Users extends App.Views.CompositeView
     template: 'users/list/templates/users'
