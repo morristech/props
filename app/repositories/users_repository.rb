@@ -11,9 +11,7 @@ class UsersRepository
     active.find(id)
   end
 
-  def find_by_email(email)
-    active.find_by_email(email)
-  end
+  delegate :find_by_email, to: :active
 
   def user_from_auth(auth)
     active.where(

@@ -3,7 +3,8 @@ module Api
     expose(:users_repository) { UsersRepository.new }
 
     def index
-      render json: users_repository.active, each_serializer: UserSerializer::Base
+      render json: users_repository.active,
+             each_serializer: UserSerializer::Base
     end
 
     def show
