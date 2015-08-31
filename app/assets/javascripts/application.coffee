@@ -13,7 +13,8 @@
 #= require_tree ./libs
 #= require_tree ./config
 
-#= require components
+#= require react_integration
+#= require react_bundle
 #= require backbone/app
 
 #= require_tree ./backbone/lib/entities

@@ -32,23 +32,23 @@
       avatars = if !ids then [] else ids.split(',').reverse().map (id) =>
         @users.get(id).get('avatar_url')
 
-      React.render(React.createElement(SelectedUsersComponent,
+      renderComponent('SelectedUsersComponent',
         avatars: avatars
-      ), @ui.selectedUsers[0])
+      , @ui.selectedUsers[0])
 
 
     renderSelectItems: ->
       usersData = @users.map (user) ->
         { value: user.get('id'), label: user.get('name'), avatarUrl: user.get('avatar_url')}
 
-      React.render(React.createElement(Select,
+      renderComponent('Select',
         options: usersData
         multi: true
-        optionComponent: UserOptionComponent
+        optionComponent: getComponent('UserOptionComponent');
         name: 'user_ids'
         placeholder: 'Whot do you want to prop?'
         onChange: @onSelectChange.bind(this)
-      ), @ui.usersSelect[0])
+      , @ui.usersSelect[0])
 
   class List.Header extends App.Views.Layout
     template: 'props/list/templates/header'

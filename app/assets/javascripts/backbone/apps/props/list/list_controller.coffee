@@ -23,9 +23,9 @@
       new List.Layout
 
     propsRegion: (props) ->
-      React.render(React.createElement(PropsListComponent,
-       props: props
-      ), $('.props-region')[0])
+      renderComponent('PropsListComponent',
+        props: props
+      , $('.props-region')[0])
 
     getHeaderView: ->
       users = App.request 'user:entities'
