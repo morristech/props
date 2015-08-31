@@ -25,6 +25,9 @@
     "templateStrings": true,
     "jsx": true
   },
+  "globals": {
+    "registerComponent"
+  },
   "rules": {
 /**
  * Strict mode

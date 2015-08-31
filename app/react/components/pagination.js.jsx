@@ -26,7 +26,6 @@ class Pagination extends React.Component {
 }
 
 Pagination.propTypes = {
-  currentPage: React.PropTypes.number.isRequired,
   hasNextPage: React.PropTypes.bool.isRequired,
   hasPreviousPage: React.PropTypes.bool.isRequired,
   onPrevPageClick: React.PropTypes.func.isRequired,

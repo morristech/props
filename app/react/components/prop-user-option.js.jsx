@@ -1,7 +1,6 @@
 import React from 'react';
 
 class Option extends React.Component {
-
   render() {
     const obj = this.props.option;
     return (
