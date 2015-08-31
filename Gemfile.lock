@@ -6,11 +6,6 @@ GIT
     active_model_serializers (0.9.3)
       activemodel (>= 3.2)
 
-PATH
-  remote: /Users/mxaly/netguru/react_webpack_rails
-  specs:
-    react_webpack_rails (0.0.2)
-
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -304,6 +299,7 @@ GEM
     rb-fsevent (0.9.5)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
+    react_webpack_rails (0.0.21)
     request_store (1.1.0)
     rollbar (2.2.0)
     rspec (3.3.0)
@@ -439,7 +435,7 @@ DEPENDENCIES
   rb-fchange
   rb-fsevent
   rb-inotify
-  react_webpack_rails!
+  react_webpack_rails
   rollbar
   rspec-rails
   rvm1-capistrano3
