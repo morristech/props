@@ -27,7 +27,7 @@ gem 'sendgrid'
 gem 'slack-notifier'
 gem 'thin'
 gem 'uglifier'
-gem 'react_webpack_rails'
+gem 'react_webpack_rails', '0.0.3'
 
 # deploy
 gem 'capistrano', '3.3.5'
