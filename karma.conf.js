@@ -5,8 +5,11 @@ module.exports = function (config) {
     browsers: ['Chrome'],
     singleRun: true,
     frameworks: ['mocha', 'sinon'],
-    files: ['webpack/tests.config.js'],
-    preprocessors: {'webpack/tests.config.js': ['webpack', 'sourcemap']},
+    files: ['webpack/tests.config.js', {pattern: 'app/react/**/*', included: false, served: false}],
+    preprocessors: {
+      'webpack/tests.config.js': ['webpack', 'sourcemap'],
+      'app/react/**/*.js*': ['eslint'],
+    },
     reporters: ['dots'],
     webpack: {
       module: {
@@ -25,6 +28,13 @@ module.exports = function (config) {
     },
     webpackServer: {
       noInfo: true
+    },
+    eslint: {
+      engine: {
+        configFile: 'app/react/.eslintrc'
+      },
+      stopOnError: false,
+      stopOnWarning: false
     }
   });
 };
