@@ -13,6 +13,7 @@ in a geeky way.
 * Ruby on Rails 4.2
 * Ruby 2.1
 * Postgres
+* React with [react_webpack_railsv](https://github.com/netguru/react_webpack_rails)
 
 ## Setup
 
@@ -46,9 +47,33 @@ Console](https://code.google.com/apis/console) and creating new project there.
 When you have the credentials, put them in the `config/sec_config.yml` file
 under `omniauth_provider_key` and `omniauth_provider_secret` values.
 
+Install node dependencies:
+```
+$ npm install
+```
+
+Generate react-bundle for the first time:
+
+```
+$ webpack
+```
+
+## Development
+* run rails server.
+* run webpack in watch mode:
+  ```
+  $ webpack -w
+  ```
+
 ## Tests
 
-We use RSpec 3 for testing backend.
+We use RSpec 3 for testing backend and Mocha + Karma to test React components.
+We are using Chrome luncher.
+
+### Runnin components test:
+
+* run `npm run test-dev` to run tests.
+* run `npm run test-live` to run tests in watch mode.
 
 ## Common problems/bugs
 
