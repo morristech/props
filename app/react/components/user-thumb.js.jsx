@@ -1,6 +1,12 @@
 import React from 'react';
 
-class UserThumb extends React.Component {
+export default class UserThumb extends React.Component {
+  static get propTypes() {
+    return {
+      user: React.PropTypes.object.isRequired,
+    };
+  }
+
   render() {
     const userUrl = `#users/${this.props.user.id}`;
     return (
@@ -15,9 +21,3 @@ class UserThumb extends React.Component {
     );
   }
 }
-
-UserThumb.propTypes = {
-  user: React.PropTypes.object.isRequired,
-};
-
-export default UserThumb;

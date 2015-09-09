@@ -2,7 +2,13 @@ import React from 'react';
 import PropComponent from './prop';
 import PaginationComponent from './pagination';
 
-class PropsList extends React.Component {
+export default class PropsList extends React.Component {
+  static get propTypes() {
+    return {
+      props: React.PropTypes.object.isRequired,
+    };
+  }
+
   constructor(props) {
     super(props);
 
@@ -57,9 +63,3 @@ class PropsList extends React.Component {
     );
   }
 }
-
-PropsList.propTypes = {
-  props: React.PropTypes.object.isRequired,
-};
-
-export default PropsList;

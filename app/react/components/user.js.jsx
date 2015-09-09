@@ -1,6 +1,12 @@
 import React from 'react';
 
-class User extends React.Component {
+export default class User extends React.Component {
+  static get propTypes() {
+    return {
+      user: React.PropTypes.object.isRequired,
+    };
+  }
+
   render() {
     const reveiverUrl = `#users/${this.props.user.id}`;
     return (
@@ -10,9 +16,3 @@ class User extends React.Component {
     );
   }
 }
-
-User.propTypes = {
-  user: React.PropTypes.object.isRequired,
-};
-
-export default User;

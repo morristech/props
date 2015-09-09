@@ -1,6 +1,18 @@
 import React from 'react';
 
-class Option extends React.Component {
+export default class Option extends React.Component {
+  static get propTypes() {
+    return {
+      addLabelText: React.PropTypes.string,
+      className: React.PropTypes.string,
+      mouseDown: React.PropTypes.func,
+      mouseEnter: React.PropTypes.func,
+      mouseLeave: React.PropTypes.func,
+      option: React.PropTypes.object.isRequired,
+      renderFunc: React.PropTypes.func,
+    };
+  }
+
   render() {
     const obj = this.props.option;
     return (
@@ -16,15 +28,3 @@ class Option extends React.Component {
     );
   }
 }
-
-Option.propTypes = {
-  addLabelText: React.PropTypes.string,
-  className: React.PropTypes.string,
-  mouseDown: React.PropTypes.func,
-  mouseEnter: React.PropTypes.func,
-  mouseLeave: React.PropTypes.func,
-  option: React.PropTypes.object.isRequired,
-  renderFunc: React.PropTypes.func,
-};
-
-export default Option;

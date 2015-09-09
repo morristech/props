@@ -4,7 +4,13 @@ import moment from 'moment';
 import VoteComponent from './vote';
 import UserComponent from './user';
 
-class Prop extends React.Component {
+export default class Prop extends React.Component {
+  static get propTypes() {
+    return {
+      prop: React.PropTypes.object.isRequired,
+    };
+  }
+
   constructor(props) {
     super(props);
     this.onUpVote = this.onUpVote.bind(this);
@@ -22,6 +28,7 @@ class Prop extends React.Component {
 
     return (
       <li className = "row list-group-item props-list-item">
+        <div> i'm just testing it</div>
         <div className="col-xs-12 prop-users">
           <UserComponent user={this.props.prop.get('propser')}/>
           <i className="glyphicon glyphicon-chevron-right prop-to"></i>
@@ -48,9 +55,3 @@ class Prop extends React.Component {
   );
   }
 }
-
-Prop.propTypes = {
-  prop: React.PropTypes.object.isRequired,
-};
-
-export default Prop;

@@ -1,6 +1,16 @@
 import React from 'react';
 
-class Pagination extends React.Component {
+export default class Pagination extends React.Component {
+  static get propTypes() {
+    return {
+      hasNextPage: React.PropTypes.bool.isRequired,
+      hasPreviousPage: React.PropTypes.bool.isRequired,
+      onPrevPageClick: React.PropTypes.func.isRequired,
+      onNextPageClick: React.PropTypes.func.isRequired,
+      currentPage: React.PropTypes.number,
+    };
+  }
+
   render() {
     const prevButton = (
       <li>
@@ -24,12 +34,3 @@ class Pagination extends React.Component {
     );
   }
 }
-
-Pagination.propTypes = {
-  hasNextPage: React.PropTypes.bool.isRequired,
-  hasPreviousPage: React.PropTypes.bool.isRequired,
-  onPrevPageClick: React.PropTypes.func.isRequired,
-  onNextPageClick: React.PropTypes.func.isRequired,
-};
-
-export default Pagination;
