@@ -28,7 +28,9 @@
     "webpack": "^1.12.1"
   },
   "scripts": {
-    "test": "karma start",
+    "test": "karma start karma-production.conf.js",
+    "test-dev": "karma start",
+    "test-live": "karma start --no-singleRun",
     "start": "webpack -w --config webpack/dev.config.js",
     "build": "webpack -p --config webpack/production.config.js"
   },
