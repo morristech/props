@@ -14,7 +14,7 @@ export default class Pagination extends React.Component {
   render() {
     const prevButton = (
       <li>
-        <a className="previous-page" href="#"onClick={this.props.onPrevPageClick}>Previous</a>
+        <a className="previous-page" href="#" onClick={this.props.onPrevPageClick}>Previous</a>
       </li>
     );
     const nextButton = (
