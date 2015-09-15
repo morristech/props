@@ -46,7 +46,7 @@
         multi: true
         optionComponent: getComponent('UserOptionComponent');
         name: 'user_ids'
-        placeholder: 'Whot do you want to prop?'
+        placeholder: 'Whom do you want to give a prop to?'
         onChange: @onSelectChange.bind(this)
       , @ui.usersSelect[0])
 
