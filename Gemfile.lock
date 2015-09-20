@@ -84,6 +84,7 @@ GEM
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
     capistrano-stats (1.1.1)
+    chronic (0.10.2)
     codeclimate-test-reporter (0.4.7)
       simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.0)
@@ -386,6 +387,8 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     uniform_notifier (1.9.0)
+    whenever (0.9.4)
+      chronic (>= 0.6.3)
 
 PLATFORMS
   ruby
@@ -450,6 +453,7 @@ DEPENDENCIES
   spring-commands-rspec
   thin
   uglifier
+  whenever
 
 BUNDLED WITH
    1.10.6
