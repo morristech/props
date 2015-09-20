@@ -8,6 +8,7 @@ development: &defaults
   omniauth_provider_key: 'omniauth-key'
   omniauth_provider_secret: 'omniauth-secret'
   rollbar_access_token: 'rollbar_token'
+  secret_key_base: 'please-change-me'
   sendgrid_password: 'sendgrid_password'
   sendgrid_user_name: 'sendgrid_user_name'
   slack:
