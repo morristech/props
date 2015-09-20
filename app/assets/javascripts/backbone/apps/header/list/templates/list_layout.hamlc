@@ -15,4 +15,6 @@
           %span.caret
         %ul.dropdown-menu{role: "menu"}
           %li
+            %a{ href: '/settings' } Settings
+          %li
             %a{ href: '/signout' } Sign out

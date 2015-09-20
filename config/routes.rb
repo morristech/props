@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   get '/signout' => 'sessions#destroy', as: :signout
   get '/auth/failure' => 'sessions#failure'
 
+  resources :settings, only: :index do
+    post :apply, on: :collection
+  end
+
   namespace :api do
     namespace :v1 do
       resources :props, only: [:index, :create]

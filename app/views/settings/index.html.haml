@@ -1,0 +1,25 @@
+.row
+  .col-xs-12
+    %h1 Settings
+    %h2 Email subscription
+
+    %p
+      Emails will be sent to
+      %strong
+        = " #{current_user.email}"
+
+    = form_for mail_subscription, url: apply_settings_path do |f|
+      .form-group
+        .checkbox
+          = label_tag do
+            = f.check_box :active
+            Subscription active?
+      .form-group
+        .radio
+          = label_tag do
+            = f.radio_button("interval", "daily")
+            Daily
+        .radio
+          = label_tag do
+            = f.radio_button("interval", "weekly")
+            Weekly
