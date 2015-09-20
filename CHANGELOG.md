@@ -1,7 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-# 0.14.0 - Unreleased
+# 0.14.0 - 2015-09-20
+
+## Changed
+
+* `konf` gem has been removed and replaced with `app_konfig`. You should
+  configure `secrets.yml` instead of `sec_config.yml`
+
+## Added
+
+* Weekly/Daily email digests about received props
+* React components
 
 ## Fixed
 
