@@ -1,0 +1,41 @@
+%table{width: "100%", bgcolor: "#f1f1f1", cellpadding: "50"}
+  %tr
+    %td{align: "center", width: "100%"}
+      %table{width: "640px", cellpadding: "0", cellspacing: "0", bgcolor: "#fff", style: "border-width: 1px; border-color: #e2e2e2; border-style: solid; -webkit-box-shadow: 0px 0px 10px rgba(50, 50, 50, 0.09); -moz-box-shadow: 0px 0px 10px rgba(50, 50, 50, 0.09); box-shadow: 0px 0px 10px rgba(50, 50, 50, 0.12);"}
+        %tr
+          %td
+            %h1{style: "margin: 50px; margin-bottom: 26px; padding: 0px; font-family: Georgia; color: #8e8e8e; font-size: 24px; font-weight: normal; -webkit-font-smoothing: antialiased;"}
+              Props digest
+
+        - if @props.any?
+          %tr
+            %td
+              %h2{style: "margin: 50px; margin-top: 20px; margin-bottom: 0px; padding: 0px; font-family: Georgia; line-height: 30px; color: #4b4b4b; font-size: 18px; font-weight: normal; display: block; -webkit-font-smoothing: antialiased;"}
+                = "Hi #{@user.name}! Here's a list of props you've received recently. There were "
+                %span{style: "color: #ff6600; font-weight: bold; -webkit-font-smoothing: antialiased;"}
+                  = @props.count
+                of them!
+          - @props.each do |prop|
+            %tr{style: "margin: 0px"}
+              %td
+                %table{cellspacing: "10", style: "margin: 0px; padding: 0px; padding-left: 30px; padding-right: 30px; padding-bottom: 10px; width: 100%; border-width: 1px; border-top-color: #e4e9eb; border-style: none; border-top-style: solid;"}
+                  %tr
+                    %td{style: "width: 71px"}
+                      %h3{style: "margin: 0px; padding: 0px; width: 50px; text-align: center; font-size: 48px; font-family: Georgia; color: #ff6600; font-weight: normal; -webkit-font-smoothing: antialiased;"}
+                        = prop.rating
+                    %td
+                      %h2{style: "margin: 0px; margin-top: 11px; padding: 0px; padding-bottom: 4px; width: 469px; text-align: left; font-size: 18px; font-family: Georgia; color: #4b4b4b; overflow: hidden; font-weight: normal; -webkit-font-smoothing: antialiased;"}
+                        = prop.body
+                      %p{style: "margin: 0px; padding: 0px; display: block; font-size: 14px; font-family: Georgia; color: #4b4b4b; -webkit-font-smoothing: antialiased;"}
+                      %span{style: "color: #8e8e8e; -webkit-font-smoothing: antialiased;"}
+                        propsed by
+                      = prop.propser.name
+          %tr{style: "margin: 0px"}
+            %td
+              %table{cellspacing: "20", style: "margin: 0px; padding: 0px; padding-left: 30px; padding-right: 30px; padding-bottom: 10px; width: 100%; border-width: 1px; border-top-color: #e4e9eb; border-style: none; border-top-style: solid;"}
+        %tr
+          %td
+            %h2{style: "margin: 50px; margin-top: 16px; margin-bottom: 0px; padding: 0px; font-family: Georgia; line-height: 30px; color: #4b4b4b; font-size: 18px; font-weight: normal; display: block; -webkit-font-smoothing: antialiased;"}
+              See you next week!
+            %h2{style: "margin: 50px; margin-top: 0px; margin-bottom: 36px; padding: 0px; font-family: Georgia; color: #8e8e8e; font-size: 18px; font-weight: normal; display: block; -webkit-font-smoothing: antialiased;"}
+              Props App team
