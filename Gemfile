@@ -4,6 +4,7 @@ gem 'rails', '4.2.4'
 
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers', branch: '0-9-stable'
 gem 'animate-rails'
+gem 'app_konfig'
 gem 'attr_extras'
 gem 'coffee-rails'
 gem 'decent_exposure'
@@ -14,7 +15,6 @@ gem 'haml-rails'
 gem 'jquery-rails'
 gem 'js_stack'
 gem 'kaminari'
-gem 'app_konfig'
 gem 'netguru_theme'
 gem 'newrelic_rpm'
 gem 'omniauth'
@@ -54,7 +54,6 @@ group :development do
   gem 'letter_opener'
   gem 'quiet_assets'
   gem 'rack-mini-profiler'
-  gem 'rails_layout'
   gem 'rb-fchange', require: false
   gem 'rb-fsevent', require: false
   gem 'rb-inotify', require: false
