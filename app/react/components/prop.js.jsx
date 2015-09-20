@@ -28,7 +28,6 @@ export default class Prop extends React.Component {
 
     return (
       <li className = "row list-group-item props-list-item">
-        <div> i'm just testing it</div>
         <div className="col-xs-12 prop-users">
           <UserComponent user={this.props.prop.get('propser')}/>
           <i className="glyphicon glyphicon-chevron-right prop-to"></i>
