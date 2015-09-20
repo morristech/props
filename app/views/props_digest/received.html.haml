@@ -11,7 +11,9 @@
           %tr
             %td
               %h2{style: "margin: 50px; margin-top: 20px; margin-bottom: 0px; padding: 0px; font-family: Georgia; line-height: 30px; color: #4b4b4b; font-size: 18px; font-weight: normal; display: block; -webkit-font-smoothing: antialiased;"}
-                = "Hi #{@user.name}! Here's a list of props you've received recently. There were "
+                = "Hi #{@user.name}!"
+              %h3{style: "margin: 50px; margin-top: 20px; margin-bottom: 0px; padding: 0px; font-family: Georgia; line-height: 30px; color: #4b4b4b; font-size: 18px; font-weight: normal; display: block; -webkit-font-smoothing: antialiased;"}
+                = "Here's a list of props you've received recently. There were "
                 %span{style: "color: #ff6600; font-weight: bold; -webkit-font-smoothing: antialiased;"}
                   = @props.count
                 of them!

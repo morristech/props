@@ -2,7 +2,8 @@ module EmailDigests
   class SendBase
     def call
       Rails.logger.tagged('Email Digest') do |logger|
-        logger.info "Found #{subscriptions.count} subscriptions to process in #{self.class}"
+        logger.info "Found #{subscriptions.count} subscriptions to process " \
+          "in #{self.class}"
         subscriptions.each do |sub|
           digest = EmailDigest.new(since_timestamp: sub.last_sent_at,
                                    user: sub.user)
@@ -19,7 +20,8 @@ module EmailDigests
         send_email(digest)
         subscription.touch(:last_sent_at)
       else
-        logger.info "Not sending email to #{digest.user.email} - no props"
+        logger.info "Not sending email to #{digest.user.email} "\
+          " - no received props after #{subscription.last_sent_at}"
       end
     end
 
