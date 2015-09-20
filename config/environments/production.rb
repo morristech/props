@@ -70,14 +70,15 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
+    user_name: AppConfig.sendgrid_user_name,
+    password: AppConfig.sendgrid_password,
+    domain: AppConfig.app_domain,
+    address: "smtp.sendgrid.net",
     port: 587,
-    domain: AppConfig.domain_name,
-    authentication: "plain",
+    authentication: :plain,
     enable_starttls_auto: true,
-    user_name: AppConfig.email_provider_username,
-    password: AppConfig.email_provider_password
   }
+
   # ActionMailer Config
   config.action_mailer.default_url_options = { :host => AppConfig.domain_name }
   config.action_mailer.delivery_method = :smtp

@@ -2,11 +2,11 @@ defaults: &defaults
   allowed_email_domains:
   app_domain: 'props.dev'
   domain_name: 'gapps-domain-name'
-  email_provider_password: 'email_provider_password'
-  email_provider_username: 'email_provider_username'
   newrelic_license_key: 'newrelic_license_key'
   omniauth_provider_key: 'omniauth-key'
   omniauth_provider_secret: 'omniauth-secret'
+  sendgrid_user_name: 'sendgrid_user_name'
+  sendgrid_password: 'sendgrid_password'
   slack:
     webhook_url: 'webhook_url'
     default_channel: 'default_channel'
