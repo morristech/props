@@ -38,7 +38,7 @@ bin/rake db:setup
 Setup config file for your environment:
 
 ```
-cp config/sec_config.yml.sample config/sec_config.yml
+cp config/secrets.yml.sample config/secrets.yml
 ```
 
 Generate omniauth credentials for your application by going to [Google Developer
