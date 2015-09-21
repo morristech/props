@@ -2,7 +2,7 @@ class EmailDigest
   attr_accessor :since_timestamp, :user, :props_repo
 
   def initialize(since_timestamp:, user:, props_repo: PropsRepository.new)
-    @since_timestamp = since_timestamp
+    @since_timestamp = since_timestamp || 10.days.ago
     @user = user
     @props_repo = props_repo
   end

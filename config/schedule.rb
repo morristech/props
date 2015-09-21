@@ -1,7 +1,7 @@
 # Learn more: http://github.com/javan/whenever
 
-# Monday-Friday at 4:00PM
-every "0 4 * * 1-5" do
+# Monday-Friday at 17:00
+every "0 17 * * 1-5" do
   rake "email_digests:send_daily"
 end
 
