@@ -8,11 +8,9 @@
     onShow: ->
       data =
         id: @model.get('id')
-        avatar_url: @model.get('avatar_url')
+        avatarUrl: @model.get('avatar_url')
         name: @model.get('name')
-      React.render(React.createElement(UserThumb,
-        user: data
-      ), @el)
+      renderComponent('UserThumb', data, @el)
 
   class List.Users extends App.Views.CompositeView
     template: 'users/list/templates/users'
