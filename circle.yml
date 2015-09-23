@@ -9,7 +9,3 @@ deployment:
 dependencies:
   cache_directories:
     - "node_modules"
-test:
-  override:
-    - bundle exec rspec spec
-    - npm test
