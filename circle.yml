@@ -6,3 +6,6 @@ deployment:
     branch: production
     commands:
       - bundle exec cap production deploy
+dependencies:
+  cache_directories:
+    - "node_modules"
