@@ -10,10 +10,10 @@ in a geeky way.
 
 ## Technologies
 
-* Ruby on Rails 4.2
-* Ruby 2.1
+* Ruby on Rails 4.2.4
+* Ruby 2.2.3
 * Postgres
-* React with [react_webpack_railsv](https://github.com/netguru/react_webpack_rails)
+* React with [react_webpack_rails](https://github.com/netguru/react_webpack_rails)
 
 ## Setup
 
@@ -55,20 +55,20 @@ $ npm install
 Generate react-bundle for the first time:
 
 ```
-$ webpack
+$ npm build
 ```
 
 ## Development
 * run rails server.
 * run webpack in watch mode:
   ```
-  $ webpack -w
+  $ npm start
   ```
 
 ## Tests
 
 We use RSpec 3 for testing backend and Mocha + Karma to test React components.
-We are using Chrome luncher.
+We are using Chrome launcher.
 
 ### Runnin components test:
 
@@ -98,4 +98,4 @@ me and I’ll add a note to the README so that others can find your work.
 
 ## License
 
-MIT. See LICENSE.
+MIT. See [LICENSE](LICENSE).
