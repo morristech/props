@@ -1,7 +1,7 @@
 import React from 'react/addons';
 const TestUtils = React.addons.TestUtils;
 import expect from 'expect';
-import UserThumb from './user-thumb';
+import UserThumb from './thumb';
 
 const props = {
   id: 1,
