@@ -1,6 +1,6 @@
 import React from 'react';
 import PropComponent from './prop';
-import PaginationComponent from './pagination';
+import PaginationComponent from '.././shared/pagination';
 
 export default class PropsList extends React.Component {
   static get propTypes() {

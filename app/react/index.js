@@ -1,11 +1,11 @@
 import React from 'react';
 window.React = React;
 
-import PropsListComponent from './components/props-list';
+import PropsListComponent from './components/props';
 import SelectedUsersComponent from './components/selected-users';
 import Select from 'react-select';
 import UserOptionComponent from './components/prop-user-option';
-import UserThumb from './components/user-thumb';
+import UserThumb from './components/user/user-thumb';
 
 registerComponent('PropsListComponent', PropsListComponent);
 registerComponent('SelectedUsersComponent', SelectedUsersComponent);
