@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 import VoteComponent from './vote';
-import UserComponent from './../user';
+import UserComponent from './../user/thumb-small';
 
 export default class Prop extends React.Component {
   static get propTypes() {
