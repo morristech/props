@@ -62,3 +62,6 @@
       view = @getHeaderView()
       @show view,
         region: @layout.header_region
+
+    onDestroy: ->
+      unmountComponent $('.props-region')[0]

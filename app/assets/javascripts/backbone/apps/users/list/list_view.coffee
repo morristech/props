@@ -12,6 +12,9 @@
         name: @model.get('name')
       renderComponent('UserThumb', data, @el)
 
+    onDestroy: ->
+      unmountComponent(@el);
+
   class List.Users extends App.Views.CompositeView
     template: 'users/list/templates/users'
     childView: List.User
