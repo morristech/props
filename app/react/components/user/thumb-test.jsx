@@ -9,7 +9,7 @@ const props = {
   name: 'user name',
 };
 
-describe('userThumb', () => {
+describe('user/thumb', () => {
   const component = TestUtils.renderIntoDocument(<UserThumb {...props}/>);
 
   it('renders', () => {

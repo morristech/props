@@ -9,7 +9,7 @@ const userData = {
   name: 'name',
 };
 
-describe('Users', () => {
+describe('user/thumb-small', () => {
   const component = TestUtils.renderIntoDocument(<Thumb user={userData}/>);
 
   it('renders', () => {
