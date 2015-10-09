@@ -11,6 +11,7 @@ development: &defaults
   secret_key_base: 'please-change-me'
   sendgrid_password: 'sendgrid_password'
   sendgrid_user_name: 'sendgrid_user_name'
+  skylight_token: 'skylight-token'
   slack:
     default_channel: 'default_channel'
     webhook_url: 'webhook_url'

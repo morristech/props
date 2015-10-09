@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 # 0.14.0 - 2015-10-09
 
+## Added
+
+* [Skylight](https://www.skylight.io/) monitoring
+
 ## Fixed
 
 * Email digest are sent properly now, there was an issue with date comparison
