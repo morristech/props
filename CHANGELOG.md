@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+# 0.14.0 - 2015-10-09
+
+## Fixed
+
+* Email digest are sent properly now, there was an issue with date comparison
+* There is also a rake task creating subscriptions for new users
+
 # 0.14.0 - 2015-09-20
 
 ## Changed
