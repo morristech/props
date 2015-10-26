@@ -50,6 +50,10 @@
         onChange: @onSelectChange.bind(this)
       , @ui.usersSelect[0])
 
+    onDestroy: ->
+      unmountComponent @ui.selectedUsers[0]
+      unmountComponent @ui.usersSelect[0]
+
   class List.Header extends App.Views.Layout
     template: 'props/list/templates/header'
     className: 'jumbotron clearfix'

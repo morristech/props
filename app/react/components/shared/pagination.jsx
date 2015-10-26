@@ -27,7 +27,9 @@ export default class Pagination extends React.Component {
       <nav>
         <ul className="pagination">
           {this.props.hasPreviousPage ? prevButton : null}
-          <li><a href="#">{this.props.currentPage}</a></li>
+          <li className="current-page">
+            <a href="#">{this.props.currentPage}</a>
+          </li>
           {this.props.hasNextPage ? nextButton : null}
         </ul>
       </nav>

@@ -3,8 +3,7 @@
   "env": {
     "browser": true,
     "node": true,
-    "mocha": true,
-    "sinon": true
+    "mocha": true
   },
   "globals": {
     "registerComponent": true,

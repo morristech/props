@@ -12,11 +12,15 @@ export default class Vote extends React.Component {
 
   render() {
     const ratingButton = (
-      <button className="btn btn-default" disabled>Rating + {this.props.upvotesCount}</button>
+      <button className="btn btn-default rating-button" disabled>
+        Rating + {this.props.upvotesCount}
+      </button>
     );
 
     const upvoteButton = (
-      <button className="btn btn-success" onClick={this.props.onUpvote}>+1</button>
+      <button className="btn btn-success upvote-button" onClick={this.props.onUpvote}>
+        +1
+      </button>
     );
 
     return (
