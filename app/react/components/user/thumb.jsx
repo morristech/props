@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default class UserThumb extends React.Component {
+export default class Thumb extends React.Component {
   static get propTypes() {
     return {
       id: React.PropTypes.number.isRequired,
-      name: React.PropTypes.string.isRequried,
+      name: React.PropTypes.string.isRequired,
       avatarUrl: React.PropTypes.string.isRequired,
     };
   }
