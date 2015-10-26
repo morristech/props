@@ -9,8 +9,8 @@ describe('shared/pagination', () => {
 
   const component = TestUtils.renderIntoDocument(
     <Pagination
-      hasNextPage={true}
-      hasPreviousPage={true}
+      hasNextPage
+      hasPreviousPage
       onPrevPageClick={onPrevePageClick}
       onNextPageClick={onNextPageClick}
       currentPage={2}
@@ -38,7 +38,7 @@ describe('shared/pagination', () => {
     describe('when hasPreviousPage flag is false', () => {
       const componentWithNoPrev = TestUtils.renderIntoDocument(
         <Pagination
-          hasNextPage={true}
+          hasNextPage
           hasPreviousPage={false}
           onPrevPageClick={onPrevePageClick}
           onNextPageClick={onNextPageClick}
@@ -64,7 +64,7 @@ describe('shared/pagination', () => {
       const componentWithNoPrev = TestUtils.renderIntoDocument(
         <Pagination
           hasNextPage={false}
-          hasPreviousPage={true}
+          hasPreviousPage
           onPrevPageClick={onPrevePageClick}
           onNextPageClick={onNextPageClick}
           currentPage={2}
