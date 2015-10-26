@@ -44,7 +44,21 @@ export default class PropsList extends React.Component {
 
   render() {
     const list = this.state.props.map((item) => {
-      return <PropComponent prop={item} key={item.id}/>;
+      const propData = {
+        body: item.get('body'),
+        createdAt: item.get('created_at'),
+        users: item.get('users'),
+        propser: item.get('propser'),
+        upvotesCount: item.get('upvotes_count'),
+        isUpvotePossible: item.get('is_upvote_possible'),
+      };
+      return (
+        <PropComponent
+          prop={propData}
+          onUpvote={item.upvote.bind(item)}
+          key={item.id}
+        />
+      );
     });
     const emptyView = 'no props here';
 

@@ -8,34 +8,26 @@ export default class Prop extends React.Component {
   static get propTypes() {
     return {
       prop: React.PropTypes.object.isRequired,
+      onUpvote: React.PropTypes.func.isRequired,
     };
   }
 
-  constructor(props) {
-    super(props);
-    this.onUpVote = this.onUpVote.bind(this);
-  }
-
-  onUpVote() {
-    this.props.prop.upvote();
-  }
-
   render() {
-    const createdAt = moment(this.props.prop.get('created_at')).fromNow();
-    const receivers = this.props.prop.get('users').map((receiver) => {
+    const createdAt = moment(this.props.prop.createdAt).fromNow();
+    const receivers = this.props.prop.users.map((receiver) => {
       return <UserComponent user={receiver} key={receiver.id}/>;
     });
 
     return (
-      <li className = "row list-group-item props-list-item">
+      <li className = "row list-group-item props.prop-list-item">
         <div className="col-xs-12 prop-users">
-          <UserComponent user={this.props.prop.get('propser')}/>
+          <UserComponent user={this.props.prop.propser}/>
           <i className="glyphicon glyphicon-chevron-right prop-to"></i>
           {receivers}
         </div>
         <div className="col-xs-12 prop-content">
           <p className="lead prop-body">
-            {this.props.prop.get('body')}
+            {this.props.prop.body}
           </p>
           <div className="row">
             <div className="col-xs-12 prop-footer">
@@ -43,9 +35,9 @@ export default class Prop extends React.Component {
                 {createdAt}
               </div>
               <VoteComponent
-                upvotesCount={this.props.prop.get('upvotes_count')}
-                isUpvotePossible={this.props.prop.get('is_upvote_possible')}
-                onUpvote={this.onUpVote}
+                upvotesCount={this.props.prop.upvotesCount}
+                isUpvotePossible={this.props.prop.isUpvotePossible}
+                onUpvote={this.props.onUpvote}
               />
             </div>
           </div>
