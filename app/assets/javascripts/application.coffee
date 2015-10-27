@@ -25,6 +25,3 @@
 
 #= require_tree ./backbone/entities
 #= require_tree ./backbone/apps
-
-window.unmountComponent = (node) ->
-  React.unmountComponentAtNode(node)
