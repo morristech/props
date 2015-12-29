@@ -17,12 +17,12 @@ describe('user/thumb-small', () => {
   });
 
   it('displays user avatar', () => {
-    const element = TestUtils.findRenderedDOMComponentWithTag(component, 'img').getDOMNode();
+    const element = TestUtils.findRenderedDOMComponentWithTag(component, 'img');
     expect(element.getAttribute('src')).toEqual('https://test1.img');
   });
 
   it('links to user page', () => {
-    const element = TestUtils.findRenderedDOMComponentWithTag(component, 'a').getDOMNode();
+    const element = TestUtils.findRenderedDOMComponentWithTag(component, 'a');
     expect(element.getAttribute('href')).toEqual('#users/1');
   });
 });
