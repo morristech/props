@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/netguru/capistrano-docker.git
+  revision: d32ef7aeb097e5491e5d0225c74c61fc965402cb
+  tag: v0.2.6
+  specs:
+    capistrano-docker (0.2.6)
+      capistrano (>= 3.2)
+
+GIT
   remote: git://github.com/rails-api/active_model_serializers.git
   revision: dc08f0ec80ce53825dc9bcba878660b13e99e310
   branch: 0-9-stable
@@ -405,6 +413,7 @@ DEPENDENCIES
   bullet
   capistrano (= 3.3.5)
   capistrano-bundler
+  capistrano-docker!
   capistrano-npm
   capistrano-passenger (= 0.0.2)
   capistrano-rails
