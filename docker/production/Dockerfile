@@ -9,6 +9,9 @@ RUN apt-get update && apt-get install -y libpq-dev
 ENV APP_HOME /var/www/app
 ENV RAILS_ENV=production
 
+# set timezone
+RUN echo 'Europe/Warsaw' > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
+
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
 
@@ -20,6 +23,9 @@ RUN bundle install --jobs=8 --retry=3 --without development test --deployment
 
 ADD . $APP_HOME/
 ADD docker/production/entrypoint.sh /entrypoint.sh
+
+# set cron tasks
+RUN bundle exec whenever --update-crontab --set environment=production
 
 EXPOSE 3000
 
