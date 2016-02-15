@@ -23,14 +23,13 @@ describe('shared/pagination', () => {
 
   it('displays current page button', () => {
     const element = TestUtils
-      .findRenderedDOMComponentWithClass(component, 'current-page')
-      .getDOMNode();
-    expect(element.firstChild.textContent).toEqual(2);
+      .findRenderedDOMComponentWithClass(component, 'current-page');
+    expect(element.firstChild.textContent).toEqual('2');
   });
 
   describe('preview page button', () => {
     it('runs passed onPrevPageClick handler when clicked', () => {
-      const element = TestUtils.findRenderedDOMComponentWithClass(component, 'previous-page').getDOMNode();
+      const element = TestUtils.findRenderedDOMComponentWithClass(component, 'previous-page');
       React.addons.TestUtils.Simulate.click(element);
       expect(onPrevePageClick).toHaveBeenCalled();
     });
@@ -55,7 +54,7 @@ describe('shared/pagination', () => {
 
   describe('next page button', () => {
     it('runs passed onNextPageClick handler when prev page clicked', () => {
-      const element = TestUtils.findRenderedDOMComponentWithClass(component, 'next-page').getDOMNode();
+      const element = TestUtils.findRenderedDOMComponentWithClass(component, 'next-page');
       React.addons.TestUtils.Simulate.click(element);
       expect(onNextPageClick).toHaveBeenCalled();
     });

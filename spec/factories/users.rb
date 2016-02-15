@@ -3,6 +3,6 @@ FactoryGirl.define do
     name FFaker::Name.name
     email FFaker::Internet.email
     provider 'provider'
-    uid 'uid'
+    uid { FFaker::Guid.guid }
   end
 end

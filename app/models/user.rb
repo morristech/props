@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   validates :name, presence: true
+  validates :uid, uniqueness: { scope: :provider }
   has_many :props, through: :prop_receivers
   has_many :prop_receivers
 

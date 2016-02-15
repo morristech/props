@@ -21,8 +21,7 @@ describe('props/vote', () => {
 
   describe('rating button', () => {
     const element = TestUtils
-      .findRenderedDOMComponentWithClass(component, 'rating-button')
-      .getDOMNode();
+      .findRenderedDOMComponentWithClass(component, 'rating-button');
 
     describe('when rating is greater 0', () => {
       it('displays current rating', () => {
@@ -52,8 +51,7 @@ describe('props/vote', () => {
 
       it('runs passed onUpvote handler when clicked', () => {
         const element = TestUtils
-          .findRenderedDOMComponentWithClass(component, 'upvote-button')
-          .getDOMNode();
+          .findRenderedDOMComponentWithClass(component, 'upvote-button');
         React.addons.TestUtils.Simulate.click(element);
         expect(onUpvote).toHaveBeenCalled();
       });

@@ -33,11 +33,7 @@ gem 'whenever', require: false
 
 # deploy
 gem 'capistrano', '3.3.5'
-gem 'rvm1-capistrano3', require: false
-gem 'capistrano-rails'
-gem 'capistrano-bundler'
-gem 'capistrano-passenger', '0.0.2' # downgrade due to some deployment issues in capistrano 3.3.5+
-gem 'capistrano-npm'
+gem 'capistrano-docker', github: 'netguru/capistrano-docker', tag: 'v0.2.6'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-select2', '3.5.2'
