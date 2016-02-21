@@ -13,6 +13,7 @@ gem 'easy_tokens'
 gem 'gon'
 gem 'gravatar-ultimate'
 gem 'haml-rails'
+gem 'haml_coffee_assets', '1.16.1' # remove this gem from Gemfile after getting rid of js_stack
 gem 'jquery-rails'
 gem 'js_stack'
 gem 'kaminari'
