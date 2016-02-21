@@ -13,7 +13,10 @@ Rails/ActionFilter:
   Enabled: false
 SignalException:
   Enabled: false
-Style/TrailingComma:
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
+  Enabled: true
+Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
   Enabled: true
 Style/PredicateName:

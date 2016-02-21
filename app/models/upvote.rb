@@ -9,7 +9,7 @@ class Upvote < ActiveRecord::Base
   private
 
   def can_upvote?
-    return unless user.present? && (prop.users.include?(user))
+    return unless user.present? && prop.users.include?(user)
     errors.add(:user_id, "You can't upvote your own prop!")
   end
 end

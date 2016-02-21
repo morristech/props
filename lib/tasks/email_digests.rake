@@ -1,7 +1,7 @@
 require 'rake'
 
 namespace :email_digests do
-  desc "Create subscriptions for new users"
+  desc 'Create subscriptions for new users'
   task create_subscriptions: :environment do
     EmailDigests::CreateSubscriptions.new.call
   end
