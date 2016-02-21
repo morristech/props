@@ -7,10 +7,13 @@ AllCops:
     - 'Gemfile'
     - 'Guardfile'
     - 'Rakefile'
+  TargetRubyVersion: 2.2 # no 2.3 because of frozen strings comment (it's a little bit annoying right now
 Documentation:
   Enabled: false
 Rails/ActionFilter:
   Enabled: false
+Style/DotPosition:
+  EnforcedStyle: leading
 SignalException:
   Enabled: false
 Style/TrailingCommaInLiteral:
