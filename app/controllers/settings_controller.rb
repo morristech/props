@@ -17,7 +17,7 @@ class SettingsController < AuthenticatedController
 
   def subscription_attributes
     params.require(:mail_subscription)
-      .permit(:active, :interval)
-      .merge(user_id: current_user.id)
+          .permit(:active, :interval)
+          .merge(user_id: current_user.id)
   end
 end

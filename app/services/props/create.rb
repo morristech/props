@@ -16,7 +16,7 @@ module Props
 
     def create_prop(prop_attrs)
       clean_body = clean_text prop_attrs.fetch(:body)
-      prop_attrs.merge!(body: clean_body)
+      prop_attrs[:body] = clean_body
 
       props_repository.add prop_attrs
     end
