@@ -16,6 +16,8 @@ Style/DotPosition:
   EnforcedStyle: leading
 SignalException:
   Enabled: false
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
 Style/TrailingCommaInLiteral:
   EnforcedStyleForMultiline: comma
   Enabled: true
