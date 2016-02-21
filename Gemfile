@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '~> 4'
 
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers', branch: '0-9-stable'
+gem 'airbrussh'
 gem 'animate-rails'
 gem 'app_konfig'
 gem 'attr_extras'
