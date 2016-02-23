@@ -1,9 +1,11 @@
 require 'ffaker'
 
 puts '== Creating users'
-20.times do
+20.times do |number|
   User.create!(name: FFaker::Name.name,
-               email: FFaker::Internet.email)
+               email: FFaker::Internet.email,
+               uid: 123456700 + number,
+               provider: 'google_oauth2')
 end
 
 puts '== Creating props'
