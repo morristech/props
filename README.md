@@ -10,7 +10,7 @@ in a geeky way.
 
 ## Technologies
 
-* Ruby on Rails 4.2.4
+* Ruby on Rails 4.2
 * Ruby 2.2.3
 * Postgres
 * React with [react_webpack_rails](https://github.com/netguru/react_webpack_rails)
@@ -44,6 +44,11 @@ cp config/secrets.yml.sample config/secrets.yml
 Generate omniauth credentials for your application by going to [Google Developer
 Console](https://code.google.com/apis/console) and creating new project there.
 
+Development endpoints:
+
+- http://props.dev
+- http://props.dev/auth/google_oauth2/callback
+
 When you have the credentials, put them in the `config/sec_config.yml` file
 under `omniauth_provider_key` and `omniauth_provider_secret` values.
 
@@ -70,7 +75,7 @@ $ npm build
 We use RSpec 3 for testing backend and Mocha + Karma to test React components.
 We are using Chrome launcher.
 
-### Runnin components test:
+### Running components test:
 
 * run `npm run test-dev` to run tests.
 * run `npm run test-live` to run tests in watch mode.
