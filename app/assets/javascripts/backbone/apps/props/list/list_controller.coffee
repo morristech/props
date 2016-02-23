@@ -23,7 +23,7 @@
       new List.Layout
 
     propsRegion: (props) ->
-      renderComponent('PropsListComponent',
+      RWR.renderComponent('PropsListComponent',
         props: props
       , $('.props-region')[0])
 
@@ -64,4 +64,4 @@
         region: @layout.header_region
 
     onDestroy: ->
-      unmountComponent $('.props-region')[0]
+      RWR.unmountComponent $('.props-region')[0]

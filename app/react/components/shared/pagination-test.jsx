@@ -1,6 +1,7 @@
-import React from 'react/addons';
-const TestUtils = React.addons.TestUtils;
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import expect from 'expect';
+
 import Pagination from './pagination';
 
 describe('shared/pagination', () => {
@@ -30,7 +31,7 @@ describe('shared/pagination', () => {
   describe('preview page button', () => {
     it('runs passed onPrevPageClick handler when clicked', () => {
       const element = TestUtils.findRenderedDOMComponentWithClass(component, 'previous-page');
-      React.addons.TestUtils.Simulate.click(element);
+      TestUtils.Simulate.click(element);
       expect(onPrevePageClick).toHaveBeenCalled();
     });
 
@@ -55,7 +56,7 @@ describe('shared/pagination', () => {
   describe('next page button', () => {
     it('runs passed onNextPageClick handler when prev page clicked', () => {
       const element = TestUtils.findRenderedDOMComponentWithClass(component, 'next-page');
-      React.addons.TestUtils.Simulate.click(element);
+      TestUtils.Simulate.click(element);
       expect(onNextPageClick).toHaveBeenCalled();
     });
 

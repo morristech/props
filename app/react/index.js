@@ -1,7 +1,5 @@
-import React from 'react';
-window.React = React;
-import ReactDOM from 'react-dom';
-window.ReactDOM = ReactDOM;
+import RWR from 'react-webpack-rails';
+RWR.run();
 
 import PropsListComponent from './components/props';
 import SelectedUsersComponent from './components/selected-users';
@@ -9,8 +7,8 @@ import Select from 'react-select';
 import UserOptionComponent from './components/prop-user-option';
 import UserThumb from './components/user/thumb';
 
-registerComponent('PropsListComponent', PropsListComponent);
-registerComponent('SelectedUsersComponent', SelectedUsersComponent);
-registerComponent('Select', Select);
-registerComponent('UserOptionComponent', UserOptionComponent);
-registerComponent('UserThumb', UserThumb);
+RWR.registerComponent('PropsListComponent', PropsListComponent);
+RWR.registerComponent('SelectedUsersComponent', SelectedUsersComponent);
+RWR.registerComponent('Select', Select);
+RWR.registerComponent('UserOptionComponent', UserOptionComponent);
+RWR.registerComponent('UserThumb', UserThumb);

@@ -1,6 +1,7 @@
-import React from 'react/addons';
-const TestUtils = React.addons.TestUtils;
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import expect from 'expect';
+
 import Vote from './vote';
 
 describe('props/vote', () => {
@@ -52,7 +53,7 @@ describe('props/vote', () => {
       it('runs passed onUpvote handler when clicked', () => {
         const element = TestUtils
           .findRenderedDOMComponentWithClass(component, 'upvote-button');
-        React.addons.TestUtils.Simulate.click(element);
+        TestUtils.Simulate.click(element);
         expect(onUpvote).toHaveBeenCalled();
       });
     });

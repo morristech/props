@@ -32,6 +32,7 @@ gem 'slack-notifier'
 gem 'thin'
 gem 'uglifier'
 gem 'whenever', require: false
+gem 'sprockets-rails', '2.3.3' # temporary lock, JST does not work properly with sprockets 3
 
 # deploy
 gem 'capistrano', '3.3.5'
