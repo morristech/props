@@ -28,7 +28,7 @@ module.exports = {
   },
   eslint: {
     engine: {
-      configFile: 'app/react/.eslintrc'
+      configFile: '.eslintrc',
     },
     stopOnError: false,
     stopOnWarning: false
