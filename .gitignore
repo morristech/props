@@ -80,8 +80,10 @@ pickle-email-*.html
 .powenv
 config/config.yml
 config/sec_config.yml
+config/secrets.yml
 tags
 
 # Node modules
-node_modules
-config/secrets.yml
+/node_modules
+/app/assets/javascripts/react_bundle.js
+/app/assets/stylesheets/react_bundle.css

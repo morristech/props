@@ -10,10 +10,10 @@
         id: @model.get('id')
         avatarUrl: @model.get('avatar_url')
         name: @model.get('name')
-      renderComponent('UserThumb', data, @el)
+      RWR.renderComponent('UserThumb', data, @el)
 
     onDestroy: ->
-      unmountComponent(@el);
+      RWR.unmountComponent(@el);
 
   class List.Users extends App.Views.CompositeView
     template: 'users/list/templates/users'
