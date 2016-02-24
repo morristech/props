@@ -1,4 +1,0 @@
-%p.announcement-screen__fancy-text.animated.pulse
-  We have
-  %strong= @props_count
-  props so far!

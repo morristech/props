@@ -4,11 +4,28 @@
   background: white;
   width: 100%;
   height: 100%;
-  opacity: 0.95;
 }
 
 .announcement-screen__fancy-text {
   font-size: 100px;
   margin-top: 300px;
   text-align: center;
+}
+
+.announcement-appear {
+  opacity: 0;
+
+  &.announcement-appear-active {
+    opacity: 0.95;
+    transition: opacity 500ms ease-in;
+  }
+}
+
+.announcement-leave {
+  opacity: 1;
+
+  &.announcement-leave-active {
+    opacity: 0;
+    transition: opacity 1000ms ease-in;
+  }
 }
