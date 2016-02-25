@@ -11,22 +11,21 @@ const props = {
 
 describe('announcement', () => {
   const component = TestUtils.renderIntoDocument(<Announcement {...props}/>);
+  const animation = TestUtils.findRenderedComponentWithType(component, ReactCSSTransitionGroup);
 
   it('renders', () => {
     expect(TestUtils.findRenderedComponentWithType(component, Announcement)).toExist();
   });
 
   it('is animated', () => {
-    expect(TestUtils.findRenderedComponentWithType(component, ReactCSSTransitionGroup)).toExist();
+    expect(animation).toExist();
   });
 
   it('fully shows after 500 miliseconds', () => {
-    const animation = TestUtils.findRenderedComponentWithType(component, ReactCSSTransitionGroup);
     expect(animation.props.transitionAppearTimeout).toEqual(500);
   });
 
   it('hides after 1000 miliseconds', () => {
-    const animation = TestUtils.findRenderedComponentWithType(component, ReactCSSTransitionGroup);
     expect(animation.props.transitionLeaveTimeout).toEqual(1000);
   });
 

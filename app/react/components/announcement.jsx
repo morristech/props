@@ -10,7 +10,7 @@ export default class Announcement extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { animated: false };
+    this.state = {animated: false};
   }
 
   componentDidMount() {
