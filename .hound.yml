@@ -1,4 +1,6 @@
 ruby:
   config_file: .rubocop.yml
 javascript:
-  esnext: true
+  enabled: false
+eslint:
+  enabled: true
