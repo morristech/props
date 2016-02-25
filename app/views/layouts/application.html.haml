@@ -11,8 +11,10 @@
   %body
     #announcements-region
     %header
-      #header-region
-        = render 'layouts/navigation'
+      = react_component 'NavbarComponent',
+        controllerName: controller_name,
+        user: UserSerializer::Base.new(current_user).as_json,
+        userSignedIn: current_user.present?
     %main
       .container
         #main-region

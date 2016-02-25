@@ -1,0 +1,39 @@
+import React, {PropTypes} from 'react';
+
+export default class NavbarSettings extends React.Component {
+  static get propTypes() {
+    return {
+      user: PropTypes.object,
+      userSignedIn: PropTypes.bool.isRequired,
+    };
+  }
+
+  renderLinks() {
+    if (!this.props.userSignedIn) {
+      return <li><a href="/signin">Login</a></li>;
+    }
+
+    return (
+      <li className="dropdown">
+        <a className="dropdown-toggle"
+          data-toggle="dropdown"
+          href="#">
+          {`${this.props.user.name} (${this.props.user.email})`}
+          <span className="caret"/>
+        </a>
+        <ul className="dropdown-menu" role="menu">
+          <li><a href="/settings">Settings</a></li>
+          <li><a href="/signout">Logout</a></li>
+        </ul>
+      </li>
+    );
+  }
+
+  render() {
+    return (
+      <ul className="nav navbar-nav navbar-right">
+        {this.renderLinks()}
+      </ul>
+    );
+  }
+}

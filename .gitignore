@@ -84,6 +84,7 @@ config/secrets.yml
 tags
 
 # Node modules
+npm-debug.log
 /node_modules
 /app/assets/javascripts/react_bundle.js
 /app/assets/stylesheets/react_bundle.css
