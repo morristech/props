@@ -5,15 +5,18 @@
   App.on 'before:start', (options) ->
     App.environment = options.environment
     App.current_user = App.request 'current_user:entity'
+    @propsCount = App.request 'props:total'
 
   App.addRegions
     headerRegion: '#header-region'
     mainRegion:    '#main-region'
-    announcementsRegion:    '#announcements-region'
 
   App.addInitializer ->
     App.module('HeaderApp').start(App.current_user)
-    App.module('AnnouncementsApp').start()
+
+    RWR.renderComponent('AnnouncementComponent',
+      propsCount: @propsCount,
+      document.getElementById('announcements-region'))
 
   App.rootRoute = ''
 
