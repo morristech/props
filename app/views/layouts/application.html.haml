@@ -12,7 +12,7 @@
     #announcements-region
     %header
       = react_component 'NavbarComponent',
-        controllerName: controller_name,
+        isOnAppPage: controller_name == 'authenticated',
         user: UserSerializer::Base.new(current_user).as_json,
         userSignedIn: current_user.present?
     %main

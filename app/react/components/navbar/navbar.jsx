@@ -6,7 +6,7 @@ import NavbarSettings from './navbar-settings';
 export default class Navbar extends React.Component {
   static get propTypes() {
     return {
-      controllerName: PropTypes.string.isRequired,
+      isOnAppPage: PropTypes.bool.isRequired,
       user: PropTypes.object,
       userSignedIn: PropTypes.bool.isRequired,
     };
@@ -17,7 +17,7 @@ export default class Navbar extends React.Component {
       return [];
     }
 
-    if (this.props.controllerName === 'authenticated') {
+    if (this.props.isOnAppPage) {
       return [{ name: 'Props',  url: '#props' }, { name: 'Users',  url: '#users' }];
     }
 
