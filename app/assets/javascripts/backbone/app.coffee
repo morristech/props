@@ -8,12 +8,9 @@
     @propsCount = App.request 'props:total'
 
   App.addRegions
-    headerRegion: '#header-region'
     mainRegion:    '#main-region'
 
   App.addInitializer ->
-    App.module('HeaderApp').start(App.current_user)
-
     RWR.renderComponent('AnnouncementComponent',
       propsCount: @propsCount,
       document.getElementById('announcements-region'))
