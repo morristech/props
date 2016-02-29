@@ -42,7 +42,7 @@ describe('navbar/navbar', () => {
       before(() => {
         const props = {
           isOnAppPage: true,
-          user: {},
+          user: {name: 'testUser', email: 'testUser@example.com'},
           userSignedIn: true,
         };
 
@@ -69,7 +69,7 @@ describe('navbar/navbar', () => {
       before(() => {
         const props = {
           isOnAppPage: false,
-          user: {},
+          user: {name: 'testUser', email: 'testUser@example.com'},
           userSignedIn: true,
         };
 

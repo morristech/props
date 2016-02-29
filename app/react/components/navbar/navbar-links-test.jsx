@@ -12,6 +12,7 @@ const props = {
 };
 
 const component = TestUtils.renderIntoDocument(<NavbarLinks {...props}/>);
+const links = TestUtils.scryRenderedDOMComponentsWithTag(component, 'a');
 
 describe('navbar/navbar-links', () => {
   it('renders', () => {
@@ -19,12 +20,11 @@ describe('navbar/navbar-links', () => {
   });
 
   it('creates a list with links', () => {
-    const links = TestUtils.scryRenderedDOMComponentsWithTag(component, 'a');
     expect(links.length).toEqual(2);
   });
 
   it('properly creates link tag', () => {
-    const link = TestUtils.scryRenderedDOMComponentsWithTag(component, 'a')[0];
+    const link = links[0];
 
     expect(link.textContent).toEqual('example');
     expect(link.href).toEqual('http://example.com/');

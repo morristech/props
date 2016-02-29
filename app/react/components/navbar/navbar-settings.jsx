@@ -3,7 +3,10 @@ import React, {PropTypes} from 'react';
 export default class NavbarSettings extends React.Component {
   static get propTypes() {
     return {
-      user: PropTypes.object,
+      user: PropTypes.shape({
+        name: PropTypes.string,
+        email: PropTypes.string,
+      }),
       userSignedIn: PropTypes.bool.isRequired,
     };
   }

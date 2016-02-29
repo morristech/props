@@ -3,7 +3,10 @@ import React, {PropTypes} from 'react';
 export default class NavbarLinks extends React.Component {
   static get propTypes() {
     return {
-      links: PropTypes.array.isRequired,
+      links: PropTypes.arrayOf(PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+      })),
     };
   }
 
