@@ -53,6 +53,13 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   config.lograge.enabled = true
+  config.lograge.custom_options = lambda do |event|
+    params = event.payload[:params].reject do |k|
+      ['controller', 'action'].include? k
+    end
+
+    { 'params' => params }
+  end
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
