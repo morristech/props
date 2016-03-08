@@ -12,15 +12,14 @@ Rails.application.routes.draw do
     post :apply, on: :collection
   end
 
+  mount Api::Base, at: '/api'
+
   namespace :api do
-    namespace :v1 do
-      resources :props, only: [:index, :create]
-      resources :rankings, only: [:index] do
-        get :hero_of_the_week, on: :collection
-      end
+    resources :rankings, only: [:index], path: 'v1/rankings' do
+      get :hero_of_the_week, on: :collection
     end
-    resources :users, only: [:index, :show]
-    resources :props, only: [:index, :create] do
+    resources :users, only: [:index, :show], path: 'v1/users'
+    resources :props, only: [:index, :create], path: 'v1/props' do
       resources :upvotes, only: [:create]
       get :total, on: :collection
     end
