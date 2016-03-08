@@ -14,14 +14,5 @@ Rails.application.routes.draw do
 
   mount Api::Base, at: '/api'
 
-  namespace :api do
-    resources :rankings, only: [:index], path: 'v1/rankings' do
-      get :hero_of_the_week, on: :collection
-    end
-    resources :users, only: [:index, :show], path: 'v1/users'
-    resources :props, only: [:index, :create], path: 'v1/props' do
-      resources :upvotes, only: [:create]
-      get :total, on: :collection
-    end
-  end
+  get '/api/rankings/hero_of_the_week', to: redirect { |params, request| "/api/v1/rankings/hero_of_the_week?#{request.params.to_query}" }
 end
