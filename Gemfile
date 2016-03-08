@@ -33,6 +33,9 @@ gem 'thin'
 gem 'uglifier'
 gem 'whenever', require: false
 gem 'sprockets-rails', '2.3.3' # temporary lock, JST does not work properly with sprockets 3
+gem 'grape'
+gem 'grape-entity'
+gem 'hashie-forbidden_attributes'
 
 # deploy
 gem 'capistrano', '3.3.5'
