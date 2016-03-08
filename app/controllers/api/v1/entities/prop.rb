@@ -19,7 +19,7 @@ module Api
         end
 
         def is_upvote_possible
-          !((object.propser_id == current_user.id) || user_has_upvoted?)
+          object.propser_id != current_user.id && !user_has_upvoted?
         end
 
         def user_has_upvoted?
