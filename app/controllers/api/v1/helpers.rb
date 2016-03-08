@@ -7,7 +7,7 @@ module Api
       end
 
       def authenticate_user!
-        error!('401 Unauthorized', 401) unless current_user.present?
+        error!('401 Unauthorized', 401) if current_user.nil?
       end
 
       def require_api_auth!(token)
