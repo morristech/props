@@ -66,10 +66,9 @@ module Api
         params do
           requires :body, type: String
           requires :user_ids, type: String
-          optional :propser_id, type: Integer
         end
         post do
-          create_prop = ::Props::Create.new(props_repository, declared(prop_params(params))).call
+          create_prop = ::Props::Create.new(props_repository, prop_params(declared(params))).call
           if create_prop.success?
             present create_prop.data, with: Entities::Prop, current_user: current_user
           else
