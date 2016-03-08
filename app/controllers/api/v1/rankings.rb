@@ -20,7 +20,7 @@ module Api
       end
 
       resources :rankings do
-        desc 'Return user with the most received props'
+        desc 'Returns user with the most received props'
         get :hero_of_the_week do
           RankingRepository.new(users_repository, props_repository).hero_of_the_week
         end

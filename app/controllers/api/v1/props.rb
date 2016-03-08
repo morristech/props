@@ -42,7 +42,7 @@ module Api
       end
 
       resources :props do
-        desc 'Return props match search params'
+        desc 'Returns props match search params'
         params do
           optional :user_id, type: Integer
           optional :propser_id, type: Integer
@@ -57,12 +57,12 @@ module Api
                   current_user: current_user
         end
 
-        desc 'Return props count'
+        desc 'Returns props count'
         get :total do
           Prop.count
         end
 
-        desc 'Create a new prop'
+        desc 'Creates a new prop'
         params do
           requires :body, type: String
           requires :user_ids, type: String
@@ -77,7 +77,7 @@ module Api
         end
 
         namespace ':prop_id' do
-          desc 'Upvote specific prop'
+          desc 'Upvotes specific prop'
           params do
             requires :prop_id, type: Integer
           end

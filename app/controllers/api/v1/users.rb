@@ -16,13 +16,13 @@ module Api
       end
 
       resources :users do
-        desc 'Return all active users'
+        desc 'Returns all active users'
         get do
           present users_repository.active, with: Entities::UserBase
         end
 
         namespace ':user_id' do
-          desc 'Return specific user'
+          desc 'Returns specific user'
           params do
             requires :user_id, type: Integer
           end
