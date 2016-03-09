@@ -42,6 +42,19 @@ export default class PropsList extends React.Component {
     });
   }
 
+  renderProps(list) {
+    if (list.length > 0) {
+      return (
+        <ul className="list-unstyled">
+          <div className="col-xs-12">
+            {list}
+          </div>
+        </ul>
+      );
+    }
+    return (<div>no props here</div>);
+  }
+
   render() {
     const list = this.state.props.map((item) => {
       const propData = {
@@ -60,13 +73,10 @@ export default class PropsList extends React.Component {
         />
       );
     });
-    const emptyView = 'no props here';
 
     return (
       <div>
-        <div className="col-xs-12">
-          {list.length > 0 ? list : emptyView}
-        </div>
+        {this.renderProps(list)}
         <PaginationComponent
           currentPage={this.state.props.state.currentPage}
           onNextPageClick={this.onNextPage}
