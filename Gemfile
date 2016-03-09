@@ -36,6 +36,8 @@ gem 'sprockets-rails', '2.3.3' # temporary lock, JST does not work properly with
 gem 'grape'
 gem 'grape-entity'
 gem 'hashie-forbidden_attributes'
+gem 'grape-swagger'
+gem 'grape-swagger-rails'
 
 # deploy
 gem 'capistrano', '3.3.5'
