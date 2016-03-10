@@ -37,6 +37,7 @@
     "http": "*",
     "httpdispatcher": "^0.4.0",
     "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.6.1",
     "moment": "^2.10.6",
     "node-sass": "^3.3.3",
     "react": "^0.14.7",
