@@ -5,4 +5,4 @@
       %ul.list-inline
         - for button in @buttons
           %li.pull-right
-            %button{ class: button.className, data: { form_button: button.type }, type: button.buttonType }= button.text
+            %button{ disabled: button.disabled?, class: "form-button #{button.className}", data: { form_button: button.type }, type: button.buttonType }= button.text

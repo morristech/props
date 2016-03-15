@@ -63,11 +63,19 @@
       lastSibling = $parent.children(':last')
       lastSibling.after $sm
 
+    disableButtons: (state) ->
+      buttonElements = this.el.getElementsByClassName('form-button')
+      _(buttonElements).each (button) ->
+        button.disabled = state
+
     syncStart: (model) ->
+      @disableButtons(true)
       @addOpacityWrapper() if @config.syncing
 
     syncStop: (model) ->
+      @disableButtons(false)
       @addOpacityWrapper(false) if @config.syncing
 
     onDestroy: ->
+      @disableButtons(false)
       @addOpacityWrapper(false) if @config.syncing
