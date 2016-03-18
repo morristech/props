@@ -8,10 +8,10 @@
         received: 0
         given: 0
     urlRoot: ->
-      Routes.api_props_path()
+      '/api/v1/props'
 
     upvote: ->
-      $.post Routes.api_prop_upvotes_path(@get('id')), (data) =>
+      $.post "/api/v1/props/#{@get('id')}/upvotes", (data) =>
         @set data
 
   class Entities.Props extends Entities.Collection
@@ -19,7 +19,7 @@
     comparator: (model) ->
       - moment(model.get('created_at')).format('X')
     url: ->
-      Routes.api_props_path(@filters)
+      '/api/v1/props'
 
     parseRecords: (resp) ->
       resp.props
@@ -34,7 +34,7 @@
   API =
     getProps: (filters = {}) ->
       props = new Entities.Props
-      props.filters = filters
+      props.queryParams = filters
       props.fetch()
       props
 
@@ -42,7 +42,7 @@
       new Entities.Prop
 
     getPropsCount: ->
-      props_count = $.ajax Routes.total_api_props_path(), async: false
+      props_count = $.ajax '/api/v1/props/total', async: false
       props_count.responseText
 
   App.reqres.setHandler 'prop:entities', (filters) ->

@@ -12,17 +12,8 @@ Rails.application.routes.draw do
     post :apply, on: :collection
   end
 
-  namespace :api do
-    namespace :v1 do
-      resources :props, only: [:index, :create]
-      resources :rankings, only: [:index] do
-        get :hero_of_the_week, on: :collection
-      end
-    end
-    resources :users, only: [:index, :show]
-    resources :props, only: [:index, :create] do
-      resources :upvotes, only: [:create]
-      get :total, on: :collection
-    end
-  end
+  mount Api::Base, at: '/api'
+  mount GrapeSwaggerRails::Engine => '/apidoc'
+
+  get '/api/rankings/hero_of_the_week', to: redirect { |params, request| "/api/v1/rankings/hero_of_the_week?#{request.params.to_query}" }
 end

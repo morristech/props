@@ -13,7 +13,7 @@
     %header
       = react_component 'NavbarComponent',
         isOnAppPage: controller_name == 'authenticated',
-        user: UserSerializer::Base.new(current_user).as_json,
+        user: Api::V1::Entities::UserBase.new(current_user),
         userSignedIn: current_user.present?
     %main
       .container
