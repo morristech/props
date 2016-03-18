@@ -1,4 +1,6 @@
 import merge from 'lodash/merge';
+import assign from 'lodash/assign';
+
 import {
   RECEIVE_USER_PROPS,
   REQUEST_USER_PROPS,
@@ -17,11 +19,11 @@ function props(state = {user_given_props: {}, user_received_props: {}}, action) 
       user_received_props: action.props,
     });
   case REQUEST_USER_GIVEN_PROPS:
-    return Object.assign({}, state, {
+    return assign({}, state, {
       user_given_props: {},
     });
   case REQUEST_USER_PROPS:
-    return Object.assign({}, state, {
+    return assign({}, state, {
       user_received_props: {},
     });
   default:

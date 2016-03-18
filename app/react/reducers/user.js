@@ -1,3 +1,5 @@
+import assign from 'lodash/assign';
+
 import {
   RECEIVE_USER,
   REQUEST_USER,
@@ -6,7 +8,7 @@ import {
 function user(state = {}, action) {
   switch (action.type) {
   case RECEIVE_USER:
-    return Object.assign({}, state, action.user);
+    return assign({}, state, action.user);
   case REQUEST_USER:
     return {};
   default:
