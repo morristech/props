@@ -38,4 +38,40 @@ describe('props reducer', () => {
       }
     );
   });
+
+  it('handles REQUEST_USER_GIVEN_PROPS', () => {
+    const previousState = {
+      user_given_props: {props: [], meta: []},
+      user_received_props: {},
+    };
+
+    expect(
+      reducer(previousState, {
+        type: types.REQUEST_USER_GIVEN_PROPS,
+      })
+    ).toEqual(
+      {
+        user_given_props: {},
+        user_received_props: {},
+      }
+    );
+  });
+
+  it('handles REQUEST_USER_PROPS', () => {
+    const previousState = {
+      user_given_props: {},
+      user_received_props: {props: [], meta: []},
+    };
+
+    expect(
+      reducer(previousState, {
+        type: types.REQUEST_USER_PROPS,
+      })
+    ).toEqual(
+      {
+        user_given_props: {},
+        user_received_props: {},
+      }
+    );
+  });
 });

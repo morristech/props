@@ -1,15 +1,26 @@
 import fetch from 'isomorphic-fetch';
 
 import {
+  REQUEST_USER_PROPS,
   RECEIVE_USER_PROPS,
+  REQUEST_USER_GIVEN_PROPS,
   RECEIVE_USER_GIVEN_PROPS,
   RECEIVE_USER,
+  REQUEST_USER,
+  RECEIVE_USERS,
+  REQUEST_USERS,
 } from '../constants/action-types';
 
 function receiveUserProps(json) {
   return {
     type: RECEIVE_USER_PROPS,
     props: json,
+  };
+}
+
+function requestUserProps() {
+  return {
+    type: REQUEST_USER_PROPS,
   };
 }
 
@@ -20,6 +31,12 @@ function receiveUserGivenProps(json) {
   };
 }
 
+function requestUserGivenProps() {
+  return {
+    type: REQUEST_USER_GIVEN_PROPS,
+  };
+}
+
 function receiveUser(json) {
   return {
     type: RECEIVE_USER,
@@ -27,8 +44,28 @@ function receiveUser(json) {
   };
 }
 
+function requestUser() {
+  return {
+    type: REQUEST_USER,
+  };
+}
+
+function receiveUsers(json) {
+  return {
+    type: RECEIVE_USERS,
+    user: json,
+  };
+}
+
+function requestUsers() {
+  return {
+    type: REQUEST_USERS,
+  };
+}
+
 export function fetchUserProps(userId) {
   return dispatch => {
+    dispatch(requestUserProps());
     return fetch(`/api/props?user_id=${userId}`, {
       credentials: 'same-origin',
     })
@@ -39,6 +76,7 @@ export function fetchUserProps(userId) {
 
 export function fetchUserGivenProps(userId) {
   return dispatch => {
+    dispatch(requestUserGivenProps());
     return fetch(`/api/props?propser_id=${userId}`, {
       credentials: 'same-origin',
     })
@@ -49,10 +87,22 @@ export function fetchUserGivenProps(userId) {
 
 export function fetchUser(userId) {
   return dispatch => {
+    dispatch(requestUser());
     return fetch(`/api/users/${userId}`, {
       credentials: 'same-origin',
     })
     .then(req => req.json())
     .then(json => dispatch(receiveUser(json)));
+  };
+}
+
+export function fetchUsers() {
+  return dispatch => {
+    dispatch(requestUsers());
+    return fetch('/api/users', {
+      credentials: 'same-origin',
+    })
+    .then(req => req.json())
+    .then(json => dispatch(receiveUsers(json)));
   };
 }
