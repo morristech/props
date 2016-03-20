@@ -9,7 +9,7 @@
     "expect": "^1.12.2",
     "karma": "^0.13.13",
     "karma-chrome-launcher": "^0.2.1",
-    "karma-eslint": "git://github.com/mxaly/karma-eslint#master",
+    "karma-eslint": "^2.1.0",
     "karma-mocha": "^0.2.0",
     "karma-notify-reporter": "^0.1.1",
     "karma-sinon": "^1.0.4",
