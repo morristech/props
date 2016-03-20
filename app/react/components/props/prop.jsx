@@ -1,14 +1,13 @@
 import React from 'react';
 import moment from 'moment';
 
-import VoteComponent from './vote';
 import UserComponent from './../user/thumb-small';
 
 export default class Prop extends React.Component {
   static get propTypes() {
     return {
       prop: React.PropTypes.object.isRequired,
-      onUpvote: React.PropTypes.func.isRequired,
+      voteComponent: React.PropTypes.element,
     };
   }
 
@@ -34,11 +33,7 @@ export default class Prop extends React.Component {
               <div className="prop-create-at pull-left">
                 {createdAt}
               </div>
-              <VoteComponent
-                upvotesCount={this.props.prop.upvotesCount}
-                isUpvotePossible={this.props.prop.isUpvotePossible}
-                onUpvote={this.props.onUpvote}
-              />
+              {this.props.voteComponent}
             </div>
           </div>
         </div>

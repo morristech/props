@@ -1,6 +1,7 @@
 import React from 'react';
 import PropComponent from './prop';
 import PaginationComponent from '.././shared/pagination';
+import VoteComponent from './vote';
 
 export default class PropsList extends React.Component {
   static get propTypes() {
@@ -65,11 +66,18 @@ export default class PropsList extends React.Component {
         upvotesCount: item.get('upvotes_count'),
         isUpvotePossible: item.get('is_upvote_possible'),
       };
+
       return (
         <PropComponent
           prop={propData}
-          onUpvote={item.upvote.bind(item)}
           key={item.id}
+          voteComponent={
+            <VoteComponent
+              upvotesCount={propData.upvotesCount}
+              isUpvotePossible={propData.isUpvotePossible}
+              onUpvote={item.upvote.bind(item)}
+            />
+          }
         />
       );
     });
