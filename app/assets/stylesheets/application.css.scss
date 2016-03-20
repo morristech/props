@@ -11,6 +11,7 @@
 @import 'components/loading';
 @import 'components/announcement_screen';
 @import 'controllers/login';
+@import 'users';
 
 @media (min-width: $screen-md-max) {
   .container {
