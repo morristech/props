@@ -4,10 +4,10 @@ import {
   RECEIVE_USERS,
 } from '../constants/action-types';
 
-function users(state = {}, action) {
+function users(state = [], action) {
   switch (action.type) {
   case RECEIVE_USERS:
-    return assign({}, state, action.users);
+    return assign([], state, action.users);
   default:
     return state;
   }

@@ -53,7 +53,7 @@ function requestUser() {
 function receiveUsers(json) {
   return {
     type: RECEIVE_USERS,
-    user: json,
+    users: json,
   };
 }
 

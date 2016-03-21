@@ -4,7 +4,7 @@ import * as types from '../constants/action-types';
 
 describe('users reducer', () => {
   it('returns the initial state', () => {
-    expect(reducer(undefined, {})).toEqual({});
+    expect(reducer(undefined, [])).toEqual([]);
   });
 
   it('handles RECEIVE_USERS', () => {
@@ -16,10 +16,10 @@ describe('users reducer', () => {
         users: usersData,
       })
     ).toEqual(
-      {
-        0: { userName: 'testUser' },
-        1: { userName: 'testUser2' },
-      }
+      [
+        { userName: 'testUser' },
+        { userName: 'testUser2' },
+      ]
     );
   });
 });
