@@ -10,5 +10,8 @@
     "createComponent": true,
     "getComponent": true,
     "renderComponent": true
+  },
+  "rules": {
+    "indent": [2, 2, {"SwitchCase": 0}]
   }
 }
