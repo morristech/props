@@ -3,9 +3,9 @@
   "private": true,
   "devDependencies": {
     "babel-eslint": "^5.0.0-beta6",
-    "eslint": "^1.7.3",
-    "eslint-config-airbnb": "0.0.8",
-    "eslint-plugin-react": "^3.6.3",
+    "eslint": "^2.4.0",
+    "eslint-config-airbnb": "6.2.0",
+    "eslint-plugin-react": "^4.2.3",
     "expect": "^1.12.2",
     "karma": "^0.13.13",
     "karma-chrome-launcher": "^0.2.1",
