@@ -23,7 +23,7 @@ class UsersContainer extends React.Component {
     const { users, usersFilter, onFilter } = this.props;
 
     return (
-      <UsersList {...{users, usersFilter, onFilter}}/>
+      <UsersList { ...{ users, usersFilter, onFilter }} />
     );
   }
 }
@@ -31,21 +31,17 @@ class UsersContainer extends React.Component {
 const mapStateToProps = (state) => {
   const { usersFilter, users } = state;
   return {
-    users: users.filter((user) => user.name.toLowerCase().startsWith(usersFilter.toLowerCase())),
+    users: users.filter(user => user.name.toLowerCase().match(usersFilter.toLowerCase())),
     usersFilter,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onFilter: (filter) => {
-      dispatch(setUsersFilter(filter));
-    },
-    dispatch,
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  onFilter: (filter) => { dispatch(setUsersFilter(filter)); },
+  dispatch,
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(UsersContainer);
