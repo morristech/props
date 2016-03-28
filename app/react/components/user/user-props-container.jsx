@@ -8,12 +8,15 @@ class UserPropsContainer extends React.Component {
   static get propTypes() {
     return {
       dispatch: PropTypes.func.isRequired,
-      userId: PropTypes.string.isRequired,
+      params: PropTypes.shape({
+        userId: PropTypes.string.isRequired,
+      }),
     };
   }
 
   componentDidMount() {
-    const { dispatch, userId } = this.props;
+    const { dispatch } = this.props;
+    const { userId } = this.props.params;
     dispatch(fetchUser(userId));
     dispatch(fetchUserProps(userId));
     dispatch(fetchUserGivenProps(userId));

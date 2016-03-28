@@ -1,6 +1,7 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import expect from 'expect';
+import { Router, Route, createMemoryHistory } from 'react-router';
 
 import UserThumb from './thumb';
 
@@ -10,16 +11,23 @@ const props = {
   name: 'user name',
 };
 
+const history = createMemoryHistory('/');
+
 describe('user/thumb', () => {
-  const component = TestUtils.renderIntoDocument(<UserThumb {...props}/>);
+  const component = TestUtils.renderIntoDocument(
+    <Router history={history}>
+      <Route path="/" component={() => <UserThumb {...props} /> } />
+    </Router>
+  );
 
   it('renders', () => {
     expect(TestUtils.findRenderedComponentWithType(component, UserThumb)).toExist();
   });
 
   it('links to user page', () => {
-    const element = TestUtils.findRenderedDOMComponentWithClass(component, 'user-card');
-    expect(element.getAttribute('href')).toEqual('#users/1');
+    const element = TestUtils.findRenderedDOMComponentWithTag(component, 'a');
+
+    expect(element.getAttribute('href')).toEqual('/users/1');
   });
 
   it('displays user avatar', () => {

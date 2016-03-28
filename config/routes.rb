@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   mount EasyTokens::Engine, at: 'et'
   root 'home#index'
   get 'app' => 'authenticated#main_app'
+  get 'users' => 'authenticated#users'
+  get 'users/*path' => 'authenticated#users'
 
   get '/auth/:provider/callback' => 'sessions#create'
   get '/signin' => 'sessions#new', as: :signin
