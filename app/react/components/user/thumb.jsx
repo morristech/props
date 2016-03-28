@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 export default class Thumb extends React.Component {
   static get propTypes() {
@@ -10,15 +11,16 @@ export default class Thumb extends React.Component {
   }
 
   render() {
-    const userUrl = `#users/${this.props.id}`;
+    const { id, avatarUrl, name } = this.props;
+
     return (
       <div className="col-xs-6 col-sm-3 col-md-2">
-        <a className="thumbnail user-card" href={userUrl}>
-          <img src={this.props.avatarUrl} />
+        <Link to={`/users/${id}`} className="thumbnail user-card">
+          <img src={avatarUrl} />
           <div className="caption">
-            {this.props.name}
+            {name}
           </div>
-        </a>
+        </Link>
       </div>
     );
   }

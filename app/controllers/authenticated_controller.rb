@@ -4,6 +4,10 @@ class AuthenticatedController < ApplicationController
 
   def main_app; end
 
+  def users
+    render react_component: 'ReduxContainer'
+  end
+
   private
 
   def setup_gon
