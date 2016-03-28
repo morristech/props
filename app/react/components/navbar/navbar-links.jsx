@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 export default class NavbarLinks extends React.Component {
   static get propTypes() {
@@ -11,9 +11,9 @@ export default class NavbarLinks extends React.Component {
   }
 
   renderLinks() {
-    return this.props.links.map((link) => {
-      return <li key={link.url}><a href={link.url}>{link.name}</a></li>;
-    });
+    return this.props.links.map(link =>
+      <li key={link.url}><a href={link.url}>{link.name}</a></li>
+    );
   }
 
   render() {

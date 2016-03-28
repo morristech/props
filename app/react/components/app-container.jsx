@@ -11,7 +11,7 @@ const store = configureStore();
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-function reduxContainer() {
+function appContainer() {
   return (
     <Provider store={store}>
       <Router history={history}>
@@ -22,4 +22,4 @@ function reduxContainer() {
   );
 }
 
-export default reduxContainer;
+export default appContainer;

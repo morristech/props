@@ -29,13 +29,11 @@ class UserPropsContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    receivedProps: state.props.user_received_props,
-    givenProps: state.props.user_given_props,
-    userName: state.user.name,
-  };
-};
+const mapStateToProps = state => ({
+  receivedProps: state.props.user_received_props,
+  givenProps: state.props.user_given_props,
+  userName: state.user.name,
+});
 
 export default connect(
   mapStateToProps

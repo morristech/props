@@ -23,11 +23,11 @@ describe('props/vote', () => {
       upvotesCount: 10,
       isUpvotePosssible: true,
     },
-    onUpvote: onUpvote,
+    onUpvote,
   };
 
   const component = TestUtils.renderIntoDocument(
-    <Prop {...defaultProps}/>
+    <Prop {...defaultProps} />
   );
 
   it('renders', () => {

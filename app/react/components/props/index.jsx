@@ -20,7 +20,7 @@ export default class PropsList extends React.Component {
     const list = this.props.props;
     list.bind('change', this.onChange);
     list.bind('add', this.onChange);
-    this.state = {props: list};
+    this.state = { props: list };
   }
 
   onChange() {
@@ -67,15 +67,17 @@ export default class PropsList extends React.Component {
         isUpvotePossible: item.get('is_upvote_possible'),
       };
 
+      const onUpvote = item.upvote.bind(item);
+
       return (
         <PropComponent
-          prop={propData}
           key={item.id}
+          prop={propData}
           voteComponent={
             <VoteComponent
               upvotesCount={propData.upvotesCount}
               isUpvotePossible={propData.isUpvotePossible}
-              onUpvote={item.upvote.bind(item)}
+              onUpvote={onUpvote}
             />
           }
         />
@@ -90,7 +92,8 @@ export default class PropsList extends React.Component {
           onNextPageClick={this.onNextPage}
           onPrevPageClick={this.onPrevPage}
           hasPreviousPage={this.state.props.hasPreviousPage()}
-          hasNextPage={this.state.props.hasNextPage()}/>
+          hasNextPage={this.state.props.hasNextPage()}
+        />
       </div>
     );
   }

@@ -11,7 +11,7 @@ const userData = {
 };
 
 describe('user/thumb-small', () => {
-  const component = TestUtils.renderIntoDocument(<Thumb user={userData}/>);
+  const component = TestUtils.renderIntoDocument(<Thumb user={userData} />);
 
   it('renders', () => {
     expect(TestUtils.findRenderedComponentWithType(component, Thumb)).toExist();

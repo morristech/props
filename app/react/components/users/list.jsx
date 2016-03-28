@@ -15,14 +15,14 @@ export default class UsersList extends React.Component {
   renderUsers(users, usersFilter) {
     if (isEmpty(users)) {
       if (isEmpty(usersFilter)) {
-        return (<div className="loading"/>);
+        return (<div className="loading" />);
       }
       return null;
     }
 
-    return users.map(user => {
-      return <UserThumb key={user.id} id={user.id} avatarUrl={user.avatar_url} name={user.name}/>;
-    });
+    return users.map(user =>
+      <UserThumb key={user.id} id={user.id} avatarUrl={user.avatar_url} name={user.name} />
+    );
   }
 
   render() {
@@ -38,7 +38,8 @@ export default class UsersList extends React.Component {
               autoFocus
               tabIndex="1"
               type="text"
-              placeholder="Filter users by name"/>
+              placeholder="Filter users by name"
+            />
           </form>
         </div>
 

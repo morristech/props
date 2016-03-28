@@ -6,12 +6,12 @@ import NavbarLinks from './navbar-links';
 
 const props = {
   links: [
-    {url: 'http://example.com', name: 'example'},
-    {url: 'http://example.com/test', name: 'test'},
+    { url: 'http://example.com', name: 'example' },
+    { url: 'http://example.com/test', name: 'test' },
   ],
 };
 
-const component = TestUtils.renderIntoDocument(<NavbarLinks {...props}/>);
+const component = TestUtils.renderIntoDocument(<NavbarLinks {...props} />);
 const links = TestUtils.scryRenderedDOMComponentsWithTag(component, 'a');
 
 describe('navbar/navbar-links', () => {

@@ -15,7 +15,7 @@ export default function configureStore(initialState) {
     initialState,
     compose(
       applyMiddleware(thunkMiddleware),
-      applyDevTools(),
+      applyDevTools()
     )
   );
 }
