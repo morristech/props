@@ -7,13 +7,13 @@ import Vote from './vote';
 describe('props/vote', () => {
   const onUpvote = expect.createSpy();
   const defaultProps = {
-    onUpvote: onUpvote,
+    onUpvote,
     upvotesCount: 10,
     isUpvotePossible: true,
     upVoting: false,
   };
   const component = TestUtils.renderIntoDocument(
-    <Vote {...defaultProps}/>
+    <Vote {...defaultProps} />
   );
 
   it('renders', () => {
@@ -32,7 +32,7 @@ describe('props/vote', () => {
 
     describe('when rating is 0', () => {
       const componentWithoutRating = TestUtils.renderIntoDocument(
-        <Vote {...defaultProps} upvotesCount={0}/>
+        <Vote {...defaultProps} upvotesCount={0} />
       );
       it('is not visible', () => {
         expect(() => {
@@ -60,7 +60,7 @@ describe('props/vote', () => {
 
     describe('when isUpvotePossible flag is not set', () => {
       const componentWithDisabledVoting = TestUtils.renderIntoDocument(
-        <Vote {...defaultProps} isUpvotePossible={false}/>
+        <Vote {...defaultProps} isUpvotePossible={false} />
       );
       it('is not visible', () => {
         expect(() => {

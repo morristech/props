@@ -69,7 +69,7 @@ describe('navbar/navbar', () => {
       before(() => {
         const props = {
           isOnAppPage: false,
-          user: {name: 'testUser', email: 'testUser@example.com'},
+          user: { name: 'testUser', email: 'testUser@example.com' },
           userSignedIn: true,
         };
 
@@ -85,7 +85,7 @@ describe('navbar/navbar', () => {
       });
 
       it('only has link to app', () => {
-        expect(component.links).toEqual([{ name: 'App',  url: '/app' }]);
+        expect(component.links).toEqual([{ name: 'App', url: '/app' }]);
       });
     });
   });

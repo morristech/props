@@ -19,14 +19,9 @@ export default class UserProps extends React.Component {
   }
 
   renderProps(props) {
-    return props.map((prop) => {
-      return (
-        <PropComponent
-          prop={prop}
-          key={prop.id}
-        />
-      );
-    });
+    return props.map(prop =>
+      <PropComponent key={prop.id} prop={prop} />
+    );
   }
 
   render() {
@@ -34,7 +29,7 @@ export default class UserProps extends React.Component {
 
     if (!userName || isEmpty(givenProps) || isEmpty(receivedProps)) {
       return (
-        <div className="loading"/>
+        <div className="loading" />
       );
     }
 

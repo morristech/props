@@ -2,7 +2,7 @@ import expect from 'expect';
 import reducer from './user';
 import * as types from '../constants/action-types';
 
-describe('user reducer', () => {
+describe('props reducer', () => {
   it('returns the initial state', () => {
     expect(reducer(undefined, {})).toEqual({});
   });
@@ -17,18 +17,6 @@ describe('user reducer', () => {
       })
     ).toEqual(
       userData
-    );
-  });
-
-  it('handles REQUEST_USER', () => {
-    const previousState = { userName: 'testUser' };
-
-    expect(
-      reducer(previousState, {
-        type: types.REQUEST_USER,
-      })
-    ).toEqual(
-      {}
     );
   });
 });

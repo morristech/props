@@ -20,7 +20,7 @@ export default class Prop extends React.Component {
     return (
       <li className="row list-group-item props.prop-list-item">
         <div className="col-xs-12 prop-users">
-          <UserComponent user={this.props.prop.propser}/>
+          <UserComponent user={this.props.prop.propser} />
           <i className="glyphicon glyphicon-chevron-right prop-to"></i>
           {receivers}
         </div>

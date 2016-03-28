@@ -8,7 +8,7 @@ import {
   REQUEST_USER_GIVEN_PROPS,
 } from '../constants/action-types';
 
-function props(state = {user_given_props: {}, user_received_props: {}}, action) {
+function props(state = { user_given_props: {}, user_received_props: {} }, action) {
   switch (action.type) {
   case RECEIVE_USER_GIVEN_PROPS:
     return merge({}, state, {

@@ -5,7 +5,7 @@ class AuthenticatedController < ApplicationController
   def main_app; end
 
   def users
-    render react_component: 'ReduxContainer'
+    render react_component: 'AppContainer'
   end
 
   private
