@@ -9,6 +9,7 @@ import {
   REQUEST_USER,
   RECEIVE_USERS,
   REQUEST_USERS,
+  SET_USERS_FILTER,
 } from '../constants/action-types';
 
 function receiveUserProps(json) {
@@ -60,6 +61,13 @@ function receiveUsers(json) {
 function requestUsers() {
   return {
     type: REQUEST_USERS,
+  };
+}
+
+export function setUsersFilter(filter) {
+  return {
+    type: SET_USERS_FILTER,
+    filter,
   };
 }
 
