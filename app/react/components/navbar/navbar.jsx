@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import NavbarLinks from './navbar-links';
 import NavbarSettings from './navbar-settings';
@@ -21,10 +21,10 @@ export default class Navbar extends React.Component {
     }
 
     if (this.props.isOnAppPage) {
-      return [{ name: 'Props',  url: '#props' }, { name: 'Users',  url: '#users' }];
+      return [{ name: 'Props', url: '/app#props' }, { name: 'Users', url: '/users' }];
     }
 
-    return [{ name: 'App',  url: '/app' }];
+    return [{ name: 'App', url: '/app' }];
   }
 
   get user() {
@@ -39,7 +39,8 @@ export default class Navbar extends React.Component {
             <button className="navbar-toggle"
               data-target=".navbar-collapse"
               data-toggle="collapse"
-              type="button">
+              type="button"
+            >
               <span className="sr-only">Toggle navigation</span>
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
@@ -49,7 +50,7 @@ export default class Navbar extends React.Component {
           </div>
 
           <div className="collapse navbar-collapse">
-            <NavbarLinks links={this.links}/>
+            <NavbarLinks links={this.links} />
             <NavbarSettings user={this.user} userSignedIn={this.props.userSignedIn} />
           </div>
         </div>
