@@ -4,19 +4,19 @@
       'users/:id': 'show'
       'users':     'list'
 
+    before: (route, params) ->
+      RWR.unmountComponent(document.getElementById('main-region'))
+
   API =
     list: () ->
       new UsersApp.List.Controller
 
     show: (id, user) ->
-      new UsersApp.Show.Controller
-        id: id
-        user: user
+      RWR.renderComponent('ReduxContainer', {userId: id}, document.getElementById('main-region'))
 
   App.addInitializer ->
     new UsersApp.Router
       controller: API
 
   App.vent.on 'user:clicked', (user) ->
-    App.navigate "users/#{user.id}"
-    API.show user.id, user
+    App.navigate "users/#{user.id}", trigger: true
