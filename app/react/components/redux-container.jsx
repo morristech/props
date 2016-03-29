@@ -14,11 +14,9 @@ export default class ReduxContainer extends React.Component {
 
   render() {
     return (
-      <div>
-        <Provider store={store}>
-          <UserPropsContainer userId={this.props.userId}/>
-        </Provider>
-      </div>
+      <Provider store={store}>
+        <UserPropsContainer userId={this.props.userId} />
+      </Provider>
     );
   }
 }

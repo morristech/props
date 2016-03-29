@@ -21,9 +21,7 @@ class UserPropsContainer extends React.Component {
 
   render() {
     return (
-      <div>
-        <UserProps {...this.props}/>
-      </div>
+      <UserProps {...this.props} />
     );
   }
 }
