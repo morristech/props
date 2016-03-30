@@ -45,9 +45,13 @@ describe('props/vote', () => {
   describe('upvote button', () => {
     describe('when isUpvotePossible flag is set', () => {
       it('is visible', () => {
+        const componentWithoutRating = TestUtils.renderIntoDocument(
+          <Vote {...defaultProps} upvotesCount={0} />
+        );
+
         expect(() => {
           TestUtils.findRenderedDOMComponentWithClass(componentWithoutRating, 'upvote-button');
-        }).toNotThrow;
+        }).toNotThrow();
       });
 
       it('runs passed onUpvote handler when clicked', () => {
