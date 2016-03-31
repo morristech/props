@@ -12,7 +12,17 @@ module Api
             next_page: collection.next_page,
             prev_page: collection.prev_page,
             total_pages: collection.total_pages,
-            total_count: collection.total_count,
+            total_count: collection.total_count
+          }
+        end
+
+        def paginated_result(results, page)
+          return { collection: results, meta: {} } if page.nil?
+
+          collection = results.page(page)
+          {
+            collection: collection,
+            meta: kaminari_params(collection)
           }
         end
 
@@ -50,10 +60,10 @@ module Api
         end
         get do
           prop_search = props_repository.search declared(props_params(params))
-          paginated_result = prop_search.results.page(params[:page])
-          present paginated_result,
+          results = paginated_result(prop_search.results, params[:page])
+          present results[:collection],
                   with: Entities::Props,
-                  pagination: kaminari_params(paginated_result),
+                  pagination: results[:meta],
                   current_user: current_user
         end
 
