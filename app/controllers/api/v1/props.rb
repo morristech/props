@@ -60,6 +60,8 @@ module Api
         end
         get do
           prop_search = props_repository.search declared(props_params(params))
+          params[:page] = params[:page] || 1 if params[:propser_id].present?
+
           results = paginated_result(prop_search.results, params[:page])
           present results[:collection],
                   with: Entities::Props,
