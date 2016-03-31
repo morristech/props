@@ -27,10 +27,16 @@ class UserPropsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const propsCount = state.user.props_count || {};
+
   return {
     receivedProps: state.props.user_received_props,
     givenProps: state.props.user_given_props,
     userName: state.user.name,
+    meta: {
+      receivedCount: propsCount.received || 0,
+      givenCount: propsCount.given || 0,
+    },
   };
 };
 
