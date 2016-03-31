@@ -34,7 +34,7 @@
   API =
     getProps: (filters = {}) ->
       props = new Entities.Props
-      props.queryParams = filters
+      _.extend(props.queryParams, {})
       props.fetch()
       props
 
