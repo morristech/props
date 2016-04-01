@@ -80,10 +80,6 @@ We are using Chrome launcher.
 * run `npm run test-dev` to run tests.
 * run `npm run test-live` to run tests in watch mode.
 
-## Common problems/bugs
-
-Nothing yet. YAY.
-
 ## Notes
 
 Please follow Ruby style guide available [here](https://github.com/bbatsov/ruby-style-guide).
