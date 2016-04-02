@@ -41,8 +41,8 @@ export default class UserProps extends React.Component {
       <div>
         <UserPropsStats
           userName={userName}
-          propsReceivedCount={meta.givenCount}
-          propsGivenCount={meta.receivedCount}
+          propsReceivedCount={meta.receivedCount}
+          propsGivenCount={meta.givenCount}
         />
 
         <h2>Received props</h2>
