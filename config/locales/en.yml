@@ -4,6 +4,7 @@ en:
       selfpropsing: "You can't give a prop to yourself... It's not how the world works:)"
       user_limit: "Sorry, you can't add so many users"
       no_users: 'ooo... not even a single receiver here? Cmon!'
+      archived_user: "wait wait... %{name} is archived! Stop hacking!"
   activerecord:
     errors:
       models:

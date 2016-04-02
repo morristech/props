@@ -8,7 +8,7 @@ class Prop < ActiveRecord::Base
   belongs_to :propser, class_name: 'User'
 
   validates :propser, presence: true
-  validate :prop_receivers?, :selfpropsing, :receivers_limit
+  validate :prop_receivers?, :valid_prop_receivers?, :selfpropsing, :receivers_limit
   validates :body,
             presence: true,
             format: /\A(?!.*( |\W|\A)(@here|@channel|@everyone)( |\W|\z)).*\z/
@@ -25,6 +25,12 @@ class Prop < ActiveRecord::Base
   def prop_receivers?
     return if prop_receivers.any?
     errors.add(:user_ids, I18n.t('props.errors.no_users'))
+  end
+
+  def valid_prop_receivers?
+    prop_receivers.flat_map(&:errors).each do |error|
+      errors[:user_ids].push(error[:user_id]) if error[:user_id].present?
+    end
   end
 
   def selfpropsing
