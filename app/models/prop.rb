@@ -11,10 +11,7 @@ class Prop < ActiveRecord::Base
   validate :prop_receivers?, :selfpropsing, :receivers_limit
   validates :body,
             presence: true,
-            format: {
-              with: /\A(?!.*( |\A)(@here|@channel)( |\z)).*\z/,
-              message: "@here or @channel in prop body? Plz don't"
-            }
+            format: /\A(?!.*( |\A)(@here|@channel)( |\z)).*\z/
 
   scope :with_includes, -> { includes(:users, :propser) }
   scope :ordered, -> { order('props.created_at DESC') }
