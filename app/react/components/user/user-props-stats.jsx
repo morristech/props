@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const UserPropsStats = ({userName, propsReceivedCount, propsGivenCount}) => (
+const UserPropsStats = ({userName, propsReceivedCount, propsGivenCount, archived}) => (
   <div>
     <h1>
       Displaying <strong>{userName}</strong> profile:
@@ -8,7 +8,9 @@ const UserPropsStats = ({userName, propsReceivedCount, propsGivenCount}) => (
     <div className="well well-sm">
       <div className="row">
         <div className="col-sm-6 col-md-8">
-          <h4>{userName}</h4>
+          <h4>
+            {userName} {archived && '(archived)'}
+          </h4>
           <p>
             <i className="glyphicon glyphicon-thumbs-up user-stats__icon"/>
              Props received: <span className="label label-success">{propsReceivedCount}</span>
@@ -27,6 +29,7 @@ UserPropsStats.propTypes = {
   userName: PropTypes.string.isRequired,
   propsReceivedCount: PropTypes.number.isRequired,
   propsGivenCount: PropTypes.number.isRequired,
+  archived: PropTypes.bool,
 };
 
 export default UserPropsStats;

@@ -8,7 +8,7 @@ class UsersRepository
   end
 
   def find_by_id(id)
-    active.find(id)
+    all.find(id)
   end
 
   delegate :find_by_email, to: :active

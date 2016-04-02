@@ -33,6 +33,7 @@ const mapStateToProps = (state) => {
     receivedProps: state.props.user_received_props,
     givenProps: state.props.user_given_props,
     userName: state.user.name,
+    archived: state.user.archived,
     meta: {
       receivedCount: propsCount.received || 0,
       givenCount: propsCount.given || 0,
