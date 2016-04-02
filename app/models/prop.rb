@@ -7,8 +7,11 @@ class Prop < ActiveRecord::Base
   has_many :upvotes
   belongs_to :propser, class_name: 'User'
 
-  validates :propser, :body, presence: true
+  validates :propser, presence: true
   validate :prop_receivers?, :selfpropsing, :receivers_limit
+  validates :body,
+            presence: true,
+            format: /\A(?!.*( |\W|\A)(@here|@channel|@everyone)( |\W|\z)).*\z/
 
   scope :with_includes, -> { includes(:users, :propser) }
   scope :ordered, -> { order('props.created_at DESC') }
