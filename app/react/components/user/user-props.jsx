@@ -10,7 +10,7 @@ export default class UserProps extends React.Component {
       userName: string,
       givenProps: object,
       receivedProps: object,
-      archived, boolean,
+      archived: boolean,
       meta: shape({
         givenCount: number,
         receivedCount: number,
