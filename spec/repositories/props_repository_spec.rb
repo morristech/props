@@ -16,6 +16,7 @@ describe PropsRepository do
     let(:jack) { create(:user) }
     let(:jane) { create(:user) }
     let(:john) { create(:user) }
+    let(:archived_user) { create(:user, archived_at: Time.now) }
     let(:user_ids) { "#{john.id},#{jane.id}" }
     let(:attributes) do
       {
@@ -53,6 +54,17 @@ describe PropsRepository do
 
       context 'when user_ids is an empty array' do
         let(:user_ids) { '[]' }
+        it "doesn't create a prop" do
+          expect { repo.add(attributes) }.to_not change { Prop.count }
+        end
+
+        it "doesn't raise an error" do
+          expect { repo.add(attributes) }.to_not raise_exception
+        end
+      end
+
+      context 'when user_ids include archived user id' do
+        let(:user_ids) { "[#{archived_user.id}]" }
         it "doesn't create a prop" do
           expect { repo.add(attributes) }.to_not change { Prop.count }
         end
