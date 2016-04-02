@@ -3,6 +3,11 @@ module Api
     module Entities
       class UserFull < UserBase
         expose :props_count
+        expose :archived
+
+        def archived
+          object.archived_at.present?
+        end
 
         private
 
