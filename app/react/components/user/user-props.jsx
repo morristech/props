@@ -5,12 +5,12 @@ const isEmpty = require('lodash/isEmpty');
 
 export default class UserProps extends React.Component {
   static get propTypes() {
-    const { string, object, shape, number, boolean } = PropTypes;
+    const { string, object, shape, number, bool } = PropTypes;
     return {
       userName: string,
       givenProps: object,
       receivedProps: object,
-      archived: boolean,
+      archived: bool,
       meta: shape({
         givenCount: number,
         receivedCount: number,

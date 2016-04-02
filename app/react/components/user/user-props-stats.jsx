@@ -9,7 +9,7 @@ const UserPropsStats = ({userName, propsReceivedCount, propsGivenCount, archived
       <div className="row">
         <div className="col-sm-6 col-md-8">
           <h4>
-            {userName} {archived ? '(archived)' : null}
+            {userName} {archived && '(archived)'}
           </h4>
           <p>
             <i className="glyphicon glyphicon-thumbs-up user-stats__icon"/>
@@ -29,6 +29,7 @@ UserPropsStats.propTypes = {
   userName: PropTypes.string.isRequired,
   propsReceivedCount: PropTypes.number.isRequired,
   propsGivenCount: PropTypes.number.isRequired,
+  archived: PropTypes.bool,
 };
 
 export default UserPropsStats;
