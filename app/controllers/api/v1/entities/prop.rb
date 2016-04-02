@@ -14,10 +14,6 @@ module Api
 
         private
 
-        def body
-          sanitize object.body, tags: %w(img)
-        end
-
         def is_upvote_possible
           object.propser_id != current_user.id && !user_has_upvoted?
         end
