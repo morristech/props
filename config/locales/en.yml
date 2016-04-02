@@ -10,4 +10,4 @@ en:
         prop:
           attributes:
             body:
-              invalid: "@here or @channel in prop body? Plz don't."
+              invalid: "@here, @everyone or @channel in prop body? Plz don't."
