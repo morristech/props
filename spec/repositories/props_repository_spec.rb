@@ -63,7 +63,7 @@ describe PropsRepository do
       end
 
       context 'when @here present in body' do
-        let(:invalid_attributes) { attributes.merge(body: 'Some body with @here') }
+        let(:invalid_attributes) { attributes.merge(body: 'Some body with @here,') }
         it "doesn't create a prop" do
           expect { repo.add(invalid_attributes) }.to_not change { Prop.count }
         end
