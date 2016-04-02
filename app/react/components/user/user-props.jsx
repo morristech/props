@@ -5,11 +5,12 @@ const isEmpty = require('lodash/isEmpty');
 
 export default class UserProps extends React.Component {
   static get propTypes() {
-    const { string, object, shape, number } = PropTypes;
+    const { string, object, shape, number, boolean } = PropTypes;
     return {
       userName: string,
       givenProps: object,
       receivedProps: object,
+      archived, boolean,
       meta: shape({
         givenCount: number,
         receivedCount: number,
@@ -29,7 +30,7 @@ export default class UserProps extends React.Component {
   }
 
   render() {
-    const { userName, givenProps, receivedProps, meta } = this.props;
+    const { userName, givenProps, receivedProps, meta, archived } = this.props;
 
     if (!userName || isEmpty(givenProps) || isEmpty(receivedProps)) {
       return (
@@ -43,6 +44,7 @@ export default class UserProps extends React.Component {
           userName={userName}
           propsReceivedCount={meta.receivedCount}
           propsGivenCount={meta.givenCount}
+          archived={archived}
         />
 
         <h2>Received props</h2>
