@@ -65,6 +65,7 @@ describe PropsRepository do
 
       context 'when user_ids include archived user id' do
         let(:user_ids) { "[#{archived_user.id}]" }
+
         it "doesn't create a prop" do
           expect { repo.add(attributes) }.to_not change { Prop.count }
         end
