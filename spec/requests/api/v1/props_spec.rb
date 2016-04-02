@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe Api::V1::Props do
   let(:user) { create(:user) }
+  let(:receivers) { create_list(:user, 3) }
 
   describe 'GET /api/v1/props' do
     context 'user is a guest' do
@@ -79,7 +80,7 @@ describe Api::V1::Props do
       after { sign_out }
 
       context 'with valid attributes' do
-        let(:prop_params) { { user_ids: '1,2,3', body: 'sample text' }.as_json }
+        let(:prop_params) { { user_ids: receivers.map(&:id).join(','), body: 'sample text' }.as_json }
 
         it 'returns success' do
           expect(response).to have_http_status(:success)
