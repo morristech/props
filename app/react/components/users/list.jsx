@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import isEmpty from 'lodash/isempty';
+import isEmpty from 'lodash/isEmpty';
 
 import UserThumb from '../user/thumb';
 

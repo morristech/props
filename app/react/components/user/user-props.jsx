@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import UserPropsStats from './user-props-stats';
 import PropComponent from '../props/prop';
-const isEmpty = require('lodash/isEmpty');
+import isEmpty from 'lodash/isEmpty';
 
 export default class UserProps extends React.Component {
   static get propTypes() {
