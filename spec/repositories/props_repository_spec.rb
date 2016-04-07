@@ -20,9 +20,9 @@ describe PropsRepository do
     let(:user_ids) { "#{john.id},#{jane.id}" }
     let(:attributes) do
       {
-        body: FFaker::Lorem.paragraph,
+        body: "some multiline\nline prop body",
         user_ids: user_ids,
-        propser_id: jack.id,
+        propser_id: jack.id
       }
     end
 
