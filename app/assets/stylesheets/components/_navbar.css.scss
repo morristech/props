@@ -1,6 +1,0 @@
-.navbar-logo {
-  @include quantity(107px 26px);
-  text-indent: -9999px;
-  background: image-url('logo.png');
-  &:hover { opacity: .7; }
-}

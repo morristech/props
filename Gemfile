@@ -1,23 +1,15 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 4'
-
-gem 'active_model_serializers', github: 'rails-api/active_model_serializers', branch: '0-9-stable'
 gem 'airbrussh'
-gem 'animate-rails'
 gem 'app_konfig'
 gem 'attr_extras'
 gem 'coffee-rails'
 gem 'decent_exposure'
 gem 'easy_tokens'
-gem 'gon'
 gem 'gravatar-ultimate'
 gem 'haml-rails'
-gem 'haml_coffee_assets', '1.16.1' # remove this gem from Gemfile after getting rid of js_stack
-gem 'jquery-rails'
-gem 'js_stack'
 gem 'kaminari'
-gem 'netguru_theme'
 gem 'omniauth'
 gem 'lograge'
 gem 'omniauth-google-oauth2'
@@ -32,7 +24,7 @@ gem 'slack-notifier'
 gem 'thin'
 gem 'uglifier'
 gem 'whenever', require: false
-gem 'sprockets-rails', '2.3.3' # temporary lock, JST does not work properly with sprockets 3
+gem 'sprockets-rails'
 gem 'grape'
 gem 'grape-entity'
 gem 'hashie-forbidden_attributes'
@@ -43,10 +35,6 @@ gem 'grape-swagger-rails'
 gem 'capistrano', '3.3.5'
 gem 'capistrano-docker', github: 'netguru/capistrano-docker', tag: 'v0.2.6'
 
-source 'https://rails-assets.org' do
-  gem 'rails-assets-select2', '3.5.2'
-end
-
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
@@ -55,10 +43,8 @@ group :development do
   gem 'guard-bundler'
   gem 'guard-rails'
   gem 'guard-rspec'
-  gem 'html2haml'
   gem 'letter_opener'
   gem 'quiet_assets'
-  gem 'rack-mini-profiler'
   gem 'rb-fchange', require: false
   gem 'rb-fsevent', require: false
   gem 'rb-inotify', require: false
