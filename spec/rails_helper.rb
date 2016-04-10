@@ -1,6 +1,8 @@
 if ENV['CI']
   require 'codeclimate-test-reporter'
   CodeClimate::TestReporter.start
+  require 'scrutinizer/ocular'
+  Scrutinizer::Ocular.watch!
 end
 ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'

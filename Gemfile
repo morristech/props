@@ -11,15 +11,20 @@ gem 'coffee-rails'
 gem 'decent_exposure'
 gem 'easy_tokens'
 gem 'gon'
+gem 'grape'
+gem 'grape-entity'
+gem 'grape-swagger'
+gem 'grape-swagger-rails'
 gem 'gravatar-ultimate'
 gem 'haml-rails'
 gem 'haml_coffee_assets', '1.16.1' # remove this gem from Gemfile after getting rid of js_stack
+gem 'hashie-forbidden_attributes'
 gem 'jquery-rails'
 gem 'js_stack'
 gem 'kaminari'
+gem 'lograge'
 gem 'netguru_theme'
 gem 'omniauth'
-gem 'lograge'
 gem 'omniauth-google-oauth2'
 gem 'pg'
 gem 'react_webpack_rails'
@@ -29,15 +34,10 @@ gem 'searchlight'
 gem 'sendgrid'
 gem 'skylight'
 gem 'slack-notifier'
+gem 'sprockets-rails', '2.3.3' # temporary lock, JST does not work properly with sprockets 3
 gem 'thin'
 gem 'uglifier'
 gem 'whenever', require: false
-gem 'sprockets-rails', '2.3.3' # temporary lock, JST does not work properly with sprockets 3
-gem 'grape'
-gem 'grape-entity'
-gem 'hashie-forbidden_attributes'
-gem 'grape-swagger'
-gem 'grape-swagger-rails'
 
 # deploy
 gem 'capistrano', '3.3.5'
@@ -77,5 +77,6 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', require: nil
+  gem 'scrutinizer-ocular'
   gem 'email_spec'
 end
