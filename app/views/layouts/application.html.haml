@@ -8,17 +8,11 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body
-    #announcements-region
     %header
-      = react_component 'NavbarComponent',
-        isOnAppPage: controller_name == 'authenticated',
-        user: Api::V1::Entities::UserBase.new(current_user),
-        userSignedIn: current_user.present?
+      TODO: navbar
     %main
-      .container
-        #main-region
-        = yield
-    %footer.text-center
+      = yield
+    %footer
       (c)
       = link_to 'netguru', 'https://netguru.co'
       |
