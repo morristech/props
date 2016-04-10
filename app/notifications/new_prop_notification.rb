@@ -5,13 +5,19 @@ class NewPropNotification < BaseNotification
 
   def body
     "#{prop_giver} just gave a prop to *#{prop_receivers_list}*: " \
-      "_#{content}_ - [Check it out!](#{app_domain})"
+      "#{italicized_content} - [Check it out!](#{app_domain})"
   end
 
   private
 
   def app_domain
     root_url(protocol: :https, host: AppConfig.app_domain)
+  end
+
+  def italicized_content
+    content.split("\n")
+           .map { |part_of_content| "_#{part_of_content}_" }
+           .join("\n")
   end
 
   def prop_receivers_list
