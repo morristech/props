@@ -12,22 +12,21 @@ module Api
             next_page: collection.next_page,
             prev_page: collection.prev_page,
             total_pages: collection.total_pages,
-            total_count: collection.total_count
+            total_count: collection.total_count,
           }
         end
 
-        def paginated_result(results, page)
-          return { collection: results, meta: {} } if page.nil?
-
-          collection = results.page(page)
+        def paginated_result(results, page, per_page)
+          collection = results.page(page).per(per_page)
           {
             collection: collection,
-            meta: kaminari_params(collection)
+            meta: kaminari_params(collection),
           }
         end
 
-        def props_params(params)
-          params.merge(show_upvote_status_for_user_id: current_user.id)
+        def filter_params(params)
+          props_params = params.except(:page, :per_page)
+          props_params.merge(show_upvote_status_for_user_id: current_user.id)
         end
 
         def prop_params(params)
@@ -57,12 +56,13 @@ module Api
           optional :user_id, type: Integer
           optional :propser_id, type: Integer
           optional :show_upvote_status_for_user_id, type: Integer
+          optional :page, type: Integer, default: 1
+          optional :per_page, type: Integer, default: 25
         end
         get do
-          prop_search = props_repository.search declared(props_params(params))
-          params[:page] = params[:page] || 1 if params[:propser_id].present?
+          prop_search = props_repository.search declared(filter_params(params))
 
-          results = paginated_result(prop_search.results, params[:page])
+          results = paginated_result(prop_search.results, params[:page], params[:per_page])
           present results[:collection],
                   with: Entities::Props,
                   pagination: results[:meta],

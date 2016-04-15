@@ -71,10 +71,10 @@ export function setUsersFilter(filter) {
   };
 }
 
-export function fetchUserProps(userId) {
+export function fetchUserProps(userId, page = 1, perPage = 25) {
   return dispatch => {
     dispatch(requestUserProps());
-    return fetch(`/api/v1/props?user_id=${userId}`, {
+    return fetch(`/api/v1/props?user_id=${userId}&page=${page}&per_page=${perPage}`, {
       credentials: 'same-origin',
     })
     .then(req => req.json())
@@ -82,10 +82,10 @@ export function fetchUserProps(userId) {
   };
 }
 
-export function fetchUserGivenProps(userId) {
+export function fetchUserGivenProps(userId, page = 1, perPage = 25) {
   return dispatch => {
     dispatch(requestUserGivenProps());
-    return fetch(`/api/v1/props?propser_id=${userId}`, {
+    return fetch(`/api/v1/props?propser_id=${userId}&page=${page}&per_page=${perPage}`, {
       credentials: 'same-origin',
     })
     .then(req => req.json())

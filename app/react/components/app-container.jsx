@@ -5,7 +5,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from '../store/configure-store';
 
 import UsersContainer from './users/users-container';
-import UserPropsContainer from './user/user-props-container';
+import UserPropsContainer from './user/props-container';
 
 const store = configureStore();
 

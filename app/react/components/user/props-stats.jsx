@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const UserPropsStats = ({userName, propsReceivedCount, propsGivenCount, archived}) => (
+const UserPropsStats = ({ userName, propsReceivedCount, propsGivenCount, archived }) => (
   <div>
     <h1>
       Displaying <strong>{userName}</strong> profile:
