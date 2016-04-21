@@ -47,6 +47,8 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-select2', '3.5.2'
 end
 
+gem 'rails_12factor', group: :production
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
