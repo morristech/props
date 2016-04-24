@@ -1,0 +1,24 @@
+{
+    "name": "Props",
+    "description": "PropsApp: say thank you in a geeky way!",
+    "website": "https://github.com/netguru/props",
+    "repository": "https://github.com/netguru/props",
+    "template": "",
+    "keywords": [
+        "ruby",
+        "rails",
+        "props",
+        "app"
+    ],
+    "buildpacks": [
+      {
+        "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+      },
+      {
+        "url": "https://github.com/heroku/heroku-buildpack-ruby"
+      }
+    ],
+    "addons": [
+        "heroku-postgresql:hobby-dev"
+    ]
+}
