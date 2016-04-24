@@ -3,6 +3,8 @@
 [![](http://img.shields.io/codeclimate/coverage/github/netguru/props.svg?style=flat-square)](https://codeclimate.com/github/netguru/props)
 [![](http://img.shields.io/gemnasium/netguru/props.svg?style=flat-square)](https://gemnasium.com/netguru/props)
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/netguru/props)
+
 ## General info
 
 This app is called **PROPS**. The idea behind it is to express saying 'thank you!'
