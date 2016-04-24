@@ -1,9 +1,9 @@
 {
     "name": "Props",
     "description": "PropsApp: say thank you in a geeky way!",
-    "website": "https://github.com/netguru/props",
-    "repository": "https://github.com/netguru/props",
-    "template": "",
+    "website": "https://github.com/sbrych/props",
+    "repository": "https://github.com/sbrych/props",
+    "template": "https://github.com/sbrych/props/tree/heroku-setup",
     "keywords": [
         "ruby",
         "rails",
