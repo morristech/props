@@ -20,7 +20,6 @@ test:
   <<: *defaults
 
 production:
-  allowed_email_domains:
   app_domain: <%= ENV['APP_DOMAIN'] %>
   domain_name: <%= ENV['GAPPS_DOMAIN_NAME'] %>
   emails:
