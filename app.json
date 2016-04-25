@@ -19,17 +19,11 @@
       "EMAILS_DEFAULT_FROM": {
         "value": "props@example.com"
       },
-      "NEWRELIC_LICENSE_KEY": {
-        "value": "newrelic_license_key"
-      },
       "OMNIAUTH_KEY": {
         "value": "omniauth_key"
       },
       "OMNIAUTH_SECRET": {
         "value": "omniauth_secret"
-      },
-      "ROLLBAR_TOKEN": {
-        "value": "rollbar_token"
       },
       "SECRET_KEY_BASE": {
         "generator": "secret"
@@ -39,9 +33,6 @@
       },
       "SENDGRID_USER_NAME": {
         "value": "sendgrid_user_name"
-      },
-      "SKYLIGHT_TOKEN": {
-        "value": "skylight_token"
       },
       "SLACK_DEFAULT_CHANNEL": {
         "value": "default_channel"

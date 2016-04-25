@@ -20,18 +20,16 @@ test:
   <<: *defaults
 
 production:
+  <<: *defaults
   app_domain: <%= ENV['APP_DOMAIN'] %>
   domain_name: <%= ENV['GAPPS_DOMAIN_NAME'] %>
   emails:
     default_from: <%= ENV['EMAILS_DEFAULT_FROM'] %>
-  newrelic_license_key: <%= ENV['NEWRELIC_LICENSE_KEY'] %>
   omniauth_provider_key: <%= ENV['OMNIAUTH_KEY'] %>
   omniauth_provider_secret: <%= ENV['OMNIAUTH_SECRET'] %>
-  rollbar_access_token: <%= ENV['ROLLBAR_TOKEN'] %>
   secret_key_base: <%= ENV['SECRET_KEY_BASE'] %>
   sendgrid_password: <%= ENV['SENDGRID_PASSWORD'] %>
   sendgrid_user_name: <%= ENV['SENDGRID_USER_NAME'] %>
-  skylight_token: <%= ENV['SKYLIGHT_TOKEN'] %>
   slack:
     default_channel: <%= ENV['SLACK_DEFAULT_CHANNEL'] %>
     webhook_url: <%= ENV['SLACK_WEBHOOK_URL'] %>
