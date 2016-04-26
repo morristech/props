@@ -41,6 +41,9 @@
         "value": "webhook_url"
       }
     },
+    "scripts": {
+      "postdeploy": "cp config/database.yml.heroku config/database.yml; bundle exec rake db:migrate"
+    },
     "buildpacks": [
       {
         "url": "https://github.com/heroku/heroku-buildpack-nodejs"
