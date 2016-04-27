@@ -17,7 +17,8 @@
         "value": "gapps_domain_name"
       },
       "EMAILS_DEFAULT_FROM": {
-        "value": "props@example.com"
+        "value": "props@example.com",
+        "required": false
       },
       "OMNIAUTH_KEY": {
         "value": "omniauth_key"
@@ -29,16 +30,20 @@
         "generator": "secret"
       },
       "SENDGRID_PASSWORD": {
-        "value": "sendgrid_password"
+        "value": "sendgrid_password",
+        "required": false
       },
       "SENDGRID_USER_NAME": {
-        "value": "sendgrid_user_name"
+        "value": "sendgrid_user_name",
+        "required": false
       },
       "SLACK_DEFAULT_CHANNEL": {
-        "value": "default_channel"
+        "value": "default_channel",
+        "required": false
       },
       "SLACK_WEBHOOK_URL": {
-        "value": "webhook_url"
+        "value": "webhook_url",
+        "required": false
       }
     },
     "scripts": {
