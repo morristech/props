@@ -1,0 +1,63 @@
+{
+    "name": "Props",
+    "description": "PropsApp: say thank you in a geeky way!",
+    "website": "https://github.com/netguru/props",
+    "repository": "https://github.com/netguru/props",
+    "keywords": [
+        "ruby",
+        "rails",
+        "props",
+        "app"
+    ],
+    "env": {
+      "APP_DOMAIN": {
+        "value": "props.changeme"
+      },
+      "GAPPS_DOMAIN_NAME": {
+        "value": "gapps_domain_name"
+      },
+      "EMAILS_DEFAULT_FROM": {
+        "value": "props@example.com",
+        "required": false
+      },
+      "OMNIAUTH_KEY": {
+        "value": "omniauth_key"
+      },
+      "OMNIAUTH_SECRET": {
+        "value": "omniauth_secret"
+      },
+      "SECRET_KEY_BASE": {
+        "generator": "secret"
+      },
+      "SENDGRID_PASSWORD": {
+        "value": "sendgrid_password",
+        "required": false
+      },
+      "SENDGRID_USER_NAME": {
+        "value": "sendgrid_user_name",
+        "required": false
+      },
+      "SLACK_DEFAULT_CHANNEL": {
+        "value": "default_channel",
+        "required": false
+      },
+      "SLACK_WEBHOOK_URL": {
+        "value": "webhook_url",
+        "required": false
+      }
+    },
+    "scripts": {
+      "postdeploy": "cp config/database.yml.heroku config/database.yml; bundle exec rake db:migrate"
+    },
+    "buildpacks": [
+      {
+        "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+      },
+      {
+        "url": "https://github.com/heroku/heroku-buildpack-ruby"
+      }
+    ],
+    "addons": [
+        "heroku-postgresql:hobby-dev"
+    ]
+}
