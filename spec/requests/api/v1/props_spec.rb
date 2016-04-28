@@ -117,4 +117,42 @@ describe Api::V1::Props do
       end
     end
   end
+
+  describe 'DELETE /api/v1/props/:prop_id/undo_upvotes' do
+    let(:prop) { create(:prop) }
+    let(:user2) { create(:user) }
+    let(:upvote) { create(:upvote, prop: prop, user: user2) }
+
+    context 'user is a guest' do
+      it 'returns unathorized response' do
+        delete "/api/v1/props/#{prop.id}/undo_upvotes"
+        expect(response).to have_http_status(401)
+      end
+    end
+
+    context 'user tries to undo upvote of different user' do
+      before do
+        sign_in(user2)
+      end
+
+      after { sign_out }
+
+      it 'undoes the upvote' do
+        delete "/api/v1/props/#{prop.id}/undo_upvotes"
+        expect(json_response['errors']).to eq(I18n.t('props.errors.no_upvote'))
+      end
+    end
+    context 'user undoes own upvote' do
+      before do
+        sign_in(user)
+      end
+
+      after { sign_out }
+
+      it 'undoes the upvote' do
+        delete "/api/v1/props/#{prop.id}/undo_upvotes"
+        expect(json_response['errors']).to eq(I18n.t('props.errors.no_upvote'))
+      end
+    end
+  end
 end
