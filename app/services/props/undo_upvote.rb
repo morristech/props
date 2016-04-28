@@ -3,11 +3,12 @@ module Props
     pattr_initialize [:prop!, :user!, :upvotes_repository!]
 
     def call
-      upvote = upvote_repository.remove(prop, user)
-      if upvote.destroyed?
-        Response::Success.new(data: prop.reload)
+      upvote = upvotes_repository.remove(prop, user)
+      if upvote.nil?
+        Response::Error.new(errors: I18n.t('props.errors.no_upvote'))
       else
-        Response::Error.new(errors: upvote.errors)
+        Response::Success.new(data: prop.reload)
+      end
     end
   end
 end
