@@ -14,10 +14,10 @@
       $.post "/api/v1/props/#{@get('id')}/upvotes", (data) =>
         @set data
 
-    undo_upvote: ->
+    undoUpvote: ->
       $.ajax 
-        url: "/api/v1/props/#{@get('id')}/undo_upvotes", 
-        type: 'DELETE', 
+        url: "/api/v1/props/#{@get('id')}/undo_upvotes",
+        type: 'DELETE',
         success: (data) => @set data
 
   class Entities.Props extends Entities.Collection
