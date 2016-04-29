@@ -76,6 +76,7 @@ export default class PropsList extends React.Component {
               upvotesCount={propData.upvotesCount}
               isUpvotePossible={propData.isUpvotePossible}
               onUpvote={item.upvote.bind(item)}
+              undoUpvote={item.undo_upvote.bind(item)}
             />
           }
         />
