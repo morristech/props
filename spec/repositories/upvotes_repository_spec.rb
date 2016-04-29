@@ -10,7 +10,7 @@ describe UpvotesRepository do
     let(:upvote) { Upvote.last }
 
     it 'creates an upvote' do
-      expect { repo.add(prop, user) }.to change { Upvote.count }.by(1)
+      expect { repo.add(prop, user) }.to change(Upvote, :count).by(1)
     end
 
     it 'increments upvotes_count on props' do
@@ -25,20 +25,20 @@ describe UpvotesRepository do
 
     context 'user upvoted the prop' do
       it 'removes an upvote' do
-        expect{ repo.remove(prop, user) }.to change{ Upvote.count }.by(-1)
+        expect { repo.remove(prop, user) }.to change(Upvote, :count).by(-1)
       end
 
-      it "decrements upvotes_count on props" do
+      it 'decrements upvotes_count on props' do
         expect { repo.remove(prop, user) }.to change { prop.reload.upvotes_count }.by(-1)
       end
     end
 
     context 'different user upvoted the prop' do
       it 'removes an upvote' do
-        expect{ repo.remove(prop, user2) }.to change{ Upvote.count }.by(0)
+        expect { repo.remove(prop, user2) }.to change(Upvote, :count).by(0)
       end
 
-      it "decrements upvotes_count on props" do
+      it 'decrements upvotes_count on props' do
         expect { repo.remove(prop, user2) }.to change { prop.reload.upvotes_count }.by(0)
       end
     end
