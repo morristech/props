@@ -1,5 +1,5 @@
 import React from 'react';
-import PaginatedProps from './paginated-props';
+import PaginatedProps from '../shared/paginated-props';
 
 export default class GivenProps extends React.Component {
   render() {
