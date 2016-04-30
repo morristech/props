@@ -4,6 +4,8 @@ import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from '../store/configure-store';
 
+import AppComponent from './app';
+import PropsContainer from './props/props-container';
 import UsersContainer from './users/users-container';
 import UserPropsContainer from './user/props-container';
 
@@ -15,8 +17,11 @@ function appContainer() {
   return (
     <Provider store={store}>
       <Router history={history}>
-        <Route path="/users" component={UsersContainer} />
-        <Route path="/users/:userId" component={UserPropsContainer} />
+        <Router path="/app" component={AppComponent}>
+          <Route path="props" component={PropsContainer} />
+          <Route path="users" component={UsersContainer} />
+          <Route path="users/:userId" component={UserPropsContainer} />
+        </Router>
       </Router>
     </Provider>
   );
