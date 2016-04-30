@@ -27,7 +27,7 @@ describe('user/thumb', () => {
   it('links to user page', () => {
     const element = TestUtils.findRenderedDOMComponentWithTag(component, 'a');
 
-    expect(element.getAttribute('href')).toEqual('/users/1');
+    expect(element.getAttribute('href')).toEqual('/app/users/1');
   });
 
   it('displays user avatar', () => {
