@@ -59,8 +59,8 @@ describe('navbar/navbar', () => {
 
       it('does have app links', () => {
         expect(component.links).toEqual([
-          { name: 'Props', url: '/app#props' },
-          { name: 'Users', url: '/users' },
+          { name: 'Props', url: '/app/props' },
+          { name: 'Users', url: '/app/users' },
         ]);
       });
     });
@@ -85,7 +85,7 @@ describe('navbar/navbar', () => {
       });
 
       it('only has link to app', () => {
-        expect(component.links).toEqual([{ name: 'App', url: '/app' }]);
+        expect(component.links).toEqual([{ name: 'App', url: '/app/props' }]);
       });
     });
   });

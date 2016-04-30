@@ -15,7 +15,7 @@ export default class Thumb extends React.Component {
 
     return (
       <div className="col-xs-6 col-sm-3 col-md-2">
-        <Link to={`/users/${id}`} className="thumbnail user-card">
+        <Link to={`/app/users/${id}`} className="thumbnail user-card">
           <img src={avatarUrl} />
           <div className="caption">
             {name}

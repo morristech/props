@@ -1,19 +1,7 @@
 class AuthenticatedController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :setup_gon, only: :main_app
+  before_action :authenticate_user!
 
-  def main_app; end
-
-  def users
+  def main_app
     render react_component: 'AppContainer'
-  end
-
-  private
-
-  def setup_gon
-    gon.push(
-      environment: Rails.env,
-      current_user: current_user,
-    )
   end
 end

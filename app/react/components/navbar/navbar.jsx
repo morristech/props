@@ -21,10 +21,10 @@ export default class Navbar extends React.Component {
     }
 
     if (this.props.isOnAppPage) {
-      return [{ name: 'Props', url: '/app#props' }, { name: 'Users', url: '/users' }];
+      return [{ name: 'Props', url: '/app/props' }, { name: 'Users', url: '/app/users' }];
     }
 
-    return [{ name: 'App', url: '/app' }];
+    return [{ name: 'App', url: '/app/props' }];
   }
 
   get user() {
@@ -46,7 +46,7 @@ export default class Navbar extends React.Component {
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <a className="navbar-logo" href="#">Props App</a>
+            <a className="navbar-logo" href="">Props App</a>
           </div>
 
           <div className="collapse navbar-collapse">
