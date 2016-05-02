@@ -105,10 +105,7 @@ describe Api::V1::Props do
     end
 
     context 'user is signed in' do
-      before do
-        sign_in(user)
-      end
-
+      before { sign_in(user) }
       after { sign_out }
 
       it 'increases prop upvotes count by 1' do
@@ -131,10 +128,7 @@ describe Api::V1::Props do
     end
 
     context 'user tries to undo upvote of different user' do
-      before do
-        sign_in(user2)
-      end
-
+      before { sign_in(user2) }
       after { sign_out }
 
       it 'undoes the upvote' do
@@ -143,10 +137,7 @@ describe Api::V1::Props do
       end
     end
     context 'user undoes own upvote' do
-      before do
-        sign_in(user)
-      end
-
+      before { sign_in(user) }
       after { sign_out }
 
       it 'undoes the upvote' do
