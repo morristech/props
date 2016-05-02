@@ -87,7 +87,6 @@ describe('props/vote', () => {
       it('runs passed undoUpvote handler when clicked', () => {
         const element = TestUtils
           .findRenderedDOMComponentWithClass(componentWithUndoButton, 'undo-upvote-button');
-        console.log(element);
         TestUtils.Simulate.click(element);
         expect(undoUpvote).toHaveBeenCalled();
       });
