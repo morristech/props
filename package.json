@@ -48,6 +48,7 @@
     "react-select": "^0.6.7",
     "react-webpack-rails": "^0.2.1",
     "redux": "^3.3.1",
+    "redux-form": "^5.2.3",
     "redux-thunk": "^2.0.1",
     "sass-loader": "^3.0.0",
     "webpack": "^1.12.1"
@@ -63,6 +64,6 @@
   },
   "license": "",
   "engines": {
-    "node": ">= 0.10"
+    "node": ">= 4.4"
   }
 }
