@@ -33,6 +33,7 @@ gem 'sass-rails'
 gem 'searchlight'
 gem 'sendgrid'
 gem 'skylight'
+gem 'slack-api'
 gem 'slack-notifier'
 gem 'sprockets-rails', '2.3.3' # temporary lock, JST does not work properly with sprockets 3
 gem 'thin'
