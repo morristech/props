@@ -3,12 +3,15 @@ class Notifier
     private
 
     def notify
-      channel.ping notification.to_s
+      channel.chat_postMessage(message)
     end
 
     def channel
-      @channel ||= ::Slack::Notifier.new(
-        AppConfig.slack.webhook_url, default_options)
+      @channel ||= Slack.client
+    end
+
+    def message
+      default_options.merge!(text: notification.to_s)
     end
 
     def default_options
