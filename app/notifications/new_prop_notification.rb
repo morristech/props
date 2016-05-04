@@ -5,7 +5,7 @@ class NewPropNotification < BaseNotification
 
   def body
     "#{prop_giver} just gave a prop to *#{prop_receivers_list}*: " \
-      "#{italicized_content} - [Check it out!](#{app_domain})"
+      "#{italicized_content} - <#{app_domain}|Check it out!>"
   end
 
   private
