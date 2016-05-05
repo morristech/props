@@ -5,6 +5,7 @@ en:
       user_limit: "Sorry, you can't add so many users"
       no_users: 'ooo... not even a single receiver here? Cmon!'
       archived_user: "wait wait... %{name} is archived! Stop hacking!"
+      no_upvote: "you didn't upvote that"
   activerecord:
     errors:
       models:

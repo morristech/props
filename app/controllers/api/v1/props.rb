@@ -106,6 +106,24 @@ module Api
               error!({ errors: upvote_prop.errors }, 422)
             end
           end
+
+          desc 'Undoes upvote on specific prop'
+          params do
+            requires :prop_id, type: Integer
+          end
+          delete :undo_upvotes do
+            undo_upvote_prop = ::Props::UndoUpvote.new(
+              prop: prop,
+              user: current_user,
+              upvotes_repository: upvotes_repository,
+            ).call
+
+            if undo_upvote_prop.success?
+              present undo_upvote_prop.data, with: Entities::Prop, current_user: current_user
+            else
+              error!({ errors: undo_upvote_prop.errors }, 422)
+            end
+          end
         end
       end
     end

@@ -5,11 +5,14 @@ AllCops:
     - 'config/**/*'
     - 'script/**/*'
     - 'Gemfile'
+    - 'Gemfile.lock'
     - 'Guardfile'
     - 'Rakefile'
   TargetRubyVersion: 2.2 # no 2.3 because of frozen strings comment (it's a little bit annoying right now
 Documentation:
   Enabled: false
+Metrics/LineLength:
+  Max: 100
 Rails/ActionFilter:
   Enabled: false
 Style/DotPosition:

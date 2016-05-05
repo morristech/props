@@ -67,8 +67,6 @@ export default class PropsList extends React.Component {
         isUpvotePossible: item.get('is_upvote_possible'),
       };
 
-      const onUpvote = item.upvote.bind(item);
-
       return (
         <PropComponent
           key={item.id}
@@ -77,7 +75,8 @@ export default class PropsList extends React.Component {
             <VoteComponent
               upvotesCount={propData.upvotesCount}
               isUpvotePossible={propData.isUpvotePossible}
-              onUpvote={onUpvote}
+              onUpvote={item.upvote.bind(item)}
+              undoUpvote={item.undoUpvote.bind(item)}
             />
           }
         />
