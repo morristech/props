@@ -1,8 +1,7 @@
-require 'slack'
+Slack.configure do |config|
+  config.token = AppConfig.slack.token
+end
 
-if AppConfig.slack.token.present?
-  Slack.configure do |config|
-    config.token = AppConfig.slack.token
-  end
-  Slack.auth_test
+Thread.new do
+  SlackBot.new.listen
 end
