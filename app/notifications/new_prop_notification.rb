@@ -1,12 +1,10 @@
 class NewPropNotification < BaseNotification
   include Rails.application.routes.url_helpers
 
-  attr_initialize :prop, :prop_receivers, :prop_giver, :content
-  attr_value :prop
-  attr_private :prop_receivers, :prop_giver, :content
+  vattr_initialize :prop
 
   def body
-    "#{prop_giver} just gave a prop to *#{prop_receivers_list}*: " \
+    "#{prop.propser} just gave a prop to *#{prop_receivers_list}*: " \
       "#{italicized_content} - <#{app_domain}|Check it out!>"
   end
 
@@ -17,12 +15,12 @@ class NewPropNotification < BaseNotification
   end
 
   def italicized_content
-    content.split("\n")
+    prop.body.split("\n")
            .map { |part_of_content| "_#{part_of_content}_" }
            .join("\n")
   end
 
   def prop_receivers_list
-    prop_receivers.to_a.join(', ')
+    prop.users.to_a.join(', ')
   end
 end

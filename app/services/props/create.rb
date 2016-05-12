@@ -26,11 +26,8 @@ module Props
     end
 
     def send_notification(prop)
-      notification = NewPropNotification.new prop,
-                                             prop.users,
-                                             prop.propser,
-                                             prop.body
-      Notifier.new(notification).call
+      notification = NewPropNotification.new prop
+      response = Notifier.new(notification).call
     end
   end
 end
