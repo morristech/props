@@ -473,6 +473,7 @@ DEPENDENCIES
   easy_tokens
   email_spec
   factory_girl_rails
+  faye-websocket
   ffaker
   foreman
   gon
