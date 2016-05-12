@@ -6,6 +6,7 @@ export default class Vote extends React.Component {
       onUpvote: React.PropTypes.func.isRequired,
       upvotesCount: React.PropTypes.number.isRequired,
       isUpvotePossible: React.PropTypes.bool.isRequired,
+      isUndoUpvotePossible: React.PropTypes.bool.isRequired,
       upVoting: React.PropTypes.bool,
       undoUpvote: React.PropTypes.func.isRequired,
     };
@@ -32,8 +33,9 @@ export default class Vote extends React.Component {
 
     return (
       <div className="btn-group pull-right">
-        { this.props.upvotesCount > 0 ? ratingButton : null }
-        { this.props.isUpvotePossible ? upvoteButton : undoUpvoteButton }
+        { this.props.upvotesCount > 0 && ratingButton }
+        { this.props.isUpvotePossible && upvoteButton }
+        { this.props.isUndoUpvotePossible && undoUpvoteButton }
       </div>
     );
   }
