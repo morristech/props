@@ -27,7 +27,7 @@ module Props
 
     def send_notification(prop)
       notification = NewPropNotification.new prop
-      response = Notifier.new(notification).call
+      Notifier.new(notification).call
     end
   end
 end
