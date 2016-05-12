@@ -1,7 +1,9 @@
 class NewPropNotification < BaseNotification
   include Rails.application.routes.url_helpers
 
-  pattr_initialize :prop_receivers, :prop_giver, :content
+  attr_initialize :prop, :prop_receivers, :prop_giver, :content
+  attr_value :prop
+  attr_private :prop_receivers, :prop_giver, :content
 
   def body
     "#{prop_giver} just gave a prop to *#{prop_receivers_list}*: " \
