@@ -3,11 +3,12 @@ class Notifier
     private
 
     def notify
-      channel.chat_postMessage(message)
+      response = channel.chat_postMessage(message)
+      notification.prop.update(slack_ts: response[:ts])
     end
 
     def channel
-      @channel ||= Slack.client
+      @channel ||= Slack::RealTime::Client.new.web_client
     end
 
     def message
