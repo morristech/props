@@ -19,4 +19,8 @@ class UsersRepository
       uid: auth['uid'].to_s,
     ).first || User.create_with_omniauth(auth)
   end
+
+  def user_from_slack(member)
+    find_by_email(member['profile']['email']) || User.create_from_slack(member)
+  end
 end

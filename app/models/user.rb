@@ -9,13 +9,39 @@ class User < ActiveRecord::Base
   end
 
   def self.create_with_omniauth(auth)
-    create! do |user|
-      user.provider = auth['provider']
-      user.uid = auth['uid']
-      if auth['info']
-        user.name = auth['info']['name'] || ''
-        user.email = auth['info']['email'] || ''
-      end
+    return update_with_omniauth(auth) if omniauth_user(auth)
+    create! omniauth_attrs(auth)
+  end
+
+  def self.update_with_omniauth(auth)
+    omniauth_user(auth).tap do |user|
+      user.update omniauth_attrs(auth)
     end
+  end
+
+  def self.create_from_slack(member)
+    create! slack_attrs(member)
+  end
+
+  def self.omniauth_user(auth)
+    find_by_email(auth['info']['email'])
+  end
+
+  def self.omniauth_attrs(auth)
+    {
+      provider: auth['provider'],
+      uid: auth['uid'],
+      name: auth['info']['name'] || '',
+      email: auth['info']['email'] || '',
+    }
+  end
+
+  def self.slack_attrs(member)
+    {
+      provider: 'slack',
+      uid: member['id'],
+      name: member['profile']['real_name'] || '',
+      email: member['profile']['email'] || '',
+    }
   end
 end
