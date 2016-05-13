@@ -1,4 +1,6 @@
 class SlackBot
+  attr_private :client
+
   def initialize
     @client = Slack::RealTime::Client.new
     set_lifecycle_listeners
@@ -6,7 +8,7 @@ class SlackBot
   end
 
   def listen
-    @client.start_async
+    client.start_async
   end
 
   private
@@ -18,15 +20,15 @@ class SlackBot
   end
 
   def reaction_added(data)
-    puts reaction(data).upvote
+    reaction(data).upvote
   end
 
   def reaction_removed(data)
-    puts reaction(data).undo_upvote
+    reaction(data).undo_upvote
   end
 
   def hello
-    puts "Connected to '#{@client.team.name}' team at https://#{@client.team.domain}.slack.com."
+    puts "Connected to '#{client.team.name}' team at https://#{client.team.domain}.slack.com."
   end
 
   def close
@@ -39,17 +41,17 @@ class SlackBot
 
   def set_reaction_listeners
     %i(reaction_added reaction_removed).each do |event|
-      @client.on(event) { |data| send(event, data) }
+      client.on(event) { |data| send(event, data) }
     end
   end
 
   def set_lifecycle_listeners
     %i(hello close closed).each do |event|
-      @client.on(event) { send(event) }
+      client.on(event) { send(event) }
     end
   end
 
   def user_profile(id)
-    @client.web_client.users_list[:members].detect { |member| member[:id] == id }
+    client.web_client.users_list[:members].detect { |member| member[:id] == id }
   end
 end

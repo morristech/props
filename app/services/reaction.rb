@@ -1,18 +1,6 @@
 class Reaction
   pattr_initialize :reaction, :ts, :user_profile
 
-  def propser
-    users_repository.user_from_slack(user_profile)
-  end
-
-  def thumbs_up?
-    reaction.include?('+1')
-  end
-
-  def prop
-    props_repository.find_by_slack_ts(ts)
-  end
-
   def upvote
     vote Props::Upvote
   end
@@ -21,19 +9,28 @@ class Reaction
     vote Props::UndoUpvote
   end
 
-  def vote(service)
-    return unless thumbs_up? && prop.present?
-    service.new(vote_attributes).call
+  def propser
+    users_repository.user_from_slack(user_profile)
+  end
+
+  def prop
+    props_repository.find_by_slack_ts(ts)
   end
 
   private
 
-  def vote_attributes
-    {
+  def thumbs_up?
+    reaction.include?('+1')
+  end
+
+  def vote(voting_service)
+    return unless thumbs_up? && prop.present?
+
+    voting_service.new(
       prop: prop,
       user: propser,
-      upvotes_repository: upvotes_repository,
-    }
+      upvotes_repository: upvotes_repository
+    ).call
   end
 
   def upvotes_repository
