@@ -5,6 +5,8 @@ class Notifier
     def notify
       response = channel.chat_postMessage(message)
       notification.prop.update(slack_ts: response[:ts])
+    rescue Slack::Web::Api::Error
+      return
     end
 
     def channel
