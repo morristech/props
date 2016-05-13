@@ -41,8 +41,8 @@
         "value": "default_channel",
         "required": false
       },
-      "SLACK_WEBHOOK_URL": {
-        "value": "webhook_url",
+      "SLACK_TOKEN": {
+        "value": "slack_token",
         "required": false
       }
     },
