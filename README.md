@@ -56,7 +56,7 @@ under `omniauth_provider_key` and `omniauth_provider_secret` values.
 
 Slack feature:
 
-In order to post props notifications and recieve thumbs-ups, you need to create a new Bot Integration and put its API token under `slack.token` in your secrets. Besides token, please provide `slack.default_channel` value (must be valid channel name, e.g. `#general`).
+In order to post props notifications and recieve thumbs-ups, you need to create a new Bot Integration and put its API token under `slack.token` in your secrets. Besides token, please provide `slack.default_channel` value (must be valid channel name, e.g. `general`).
 
 _Note: If you're going to use Heroku Free Dynos, please be aware that you app will sleep at least 6h a day - and because of that you may not receive all reactions from Slack._
 

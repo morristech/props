@@ -29,7 +29,7 @@ class Reaction
     voting_service.new(
       prop: prop,
       user: propser,
-      upvotes_repository: upvotes_repository
+      upvotes_repository: upvotes_repository,
     ).call
   end
 
