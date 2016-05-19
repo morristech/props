@@ -2,6 +2,7 @@ development: &defaults
   allowed_email_domains:
   app_domain: 'props.dev'
   domain_name: 'gapps-domain-name'
+  extra_domains: 'some-domain.org'
   emails:
     default_from: 'props@example.com'
   newrelic_license_key: 'newrelic_license_key'
@@ -23,6 +24,7 @@ production:
   <<: *defaults
   app_domain: <%= ENV['APP_DOMAIN'] %>
   domain_name: <%= ENV['GAPPS_DOMAIN_NAME'] %>
+  extra_domains: <%= ENV['EXTRA_DOMAINS'] %>
   emails:
     default_from: <%= ENV['EMAILS_DEFAULT_FROM'] %>
   omniauth_provider_key: <%= ENV['OMNIAUTH_KEY'] %>

@@ -24,13 +24,19 @@ class UsersRepository
     find_by_member(member) || User.create_from_slack(member)
   end
 
+  private
+
+  def allowed_domains
+      AppConfig.extra_domains.to_s.split(',') << AppConfig.domain_name.to_s
+  end
+
   def find_by_member(member)
     find_by_slack_email(member['profile']['email']) || find_by_name(member['profile']['real_name'])
   end
 
   def find_by_slack_email(email)
     local = email.split('@').first
-    emails = [email] | AppConfig.extra_domains.split(',').map { |domain| "#{local}@#{domain.strip}" }
+    emails = [email] | allowed_domains.map { |domain| "#{local}@#{domain.strip}" }
 
     all.where(email: emails).first
   end
