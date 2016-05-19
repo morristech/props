@@ -16,6 +16,9 @@
       "GAPPS_DOMAIN_NAME": {
         "value": "gapps_domain_name"
       },
+      "EXTRA_DOMAIN_NAMES": {
+        "value": "example.co, example.com"
+      },
       "EMAILS_DEFAULT_FROM": {
         "value": "props@example.com",
         "required": false
