@@ -21,13 +21,13 @@ class UsersRepository
   end
 
   def user_from_slack(member)
-    find_by_member(member) || User.create_from_slack(member)
+    find_by_member(member) || (report_matching_error(member) && User.create_from_slack(member))
   end
 
   private
 
   def allowed_domains
-      AppConfig.extra_domains.to_s.split(',') << AppConfig.domain_name.to_s
+    AppConfig.extra_domains.to_s.split(',') << AppConfig.domain_name.to_s
   end
 
   def find_by_member(member)
@@ -39,5 +39,9 @@ class UsersRepository
     emails = [email] | allowed_domains.map { |domain| "#{local}@#{domain.strip}" }
 
     all.where(email: emails).first
+  end
+
+  def report_matching_error(member)
+    Rollbar.error("Couldn't match slack member: #{member}")
   end
 end
