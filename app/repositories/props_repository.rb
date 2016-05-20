@@ -1,5 +1,5 @@
 class PropsRepository
-  delegate :find, to: :all
+  delegate :find, :find_by_slack_ts, to: :all
 
   def all
     Prop.includes(:users, :propser)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151217083621) do
+ActiveRecord::Schema.define(version: 20160512034901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20151217083621) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "upvotes_count", default: 0
+    t.string   "slack_ts"
   end
 
   add_index "props", ["propser_id"], name: "index_props_on_propser_id", using: :btree

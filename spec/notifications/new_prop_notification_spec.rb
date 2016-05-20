@@ -1,11 +1,17 @@
 require 'rails_helper'
 
 describe NewPropNotification do
-  let(:giver) { 'Kenny' }
-  let(:receivers) { %w(Bart Cartman Stan) }
+  let(:giver) { create(:user, name: 'Kenny') }
+  let(:receivers) do
+    [
+      create(:user, name: 'Bart'),
+      create(:user, name: 'Simmons'),
+    ]
+  end
 
   describe '#body' do
-    subject { described_class.new(receivers, giver, content).body }
+    let(:prop) { Prop.new(propser: giver, users: receivers, body: content) }
+    subject { described_class.new(prop).body }
 
     context 'when prop is single line' do
       let(:content) { 'Single line prop' }
