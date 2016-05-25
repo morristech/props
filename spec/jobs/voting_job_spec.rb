@@ -9,7 +9,7 @@ RSpec.describe VotingJob, type: :job do
   let(:ts) { '123.321' }
   let(:uid) { '123' }
   let(:type) { 'reaction_added' }
-  let(:reaction) { double() }
+  let(:reaction) { double }
 
   subject { described_class.perform_later(reaction_symbol, ts, uid, type) }
 

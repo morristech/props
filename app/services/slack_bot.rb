@@ -31,7 +31,7 @@ class SlackBot
         VotingJob.perform_later data[:reaction],
                                 data[:item][:ts],
                                 data[:user],
-                                data[:type],
+                                data[:type]
       end
     end
   end

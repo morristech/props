@@ -4,7 +4,7 @@ RSpec.describe NotifierJob, type: :job do
   include ActiveJob::TestHelper
 
   let(:prop) { create(:prop) }
-  let(:notifier) { double() }
+  let(:notifier) { double }
   subject { described_class.perform_later(prop.id) }
 
   before do

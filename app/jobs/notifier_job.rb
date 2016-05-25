@@ -8,7 +8,7 @@ class NotifierJob < ActiveJob::Base
   private
 
   def notification(prop_id)
-    prop =  Prop.find(prop_id)
+    prop = Prop.find(prop_id)
     NewPropNotification.new prop
   end
 end
