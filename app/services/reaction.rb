@@ -1,5 +1,5 @@
 class Reaction
-  pattr_initialize :reaction, :ts, :user_profile
+  pattr_initialize :reaction, :ts, :uid
 
   def upvote
     vote Props::Upvote
@@ -10,7 +10,7 @@ class Reaction
   end
 
   def propser
-    users_repository.user_from_slack(user_profile)
+    users_repository.user_from_slack(user_profile(uid))
   end
 
   def prop
@@ -19,18 +19,20 @@ class Reaction
 
   private
 
-  def thumbs_up?
-    reaction.include?('+1')
-  end
-
   def vote(voting_service)
-    return unless thumbs_up? && prop.present?
+    return unless prop.present?
 
     voting_service.new(
       prop: prop,
       user: propser,
       upvotes_repository: upvotes_repository,
     ).call
+  end
+
+  def user_profile(id)
+    Slack::RealTime::Client.new.web_client.users_list[:members].detect do |member|
+      member[:id] == id
+    end
   end
 
   def upvotes_repository
