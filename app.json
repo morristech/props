@@ -47,6 +47,19 @@
       "SLACK_TOKEN": {
         "value": "slack_token",
         "required": false
+      },
+      "REDIS_PROVIDER": {
+        "value": "REDISCLOUD_URL"
+      }
+    },
+    "formation": {
+      "web": {
+        "quantity": 1,
+        "size": "free"
+      },
+      "worker": {
+        "quantity": 1,
+        "size": "free"
       }
     },
     "scripts": {
