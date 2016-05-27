@@ -61,6 +61,7 @@
       }
     ],
     "addons": [
-        "heroku-postgresql:hobby-dev"
+        "heroku-postgresql:hobby-dev",
+        "rediscloud:30"
     ]
 }
