@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd /var/www/app
-exec bundle exec sidekiq --config ./config/sidekiq.yml
+exec bundle exec sidekiq -L log/sidekiq.log --config ./config/sidekiq.yml
