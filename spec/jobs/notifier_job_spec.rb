@@ -11,6 +11,11 @@ RSpec.describe NotifierJob, type: :job do
     allow(Notifier).to receive(:new) { notifier }
   end
 
+  after do
+    clear_enqueued_jobs
+    clear_performed_jobs
+  end
+
   it 'adds job to queue' do
     expect { subject }.to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by 1
   end
@@ -18,10 +23,5 @@ RSpec.describe NotifierJob, type: :job do
   it 'executes perform' do
     expect(notifier).to receive(:call)
     perform_enqueued_jobs { subject }
-  end
-
-  after do
-    clear_enqueued_jobs
-    clear_performed_jobs
   end
 end

@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe VotingJob, type: :job do
   include ActiveJob::TestHelper
 
-  # let(:prop) { create(:prop, slack_ts: '123.321') }
-
   let(:reaction_symbol) { '+1' }
   let(:ts) { '123.321' }
   let(:uid) { '123' }

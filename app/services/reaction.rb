@@ -30,8 +30,8 @@ class Reaction
   end
 
   def user_profile(id)
-    Slack::RealTime::Client.new.web_client.users_list[:members].detect do |member|
-      member[:id] == id
+    Slack::RealTime::Client.new.web_client.users_list.fetch(:members).detect do |member|
+      member.fetch(:id) == id
     end
   end
 
