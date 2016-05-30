@@ -1,5 +1,5 @@
 class Reaction
-  pattr_initialize :reaction, :ts, :uid
+  pattr_initialize :type, :item_ts, :uuid
 
   def upvote
     vote Props::Upvote
@@ -10,17 +10,21 @@ class Reaction
   end
 
   def propser
-    users_repository.user_from_slack(user_profile(uid))
+    users_repository.user_from_slack(user_profile(uuid))
   end
 
   def prop
-    props_repository.find_by_slack_ts(ts)
+    props_repository.find_by_slack_ts(item_ts)
   end
 
   private
 
+  def thumbs_up?
+    type.include?('+1')
+  end
+
   def vote(voting_service)
-    return unless prop.present?
+    return unless prop.present? & thumbs_up?
 
     voting_service.new(
       prop: prop,
