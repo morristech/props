@@ -8,7 +8,6 @@ class SlackBot
   end
 
   def listen
-    return if defined?(Rails::Console)
     client.start_async
   end
 
