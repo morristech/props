@@ -28,10 +28,10 @@ class SlackBot
   def set_reaction_listeners
     %i(reaction_added reaction_removed).each do |event|
       client.on(event) do |data|
-        VotingJob.perform_later data[:reaction],
-                                data[:item][:ts],
-                                data[:user],
-                                data[:type]
+        VotingJob.perform_later data.fetch(:reaction),
+                                data.fetch(:item).fetch(:ts),
+                                data.fetch(:user),
+                                data.fetch(:type)
       end
     end
   end
