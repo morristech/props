@@ -24,7 +24,7 @@ class Reaction
   end
 
   def vote(voting_service)
-    return unless prop.present? & thumbs_up?
+    return Response::Info.new(content: 'Nothing to upvote') unless prop.present? && thumbs_up?
 
     voting_service.new(
       prop: prop,

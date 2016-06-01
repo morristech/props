@@ -6,11 +6,9 @@ RSpec.describe VotingJob, type: :job do
   let!(:prop) { create(:prop, slack_ts: '123.321') }
   let!(:user) { create(:user, email: 'john@doe.com') }
 
-  let(:reaction_symbol) { ':+1:' }
   let(:ts) { '123.321' }
   let(:uuid) { '123' }
-  let(:upvote_service) { double }
-  let(:undo_upvote_service) { double }
+  let(:reaction_symbol) { ':+1:' }
 
   subject { described_class.perform_later(reaction_symbol, ts, uuid, type) }
 
@@ -18,9 +16,6 @@ RSpec.describe VotingJob, type: :job do
     allow_any_instance_of(Reaction).to receive(:user_profile) do
       { 'profile' => { 'email' => 'john@doe.com' } }
     end
-
-    allow(Props::Upvote).to receive(:new) { upvote_service }
-    allow(Props::UndoUpvote).to receive(:new) { undo_upvote_service }
   end
 
   after do
@@ -35,26 +30,41 @@ RSpec.describe VotingJob, type: :job do
       expect { subject }.to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by 1
     end
 
-    it 'calls Upvote service' do
-      expect(upvote_service).to receive(:call)
-      perform_enqueued_jobs { subject }
+    context 'reaction is +1' do
+      it 'creates new upvote' do
+        perform_enqueued_jobs do
+          expect { subject }.to change(Upvote, :count).by 1
+        end
+      end
+
+      context 'prop already upvoted by user' do
+        let!(:upvote) { create(:upvote, user: user, prop: prop) }
+
+        it 'does not create new upvote' do
+          perform_enqueued_jobs do
+            expect { subject }.to_not change(Upvote, :count)
+          end
+        end
+      end
     end
 
     context 'reaction is not +1' do
       let(:reaction_symbol) { ':smile:' }
 
-      it 'does not call Upvote service' do
-        expect(upvote_service).to_not receive(:call)
-        perform_enqueued_jobs { subject }
+      it 'does not create new upvote' do
+        perform_enqueued_jobs do
+          expect { subject }.to_not change(Upvote, :count)
+        end
       end
     end
 
     context 'ts does not match prop' do
       let(:ts) { 'wrong_ts' }
 
-      it 'does not call Upvote service' do
-        expect(upvote_service).to_not receive(:call)
-        perform_enqueued_jobs { subject }
+      it 'does not create new upvote' do
+        perform_enqueued_jobs do
+          expect { subject }.to_not change(Upvote, :count)
+        end
       end
     end
   end
@@ -66,26 +76,43 @@ RSpec.describe VotingJob, type: :job do
       expect { subject }.to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by 1
     end
 
-    it 'calls UndoUpvote service' do
-      expect(undo_upvote_service).to receive(:call)
-      perform_enqueued_jobs { subject }
-    end
+    context 'upvote exist' do
+      let!(:upvote) { create(:upvote, user: user, prop: prop) }
 
-    context 'reaction is not +1' do
-      let(:reaction_symbol) { ':smile:' }
+      context 'reaction is +1' do
+        it 'removes upvote' do
+          perform_enqueued_jobs do
+            expect { subject }.to change(Upvote, :count).by(-1)
+          end
+        end
+      end
 
-      it 'does not call UndoUpvote service' do
-        expect(undo_upvote_service).to_not receive(:call)
-        perform_enqueued_jobs { subject }
+      context 'reaction is not +1' do
+        let(:reaction_symbol) { ':smile:' }
+
+        it 'does not remove upvote' do
+          perform_enqueued_jobs do
+            expect { subject }.to_not change(Upvote, :count)
+          end
+        end
+      end
+
+      context 'ts does not match prop' do
+        let(:ts) { 'wrong_ts' }
+
+        it 'does not remove upvote' do
+          perform_enqueued_jobs do
+            expect { subject }.to_not change(Upvote, :count)
+          end
+        end
       end
     end
 
-    context 'reaction is not +1' do
-      let(:ts) { 'wrong_ts' }
-
-      it 'does not call UndoUpvote service' do
-        expect(undo_upvote_service).to_not receive(:call)
-        perform_enqueued_jobs { subject }
+    context 'upvote to undo does not exist' do
+      it 'does not remove upvote' do
+        perform_enqueued_jobs do
+          expect { subject }.to_not change(Upvote, :count)
+        end
       end
     end
   end
