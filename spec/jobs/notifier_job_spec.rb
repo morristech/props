@@ -28,6 +28,15 @@ RSpec.describe NotifierJob, type: :job do
     end
   end
 
+  context 'prop with given id does not exist' do
+    subject { described_class.perform_later(nil) }
+
+    it 'does not call Notifier service' do
+      expect(notifier).to_not receive(:call)
+      perform_enqueued_jobs { subject }
+    end
+  end
+
   context 'prop was notified before' do
     let!(:prop) { create(:prop, slack_ts: '123.321') }
 
