@@ -26,8 +26,7 @@ module Props
     end
 
     def send_notification(prop)
-      notification = NewPropNotification.new prop
-      Notifier.new(notification).call
+      NotifierJob.perform_later prop.id
     end
   end
 end

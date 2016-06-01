@@ -7,7 +7,7 @@ class Notifier
       notification.prop.update(slack_ts: response[:ts])
 
     rescue Slack::Web::Api::Error => err
-      puts "Sending slack notifaction failed. Reason: #{err}"
+      Rollbar.error "Sending slack notifaction failed. Reason: #{err}"
     end
 
     def channel

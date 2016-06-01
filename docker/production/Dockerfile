@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y libpq-dev
 
 ENV APP_HOME /var/www/app
 ENV RAILS_ENV=production
+ENV REDIS_URL=redis://redis:6379/0
 
 # set timezone
 RUN echo 'Europe/Warsaw' > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
@@ -23,6 +24,7 @@ RUN bundle install --jobs=8 --retry=3 --without development test --deployment
 
 ADD . $APP_HOME/
 ADD docker/production/entrypoint.sh /entrypoint.sh
+ADD docker/production/service/sidekiq /etc/service/sidekiq/run
 
 # set cron tasks
 RUN bundle exec whenever --update-crontab --set environment=production

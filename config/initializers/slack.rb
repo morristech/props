@@ -3,6 +3,8 @@ Slack::RealTime.configure do |config|
   config.concurrency = Slack::RealTime::Concurrency::Celluloid
 end
 
-Thread.new do
-  SlackBot.new.listen
+if defined? Rails::Server
+  Thread.new do
+    SlackBot.new.listen
+  end
 end
