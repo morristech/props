@@ -26,7 +26,7 @@ module Props
     end
 
     def send_notification(prop)
-      NotifierJob.perform_later prop.id
+      ::NotifierJob.perform_later prop.id
     end
   end
 end
