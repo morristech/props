@@ -37,8 +37,8 @@ RSpec.describe VotingJob, type: :job do
         end
       end
 
-      context 'prop already upvoted by user' do
-        let!(:upvote) { create(:upvote, user: user, prop: prop) }
+      context 'job performed before' do
+        before { perform_enqueued_jobs { subject } }
 
         it 'does not create new upvote' do
           perform_enqueued_jobs do
@@ -83,6 +83,16 @@ RSpec.describe VotingJob, type: :job do
         it 'removes upvote' do
           perform_enqueued_jobs do
             expect { subject }.to change(Upvote, :count).by(-1)
+          end
+        end
+      end
+
+      context 'job performed before' do
+        before { perform_enqueued_jobs { subject } }
+
+        it 'does not remove upvote' do
+          perform_enqueued_jobs do
+            expect { subject }.to_not change(Upvote, :count)
           end
         end
       end
