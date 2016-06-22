@@ -72,6 +72,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'bundler-audit', require: false
   gem 'factory_girl_rails'
   gem 'ffaker'
   gem 'guard-rubocop'

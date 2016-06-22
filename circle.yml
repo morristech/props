@@ -9,3 +9,6 @@ deployment:
 dependencies:
   cache_directories:
     - "node_modules"
+test:
+  pre:
+    - bundle exec rake bundler:audit
