@@ -1,6 +1,4 @@
-import {
-  SET_USERS_FILTER,
-} from '../constants/action-types';
+import { SET_USERS_FILTER } from '../constants/action-types';
 
 function usersFilter(state = '', action) {
   switch (action.type) {
