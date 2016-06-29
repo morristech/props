@@ -5,12 +5,14 @@ import {
   REQUEST_USER,
 } from '../constants/action-types';
 
-function user(state = {}, action) {
+const initialState = { props_count: { given: 0, received: 0 } };
+
+function user(state = initialState, action) {
   switch (action.type) {
   case RECEIVE_USER:
     return assign({}, state, action.user);
   case REQUEST_USER:
-    return {};
+    return assign({}, state, initialState);
   default:
     return state;
   }

@@ -4,11 +4,11 @@ import * as types from '../constants/action-types';
 
 describe('user reducer', () => {
   it('returns the initial state', () => {
-    expect(reducer(undefined, {})).toEqual({});
+    expect(reducer(undefined, {})).toEqual({ props_count: { given: 0, received: 0 } });
   });
 
   it('handles RECEIVE_USER', () => {
-    const userData = { userName: 'testUser' };
+    const userData = { props_count: { given: 0, received: 0 }, userName: 'testUser' };
 
     expect(
       reducer(undefined, {
@@ -28,7 +28,7 @@ describe('user reducer', () => {
         type: types.REQUEST_USER,
       })
     ).toEqual(
-      {}
+      { props_count: { given: 0, received: 0 }, userName: 'testUser' }
     );
   });
 });
