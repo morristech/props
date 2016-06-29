@@ -16,6 +16,7 @@
     "react/prefer-stateless-function": 0,
   },
   "parserOptions": {
+    "ecmaVersion": 6,
     "sourceType": "module"
   }
 }
