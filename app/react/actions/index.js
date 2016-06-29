@@ -1,5 +1,4 @@
-import fetch from 'isomorphic-fetch';
-
+import ParametricFetch from '../utilities/parametric-fetch';
 import {
   REQUEST_USER_PROPS,
   RECEIVE_USER_PROPS,
@@ -11,6 +10,8 @@ import {
   REQUEST_USERS,
   SET_USERS_FILTER,
 } from '../constants/action-types';
+
+const api = new ParametricFetch({ baseURI: '/api/v1' });
 
 function receiveUserProps(json) {
   return {
@@ -74,43 +75,45 @@ export function setUsersFilter(filter) {
 export function fetchUserProps(userId, page = 1, perPage = 25) {
   return dispatch => {
     dispatch(requestUserProps());
-    return fetch(`/api/v1/props?user_id=${userId}&page=${page}&per_page=${perPage}`, {
-      credentials: 'same-origin',
-    })
-    .then(req => req.json())
-    .then(json => dispatch(receiveUserProps(json)));
+    return api.fetchMe(
+      '/props',
+      {
+        user_id: userId,
+        page: page,
+        per_page: perPage,
+      }
+    ).then(json => dispatch(receiveUserProps(json)));
   };
 }
 
 export function fetchUserGivenProps(userId, page = 1, perPage = 25) {
   return dispatch => {
     dispatch(requestUserGivenProps());
-    return fetch(`/api/v1/props?propser_id=${userId}&page=${page}&per_page=${perPage}`, {
-      credentials: 'same-origin',
-    })
-    .then(req => req.json())
-    .then(json => dispatch(receiveUserGivenProps(json)));
+    return api.fetchMe(
+      '/props',
+      {
+        propser_id: userId,
+        page: page,
+        per_page: perPage,
+      }
+    ).then(json => dispatch(receiveUserGivenProps(json)));
   };
 }
 
 export function fetchUser(userId) {
   return dispatch => {
     dispatch(requestUser());
-    return fetch(`/api/v1/users/${userId}`, {
-      credentials: 'same-origin',
-    })
-    .then(req => req.json())
-    .then(json => dispatch(receiveUser(json)));
+    return api.fetchMe(
+      `/users/${userId}`
+    ).then(json => dispatch(receiveUser(json)));
   };
 }
 
 export function fetchUsers() {
   return dispatch => {
     dispatch(requestUsers());
-    return fetch('/api/v1/users', {
-      credentials: 'same-origin',
-    })
-    .then(req => req.json())
-    .then(json => dispatch(receiveUsers(json)));
+    return api.fetchMe(
+      '/users'
+    ).then(json => dispatch(receiveUsers(json)));
   };
 }
