@@ -14,5 +14,8 @@
   "rules": {
     "indent": [2, 2, {"SwitchCase": 0}],
     "react/prefer-stateless-function": 0,
+  },
+  "parserOptions": {
+    "sourceType": "module"
   }
 }
