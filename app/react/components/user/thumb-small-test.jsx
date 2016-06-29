@@ -24,6 +24,6 @@ describe('user/thumb-small', () => {
 
   it('links to user page', () => {
     const element = TestUtils.findRenderedDOMComponentWithTag(component, 'a');
-    expect(element.getAttribute('href')).toEqual('#users/1');
+    expect(element.getAttribute('href')).toEqual('/users/1');
   });
 });
