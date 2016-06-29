@@ -1,12 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import isEmpty from 'lodash/isEmpty';
-
 import { fetchUser, fetchUserProps, fetchUserGivenProps } from '../../actions/index.js';
 import PropsStats from './props-stats';
-import GivenProps from './given-props';
-import ReceivedProps from './received-props';
-
+import PropsComponent from './props-component';
 
 class PropsContainer extends React.Component {
   static get propTypes() {
@@ -27,6 +23,8 @@ class PropsContainer extends React.Component {
       }),
       onChangePageReceived: func.isRequired,
       onChangePageGiven: func.isRequired,
+      received_props_request: object,
+      given_props_request: object,
     };
   }
 
@@ -54,22 +52,16 @@ class PropsContainer extends React.Component {
     this.props.onChangePageGiven(userId, selected + 1);
   }
 
-  wrapWithLoader(isAsyncLoaded, component) {
-    if (isAsyncLoaded) {
-      return component;
-    }
-    return (<div className="loading" />);
-  }
-
   render() {
-    const { userName, archived, meta, receivedProps, givenProps } = this.props;
-
-    if (!userName || isEmpty(givenProps) || isEmpty(receivedProps)) {
-      return (
-        <div className="loading" />
-      );
+    if (!this.props.userName) {
+      return (<div />);
+    } else if (this.props.received_props_request || this.props.given_props_request) {
+      return (<div className="loading" />);
     }
 
+    const {
+      userName, archived, meta, receivedProps, givenProps,
+    } = this.props;
     return (
       <div>
         <PropsStats
@@ -79,14 +71,16 @@ class PropsContainer extends React.Component {
           archived={archived}
         />
 
-        <ReceivedProps
+        <PropsComponent
+          title={'Recieved Props'}
           props={receivedProps.props}
           totalPages={receivedProps.meta.total_pages}
           currentPage={receivedProps.meta.current_page}
           onClickPage={this.onClickReceivedPage}
         />
 
-        <GivenProps
+        <PropsComponent
+          title={'Given Props'}
           props={givenProps.props}
           totalPages={givenProps.meta.total_pages}
           currentPage={givenProps.meta.current_page}
@@ -98,16 +92,16 @@ class PropsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const propsCount = state.user.props_count || {};
-
   return {
     receivedProps: state.props.user_received_props,
     givenProps: state.props.user_given_props,
+    received_props_request: state.props.received_props_request,
+    given_props_request: state.props.given_props_request,
     userName: state.user.name,
     archived: state.user.archived,
     meta: {
-      receivedCount: propsCount.received || 0,
-      givenCount: propsCount.given || 0,
+      receivedCount: state.user.props_count.received,
+      givenCount: state.user.props_count.given,
     },
   };
 };

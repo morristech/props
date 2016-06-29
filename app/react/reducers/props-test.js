@@ -4,7 +4,15 @@ import * as types from '../constants/action-types';
 
 describe('props reducer', () => {
   it('returns the initial state', () => {
-    expect(reducer(undefined, {})).toEqual({ user_given_props: {}, user_received_props: {} });
+    expect(reducer(undefined, {}))
+    .toEqual(
+      {
+        given_props_request: true,
+        received_props_request: true,
+        user_given_props: {},
+        user_received_props: {},
+      }
+    );
   });
 
   it('handles RECEIVE_USER_PROPS', () => {
@@ -17,6 +25,8 @@ describe('props reducer', () => {
       })
     ).toEqual(
       {
+        given_props_request: true,
+        received_props_request: false,
         user_given_props: {},
         user_received_props: propsData,
       }
@@ -33,6 +43,8 @@ describe('props reducer', () => {
       })
     ).toEqual(
       {
+        given_props_request: false,
+        received_props_request: true,
         user_given_props: propsData,
         user_received_props: {},
       }
@@ -51,6 +63,7 @@ describe('props reducer', () => {
       })
     ).toEqual(
       {
+        given_props_request: true,
         user_given_props: {},
         user_received_props: {},
       }
@@ -69,6 +82,7 @@ describe('props reducer', () => {
       })
     ).toEqual(
       {
+        received_props_request: true,
         user_given_props: {},
         user_received_props: {},
       }
