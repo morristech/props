@@ -212,12 +212,6 @@ GEM
       rails-dom-testing (~> 1.0)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    js-routes (1.1.2)
-      railties (>= 3.2)
-      sprockets-rails
-    js_stack (1.11.1)
-      haml_coffee_assets (~> 1.16)
-      js-routes (>= 0.9.6)
     json (1.8.3)
     jwt (1.5.1)
     kaminari (0.16.3)
@@ -468,7 +462,6 @@ DEPENDENCIES
   hashie-forbidden_attributes
   html2haml
   jquery-rails
-  js_stack
   kaminari
   letter_opener
   lograge
@@ -502,4 +495,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   1.11.2
+   1.12.5
