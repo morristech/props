@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import { fetchProps } from '../../actions/index';
 
 import PaginatedProps from '../shared/paginated-props';
+import PropsForm from './props-form';
 
 class PropsContainer extends React.Component {
   static get propTypes() {
@@ -16,7 +17,6 @@ class PropsContainer extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.onClickPage = this.onClickPage.bind(this);
   }
 
@@ -28,7 +28,6 @@ class PropsContainer extends React.Component {
 
   onClickPage({ selected }) {
     const { dispatch } = this.props;
-
     dispatch(fetchProps(selected + 1));
   }
 
@@ -41,7 +40,7 @@ class PropsContainer extends React.Component {
 
     return (
       <div>
-        <h2> Placeholder for form</h2>
+        <PropsForm />
         <PaginatedProps
           props={props.props}
           totalPages={props.meta.total_pages}

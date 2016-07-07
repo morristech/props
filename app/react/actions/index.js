@@ -1,6 +1,10 @@
 import fetch from 'isomorphic-fetch';
 
 import {
+  CHANGE_THANKS_TEXT,
+  PROP_CREATED,
+  PROP_CREATION_ERRORS,
+  PROP_CREATION_REQUEST,
   RECEIVE_PROPS,
   REQUEST_PROPS,
   REQUEST_USER_PROPS,
@@ -12,6 +16,7 @@ import {
   RECEIVE_USERS,
   REQUEST_USERS,
   SET_USERS_FILTER,
+  SELECT_USERS,
 } from '../constants/action-types';
 
 function receiveProps(json) {
@@ -79,10 +84,67 @@ function requestUsers() {
   };
 }
 
+export function selectUsers(id) {
+  return {
+    type: SELECT_USERS,
+    id,
+  };
+}
+
 export function setUsersFilter(filter) {
   return {
     type: SET_USERS_FILTER,
     filter,
+  };
+}
+
+export function propCreated(prop) {
+  return {
+    type: PROP_CREATED,
+    prop,
+  };
+}
+
+export function propCreationErrors(errors) {
+  return {
+    type: PROP_CREATION_ERRORS,
+    errors,
+  };
+}
+
+export function propCreationRequest() {
+  return {
+    type: PROP_CREATION_REQUEST,
+  };
+}
+
+export function changeThanksTextChange(body){
+  return {
+    type: CHANGE_THANKS_TEXT,
+    body
+  };
+}
+
+export function createProp(formData) {
+  return dispatch => {
+    dispatch(propCreationRequest());
+    fetch('/api/v1/props', {
+      method: 'POST',
+      credentials: 'same-origin',
+      body: formData,
+    }).then(response => {
+      if (response.status === 200) {
+        response.json().then(function (object) {
+	        dispatch(propCreated(object));
+	      });
+      } else if (response.status === 422) {
+        response.json().then((object) => {
+          dispatch(propCreationErrors(object.errors));
+        })
+      } else {
+        console.log('something went terribly wrong');
+      }
+    });
   };
 }
 
