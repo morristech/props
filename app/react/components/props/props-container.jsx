@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import { fetchProps } from '../../actions/index';
 
 import PaginatedProps from '../shared/paginated-props';
-import PropsForm from './props-form';
+import PropsFormContainer from './props-form-container';
 
 class PropsContainer extends React.Component {
   static get propTypes() {
@@ -40,7 +40,7 @@ class PropsContainer extends React.Component {
 
     return (
       <div>
-        <PropsForm />
+        <PropsFormContainer />
         <PaginatedProps
           props={props.props}
           totalPages={props.meta.total_pages}
