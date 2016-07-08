@@ -64,7 +64,7 @@ function props(state = initialState, action) {
       props: [action.prop, ...state.props.props],
     });
     return assign({}, state, {
-      props: props,
+      props,
       selected_users: [],
       prop_creation_errors: [],
       prop_creation_request: false,
