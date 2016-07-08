@@ -26,6 +26,7 @@ Rails.application.configure do
   # Compress JavaScripts and CSS.
 
   # config.assets.css_compressor = :sass
+  config.secret_key_base = ENV['SECRET_KEY_BASE']
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false

@@ -3,12 +3,23 @@ class Notifier
     private
 
     def notify
-      channel.ping notification.to_s
+      response = channel.chat_postMessage(message)
+      notification.prop.update(slack_ts: response[:ts])
+
+    rescue Slack::Web::Api::Error => err
+      Rollbar.error "Sending slack notifaction failed. Reason: #{err}"
     end
 
     def channel
-      @channel ||= ::Slack::Notifier.new(
-        AppConfig.slack.webhook_url, default_options)
+      @channel ||= Slack::RealTime::Client.new.web_client
+    end
+
+    def message
+      default_options.merge!(text: notification.to_s)
+    end
+
+    def icon
+      %w(:beers: :ok_hand:).sample
     end
 
     def default_options
@@ -16,6 +27,7 @@ class Notifier
         channel: AppConfig.slack.default_channel,
         username: 'PropsApp',
         color: '#0092ca',
+        icon_emoji: icon,
       }
     end
   end

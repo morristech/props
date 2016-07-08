@@ -73,7 +73,7 @@ describe Api::V1::Props do
     context 'user is signed in' do
       before do
         sign_in(user)
-        allow(Slack::Notifier).to receive(:new).and_return(double(ping: true))
+        allow_any_instance_of(Notifier::SlackNotifier).to receive(:notify).and_return(double(ping: true))
         post '/api/v1/props', prop_params
       end
 
@@ -105,15 +105,44 @@ describe Api::V1::Props do
     end
 
     context 'user is signed in' do
-      before do
-        sign_in(user)
-      end
-
+      before { sign_in(user) }
       after { sign_out }
 
       it 'increases prop upvotes count by 1' do
         post "/api/v1/props/#{prop.id}/upvotes"
         expect(json_response['upvotes_count']).to eq 1
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/props/:prop_id/undo_upvotes' do
+    let(:prop) { create(:prop) }
+    let(:user2) { create(:user) }
+    let(:upvote) { create(:upvote, prop: prop, user: user2) }
+
+    context 'user is a guest' do
+      it 'returns unathorized response' do
+        delete "/api/v1/props/#{prop.id}/undo_upvotes"
+        expect(response).to have_http_status(401)
+      end
+    end
+
+    context 'user tries to undo upvote of different user' do
+      before { sign_in(user2) }
+      after { sign_out }
+
+      it 'undoes the upvote' do
+        delete "/api/v1/props/#{prop.id}/undo_upvotes"
+        expect(json_response['errors']).to eq(I18n.t('props.errors.no_upvote'))
+      end
+    end
+    context 'user undoes own upvote' do
+      before { sign_in(user) }
+      after { sign_out }
+
+      it 'undoes the upvote' do
+        delete "/api/v1/props/#{prop.id}/undo_upvotes"
+        expect(json_response['errors']).to eq(I18n.t('props.errors.no_upvote'))
       end
     end
   end

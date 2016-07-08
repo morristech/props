@@ -11,11 +11,16 @@ module Api
         expose :created_at
         expose :upvotes_count
         expose :is_upvote_possible
+        expose :is_undo_upvote_possible
 
         private
 
         def is_upvote_possible
           object.propser_id != current_user.id && !user_has_upvoted?
+        end
+
+        def is_undo_upvote_possible
+          object.propser_id != current_user.id && user_has_upvoted?
         end
 
         def user_has_upvoted?

@@ -10,7 +10,7 @@ set :docker_volumes, [
   "#{shared_path}/assets/javascripts/react_bundle.js:/var/www/app/app/assets/javascripts/react_bundle.js",
 ]
 
-set :docker_links, %w(postgres_ambassador:postgres)
+set :docker_links, %w(postgres_ambassador:postgres redis_ambassador:redis)
 set :docker_additional_options, -> { "--env-file #{shared_path}/envfile" }
 set :docker_dockerfile, "docker/production/Dockerfile"
 

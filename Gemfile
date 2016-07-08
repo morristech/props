@@ -7,6 +7,7 @@ gem 'airbrussh'
 gem 'animate-rails'
 gem 'app_konfig'
 gem 'attr_extras'
+gem 'celluloid-io', require: ['celluloid/current', 'celluloid/io']
 gem 'coffee-rails'
 gem 'decent_exposure'
 gem 'easy_tokens'
@@ -27,12 +28,14 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'pg'
 gem 'react_webpack_rails'
+gem 'redis-namespace'
 gem 'rollbar'
+gem 'sidekiq'
 gem 'sass-rails'
 gem 'searchlight'
 gem 'sendgrid'
 gem 'skylight'
-gem 'slack-notifier'
+gem 'slack-ruby-client'
 gem 'sprockets-rails', '2.3.3' # temporary lock, JST does not work properly with sprockets 3
 gem 'thin'
 gem 'uglifier'
@@ -45,6 +48,8 @@ gem 'capistrano-docker', github: 'netguru/capistrano-docker', tag: 'v0.2.6'
 source 'https://rails-assets.org' do
   gem 'rails-assets-select2', '3.5.2'
 end
+
+gem 'rails_12factor', group: :production
 
 group :development do
   gem 'better_errors'
