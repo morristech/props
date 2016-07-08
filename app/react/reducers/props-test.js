@@ -8,7 +8,7 @@ describe('props reducer', () => {
       {
         prop_creation_errors: {},
         prop_creation_request: false,
-        props: {},
+        props: { props: [], meta: {} },
         selected_users: [],
         thanksText: '',
         user_given_props: {},
@@ -29,7 +29,7 @@ describe('props reducer', () => {
       {
         prop_creation_errors: {},
         prop_creation_request: false,
-        props: {},
+        props: { props: [], meta: {} },
         selected_users: [],
         thanksText: '',
         user_given_props: {},
@@ -50,7 +50,7 @@ describe('props reducer', () => {
       {
         prop_creation_errors: {},
         prop_creation_request: false,
-        props: {},
+        props: { props: [], meta: {} },
         selected_users: [],
         thanksText: '',
         user_given_props: propsData,
@@ -137,6 +137,101 @@ describe('props reducer', () => {
         user_given_props: {},
         user_received_props: {},
         props: {},
+      }
+    );
+  });
+
+  it('handles CHANGE_THANKS_TEXT', () => {
+    const thanksText = 'thanks';
+
+    expect(
+      reducer(undefined, {
+        type: types.CHANGE_THANKS_TEXT,
+        body: thanksText,
+      })
+    ).toEqual(
+      {
+        prop_creation_errors: {},
+        prop_creation_request: false,
+        props: { props: [], meta: {} },
+        selected_users: [],
+        thanksText,
+        user_given_props: {},
+        user_received_props: {},
+      }
+    );
+  });
+
+  it('handles PROP_CREATION_REQUEST', () => {
+    expect(
+      reducer(undefined, {
+        type: types.PROP_CREATION_REQUEST,
+      })
+    ).toEqual(
+      {
+        prop_creation_errors: {},
+        prop_creation_request: true,
+        props: { props: [], meta: {} },
+        selected_users: [],
+        thanksText: '',
+        user_given_props: {},
+        user_received_props: {},
+      }
+    );
+  });
+
+  it('handles PROP_CREATION_ERRORS', () => {
+    const errors = { body: 'cannot be null' };
+    expect(
+      reducer(undefined, {
+        type: types.PROP_CREATION_ERRORS,
+        errors,
+      })
+    ).toEqual(
+      {
+        prop_creation_errors: errors,
+        prop_creation_request: false,
+        props: { props: [], meta: {} },
+        selected_users: [],
+        thanksText: '',
+        user_given_props: {},
+        user_received_props: {},
+      }
+    );
+  });
+
+  it('handles PROP_CREATED', () => {
+    const prop = {
+      body: 'prop body',
+      propser: {
+        id: 1,
+        avatarUrl: 'https://test1.img',
+        name: 'user name',
+      },
+      users: [{
+        id: 1,
+        avatarUrl: 'https://test1.img',
+        name: 'user name',
+      }],
+      createdAt: Date.parse('2015/10/10 12:00:00'),
+      upvotesCount: 10,
+      isUpvotePosssible: true,
+    };
+
+    expect(
+      reducer(undefined, {
+        type: types.PROP_CREATED,
+        prop,
+      })
+    ).toEqual(
+      {
+        prop_creation_errors: {},
+        prop_creation_request: false,
+        props: { meta: {}, props: [prop] },
+        selected_users: [],
+        thanksText: '',
+        user_given_props: {},
+        user_received_props: {},
       }
     );
   });

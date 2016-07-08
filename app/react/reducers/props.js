@@ -18,7 +18,7 @@ import {
 const initialState = {
   user_given_props: {},
   user_received_props: {},
-  props: {},
+  props: { props: [], meta: {} },
   selected_users: [],
   prop_creation_errors: {},
   prop_creation_request: false,
@@ -66,7 +66,7 @@ function props(state = initialState, action) {
     return assign({}, state, {
       props,
       selected_users: [],
-      prop_creation_errors: [],
+      prop_creation_errors: {},
       prop_creation_request: false,
       thanksText: '',
     });
