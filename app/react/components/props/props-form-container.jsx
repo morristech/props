@@ -1,6 +1,6 @@
 import { createProp, changeThanksTextChange, fetchUsers, selectUsers } from '../../actions/index';
 import { connect } from 'react-redux';
-import PropsForm from './props-form'
+import PropsForm from './props-form';
 
 const mapStateToProps = (state) => ({
   avatars: state.users
