@@ -5,7 +5,15 @@ import * as types from '../constants/action-types';
 describe('props reducer', () => {
   it('returns the initial state', () => {
     expect(reducer(undefined, {})).toEqual(
-      { user_given_props: {}, user_received_props: {}, props: {} }
+      {
+        prop_creation_errors: {},
+        prop_creation_request: false,
+        props: {},
+        selected_users: [],
+        thanksText: '',
+        user_given_props: {},
+        user_received_props: {},
+      }
     );
   });
 
@@ -19,9 +27,13 @@ describe('props reducer', () => {
       })
     ).toEqual(
       {
+        prop_creation_errors: {},
+        prop_creation_request: false,
+        props: {},
+        selected_users: [],
+        thanksText: '',
         user_given_props: {},
         user_received_props: propsData,
-        props: {},
       }
     );
   });
@@ -36,9 +48,13 @@ describe('props reducer', () => {
       })
     ).toEqual(
       {
+        prop_creation_errors: {},
+        prop_creation_request: false,
+        props: {},
+        selected_users: [],
+        thanksText: '',
         user_given_props: propsData,
         user_received_props: {},
-        props: {},
       }
     );
   });
@@ -53,9 +69,13 @@ describe('props reducer', () => {
       })
     ).toEqual(
       {
+        prop_creation_errors: {},
+        prop_creation_request: false,
+        props: propsData,
+        selected_users: [],
+        thanksText: '',
         user_given_props: {},
         user_received_props: {},
-        props: propsData,
       }
     );
   });

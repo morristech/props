@@ -118,10 +118,10 @@ export function propCreationRequest() {
   };
 }
 
-export function changeThanksTextChange(body){
+export function changeThanksTextChange(body) {
   return {
     type: CHANGE_THANKS_TEXT,
-    body
+    body,
   };
 }
 
@@ -134,13 +134,13 @@ export function createProp(formData) {
       body: formData,
     }).then(response => {
       if (response.status === 200) {
-        response.json().then(function (object) {
-	        dispatch(propCreated(object));
-	      });
+        response.json().then((object) =>
+          dispatch(propCreated(object))
+        );
       } else if (response.status === 422) {
-        response.json().then((object) => {
-          dispatch(propCreationErrors(object.errors));
-        })
+        response.json().then((object) =>
+          dispatch(propCreationErrors(object.errors))
+        );
       } else {
         console.log('something went terribly wrong');
       }

@@ -15,15 +15,15 @@ import {
   SELECT_USERS,
 } from '../constants/action-types';
 
-let initialState = {
+const initialState = {
   user_given_props: {},
   user_received_props: {},
   props: {},
   selected_users: [],
   prop_creation_errors: {},
   prop_creation_request: false,
-  thanksText: "",
-}
+  thanksText: '',
+};
 
 function props(state = initialState, action) {
   switch (action.type) {
@@ -68,7 +68,7 @@ function props(state = initialState, action) {
       selected_users: [],
       prop_creation_errors: [],
       prop_creation_request: false,
-      thanksText: "",
+      thanksText: '',
     });
   case PROP_CREATION_ERRORS:
     return assign({}, state, {

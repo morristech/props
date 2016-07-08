@@ -40,62 +40,67 @@ class PropsForm extends React.Component {
 
   onPropSubmit(event) {
     event.preventDefault();
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('user_ids', this.props.selected_users_ids);
     formData.append('body', event.target.getElementsByTagName('textarea')[0].value);
-    this.props.onPropSubmit(formData)
+    this.props.onPropSubmit(formData);
   }
 
-  onThanksTextChange(event){
+  onThanksTextChange(event) {
     this.props.onThanksTextChange(event.target.value);
   }
 
   bodyErrorClass() {
-    return classNames('form-group',{
-      'has-error': this.props.prop_creation_errors.body
+    return classNames('form-group', {
+      'has-error': this.props.prop_creation_errors.body,
     });
   }
 
-  renderBodyError(){
-    if(this.props.prop_creation_errors.body) {
+  selectErrorClass() {
+    return classNames('form-group', {
+      'has-error': this.props.prop_creation_errors.user_ids,
+    });
+  }
+
+  renderBodyError() {
+    if (this.props.prop_creation_errors.body) {
       return (
         <span className="help-block error">
           {this.props.prop_creation_errors.body[0]}
         </span>
       );
     }
+    return '';
   }
 
-  selectErrorClass() {
-    return classNames('form-group',{
-      'has-error': this.props.prop_creation_errors.user_ids
-    });
-  }
-
-  renderSelectError(){
-    if(this.props.prop_creation_errors.user_ids) {
+  renderSelectError() {
+    if (this.props.prop_creation_errors.user_ids) {
       return (
         <span className="help-block error">
           {this.props.prop_creation_errors.user_ids[0]}
         </span>
       );
     }
+    return '';
   }
 
   render() {
-    let {
+    const {
       prop_creation_request,
       avatars,
       thanksText,
-      users
+      users,
+      selected_users,
+      onSelectChange,
     } = this.props;
 
-    if(prop_creation_request) {
+    if (prop_creation_request) {
       return (
         <div className="loading" />
       );
     }
-    return(
+
+    return (
       <div classNameName="header-region row">
         <div className="jumbotron clearfix">
           <div className="form-region">
@@ -109,10 +114,10 @@ class PropsForm extends React.Component {
                         options={users}
                         multi={true}
                         optionComponent={UserOptionComponent}
-                        name='user_ids'
-                        placeholder='Whom do you want to give a prop to?'
-                        onChange={this.props.onSelectChange}
-                        value={this.props.selected_users}
+                        name="user_ids"
+                        placeholder="Whom do you want to give a prop to?"
+                        onChange={onSelectChange}
+                        value={selected_users}
                       />
                       {this.renderSelectError()}
                     </div>
@@ -125,7 +130,8 @@ class PropsForm extends React.Component {
                       rows="2"
                       placeholder="What do you want to thank for?"
                       value={thanksText}
-                      onChange={this.onThanksTextChange}>
+                      onChange={this.onThanksTextChange}
+                    >
                     </textarea>
                     { this.renderBodyError() }
                   </div>
@@ -134,7 +140,13 @@ class PropsForm extends React.Component {
               <footer className="form-footer">
                 <ul className="list-inline">
                   <li className="pull-right">
-                    <button className="form-button btn btn-primary" data-form-button="primary" type="submit">Prop!</button>
+                    <button
+                      className="form-button btn btn-primary"
+                      data-form-button="primary"
+                      type="submit"
+                    >
+                      Prop!
+                    </button>
                   </li>
                 </ul>
               </footer>
@@ -148,15 +160,15 @@ class PropsForm extends React.Component {
 
 const mapStateToProps = (state) => ({
   avatars: state.users
-    .filter((user) => {
-      return state.props.selected_users.includes(user.id.toString());
-    }).map((user) => {
-      return user.avatar_url;
-    }),
+    .filter((user) =>
+      state.props.selected_users.includes(user.id.toString())
+    ).map((user) =>
+      user.avatar_url
+    ),
   selected_users: state.users
-    .filter((user) => {
-      return state.props.selected_users.includes(user.id.toString());
-    }).map((user) => {
+    .filter((user) =>
+      state.props.selected_users.includes(user.id.toString())
+    ).map((user) => {
       return { value: user.id, label: user.name, avatarUrl: user.avatar_url };
     }),
   users: state.users.map((user) => {
@@ -168,24 +180,24 @@ const mapStateToProps = (state) => ({
   thanksText: state.props.thanksText,
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onPropSubmit: (formData) => {
-      dispatch(createProp(formData));
-    },
-    onThanksTextChange: (thanksText) => {
-      dispatch(changeThanksTextChange(thanksText));
-    },
-    onFormLoad: () => {
-      dispatch(fetchUsers());
-    },
-    onSelectChange: (id) => {
-      dispatch(selectUsers(id));
-    }
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  onPropSubmit: (formData) => {
+    dispatch(createProp(formData));
+  },
+  onThanksTextChange: (thanksText) => {
+    dispatch(changeThanksTextChange(thanksText));
+  },
+  onFormLoad: () => {
+    dispatch(fetchUsers());
+  },
+  onSelectChange: (id) => {
+    dispatch(selectUsers(id));
+  },
+});
 
-export default connect(
+const SwitchGraphs = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(PropsForm);
+
+export default SwitchGraphs;
