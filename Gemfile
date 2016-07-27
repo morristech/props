@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 4'
 
-gem 'active_model_serializers', github: 'rails-api/active_model_serializers', branch: '0-9-stable'
+gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers', branch: '0-9-stable'
 gem 'airbrussh'
 gem 'animate-rails'
 gem 'app_konfig'
@@ -44,7 +44,7 @@ gem 'whenever', require: false
 
 # deploy
 gem 'capistrano', '3.3.5'
-gem 'capistrano-docker', github: 'netguru/capistrano-docker', tag: 'v0.2.6'
+gem 'capistrano-docker', git: 'https://github.com/netguru/capistrano-docker', tag: 'v0.2.6'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-select2', '3.5.2'

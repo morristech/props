@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/netguru/capistrano-docker.git
+  remote: https://github.com/netguru/capistrano-docker
   revision: d32ef7aeb097e5491e5d0225c74c61fc965402cb
   tag: v0.2.6
   specs:
@@ -7,7 +7,7 @@ GIT
       capistrano (>= 3.2)
 
 GIT
-  remote: git://github.com/rails-api/active_model_serializers.git
+  remote: https://github.com/rails-api/active_model_serializers
   revision: 4ce4a6265cfdeb8f47d8b991ac922b7cfb878666
   branch: 0-9-stable
   specs:
@@ -566,4 +566,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   1.11.2
+   1.12.5
