@@ -2,11 +2,12 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 4'
 
-gem 'active_model_serializers', github: 'rails-api/active_model_serializers', branch: '0-9-stable'
+gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers', branch: '0-9-stable'
 gem 'airbrussh'
 gem 'animate-rails'
 gem 'app_konfig'
 gem 'attr_extras'
+gem 'celluloid-io', require: ['celluloid/current', 'celluloid/io']
 gem 'coffee-rails'
 gem 'decent_exposure'
 gem 'easy_tokens'
@@ -28,12 +29,14 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'pg'
 gem 'react_webpack_rails'
+gem 'redis-namespace'
 gem 'rollbar'
+gem 'sidekiq'
 gem 'sass-rails'
 gem 'searchlight'
 gem 'sendgrid'
 gem 'skylight'
-gem 'slack-notifier'
+gem 'slack-ruby-client'
 gem 'sprockets-rails', '2.3.3' # temporary lock, JST does not work properly with sprockets 3
 gem 'thin'
 gem 'uglifier'
@@ -41,7 +44,7 @@ gem 'whenever', require: false
 
 # deploy
 gem 'capistrano', '3.3.5'
-gem 'capistrano-docker', github: 'netguru/capistrano-docker', tag: 'v0.2.6'
+gem 'capistrano-docker', git: 'https://github.com/netguru/capistrano-docker', tag: 'v0.2.6'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-select2', '3.5.2'
@@ -69,6 +72,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'bundler-audit', require: false
   gem 'factory_girl_rails'
   gem 'ffaker'
   gem 'guard-rubocop'

@@ -73,7 +73,7 @@ describe Api::V1::Props do
     context 'user is signed in' do
       before do
         sign_in(user)
-        allow(Slack::Notifier).to receive(:new).and_return(double(ping: true))
+        allow_any_instance_of(Notifier::SlackNotifier).to receive(:notify).and_return(double(ping: true))
         post '/api/v1/props', prop_params
       end
 

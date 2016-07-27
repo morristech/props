@@ -11,6 +11,7 @@ describe('props/vote', () => {
     onUpvote,
     upvotesCount: 10,
     isUpvotePossible: true,
+    isUndoUpvotePossible: false,
     upVoting: false,
     undoUpvote: undoUpvote,
   };
@@ -79,7 +80,7 @@ describe('props/vote', () => {
   describe('undo upvote button', () => {
     describe('when isUpvotePossible flag is not set', () => {
       const componentWithUndoButton = TestUtils.renderIntoDocument(
-        <Vote {...defaultProps} isUpvotePossible={false}/>
+        <Vote {...defaultProps} isUpvotePossible={false} isUndoUpvotePossible/>
       );
 
       it('is visible', () => {

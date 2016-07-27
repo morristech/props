@@ -16,6 +16,9 @@
       "GAPPS_DOMAIN_NAME": {
         "value": "gapps_domain_name"
       },
+      "EXTRA_DOMAIN_NAMES": {
+        "value": "example.co, example.com"
+      },
       "EMAILS_DEFAULT_FROM": {
         "value": "props@example.com",
         "required": false
@@ -41,9 +44,22 @@
         "value": "default_channel",
         "required": false
       },
-      "SLACK_WEBHOOK_URL": {
-        "value": "webhook_url",
+      "SLACK_TOKEN": {
+        "value": "slack_token",
         "required": false
+      },
+      "REDIS_PROVIDER": {
+        "value": "REDISCLOUD_URL"
+      }
+    },
+    "formation": {
+      "web": {
+        "quantity": 1,
+        "size": "free"
+      },
+      "worker": {
+        "quantity": 1,
+        "size": "free"
       }
     },
     "scripts": {
@@ -58,6 +74,7 @@
       }
     ],
     "addons": [
-        "heroku-postgresql:hobby-dev"
+        "heroku-postgresql:hobby-dev",
+        "rediscloud:30"
     ]
 }
