@@ -23,7 +23,7 @@ class UsersContainer extends React.Component {
     const { users, usersFilter, onFilter } = this.props;
 
     return (
-      <UsersList { ...{ users, usersFilter, onFilter }} />
+      <UsersList {...{ users, usersFilter, onFilter }} />
     );
   }
 }

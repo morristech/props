@@ -13,7 +13,7 @@ describe('props/vote', () => {
     isUpvotePossible: true,
     isUndoUpvotePossible: false,
     upVoting: false,
-    undoUpvote: undoUpvote,
+    undoUpvote,
   };
   const component = TestUtils.renderIntoDocument(
     <Vote {...defaultProps} />

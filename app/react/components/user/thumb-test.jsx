@@ -16,7 +16,7 @@ const history = createMemoryHistory('/');
 describe('user/thumb', () => {
   const component = TestUtils.renderIntoDocument(
     <Router history={history}>
-      <Route path="/" component={() => <UserThumb {...props} /> } />
+      <Route path="/" component={() => <UserThumb {...props} />} />
     </Router>
   );
 

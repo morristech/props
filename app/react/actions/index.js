@@ -79,7 +79,7 @@ export function fetchUserProps(userId, page = 1, perPage = 25) {
       '/props',
       {
         user_id: userId,
-        page: page,
+        page,
         per_page: perPage,
       }
     ).then(json => dispatch(receiveUserProps(json)));
@@ -93,7 +93,7 @@ export function fetchUserGivenProps(userId, page = 1, perPage = 25) {
       '/props',
       {
         propser_id: userId,
-        page: page,
+        page,
         per_page: perPage,
       }
     ).then(json => dispatch(receiveUserGivenProps(json)));

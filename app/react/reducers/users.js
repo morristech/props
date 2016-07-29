@@ -6,10 +6,10 @@ import {
 
 function users(state = [], action) {
   switch (action.type) {
-  case RECEIVE_USERS:
-    return assign([], state, action.users);
-  default:
-    return state;
+    case RECEIVE_USERS:
+      return assign([], state, action.users);
+    default:
+      return state;
   }
 }
 

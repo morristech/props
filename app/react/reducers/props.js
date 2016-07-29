@@ -17,28 +17,28 @@ const initialState = {
 
 function props(state = initialState, action) {
   switch (action.type) {
-  case RECEIVE_USER_GIVEN_PROPS:
-    return merge({}, state, {
-      user_given_props: action.props,
-      given_props_request: false,
-    });
-  case RECEIVE_USER_PROPS:
-    return merge({}, state, {
-      user_received_props: action.props,
-      received_props_request: false,
-    });
-  case REQUEST_USER_GIVEN_PROPS:
-    return assign({}, state, {
-      user_given_props: {},
-      given_props_request: true,
-    });
-  case REQUEST_USER_PROPS:
-    return assign({}, state, {
-      user_received_props: {},
-      received_props_request: true,
-    });
-  default:
-    return state;
+    case RECEIVE_USER_GIVEN_PROPS:
+      return merge({}, state, {
+        user_given_props: action.props,
+        given_props_request: false,
+      });
+    case RECEIVE_USER_PROPS:
+      return merge({}, state, {
+        user_received_props: action.props,
+        received_props_request: false,
+      });
+    case REQUEST_USER_GIVEN_PROPS:
+      return assign({}, state, {
+        user_given_props: {},
+        given_props_request: true,
+      });
+    case REQUEST_USER_PROPS:
+      return assign({}, state, {
+        user_received_props: {},
+        received_props_request: true,
+      });
+    default:
+      return state;
   }
 }
 

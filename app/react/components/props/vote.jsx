@@ -33,9 +33,9 @@ export default class Vote extends React.Component {
 
     return (
       <div className="btn-group pull-right">
-        { this.props.upvotesCount > 0 && ratingButton }
-        { this.props.isUpvotePossible && upvoteButton }
-        { this.props.isUndoUpvotePossible && undoUpvoteButton }
+        {this.props.upvotesCount > 0 && ratingButton}
+        {this.props.isUpvotePossible && upvoteButton}
+        {this.props.isUndoUpvotePossible && undoUpvoteButton}
       </div>
     );
   }
