@@ -35,11 +35,11 @@ export default class Pagination extends React.Component {
   }
 }
 
-Object.defineProperty(Pagination, 'previousLabel', {value: 'previous'});
-Object.defineProperty(Pagination, 'nextLabel', {value: 'next'});
-Object.defineProperty(Pagination, 'breakLabel', {value: <a href="">...</a>});
-Object.defineProperty(Pagination, 'marginPagesDisplayed', {value: 2});
-Object.defineProperty(Pagination, 'pageRangeDisplayed', {value: 5});
-Object.defineProperty(Pagination, 'containerClassName', {value: 'pagination'});
-Object.defineProperty(Pagination, 'subContainerClassName', {value: "pages pagination"});
-Object.defineProperty(Pagination, 'activeClassName', {value: "active"});
+Object.defineProperty(Pagination, 'previousLabel', { value: 'previous' });
+Object.defineProperty(Pagination, 'nextLabel', { value: 'next' });
+Object.defineProperty(Pagination, 'breakLabel', { value: <a href="">...</a> });
+Object.defineProperty(Pagination, 'marginPagesDisplayed', { value: 2 });
+Object.defineProperty(Pagination, 'pageRangeDisplayed', { value: 5 });
+Object.defineProperty(Pagination, 'containerClassName', { value: 'pagination' });
+Object.defineProperty(Pagination, 'subContainerClassName', { value: 'pages pagination' });
+Object.defineProperty(Pagination, 'activeClassName', { value: 'active' });

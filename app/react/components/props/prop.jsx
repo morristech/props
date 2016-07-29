@@ -14,7 +14,7 @@ export default class Prop extends React.Component {
   render() {
     const createdAt = moment(this.props.prop.createdAt || this.props.prop.created_at).fromNow();
     const receivers = this.props.prop.users.map((receiver) => {
-      return <UserComponent user={receiver} key={receiver.id}/>;
+      return <UserComponent user={receiver} key={receiver.id} />;
     });
 
     return (
