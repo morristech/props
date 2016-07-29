@@ -12,14 +12,7 @@
     "renderComponent": true
   },
   "rules": {
-    "indent": [2, 2, {"SwitchCase": 0}],
-    "react/prefer-stateless-function": 0,
-  },
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    "import/no-unresolved": [0],
+    "import/no-extraneous-dependencies": [0]
   }
 }
