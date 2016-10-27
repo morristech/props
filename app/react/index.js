@@ -20,3 +20,6 @@ RWR.registerComponent('NavbarComponent', NavbarComponent);
 
 import PropsList from './containers/PropsList';
 RWRRedux.registerContainer('PropsList', PropsList);
+
+import UsersList from './containers/UsersList';
+RWRRedux.registerContainer('UsersList', UsersList);
