@@ -11,10 +11,10 @@
   %body
     = redux_store 'Store'
     %header
-      = react_component 'NavbarComponent',
-        isOnAppPage: controller_name == 'authenticated',
-        user: Api::V1::Entities::UserBase.new(current_user),
-        userSignedIn: current_user.present?
+      = redux_container 'Navbar',
+        props: { isOnAppPage: controller_name == 'authenticated',
+          user: Api::V1::Entities::UserBase.new(current_user),
+          userSignedIn: current_user.present?}
     %main
       .container
         #main-region

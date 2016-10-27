@@ -18,6 +18,9 @@ import NavbarComponent from './components/navbar/navbar';
 
 RWR.registerComponent('NavbarComponent', NavbarComponent);
 
+import Navbar from './containers/Navbar';
+RWRRedux.registerContainer('Navbar', Navbar);
+
 import PropsList from './containers/PropsList';
 RWRRedux.registerContainer('PropsList', PropsList);
 
