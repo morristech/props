@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
-
-import NavbarLinks from './navbar-links';
+import NavbarLink from './navbar-link';
 import NavbarSettings from './navbar-settings';
 
 export default class Navbar extends React.Component {
@@ -21,7 +20,7 @@ export default class Navbar extends React.Component {
     }
 
     if (this.props.isOnAppPage) {
-      return [{ name: 'Props',  url: '#props' }, { name: 'Users',  url: '#users' }];
+      return [{ name: 'Props', url: '/app' }, { name: 'Users', url: '/app/users' }];
     }
 
     return [{ name: 'App',  url: '/app' }];
@@ -32,6 +31,15 @@ export default class Navbar extends React.Component {
   }
 
   render() {
+    const getNavbarLinks = this.links.map(link => (
+      <NavbarLink key={link.url} link={link} onLinkClick={this.props.handleLinkClicked} />
+    ));
+
+    const handleLogoClick = (e) => {
+      e.preventDefault();
+      this.props.handleLinkClicked('/app');
+    }
+
     return (
       <div className="nav navbar navbar-default navbar-static-top">
         <div className="container">
@@ -45,11 +53,13 @@ export default class Navbar extends React.Component {
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <a className="navbar-logo" href="#">Props App</a>
+            <a className="navbar-logo" href="/app" onClick={handleLogoClick}>Props App</a>
           </div>
 
           <div className="collapse navbar-collapse">
-            <NavbarLinks links={this.links}/>
+            <ul className="nav navbar-nav">
+              {getNavbarLinks}
+            </ul>
             <NavbarSettings user={this.user} userSignedIn={this.props.userSignedIn} />
           </div>
         </div>

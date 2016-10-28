@@ -9,6 +9,7 @@ window.ReactDOM = ReactDOM;
 
 integrationsManager.register('redux-store', RWRRedux.storeIntegrationWrapper);
 integrationsManager.register('redux-container', RWRRedux.containerIntegrationWrapper);
+integrationsManager.register('redux-router', RWRRedux.routerIntegrationWrapper);
 
 
 import Store from './store/configure-store';
@@ -26,3 +27,6 @@ RWRRedux.registerContainer('PropsList', PropsList);
 
 import UsersList from './containers/UsersList';
 RWRRedux.registerContainer('UsersList', UsersList);
+
+import MainRoutes from './routes';
+RWRRedux.registerRoutes('MainRoutes', MainRoutes);
