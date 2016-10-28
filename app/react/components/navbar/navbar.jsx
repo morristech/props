@@ -1,29 +1,34 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import NavbarLink from './navbar-link';
 import NavbarSettings from './navbar-settings';
+import * as routerLinks from '../../constants/router-links';
 
 export default class Navbar extends React.Component {
   static get propTypes() {
     return {
       isOnAppPage: PropTypes.bool.isRequired,
-      user: PropTypes.shape({
-        name: PropTypes.string,
-        email: PropTypes.string,
-      }),
+      user: PropTypes.object,
       userSignedIn: PropTypes.bool.isRequired,
+      handleLinkClicked: PropTypes.func.isRequired,
     };
   }
 
   get links() {
     if (!this.props.userSignedIn) {
-      return [];
+      return null;
     }
 
     if (this.props.isOnAppPage) {
-      return [{ name: 'Props', url: '/app' }, { name: 'Users', url: '/app/users' }];
+      return {
+        isRoutable: true,
+        links: routerLinks.ROUTER_APP_LINKS,
+      };
     }
 
-    return [{ name: 'App',  url: '/app' }];
+    return {
+      isRoutable: false,
+      links: routerLinks.ROUTER_SETTINGS_LINKS,
+    };
   }
 
   get user() {
@@ -31,34 +36,48 @@ export default class Navbar extends React.Component {
   }
 
   render() {
-    const getNavbarLinks = this.links.map(link => (
-      <NavbarLink key={link.url} link={link} onLinkClick={this.props.handleLinkClicked} />
-    ));
+    const getNavbarLinks = (linksObject) => {
+      if (linksObject) {
+        return linksObject.links.map(link => (
+          <NavbarLink
+            key={link.url}
+            isRoutable={linksObject.isRoutable}
+            link={link}
+            onLinkClick={this.props.handleLinkClicked}
+          />
+        ));
+      }
+      return null;
+    };
 
     const handleLogoClick = (e) => {
-      e.preventDefault();
-      this.props.handleLinkClicked('/app');
-    }
+      if (this.props.isOnAppPage) {
+        e.preventDefault();
+        this.props.handleLinkClicked('/app');
+      }
+    };
 
     return (
       <div className="nav navbar navbar-default navbar-static-top">
         <div className="container">
           <div className="navbar-header">
-            <button className="navbar-toggle"
+            <button
+              className="navbar-toggle"
               data-target=".navbar-collapse"
               data-toggle="collapse"
-              type="button">
+              type="button"
+            >
               <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
+              <span className="icon-bar" />
+              <span className="icon-bar" />
+              <span className="icon-bar" />
             </button>
             <a className="navbar-logo" href="/app" onClick={handleLogoClick}>Props App</a>
           </div>
 
           <div className="collapse navbar-collapse">
             <ul className="nav navbar-nav">
-              {getNavbarLinks}
+              {getNavbarLinks(this.links)}
             </ul>
             <NavbarSettings user={this.user} userSignedIn={this.props.userSignedIn} />
           </div>

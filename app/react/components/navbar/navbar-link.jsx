@@ -8,6 +8,7 @@ export default class NavbarLink extends React.Component {
         name: PropTypes.string.isRequired,
       }),
       onLinkClick: PropTypes.func,
+      isRoutable: PropTypes.bool.isRequired,
     };
   }
 
@@ -18,8 +19,10 @@ export default class NavbarLink extends React.Component {
 
 
   handleClick(e) {
-    e.preventDefault();
-    this.props.onLinkClick(this.props.link.url);
+    if (this.props.isRoutable) {
+      e.preventDefault();
+      this.props.onLinkClick(this.props.link.url);
+    }
   }
 
   renderLinks() {
