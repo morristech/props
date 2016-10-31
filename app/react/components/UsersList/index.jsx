@@ -4,7 +4,7 @@ class UsersList extends Component {
   render() {
     return (
       <div>Users List View</div>
-    )
+    );
   }
 }
 

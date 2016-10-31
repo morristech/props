@@ -4,7 +4,7 @@ class PropsList extends Component {
   render() {
     return (
       <div>Props List View</div>
-    )
+    );
   }
 }
 

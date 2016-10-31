@@ -13,15 +13,15 @@ export default class Prop extends React.Component {
 
   render() {
     const createdAt = moment(this.props.prop.createdAt || this.props.prop.created_at).fromNow();
-    const receivers = this.props.prop.users.map((receiver) => {
-      return <UserComponent user={receiver} key={receiver.id}/>;
-    });
+    const receivers = this.props.prop.users.map(receiver =>
+      <UserComponent user={receiver} key={receiver.id} />
+    );
 
     return (
       <li className="row list-group-item props.prop-list-item">
         <div className="col-xs-12 prop-users">
-          <UserComponent user={this.props.prop.propser}/>
-          <i className="glyphicon glyphicon-chevron-right prop-to"></i>
+          <UserComponent user={this.props.prop.propser} />
+          <i className="glyphicon glyphicon-chevron-right prop-to" />
           {receivers}
         </div>
         <div className="col-xs-12 prop-content">
@@ -38,6 +38,6 @@ export default class Prop extends React.Component {
           </div>
         </div>
       </li>
-  );
+    );
   }
 }
