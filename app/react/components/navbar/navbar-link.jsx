@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 export default class NavbarLink extends React.Component {
   static get propTypes() {
