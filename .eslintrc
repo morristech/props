@@ -9,7 +9,8 @@
     "registerComponent": true,
     "createComponent": true,
     "getComponent": true,
-    "renderComponent": true
+    "renderComponent": true,
+    "jest": true
   },
   "rules": {
     "import/no-unresolved": [0],
