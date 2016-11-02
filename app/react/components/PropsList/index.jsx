@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import styles from './style.css';
 
 class PropsList extends Component {
   render() {
     return (
-      <div>Props List View</div>
+      <div className={styles.main}>Props List View</div>
     );
   }
 }
