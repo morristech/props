@@ -87,6 +87,6 @@
       "node_modules/chai/",
       "node_modules/chai-enzyme/"
     ],
-    "coveragePathIgnorePatterns": ["<rootDir>/vendor/", "<rootDir>/node_modules/"]
+    "testPathDirs": ["<rootDir>/app/react/"]
   }
 }
