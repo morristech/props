@@ -86,6 +86,7 @@
       "node_modules/enzyme/",
       "node_modules/chai/",
       "node_modules/chai-enzyme/"
-    ]
+    ],
+    "coveragePathIgnorePatterns": ["/vendor/"]
   }
 }
