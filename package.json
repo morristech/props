@@ -87,6 +87,6 @@
       "node_modules/chai/",
       "node_modules/chai-enzyme/"
     ],
-    "coveragePathIgnorePatterns": ["/vendor/"]
+    "coveragePathIgnorePatterns": ["<rootDir>/vendor/", "<rootDir>/node_modules/"]
   }
 }
