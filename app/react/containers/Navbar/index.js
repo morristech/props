@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import Navbar from '../../components/navbar/navbar';
+import { fetchProps } from '../../actions/props';
 
 
 const mapStateToProps = state => ({
@@ -9,6 +10,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleLinkClicked: (path) => {
     dispatch(push(path));
+  },
+  fetchInitialData: () => {
+    console.log('Will mount container');
+    dispatch(fetchProps());
   },
 });
 

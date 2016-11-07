@@ -13,6 +13,10 @@ export default class Navbar extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.props.fetchInitialData();
+  }
+
   get links() {
     if (!this.props.userSignedIn) {
       return null;
