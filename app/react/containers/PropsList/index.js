@@ -3,6 +3,7 @@ import PropsList from '../../components/PropsList';
 
 
 const mapStateToProps = state => ({
+  propsList: state.props,
 });
 
 const mapDispatchToProps = dispatch => ({

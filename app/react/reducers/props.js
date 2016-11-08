@@ -32,22 +32,15 @@ import {
 // }
 
 
-const props = (props = {}, action = {}) => {
+const props = (state = [], action = {}) => {
   switch (action.type) {
     case 'RECEIVE_ALL_PROPS':
-      let _props = {}
-      action.payload.props.props.forEach((prop) => {
-        _props = {
-          ..._props,
-          [prop.id]: prop,
-        };
-      });
-      return {
+      let props = action.payload.props.props;
+      return [
         ...props,
-        ..._props,
-      };
+      ];
     default:
-      return props;
+      return state;
   }
 };
 
