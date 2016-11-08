@@ -1,12 +1,22 @@
 import { connect } from 'react-redux';
 import PropsList from '../../components/PropsList';
+import { fetchProps } from '../../actions/props';
 
 
 const mapStateToProps = state => ({
   propsList: state.props,
+  hasPrevPage: state.propsPagination.hasPreviousPage,
+  hasNextPage: state.propsPagination.hasNextPage,
+  currentPage: state.propsPagination.currentPage,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, state) => ({
+  onPaginationPrev: (prevPage) => {
+    dispatch(fetchProps(prevPage));
+  },
+  onPaginationNext: (nextPage) => {
+    dispatch(fetchProps(nextPage));
+  },
 });
 
 export default connect(

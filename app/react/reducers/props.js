@@ -8,6 +8,8 @@ import {
   REQUEST_USER_GIVEN_PROPS,
 } from '../constants/action-types';
 
+
+
 // function props(state = {user_given_props: {}, user_received_props: {}}, action) {
 //   switch (action.type) {
 //   case RECEIVE_USER_GIVEN_PROPS:
@@ -31,10 +33,12 @@ import {
 //   }
 // }
 
+import { RECEIVE_PROPS } from '../constants/props';
+
 
 const props = (state = [], action = {}) => {
   switch (action.type) {
-    case 'RECEIVE_ALL_PROPS':
+    case RECEIVE_PROPS:
       let props = action.payload.props.props;
       return [
         ...props,
