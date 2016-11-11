@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Pagination from '../Shared/Pagination';
-import styles from './style.css';
+import Prop from './Prop';
 
 class PropsList extends Component {
   render() {
@@ -23,14 +23,14 @@ class PropsList extends Component {
     };
 
     return (
-      <div className={styles.main}>
-        <h1>Props List View</h1>
+      <div>
         {
           this.props.propsList.map(prop =>
             <div>
-              <h2>{prop.body}</h2>
-              Propser: <strong>{prop.propser.name}</strong>
-              <hr />
+              <Prop
+                prop={prop}
+                voteComponent={null}
+              />
             </div>
           )
         }
