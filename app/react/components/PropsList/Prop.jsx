@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
+import cx from 'classnames';
+import styles from './style.css';
 
 import UserComponent from '../UsersList/User';
 
@@ -10,7 +12,13 @@ const Prop = ({ prop, voteComponent }) => {
   );
 
   return (
-    <li className="row list-group-item props.prop-list-item">
+    <li
+      className={cx(
+        'row',
+        'list-group-item',
+        styles.prop,
+      )}
+    >
       <div className="col-xs-12 prop-users">
         <UserComponent user={prop.propser} />
         <i className="glyphicon glyphicon-chevron-right prop-to" />

@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './style.css';
 
 export default class Pagination extends React.Component {
   static get propTypes() {
@@ -30,7 +31,7 @@ export default class Pagination extends React.Component {
     );
 
     return (
-      <nav>
+      <nav className={styles.main}>
         <ul className="pagination">
           {this.props.hasPreviousPage ? prevButton : null}
           <li className="current-page">
