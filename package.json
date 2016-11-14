@@ -89,6 +89,9 @@
       "node_modules/chai/",
       "node_modules/chai-enzyme/"
     ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/app/react/__mocks__/styleMock.js"
+    },
     "testPathDirs": [
       "<rootDir>/app/react/"
     ]
