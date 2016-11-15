@@ -88,7 +88,8 @@
       "node_modules/react/",
       "node_modules/enzyme/",
       "node_modules/chai/",
-      "node_modules/chai-enzyme/"
+      "node_modules/chai-enzyme/",
+      "node_modules/lodash/"
     ],
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/app/react/__mocks__/styleMock.js"

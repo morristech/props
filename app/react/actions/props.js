@@ -4,7 +4,7 @@ import { RECEIVE_PROPS, RECEIVE_PROPS_PAGE } from '../constants/props';
 export const receiveProps = props => ({
   type: RECEIVE_PROPS,
   payload: {
-    props,
+    props: props.props,
   },
 });
 
@@ -23,7 +23,6 @@ export const fetchProps = (page = 1) => dispatch => {
   })
   .then(req => req.json())
   .then((json) => {
-    console.log(json)
     dispatch(receiveProps(json));
     dispatch(receivePropsPage(json));
   });

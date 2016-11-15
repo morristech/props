@@ -13,7 +13,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(push(path));
   },
   fetchInitialData: () => {
-    console.log('Will mount container');
     dispatch(fetchProps());
     dispatch(fetchUsers());
   },
