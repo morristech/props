@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-expressions */
-import React from 'react';
 import chaiEnzyme from 'chai-enzyme';
 import chai, { expect } from 'chai';
 import reducer from '../props';
@@ -24,7 +23,7 @@ const normalizedTestData = [
   },
 ];
 
-describe('user reducer', () => {
+describe('props reducer', () => {
   it('returns the initial state', () => {
     expect(reducer(undefined, { type: '' })).deep.equal([]);
   });
