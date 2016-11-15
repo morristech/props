@@ -21,7 +21,7 @@ const wrapper = shallow(
   />
 );
 
-describe('<Pagination />', () => {
+describe('<PropsList />', () => {
   it('renders', () => {
     expect(wrapper).to.exist;
   });

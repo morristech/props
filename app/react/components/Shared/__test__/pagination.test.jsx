@@ -3,9 +3,9 @@ import React from 'react';
 import chaiEnzyme from 'chai-enzyme';
 import { shallow, mount } from 'enzyme';
 import chai, { expect } from 'chai';
-import Pagination from '../Pagination';
+import Pagination from '../pagination';
 
-jest.unmock('../Pagination');
+jest.unmock('../pagination');
 chai.use(chaiEnzyme());
 
 const prevPageHandlerMock = () => {}
