@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Pagination from '../shared/pagination';
+import Pagination from '../Shared/Pagination';
 import Prop from './Prop';
 
 const PropsList = ({
