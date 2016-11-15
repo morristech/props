@@ -23,6 +23,7 @@ export const fetchProps = (page = 1) => dispatch => {
   })
   .then(req => req.json())
   .then((json) => {
+    console.log(json)
     dispatch(receiveProps(json));
     dispatch(receivePropsPage(json));
   });

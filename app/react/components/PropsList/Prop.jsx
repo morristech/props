@@ -3,12 +3,12 @@ import moment from 'moment';
 import cx from 'classnames';
 import styles from './style.css';
 
-import UserComponent from '../UsersList/User';
+import UserComponent from '../../containers/UsersList/User';
 
 const Prop = ({ prop, voteComponent }) => {
   const createdAt = moment(prop.createdAt || prop.created_at).fromNow();
   const receivers = prop.users.map(receiver =>
-    <UserComponent user={receiver} key={receiver.id} />
+    <UserComponent userId={receiver} key={receiver} />
   );
 
   return (
@@ -20,7 +20,7 @@ const Prop = ({ prop, voteComponent }) => {
       )}
     >
       <div className="col-xs-12 prop-users">
-        <UserComponent user={prop.propser} />
+        <UserComponent userId={prop.propser} />
         <i className="glyphicon glyphicon-chevron-right prop-to" />
         {receivers}
       </div>
@@ -46,7 +46,7 @@ Prop.propTypes = {
     created_at: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
     users: PropTypes.array.isRequired,
-    propser: PropTypes.object.isRequired,
+    propser: PropTypes.number.isRequired,
 
   }),
   voteComponent: PropTypes.element,
