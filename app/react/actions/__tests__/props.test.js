@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import React from 'react';
 import chaiEnzyme from 'chai-enzyme';
-import { shallow } from 'enzyme';
 import chai, { expect } from 'chai';
 
 import * as actions from '../props';
@@ -24,7 +22,7 @@ const testData = {
 };
 
 
-describe('actions', () => {
+describe('props actions', () => {
   it('should create an action to receive props', () => {
     const expectedAction = {
       type: RECEIVE_PROPS,
