@@ -8,12 +8,12 @@ export const receiveUsers = users => ({
   },
 });
 
-export const fetchUsers = () => dispatch => {
-  return fetch('/api/v1/users', {
+export const fetchUsers = () => dispatch => (
+  fetch('/api/v1/users', {
     credentials: 'same-origin',
   })
   .then(req => req.json())
   .then((json) => {
     dispatch(receiveUsers(json));
-  });
-};
+  })
+);

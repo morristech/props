@@ -10,6 +10,7 @@ export default class Navbar extends React.Component {
       user: PropTypes.object,
       userSignedIn: PropTypes.bool.isRequired,
       handleLinkClicked: PropTypes.func.isRequired,
+      fetchInitialData: PropTypes.func.isRequired,
     };
   }
 

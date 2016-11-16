@@ -8,8 +8,8 @@ import Pagination from '../pagination';
 jest.unmock('../pagination');
 chai.use(chaiEnzyme());
 
-const prevPageHandlerMock = () => {}
-const nextPageHandlerMock = () => {}
+const prevPageHandlerMock = () => {};
+const nextPageHandlerMock = () => {};
 const pageNumber = 2;
 
 const wrapper = mount(

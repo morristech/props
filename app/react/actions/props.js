@@ -17,13 +17,13 @@ export const receivePropsPage = props => ({
   },
 });
 
-export const fetchProps = (page = 1) => dispatch => {
-  return fetch(`/api/v1/props?page=${page}`, {
+export const fetchProps = (page = 1) => dispatch => (
+  fetch(`/api/v1/props?page=${page}`, {
     credentials: 'same-origin',
   })
   .then(req => req.json())
   .then((json) => {
     dispatch(receiveProps(json));
     dispatch(receivePropsPage(json));
-  });
-};
+  })
+);
