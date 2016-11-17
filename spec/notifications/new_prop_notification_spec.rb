@@ -16,7 +16,7 @@ describe NewPropNotification do
     context 'when prop is single line' do
       let(:content) { 'Single line prop' }
       let(:part_of_expected_result) do
-        "_#{content}_"
+        "_ #{content} _"
       end
 
       it 'returns italized content' do
@@ -27,7 +27,7 @@ describe NewPropNotification do
     context 'when prop is multi line' do
       let(:content) { "Multi\nline\nprop" }
       let(:part_of_expected_result) do
-        "_Multi_\n_line_\n_prop_"
+        "_ Multi _\n_ line _\n_ prop _"
       end
 
       it 'returns italizes each line in content' do
