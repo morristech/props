@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-expressions */
+import _noop from 'lodash/noop';
 import React from 'react';
 import chaiEnzyme from 'chai-enzyme';
 import { shallow } from 'enzyme';
@@ -8,15 +9,13 @@ import PropsList from '../index';
 jest.unmock('../index');
 chai.use(chaiEnzyme());
 
-const mockPageHandler = () => {};
-
 const wrapper = shallow(
   <PropsList
     propsList={[]}
     hasPrevPage
     hasNextPage
-    onPaginationPrev={mockPageHandler}
-    onPaginationNext={mockPageHandler}
+    onPaginationPrev={_noop}
+    onPaginationNext={_noop}
     currentPage={2}
   />
 );

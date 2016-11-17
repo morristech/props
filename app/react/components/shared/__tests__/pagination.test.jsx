@@ -8,8 +8,8 @@ import Pagination from '../pagination';
 jest.unmock('../pagination');
 chai.use(chaiEnzyme());
 
-const prevPageHandlerMock = () => {};
-const nextPageHandlerMock = () => {};
+const prevPageHandlerMock = jest.fn();
+const nextPageHandlerMock = jest.fn();
 const pageNumber = 2;
 
 const wrapper = mount(
@@ -56,14 +56,24 @@ describe('<Pagination />', () => {
   });
 });
 
-describe('When hasPreviousPage prop is false', () => {
-  it('is not visible', () => {
+describe('Previous page link ', () => {
+  it('is not visible when hasPreviousPage prop is false', () => {
     expect(wrapperWithNoPrev.find('.previous-page')).to.not.exist;
+  });
+
+  it('calls previous page handler', () => {
+    wrapper.find('.previous-page').simulate('click');
+    expect(prevPageHandlerMock.mock.calls.length).equal(1);
   });
 });
 
-describe('When hasNextPage prop is false', () => {
-  it('is not visible', () => {
+describe('Next page link', () => {
+  it('is not visible when hasNextPage prop is false', () => {
     expect(wrapperWithNoNext.find('.next-page')).to.not.exist;
+  });
+
+  it('calls previous page handler', () => {
+    wrapper.find('.next-page').simulate('click');
+    expect(nextPageHandlerMock.mock.calls.length).equal(1);
   });
 });
