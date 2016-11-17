@@ -48,8 +48,8 @@ Console](https://code.google.com/apis/console) and creating new project there.
 
 Development endpoints:
 
-- http://props.dev
-- http://props.dev/auth/google_oauth2/callback
+* http://props.dev
+* http://props.dev/auth/google_oauth2/callback
 
 When you have the credentials, put them in the `config/secrets.yml` file
 under `omniauth_provider_key` and `omniauth_provider_secret` values.
