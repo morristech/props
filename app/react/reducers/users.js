@@ -3,13 +3,10 @@ import { RECEIVE_USERS } from '../constants/users';
 
 const users = (state = {}, action = {}) => {
   switch (action.type) {
-    case RECEIVE_USERS: {
-      const normalizedUsers = {};
-      action.payload.users.forEach((user) => {
-        normalizedUsers[user.id] = user;
-      });
-      return assign({}, state, normalizedUsers);
-    }
+    case RECEIVE_USERS:
+      return assign({}, state,
+        ...action.payload.users.map(user => ({ [user.id]: user }))
+      );
     default:
       return state;
   }

@@ -22,15 +22,13 @@ const PropsList = ({
 
   return (
     <div>
-      {
-        propsList.map(prop =>
-          <Prop
-            key={prop.id}
-            prop={prop}
-            voteComponent={null}
-          />
-        )
-      }
+      {propsList.map(prop =>
+        <Prop
+          key={prop.id}
+          prop={prop}
+          voteComponent={null}
+        />
+      )}
       <Pagination
         hasPreviousPage={hasPrevPage}
         hasNextPage={hasNextPage}

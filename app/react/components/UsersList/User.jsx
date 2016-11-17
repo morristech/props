@@ -1,36 +1,21 @@
 import React, { PropTypes } from 'react';
 
-export default class User extends React.Component {
-  static get propTypes() {
-    return {
-      userObject: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        avatar_url: PropTypes.string.isRequired,
-      }),
-    };
-  }
+const User = ({ userObject }) => {
+  if (!userObject) { return null; }
 
-  render() {
-    const {
-      userObject,
-    } = this.props;
+  return (
+    <a className="props-receiver-avatar" href={`#users/${userObject.id}`}>
+      <img src={userObject.avatar_url} title={userObject.name} alt="avatar" />
+    </a>
+  );
+};
 
-    let user = null;
+User.propTypes = {
+  userObject: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    avatar_url: PropTypes.string.isRequired,
+  }),
+};
 
-
-    if (userObject) {
-      const reveiverUrl = `#users/${userObject.id}`;
-      user =
-      (
-        <a className="props-receiver-avatar" href={reveiverUrl}>
-          <img src={userObject.avatar_url} title={userObject.name} alt="avatar" />
-        </a>
-      );
-    }
-
-    return (
-      <div>{ user }</div>
-    );
-  }
-}
+export default User;
