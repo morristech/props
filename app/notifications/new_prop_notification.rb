@@ -16,8 +16,8 @@ class NewPropNotification < BaseNotification
 
   def italicized_content
     prop.body.split("\n")
-           .map { |part_of_content| "_#{part_of_content}_" }
-           .join("\n")
+        .map { |part_of_content| "_ #{part_of_content} _" }
+        .join("\n")
   end
 
   def prop_receivers_list
