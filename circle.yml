@@ -9,6 +9,10 @@ deployment:
     branch: production
     commands:
       - bundle exec cap production deploy
+  staging:
+    branch: new-js-architecture
+    heroku:
+      appname: netgutu-props-staging
 dependencies:
   cache_directories:
     - "node_modules"
