@@ -12,7 +12,7 @@ deployment:
   staging:
     branch: new-js-architecture
     heroku:
-      appname: netgutu-props-staging
+      appname: netguru-props-staging
 dependencies:
   cache_directories:
     - "node_modules"
