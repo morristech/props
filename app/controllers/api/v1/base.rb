@@ -5,7 +5,7 @@ module Api
       mount Api::V1::Users
       mount Api::V1::Rankings
 
-      add_swagger_documentation base_path: '/api',
+      add_swagger_documentation base_path: '/api/v1',
                                 api_version: 'v1',
                                 hide_documentation_path: true
     end

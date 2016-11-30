@@ -4,3 +4,18 @@ shared_context 'a successful JSON request' do
     expect(response.content_type).to eq 'application/json'
   end
 end
+
+shared_context 'token accessible api' do
+  let(:path) { '' }
+  let(:method) { :get }
+  let(:params) { {} }
+  let(:user) { create(:user) }
+  let(:expected_status) { 200 }
+  let!(:token) { EasyTokens::Token.create(value: 'secret_token', owner: user) }
+  let(:request) { send(method, path + '?api_key=secret_token', params) }
+
+  it 'returns unathorized response' do
+    request
+    expect(response).to have_http_status(expected_status)
+  end
+end

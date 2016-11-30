@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    @current_user ||= session_user || api_user
   end
 
   def user_signed_in?
@@ -25,5 +25,13 @@ class ApplicationController < ActionController::Base
   def authenticate_user!
     return if current_user.present?
     redirect_to root_url, alert: 'You need to sign in for access to this page.'
+  end
+
+  def api_user
+    EasyTokens::Token.find_by(value: params[:api_key], deactivated_at: nil).try(:owner)
+  end
+
+  def session_user
+    User.find_by(id: env['rack.session'][:user_id])
   end
 end

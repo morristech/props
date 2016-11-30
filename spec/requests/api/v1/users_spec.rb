@@ -5,6 +5,10 @@ describe Api::V1::Users do
   let!(:inactive_user) { create(:user, archived_at: Time.now) }
 
   describe 'GET /api/v1/users' do
+    include_context 'token accessible api' do
+      let(:path) { '/api/v1/users' }
+    end
+
     context 'user is a guest' do
       it 'returns unathorized response' do
         get '/api/v1/users'
@@ -22,12 +26,16 @@ describe Api::V1::Users do
 
       it 'returns all active users' do
         expect(json_response.class).to be Array
-        expect(json_response.size).to eq 2
+        expect(json_response.size).to eq UsersRepository.new.active.count
       end
     end
   end
 
   describe 'GET /api/v1/users/:user_id' do
+    include_context 'token accessible api' do
+      let(:path) { "/api/v1/users/#{user.id}" }
+    end
+
     context 'user is a guest' do
       it 'returns unathorized response' do
         get "/api/v1/users/#{users[0].id}"
