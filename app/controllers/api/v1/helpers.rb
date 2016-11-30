@@ -3,7 +3,7 @@ module Api
     module Helpers
       extend Grape::API::Helpers
       def current_user
-        @current_user ||= User.find(session_user_id) if session_user_id
+        @current_user ||= session_user || api_user
       end
 
       def authenticate_user!
@@ -20,8 +20,12 @@ module Api
         EasyTokens::Token.exists?(value: token, deactivated_at: nil)
       end
 
-      def session_user_id
-        env['rack.session'][:user_id]
+      def api_user
+        EasyTokens::Token.find_by(value: params[:api_key], deactivated_at: nil).try(:owner)
+      end
+
+      def session_user
+        User.find_by(id: env['rack.session'][:user_id])
       end
     end
   end
