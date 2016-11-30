@@ -39,6 +39,10 @@ describe Api::V1::Props do
   end
 
   describe 'GET /api/v1/props/total' do
+    include_context 'token accessible api' do
+      let(:path) {  '/api/v1/props/total' }
+    end
+
     context 'user is a guest' do
       it 'returns unathorized response' do
         get '/api/v1/props/total'
@@ -63,6 +67,15 @@ describe Api::V1::Props do
   end
 
   describe 'POST /api/v1/props' do
+    let(:prop_params) { { user_ids: receivers.map(&:id).join(','), body: 'sample text' }.as_json }
+
+    include_context 'token accessible api' do
+      let(:path) { '/api/v1/props' }
+      let(:method) { :post }
+      let(:params) { prop_params }
+      let(:expected_status) { 201 }
+    end
+
     context 'user is a guest' do
       it 'returns unathorized response' do
         post '/api/v1/props'
@@ -80,8 +93,6 @@ describe Api::V1::Props do
       after { sign_out }
 
       context 'with valid attributes' do
-        let(:prop_params) { { user_ids: receivers.map(&:id).join(','), body: 'sample text' }.as_json }
-
         it 'returns success' do
           expect(response).to have_http_status(:success)
         end
@@ -96,6 +107,12 @@ describe Api::V1::Props do
 
   describe 'POST /api/v1/props/:prop_id/upvotes' do
     let(:prop) { create(:prop) }
+
+    include_context 'token accessible api' do
+      let(:path) { "/api/v1/props/#{prop.id}/upvotes" }
+      let(:method) { :post }
+      let(:expected_status) { 201 }
+    end
 
     context 'user is a guest' do
       it 'returns unathorized response' do
