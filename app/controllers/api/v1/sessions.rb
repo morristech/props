@@ -8,6 +8,15 @@ module Api
       end
 
       resources :sessions do
+        desc 'Get current user for given uid if exists'
+        params do
+          requires :uid, type: String, desc: 'User Google id'
+        end
+        get do
+          user = User.find_by(uid: params.uid)
+          error!({ error: 'User not found' }, 404) if user.nil?
+          present user, with: Entities::UserBase
+        end
 
         desc 'Create or restore session'
         params do
