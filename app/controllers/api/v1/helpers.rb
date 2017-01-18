@@ -25,7 +25,7 @@ module Api
       end
 
       def session_user
-        User.find_by(id: env['rack.session'][:user_id])
+        User.find_by(id: env['rack.session'][:user_id]) || User.find_by(uid: headers['Google-Id'])
       end
     end
   end
