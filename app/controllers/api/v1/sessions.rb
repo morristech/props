@@ -8,7 +8,7 @@ module Api
       end
 
       resources :sessions do
-        desc 'Get current user for given uid if exists'
+        desc 'Restore session from token'
         params do
           requires :uid, type: String, desc: 'User Google id'
         end
@@ -20,13 +20,16 @@ module Api
 
         desc 'Create or restore session'
         params do
-          requires :uid, type: String, desc: 'User Google id'
-          requires :email, type: String, desc: 'Account email'
-          requires :name, type: String, desc: 'Google user anme'
+          requires :uid, type: String, desc: 'User UID'
+          requires :provider, type: String, desc: 'Auth provider'
+          requires :info, type: Hash do
+            requires :email, type: String, desc: 'User email'
+            requires :name, type: String, desc: 'User name'
+          end
         end
+
         post do
-          user = User.find_or_create_by(uid: params.uid)
-          user.update_attributes(params.except(:uid))
+          user = User.create_with_omniauth(params)
           present user, with: Entities::UserBase
         end
       end
