@@ -6,6 +6,7 @@ module Api
         expose :name
         expose :email
         expose :avatar_url
+        expose :uid
 
         private
 
