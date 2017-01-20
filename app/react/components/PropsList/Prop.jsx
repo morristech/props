@@ -6,11 +6,21 @@ import styles from './style.css';
 
 import UserComponent from '../../containers/UsersList/User';
 
-const Prop = ({ prop }) => {
+const Prop = ({ prop, onPropUpvote, onPropDownvote }) => {
   const createdAt = moment(prop.createdAt || prop.created_at).fromNow();
   const receivers = prop.users.map(receiver =>
     <UserComponent userId={receiver} key={receiver} />
   );
+
+  const handlePropUpvote = (e) => {
+    e.preventDefault();
+    onPropUpvote(prop.id);
+  };
+
+  const handlePropDownvote = (e) => {
+    e.preventDefault();
+    onPropDownvote(prop.id);
+  };
 
   return (
     <li
@@ -35,11 +45,11 @@ const Prop = ({ prop }) => {
               {createdAt}
             </div>
             <Vote
-              onUpvote={() => {}}
+              onUpvote={handlePropUpvote}
               upvotesCount={prop.upvotes_count}
               isUpvotePossible={prop.is_upvote_possible}
               isUndoUpvotePossible={prop.is_undo_upvote_possible}
-              undoUpvote={() => {}}
+              undoUpvote={handlePropDownvote}
             />
           </div>
         </div>
