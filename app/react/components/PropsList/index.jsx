@@ -26,7 +26,6 @@ const PropsList = ({
         <Prop
           key={prop.id}
           prop={prop}
-          voteComponent={null}
         />
       )}
       <Pagination

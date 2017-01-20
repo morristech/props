@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
 import cx from 'classnames';
+import Vote from '../props/vote';
 import styles from './style.css';
 
 import UserComponent from '../../containers/UsersList/User';
 
-const Prop = ({ prop, voteComponent }) => {
+const Prop = ({ prop }) => {
   const createdAt = moment(prop.createdAt || prop.created_at).fromNow();
   const receivers = prop.users.map(receiver =>
     <UserComponent userId={receiver} key={receiver} />
@@ -33,7 +34,13 @@ const Prop = ({ prop, voteComponent }) => {
             <div className="prop-create-at pull-left">
               {createdAt}
             </div>
-            {voteComponent}
+            <Vote
+              onUpvote={() => {}}
+              upvotesCount={prop.upvotes_count}
+              isUpvotePossible={prop.is_upvote_possible}
+              isUndoUpvotePossible={prop.is_undo_upvote_possible}
+              undoUpvote={() => {}}
+            />
           </div>
         </div>
       </div>
@@ -49,7 +56,6 @@ Prop.propTypes = {
     propser: PropTypes.number.isRequired,
 
   }),
-  voteComponent: PropTypes.element,
 };
 
 export default Prop;
