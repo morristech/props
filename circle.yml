@@ -10,6 +10,7 @@ deployment:
     commands:
       - bundle exec cap production deploy
   staging:
+    branch: mobile
     heroku:
       appname: netguru-props-staging
 dependencies:
