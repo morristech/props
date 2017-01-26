@@ -6,6 +6,16 @@ deployment:
     branch: production
     commands:
       - bundle exec cap production deploy
+  staging:
+    branch: mobile
+    heroku:
+      appname: netguru-props-staging
 dependencies:
   cache_directories:
     - "node_modules"
+  override:
+    - yarn
+    - bundle install
+test:
+  override:
+    - yarn test

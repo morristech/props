@@ -62,8 +62,12 @@
     "test": "karma start",
     "test-live": "karma start --reporters notify,dots --no-singleRun"
   },
-  "license": "",
   "engines": {
     "node": ">= 0.10"
-  }
+  },
+  "repository": {
+    "url": "git@github.com:netguru/props.git",
+    "type": "git"
+  },
+  "author": "Props Team"
 }
