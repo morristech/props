@@ -13,5 +13,6 @@ deployment:
 dependencies:
   override:
     - yarn
+    - bundle install
   cache_directories:
     - "node_modules"
