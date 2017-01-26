@@ -80,13 +80,11 @@
   "engines": {
     "node": ">= 0.10"
   },
-<<<<<<< HEAD
   "repository": {
     "url": "git@github.com:netguru/props.git",
     "type": "git"
   },
-  "author": "Props Team"
-=======
+  "author": "Props Team",
   "jest": {
     "automock": true,
     "unmockedModulePathPatterns": [
@@ -104,5 +102,4 @@
       "<rootDir>/app/react/"
     ]
   }
->>>>>>> new-js-architecture
 }
