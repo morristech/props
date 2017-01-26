@@ -65,11 +65,9 @@
   "engines": {
     "node": ">= 0.10"
   },
-  "version": "1.0.0",
-  "main": "index.js",
   "repository": {
     "url": "git@github.com:netguru/props.git",
     "type": "git"
   },
-  "author": "PropsTeam"
+  "author": "Props Team"
 }
