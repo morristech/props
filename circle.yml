@@ -11,8 +11,12 @@ deployment:
     heroku:
       appname: netguru-props-staging
 dependencies:
+  cache_directories:
+    - ~/.yarn-cache
+    - "node_modules"
   override:
     - yarn
     - bundle install
-  cache_directories:
-    - "node_modules"
+test:
+  override:
+    - yarn test
