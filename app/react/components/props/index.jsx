@@ -20,7 +20,7 @@ export default class PropsList extends React.Component {
     const list = this.props.props;
     list.bind('change', this.onChange);
     list.bind('add', this.onChange);
-    this.state = {props: list};
+    this.state = { props: list };
   }
 
   onChange() {

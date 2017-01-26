@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class Announcement extends React.Component {
@@ -10,12 +10,12 @@ export default class Announcement extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {animated: false};
+    this.state = { animated: false };
   }
 
   componentDidMount() {
     setTimeout(() => {
-      this.setState({animated: true});
+      this.setState({ animated: true });
     }, 2000);
   }
 
@@ -41,7 +41,8 @@ export default class Announcement extends React.Component {
         transitionAppearTimeout={500}
         transitionLeave
         transitionLeaveTimeout={1000}
-        transitionEnter={false}>
+        transitionEnter={false}
+      >
         {this.renderCounter()}
       </ReactCSSTransitionGroup>
     );

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchUser, fetchUserProps, fetchUserGivenProps } from '../../actions/index.js';
+import { fetchUser, fetchUserProps, fetchUserGivenProps } from '../../actions/index';
 import UserProps from './user-props';
 
 class UserPropsContainer extends React.Component {

@@ -11,7 +11,7 @@ export default class User extends React.Component {
     const reveiverUrl = `#users/${this.props.user.id}`;
     return (
       <a className="props-receiver-avatar" href={reveiverUrl}>
-        <img src={this.props.user.avatar_url} title={this.props.user.name}/>
+        <img src={this.props.user.avatar_url} title={this.props.user.name} alt="avatar" />
       </a>
     );
   }

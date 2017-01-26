@@ -11,7 +11,7 @@ const props = {
 };
 
 describe('user/thumb', () => {
-  const component = TestUtils.renderIntoDocument(<UserThumb {...props}/>);
+  const component = TestUtils.renderIntoDocument(<UserThumb {...props} />);
 
   it('renders', () => {
     expect(TestUtils.findRenderedComponentWithType(component, UserThumb)).toExist();

@@ -4,11 +4,11 @@ import * as types from '../constants/action-types';
 
 describe('props reducer', () => {
   it('returns the initial state', () => {
-    expect(reducer(undefined, {})).toEqual({user_given_props: {}, user_received_props: {}});
+    expect(reducer(undefined, {})).toEqual({ user_given_props: {}, user_received_props: {} });
   });
 
   it('handles RECEIVE_USER_PROPS', () => {
-    const propsData = {props: [{}, {}], meta: {}};
+    const propsData = { props: [{}, {}], meta: {} };
 
     expect(
       reducer(undefined, {
@@ -24,7 +24,7 @@ describe('props reducer', () => {
   });
 
   it('handles RECEIVE_USER_GIVEN_PROPS', () => {
-    const propsData = {props: [{}, {}], meta: {}};
+    const propsData = { props: [{}, {}], meta: {} };
 
     expect(
       reducer(undefined, {
@@ -41,7 +41,7 @@ describe('props reducer', () => {
 
   it('handles REQUEST_USER_GIVEN_PROPS', () => {
     const previousState = {
-      user_given_props: {props: [], meta: []},
+      user_given_props: { props: [], meta: [] },
       user_received_props: {},
     };
 
@@ -60,7 +60,7 @@ describe('props reducer', () => {
   it('handles REQUEST_USER_PROPS', () => {
     const previousState = {
       user_given_props: {},
-      user_received_props: {props: [], meta: []},
+      user_received_props: { props: [], meta: [] },
     };
 
     expect(

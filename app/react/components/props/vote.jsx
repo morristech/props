@@ -7,7 +7,6 @@ export default class Vote extends React.Component {
       upvotesCount: React.PropTypes.number.isRequired,
       isUpvotePossible: React.PropTypes.bool.isRequired,
       isUndoUpvotePossible: React.PropTypes.bool.isRequired,
-      upVoting: React.PropTypes.bool,
       undoUpvote: React.PropTypes.func.isRequired,
     };
   }
