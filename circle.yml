@@ -12,7 +12,6 @@ deployment:
       appname: netguru-props-staging
 dependencies:
   cache_directories:
-    - ~/.yarn-cache
     - "node_modules"
   override:
     - yarn
