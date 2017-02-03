@@ -138,6 +138,10 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    dotenv (2.2.0)
+    dotenv-rails (2.2.0)
+      dotenv (= 2.2.0)
+      railties (>= 3.2, < 5.1)
     easy_tokens (0.4.0)
       rails (>= 4.0.0)
     email_spec (2.1.0)
@@ -316,6 +320,7 @@ GEM
     omniauth-oauth2 (1.4.0)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
+    one_signal (1.2.0)
     parser (2.3.1.0)
       ast (~> 2.2)
     pg (0.18.4)
@@ -511,6 +516,7 @@ DEPENDENCIES
   codeclimate-test-reporter
   coffee-rails
   decent_exposure
+  dotenv-rails
   easy_tokens
   email_spec
   factory_girl_rails
@@ -538,6 +544,7 @@ DEPENDENCIES
   netguru_theme
   omniauth
   omniauth-google-oauth2
+  one_signal
   pg
   pry-rails
   pry-rescue
@@ -568,4 +575,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   1.12.5
+   1.13.7
