@@ -13,7 +13,11 @@ class Notifier
     Notifier::SlackNotifier.new(notification, options).call
   end
 
+  def notify_mobile
+    Notifier::MobileNotifier.new(notification, options).call
+  end
+
   def enabled_notifications
-    %w(slack)
+    %w(mobile)
   end
 end

@@ -1,3 +1,4 @@
+require 'sidekiq/testing/inline'
 class NotifierJob < ActiveJob::Base
   queue_as :default
 

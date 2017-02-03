@@ -546,6 +546,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   one_signal
   pg
+  pry
   pry-rails
   pry-rescue
   quiet_assets
