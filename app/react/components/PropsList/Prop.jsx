@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
 import cx from 'classnames';
-import Vote from '../props/vote';
+import Vote from './Vote';
 import styles from './style.css';
 
 import UserComponent from '../../containers/UsersList/User';
