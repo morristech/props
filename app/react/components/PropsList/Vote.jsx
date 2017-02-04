@@ -8,19 +8,31 @@ const Vote = ({
   undoUpvote,
 }) => {
   const ratingButton = (
-    <button className="btn btn-default rating-button" disabled>
+    <button
+      data-test="rating"
+      className="btn btn-default"
+      disabled
+    >
       Rating + {upvotesCount}
     </button>
   );
 
   const upvoteButton = (
-    <button className="btn btn-success upvote-button" onClick={onUpvote}>
+    <button
+      data-test="upvote"
+      className="btn btn-success"
+      onClick={onUpvote}
+    >
       +1
     </button>
   );
 
   const undoUpvoteButton = (
-    <button className="btn btn-danger undo-upvote-button" onClick={undoUpvote}>
+    <button
+      data-test="undo-upvote"
+      className="btn btn-danger"
+      onClick={undoUpvote}
+    >
       -1
     </button>
   );
