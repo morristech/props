@@ -64,8 +64,9 @@ Prop.propTypes = {
     body: PropTypes.string.isRequired,
     users: PropTypes.array.isRequired,
     propser: PropTypes.number.isRequired,
-
   }),
+  onPropUpvote: PropTypes.func.isRequired,
+  onPropDownvote: PropTypes.func.isRequired,
 };
 
 export default Prop;

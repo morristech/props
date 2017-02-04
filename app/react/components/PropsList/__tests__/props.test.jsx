@@ -16,6 +16,8 @@ const wrapper = shallow(
     hasNextPage
     onPaginationPrev={_noop}
     onPaginationNext={_noop}
+    onPropUpvote={_noop}
+    onPropDownvote={_noop}
     currentPage={2}
   />
 );
