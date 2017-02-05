@@ -1,22 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
 import cx from 'classnames';
 import styles from './style.css';
 
-const AddProp = () => {
-  return (
-    <div className="row">
-      <div className="col-xs-12">
-        <div
-          className={cx(
-            'jumbotron',
-            styles.grid,
-          )}
-        >
-          Form
+class AddProp extends Component {
+  render() {
+    return (
+      <div className="row">
+        <div className="col-xs-12">
+          <div
+            className={cx(
+              'jumbotron',
+              styles.grid,
+            )}
+          >
+            Form
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
-
+    )
+  }
+}
 export default AddProp;
