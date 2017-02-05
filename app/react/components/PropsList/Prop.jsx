@@ -16,7 +16,7 @@ const Prop = ({ prop, voteComponent }) => {
       className={cx(
         'row',
         'list-group-item',
-        styles.prop,
+        styles.grid,
       )}
     >
       <div className="col-xs-12 prop-users">

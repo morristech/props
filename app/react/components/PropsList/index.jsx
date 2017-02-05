@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Pagination from '../shared/pagination';
+import AddProp from './AddProp';
 import Prop from './Prop';
 
 const PropsList = ({
@@ -22,6 +23,8 @@ const PropsList = ({
 
   return (
     <div>
+      <AddProp />
+
       {propsList.map(prop =>
         <Prop
           key={prop.id}
@@ -29,6 +32,7 @@ const PropsList = ({
           voteComponent={null}
         />
       )}
+
       <Pagination
         hasPreviousPage={hasPrevPage}
         hasNextPage={hasNextPage}
