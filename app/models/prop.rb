@@ -8,7 +8,7 @@ class Prop < ActiveRecord::Base
   belongs_to :propser, class_name: 'User'
 
   validates :propser, presence: true
-  validate :prop_receivers?, :valid_prop_receivers?, :selfpropsing, :receivers_limit
+  validate :prop_receivers?, :valid_prop_receivers?, :receivers_limit
   validates :body,
             presence: true,
             format: /\A(?!.*( |\W|\A)(@here|@channel|@everyone)( |\W|\z)).*\z/m

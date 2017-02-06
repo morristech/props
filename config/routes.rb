@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  default_url_options :host => "localhost:3000"
   mount EasyTokens::Engine, at: 'et'
   root 'home#index'
   get 'app' => 'authenticated#main_app'

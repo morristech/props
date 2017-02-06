@@ -47,7 +47,6 @@ gem 'dotenv-rails', groups: [:development, :test]
 gem 'pry'
 gem 'pry-rails'
 
-
 # deploy
 gem 'capistrano', '3.3.5'
 gem 'capistrano-docker', git: 'https://github.com/netguru/capistrano-docker', tag: 'v0.2.6'

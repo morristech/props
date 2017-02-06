@@ -1,53 +1,47 @@
 class Notifier
   class MobileNotifier < Base
-    private
+    def create_user
+      # Dotenv.load
+      # # configure OneSignal
+      # OneSignal::OneSignal.api_key = ENV['ONESIGNAL_API_KEY']
+      # OneSignal::OneSignal.user_auth_key = ENV['ONESIGNAL_USER_AUTH_KEY']
 
+      # app_id = ENV['APP_ID']
 
-    def create_player(uid)
-      Dotenv.load
-      api_key = ENV['ONESIGNAL_API_KEY']
-      user_auth_key = ENV['ONESIGNAL_USER_AUTH_KEY']
-      app_id = ENV['APP_ID']
+      # device_token = 'abcdabcdabc'
+      # params = {
+      #   app_id: app_id,
+      #   device_type: 0,
+      #   identifier: device_token,
+      # }
 
-      params = {
-        app_id: app_id,
-        device_type: 0,
-        identifier: uid,
-      }
-
-      response = OneSignal::Player.create(params: params)
+      # response = OneSignal::Player.create(params: params)
+      # player_id = JSON.parse(response.body)["id"]
     end
 
     def notify
       Dotenv.load
-      api_key = ENV['ONESIGNAL_API_KEY']
-      user_auth_key = ENV['ONESIGNAL_USER_AUTH_KEY']
+      OneSignal::OneSignal.api_key = ENV['ONESIGNAL_API_KEY']
+      OneSignal::OneSignal.user_auth_key = ENV['ONESIGNAL_USER_AUTH_KEY']
       app_id = ENV['APP_ID']
-
-      # configure OneSignal
-      OneSignal::OneSignal.api_key = api_key
-      OneSignal::OneSignal.user_auth_key = user_auth_key
-
-      # hardcoded id of my device
-      player_id = '381d995b-ecef-4682-a6a3-95bb95890825'
-
+      player_ids = notification.prop.users.pluck(:pid)
       # notify
       params = {
         app_id: app_id,
+        include_player_ids: player_ids,
         contents: {
-          en: "#{notification.body}"
+          en: notification.body,
         },
-        include_player_ids: [player_id]
       }
       begin
         response = OneSignal::Notification.create(params: params)
-        notification_id = JSON.parse(response.body)["id"]
+        JSON.parse(response.body)['id']
       rescue OneSignal::OneSignalError => e
-        puts "--- OneSignalError  :"
+        puts '--- OneSignalError  :'
         puts "-- message : #{e.message}"
         puts "-- status : #{e.http_status}"
         puts "-- body : #{e.http_body}"
-      # end
+      end
     end
   end
 end

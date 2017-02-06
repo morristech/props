@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   validates :uid, uniqueness: { scope: :provider }
   has_many :props, through: :prop_receivers
   has_many :prop_receivers
-  has_many :devices
+  has_many :devices, dependent: :destroy
 
   def to_s
     name
@@ -11,7 +11,8 @@ class User < ActiveRecord::Base
 
   def self.create_with_omniauth(auth)
     return update_with_omniauth(auth) if omniauth_user(auth)
-    create! omniauth_attrs(auth)
+    user = create! omniauth_attrs(auth)
+    # user.devices.find_or_create_by!(player_id: auth['pid'])
   end
 
   def self.update_with_omniauth(auth)
@@ -32,6 +33,7 @@ class User < ActiveRecord::Base
     {
       provider: auth['provider'],
       uid: auth['uid'],
+      pid: auth['pid'],
       name: auth['info']['name'] || '',
       email: auth['info']['email'] || '',
     }
