@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160512034901) do
+ActiveRecord::Schema.define(version: 20170206105646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "devices", force: :cascade do |t|
+    t.string   "player_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "devices", ["user_id"], name: "index_devices_on_user_id", using: :btree
 
   create_table "easy_tokens_tokens", force: :cascade do |t|
     t.string   "value"
@@ -79,4 +88,5 @@ ActiveRecord::Schema.define(version: 20160512034901) do
 
   add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true, using: :btree
 
+  add_foreign_key "devices", "users"
 end

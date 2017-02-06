@@ -2,8 +2,23 @@ class Notifier
   class MobileNotifier < Base
     private
 
+
+    def create_player(uid)
+      Dotenv.load
+      api_key = ENV['ONESIGNAL_API_KEY']
+      user_auth_key = ENV['ONESIGNAL_USER_AUTH_KEY']
+      app_id = ENV['APP_ID']
+
+      params = {
+        app_id: app_id,
+        device_type: 0,
+        identifier: uid,
+      }
+
+      response = OneSignal::Player.create(params: params)
+    end
+
     def notify
-      binding.pry
       Dotenv.load
       api_key = ENV['ONESIGNAL_API_KEY']
       user_auth_key = ENV['ONESIGNAL_USER_AUTH_KEY']
@@ -14,7 +29,7 @@ class Notifier
       OneSignal::OneSignal.user_auth_key = user_auth_key
 
       # hardcoded id of my device
-      player_id = 'b093fe61-26ec-40e3-a803-1cf84dc3e5ae'
+      player_id = '381d995b-ecef-4682-a6a3-95bb95890825'
 
       # notify
       params = {
@@ -32,7 +47,7 @@ class Notifier
         puts "-- message : #{e.message}"
         puts "-- status : #{e.http_status}"
         puts "-- body : #{e.http_body}"
-      end
+      # end
     end
   end
 end

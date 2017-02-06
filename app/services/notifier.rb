@@ -18,6 +18,6 @@ class Notifier
   end
 
   def enabled_notifications
-    %w(mobile)
+    %w(slack mobile)
   end
 end
