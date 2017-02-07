@@ -1,10 +1,13 @@
 class Notifier
   class MobileNotifier < Base
-    def initialize
+    def initialize(notification)
       Dotenv.load
       OneSignal::OneSignal.api_key = ENV['ONESIGNAL_API_KEY']
       OneSignal::OneSignal.user_auth_key = ENV['ONESIGNAL_USER_AUTH_KEY']
+      @notification = notification
     end
+
+    attr_reader :notification
 
     def notify
       app_id = ENV['APP_ID']
@@ -13,7 +16,7 @@ class Notifier
         app_id: app_id,
         include_player_ids: player_ids,
         contents: {
-          en: notification.body,
+          en: notification.mobile_body,
         },
       }
 

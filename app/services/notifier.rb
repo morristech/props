@@ -14,7 +14,7 @@ class Notifier
   end
 
   def notify_mobile
-    Notifier::MobileNotifier.new(notification, options).call
+    Notifier::MobileNotifier.new(notification).call
   end
 
   def enabled_notifications

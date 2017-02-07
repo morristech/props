@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
   validates :uid, uniqueness: { scope: :provider }
   has_many :props, through: :prop_receivers
   has_many :prop_receivers
-  has_many :devices, dependent: :destroy
 
   def to_s
     name

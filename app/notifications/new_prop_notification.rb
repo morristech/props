@@ -8,6 +8,10 @@ class NewPropNotification < BaseNotification
       "#{italicized_content} - <#{app_domain}|Check it out!>"
   end
 
+  def mobile_body
+    "#{prop.propser} just gave you a prop. Check it out!"
+  end
+
   private
 
   def app_domain

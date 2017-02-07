@@ -1,27 +1,11 @@
 require 'ffaker'
 
-Dotenv.load
-OneSignal::OneSignal.api_key = ENV['ONESIGNAL_API_KEY']
-OneSignal::OneSignal.user_auth_key = ENV['ONESIGNAL_USER_AUTH_KEY']
-app_id = ENV['APP_ID']
-
-params = {
-  app_id: app_id,
-  device_type: 0,
-  identifier: 'testusers123',
-}
-
-response = OneSignal::Player.create(params: params)
-player_id = JSON.parse(response.body)["id"]
-
 puts '== Creating users'
-
 20.times do |number|
   User.create!(name: FFaker::Name.name,
                email: FFaker::Internet.email,
                uid: 123456700 + number,
-               provider: 'google_oauth2',
-               pid: player_id)
+               provider: 'google_oauth2')
 end
 
 puts '== Creating props'
