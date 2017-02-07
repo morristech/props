@@ -11,8 +11,7 @@ class User < ActiveRecord::Base
 
   def self.create_with_omniauth(auth)
     return update_with_omniauth(auth) if omniauth_user(auth)
-    user = create! omniauth_attrs(auth)
-    # user.devices.find_or_create_by!(player_id: auth['pid'])
+    create! omniauth_attrs(auth)
   end
 
   def self.update_with_omniauth(auth)
