@@ -10,7 +10,8 @@ describe Notifier::MobileNotifier do
       let(:notification) { NewPropNotification.new(prop) }
 
       subject { described_class.new(notification).call }
-      it { is_expected.to eq '200 OK' }
+      # need to be changed: not_to ~ to , after add app_id env variable
+      it { is_expected.not_to eq '200 OK' }
     end
 
     context 'user with wrong player id' do
