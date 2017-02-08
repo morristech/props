@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Notifier::MobileNotifier do
-  # need to be changed: not_to ~ to , after add app_id env variable
+  # need to be changed after add app_id env variable
   # let(:user_with_pid) { create(:user, pid: create_test_user) }
   let(:user) { create(:user, :with_wrong_pid) }
 
@@ -11,7 +11,7 @@ describe Notifier::MobileNotifier do
     #   let(:notification) { NewPropNotification.new(prop) }
 
     #   subject { described_class.new(notification).call }
-    #   it { is_expected.not_to eq '200 OK' }
+    #   it { is_expected.to eq '200 OK' }
     # end
 
     context 'user with wrong player id' do
