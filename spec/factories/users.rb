@@ -6,11 +6,7 @@ FactoryGirl.define do
     uid { FFaker::Guid.guid }
   end
 
-  trait :with_proper_pid do
-    pid '23cde420-cb83-4a26-868d-e4755526acad'
-  end
-
   trait :with_wrong_pid do
-    pid '23cde420-cb83-x-x-x'
+    pid 'xxx_wrong_pid_xxx'
   end
 end

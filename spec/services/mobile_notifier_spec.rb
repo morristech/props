@@ -1,25 +1,24 @@
 require 'rails_helper'
 
 describe Notifier::MobileNotifier do
-  let(:good_user) { create(:user, :with_proper_pid) }
-  let(:wrong_user) { create(:user, :with_wrong_pid) }
+  let(:user_with_pid) { create(:user, pid: create_test_user) }
+  let(:user) { create(:user, :with_wrong_pid) }
 
   describe '#call' do
     context 'user with proper player id' do
-      let(:prop) { create(:prop, users: [good_user]) }
+      let(:prop) { create(:prop, users: [user_with_pid]) }
       let(:notification) { NewPropNotification.new(prop) }
 
       subject { described_class.new(notification).call }
-      # need to be changed: to ~ not_to , after add onesignal env variables
-      it { is_expected.to be_nil }
+      it { is_expected.to eq '200 OK' }
     end
 
     context 'user with wrong player id' do
-      let(:prop) { create(:prop, users: [wrong_user]) }
+      let(:prop) { create(:prop, users: [user]) }
       let(:notification) { NewPropNotification.new(prop) }
 
       subject { described_class.new(notification).call }
-      it { is_expected.to be_nil }
+      it { is_expected.to eq '400' }
     end
   end
 end

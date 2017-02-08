@@ -25,12 +25,12 @@ class Notifier
 
     def send_notification(params)
       response = OneSignal::Notification.create(params: params)
-      JSON.parse(response.body)['id']
+      response['status']
     rescue OneSignal::OneSignalError => e
-      puts '--- OneSignalError  :'
+      puts '-- OneSignalError  :'
       puts "-- message : #{e.message}"
-      puts "-- status : #{e.http_status}"
       puts "-- body : #{e.http_body}"
+      e.http_status
     end
   end
 end

@@ -18,6 +18,7 @@ Sidekiq::Testing.fake!
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include ApiHelpers, type: :request
+  config.include MobileNotifierHelper
 
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
