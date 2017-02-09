@@ -1,27 +1,25 @@
-development: &defaults
-  allowed_email_domains:
-  app_domain: 'props.dev'
-  domain_name: 'gapps-domain-name'
-  extra_domains: 'some-domain.org'
+development:
+  app_domain: 'localhost:3000'
+  domain_name: 'netguru.pl' # leave blank for development in order to use ANY domain
+  extra_domains: 'example.co, example.org localhost:3000'
   emails:
     default_from: 'props@example.com'
   newrelic_license_key: 'newrelic_license_key'
-  omniauth_provider_key: 'omniauth-key'
-  omniauth_provider_secret: 'omniauth-secret'
+  omniauth_provider_key: '394585859249-p5ibfm7ic1b6ee9q3duoo5vi9fueqrd2.apps.googleusercontent.com'
+  omniauth_provider_secret: 'YN4nhLUs2-zBUDp_W64HYo97'
   rollbar_access_token: 'rollbar_token'
-  secret_key_base: 'please-change-me'
-  sendgrid_password: 'sendgrid_password'
+  secret_key_base: 'ac5d90a62ff5a163006f597dbb9ca47ff632b78137210fcf4fa3a046ef24a5eba38524e0a9a810e7282457d5f38863e7f358a7de9af607b888caf563a56a4bdc'
   sendgrid_user_name: 'sendgrid_user_name'
+  sendgrid_password: 'sendgrid_password'
   skylight_token: 'skylight-token'
   slack:
     default_channel: 'default_channel'
-    token: 'slack_token'
+    token: 'slack-token'
 
 test:
-  <<: *defaults
+  secret_key_base: 'please-change-me'
 
 production:
-  <<: *defaults
   app_domain: <%= ENV['APP_DOMAIN'] %>
   domain_name: <%= ENV['GAPPS_DOMAIN_NAME'] %>
   extra_domains: <%= ENV['EXTRA_DOMAINS'] %>
