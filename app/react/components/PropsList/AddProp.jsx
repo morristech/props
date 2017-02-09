@@ -18,8 +18,16 @@ class AddProp extends Component {
   getOptions() {
     const options = [];
     const data = this.props.users;
-    forIn(data, (value) => {
-      options.push({ label: value.name, value: value.id });
+    const isCurrentUser = id => (
+      this.props.currentUser.id === id
+    )
+
+    forIn(data, (option) => {
+      options.push({
+        label: option.name,
+        value: option.id,
+        disabled: isCurrentUser(option.id),
+      });
     });
     return options;
   }

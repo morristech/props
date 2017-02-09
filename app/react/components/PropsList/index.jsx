@@ -7,6 +7,7 @@ import Prop from './Prop';
 const PropsList = ({
   propsList,
   users,
+  currentUser,
   hasPrevPage,
   hasNextPage,
   onPaginationPrev,
@@ -26,7 +27,7 @@ const PropsList = ({
   return (
     <div>
       {
-        !isEmpty(users) && <AddProp users={users} />
+        !isEmpty(users) && <AddProp users={users} currentUser={currentUser} />
       }
       {propsList.map(prop =>
         <Prop
