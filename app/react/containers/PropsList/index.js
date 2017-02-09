@@ -5,6 +5,7 @@ import { fetchProps } from '../../actions/props';
 
 const mapStateToProps = state => ({
   propsList: state.props,
+  users: state.users,
   hasPrevPage: state.propsPagination.hasPreviousPage,
   hasNextPage: state.propsPagination.hasNextPage,
   currentPage: state.propsPagination.currentPage,

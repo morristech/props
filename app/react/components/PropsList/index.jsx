@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react';
+import { isEmpty } from 'lodash';
 import Pagination from '../shared/pagination';
 import AddProp from './AddProp';
 import Prop from './Prop';
 
 const PropsList = ({
   propsList,
+  users,
   hasPrevPage,
   hasNextPage,
   onPaginationPrev,
@@ -23,8 +25,9 @@ const PropsList = ({
 
   return (
     <div>
-      <AddProp />
-
+      {
+        !isEmpty(users) && <AddProp users={users} />
+      }
       {propsList.map(prop =>
         <Prop
           key={prop.id}
