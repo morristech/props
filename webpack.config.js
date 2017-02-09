@@ -28,7 +28,12 @@ module.exports = {
         loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'),
         include: path.join(__dirname, 'app/react'),
       },
-    ]
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('style', 'css'),
+        include: path.join(__dirname, 'node_modules'),
+      },
+    ],
   },
 
   postcss: [
