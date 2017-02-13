@@ -3,6 +3,7 @@ import cx from 'classnames';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import { forIn } from 'lodash';
+import AvatarOption from './AvatarOption';
 import styles from './style.css';
 
 class AddProp extends Component {
@@ -26,6 +27,7 @@ class AddProp extends Component {
       options.push({
         label: option.name,
         value: option.id,
+        avatar: option.avatar_url,
         disabled: isCurrentUser(option.id),
       });
     });
@@ -55,6 +57,7 @@ class AddProp extends Component {
                 placeholder="Whom do you want to give a prop to?"
                 options={this.getOptions()}
                 onChange={this.handleSelectChange}
+                optionComponent={AvatarOption}
               />
             </form>
           </div>

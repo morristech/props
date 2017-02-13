@@ -16,3 +16,9 @@
 .prop-users {
   padding-bottom: 20px;
 }
+
+.option-avatar {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
