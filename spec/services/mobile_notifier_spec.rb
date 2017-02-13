@@ -1,13 +1,9 @@
 require 'rails_helper'
 
 describe Notifier::MobileNotifier do
-  # need to be changed after add app_id env variable
-  # let(:user_with_pid) { create(:user, pid: create_test_user) }
-  let(:user) { create(:user, :with_wrong_pid) }
-
   describe '#initialize' do
-    let(:notifier) { double }
-    subject { described_class.new(notifier) }
+    let(:notification) { double }
+    subject { described_class.new(notification) }
 
     let(:onesignal_api_key) { double }
     let(:onesignal_user_auth_key) { double }
@@ -18,34 +14,53 @@ describe Notifier::MobileNotifier do
       allow(ENV).to receive(:[]).with('ONESIGNAL_USER_AUTH_KEY').and_return(onesignal_user_auth_key)
     end
 
-    it '' do
+    it 'checks enviroment variables setting' do
       expect(Dotenv).to receive(:load).with(no_args).once.ordered
       expect(OneSignal::OneSignal).to receive(:api_key=).with(onesignal_api_key).once.ordered
       expect(OneSignal::OneSignal).to receive(:user_auth_key=).with(onesignal_user_auth_key)
-                                                              .once.ordered
+        .once.ordered
       subject
+    end
+
+    it 'checks proper notification setting' do
+      expect(subject.notification).to be(notification)
     end
   end
 
-  # describe '#notify' do
-  #   # context 'user with proper player id' do
-  #   #   let(:prop) { create(:prop, users: [user_with_pid]) }
-  #   #   let(:notification) { NewPropNotification.new(prop) }
+  describe '#notify' do
+    let(:notification) { double }
+    let(:params) { double }
+    subject { described_class.new(notification) }
 
-  #   #   subject { described_class.new(notification).call }
-  #   #   it { is_expected.to eq '200 OK' }
-  #   # end
+    before do
+      allow(notification).to receive_message_chain(:prop, :users, :pluck).and_return(double)
+      allow(notification).to receive(:mobile_body).and_return(double)
+    end
 
-  #   context 'user with wrong player id' do
-  #     let(:prop) { create(:prop, users: [user]) }
-  #     let(:notification) { NewPropNotification.new(prop) }
+    it 'returns send_notification method once' do
+      expect(subject).to receive(:send_notification).once
+      subject.notify
+    end
+  end
 
-  #     subject { described_class.new(notification).call }
-  #     it { is_expected.to eq '400' }
-  #   end
-  # end
+  describe '#send_notification' do
+    context 'OneSignal::OneSignalError is not thrown' do
+      let(:notification) { double }
 
-  # describe '#send_notification' do
+      subject { described_class.new(notification).send_notification(double) }
 
-  # end
+      before do
+        allow(OneSignal::Notification).to receive(:create).and_return(double)
+      end
+
+      it 'triggers create only once' do
+      end
+
+
+    end
+
+    context 'OneSignal::OneSignalError is thrown' do
+
+    end
+  end
 end
