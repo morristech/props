@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 
   def self.update_with_omniauth(auth)
     omniauth_user(auth).tap do |user|
-      auth['pid'] ||= user.pid
+      auth['player_id'] ||= user.player_id
       user.update omniauth_attrs(auth)
     end
   end
@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
     {
       provider: auth['provider'],
       uid: auth['uid'],
-      pid: auth['pid'],
+      player_id: auth['player_id'],
       name: auth['info']['name'] || '',
       email: auth['info']['email'] || '',
     }

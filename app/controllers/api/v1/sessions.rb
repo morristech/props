@@ -21,7 +21,7 @@ module Api
         desc 'Create or restore session'
         params do
           requires :uid, type: String, desc: 'User UID'
-          requires :pid, type: String, desc: 'User player id'
+          requires :player_id, type: String, desc: 'User player id'
           requires :provider, type: String, desc: 'Auth provider'
           requires :info, type: Hash do
             requires :email, type: String, desc: 'User email'
