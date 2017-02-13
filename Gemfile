@@ -41,11 +41,7 @@ gem 'sprockets-rails', '2.3.3' # temporary lock, JST does not work properly with
 gem 'thin'
 gem 'uglifier'
 gem 'whenever', require: false
-
 gem 'one_signal'
-gem 'dotenv-rails', groups: [:development, :test]
-gem 'pry'
-gem 'pry-rails'
 
 # deploy
 gem 'capistrano', '3.3.5'
@@ -84,6 +80,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'rspec-rails'
+  gem 'dotenv-rails'
 end
 
 group :test do
