@@ -27,9 +27,6 @@ class Notifier
       response = OneSignal::Notification.create(params: params)
       response['status']
     rescue OneSignal::OneSignalError => e
-      puts '-- OneSignalError  :'
-      puts "-- message : #{e.message}"
-      puts "-- body : #{e.http_body}"
       e.http_status
     end
   end
