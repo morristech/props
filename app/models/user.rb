@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
 
   def self.update_with_omniauth(auth)
     omniauth_user(auth).tap do |user|
+      auth['pid'] ||= user.pid
       user.update omniauth_attrs(auth)
     end
   end
