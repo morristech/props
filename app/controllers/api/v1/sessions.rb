@@ -29,6 +29,9 @@ module Api
         end
 
         post do
+          return error!({ error: 'User not authorized' }, 404) unless
+            ::Users::Auth0Service.new(params).auth
+
           user = User.create_with_omniauth(params)
           present user, with: Entities::UserBase
         end
