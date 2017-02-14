@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 describe Notifier::MobileNotifier do
+  let(:notification) { double }
+
   describe '#initialize' do
-    let(:notification) { double }
     subject { described_class.new(notification) }
 
     let(:onesignal_api_key) { double }
@@ -28,7 +29,6 @@ describe Notifier::MobileNotifier do
   end
 
   describe '#notify' do
-    let(:notification) { double }
     let(:params) { double }
     subject { described_class.new(notification) }
 
@@ -45,22 +45,34 @@ describe Notifier::MobileNotifier do
 
   describe '#send_notification' do
     context 'OneSignal::OneSignalError is not thrown' do
-      let(:notification) { double }
+      let(:params) { double }
+      let(:returned_value) { double }
+      let(:response) do
+        {
+          'status' => returned_value,
+        }
+      end
 
-      subject { described_class.new(notification).send_notification(double) }
+      subject { described_class.new(notification).send_notification(params) }
 
       before do
-        allow(OneSignal::Notification).to receive(:create).and_return(double)
+        allow(OneSignal::Notification).to receive(:create).and_return(response)
       end
 
-      it 'triggers create only once' do
-      end
-
-
+      include_examples 'OneSignal::Notification.create called once'
     end
 
     context 'OneSignal::OneSignalError is thrown' do
+      let(:exception) { OneSignal::OneSignalError }
+      let(:params) { double }
 
+      subject { described_class.new(notification).send_notification(params) }
+
+      before do
+        allow(OneSignal::Notification).to receive(:create).and_raise(exception)
+      end
+
+      include_examples'OneSignal::Notification.create called once'
     end
   end
 end
