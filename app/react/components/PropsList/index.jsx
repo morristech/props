@@ -55,6 +55,13 @@ PropsList.propTypes = {
   onPaginationPrev: PropTypes.func.isRequired,
   onPaginationNext: PropTypes.func.isRequired,
   currentPage: PropTypes.number.isRequired,
+  users: PropTypes.objectOf(PropTypes.object),
+  currentUser: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    avatar_url: PropTypes.string,
+  }),
 };
 
 export default PropsList;

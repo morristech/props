@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import cx from 'classnames';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
@@ -21,7 +21,7 @@ class AddProp extends Component {
     const data = this.props.users;
     const isCurrentUser = id => (
       this.props.currentUser.id === id
-    )
+    );
 
     forIn(data, (option) => {
       options.push({
@@ -35,7 +35,6 @@ class AddProp extends Component {
   }
 
   handleSelectChange(value) {
-    console.log('You\'ve selected:', value);
     this.setState({ value });
   }
 
@@ -49,6 +48,18 @@ class AddProp extends Component {
               styles.grid,
             )}
           >
+            <div className="selected-users">
+              {
+                this.state.value.map(user => (
+                  <img
+                    key={user.value}
+                    className="praised-person-avatar"
+                    src={user.avatar}
+                    alt="avatar"
+                  />
+                ))
+              }
+            </div>
             <form>
               <Select
                 multi
@@ -66,5 +77,15 @@ class AddProp extends Component {
     );
   }
 }
+
+AddProp.propTypes = {
+  users: PropTypes.objectOf(PropTypes.object),
+  currentUser: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    avatar_url: PropTypes.string,
+  }),
+};
 
 export default AddProp;
