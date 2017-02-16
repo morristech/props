@@ -67,6 +67,18 @@ class AddProp extends Component {
     });
   }
 
+  getValidationMessage() {
+    return (
+      !this.state.isFormValid &&
+      <div
+        className="alert alert-danger text-center"
+        role="alert"
+      >
+        Praised user(s) and  description are required.
+      </div>
+    );
+  }
+
   clearValidation() {
     this.setState({ isFormValid: true });
   }
@@ -84,12 +96,7 @@ class AddProp extends Component {
             <div className="selected-users">
               {
                 this.state.praisedUsers.map(user => (
-                  <img
-                    key={user.value}
-                    className="praised-person-avatar"
-                    src={user.avatar}
-                    alt="avatar"
-                  />
+                  <UserAvatar user={user} />
                 ))
               }
             </div>
@@ -115,15 +122,7 @@ class AddProp extends Component {
                   onChange={this.handlePropText}
                 />
               </div>
-              {
-                !this.state.isFormValid &&
-                <div
-                  className="alert alert-danger text-center"
-                  role="alert"
-                >
-                  Praised user(s) and  description are required.
-                </div>
-              }
+              {this.getValidationMessage()}
               <div className="pull-right">
                 <button
                   className="form-button btn btn-primary"
@@ -139,6 +138,15 @@ class AddProp extends Component {
     );
   }
 }
+
+const UserAvatar = ({ user }) => (
+  <img
+    key={user.value}
+    className="praised-person-avatar"
+    src={user.avatar}
+    alt="avatar"
+  />
+);
 
 AddProp.propTypes = {
   users: PropTypes.objectOf(PropTypes.object),
