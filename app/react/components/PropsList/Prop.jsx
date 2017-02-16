@@ -1,15 +1,26 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
 import cx from 'classnames';
+import Vote from './Vote';
 import styles from './style.css';
 
 import UserComponent from '../../containers/UsersList/User';
 
-const Prop = ({ prop, voteComponent }) => {
+const Prop = ({ prop, onPropUpvote, onPropDownvote }) => {
   const createdAt = moment(prop.createdAt || prop.created_at).fromNow();
   const receivers = prop.users.map(receiver =>
     <UserComponent userId={receiver} key={receiver} />
   );
+
+  const handlePropUpvote = (e) => {
+    e.preventDefault();
+    onPropUpvote(prop.id);
+  };
+
+  const handlePropDownvote = (e) => {
+    e.preventDefault();
+    onPropDownvote(prop.id);
+  };
 
   return (
     <li
@@ -33,7 +44,13 @@ const Prop = ({ prop, voteComponent }) => {
             <div className="prop-create-at pull-left">
               {createdAt}
             </div>
-            {voteComponent}
+            <Vote
+              onUpvote={handlePropUpvote}
+              upvotesCount={prop.upvotes_count}
+              isUpvotePossible={prop.is_upvote_possible}
+              isUndoUpvotePossible={prop.is_undo_upvote_possible}
+              undoUpvote={handlePropDownvote}
+            />
           </div>
         </div>
       </div>
@@ -47,9 +64,9 @@ Prop.propTypes = {
     body: PropTypes.string.isRequired,
     users: PropTypes.array.isRequired,
     propser: PropTypes.number.isRequired,
-
   }),
-  voteComponent: PropTypes.element,
+  onPropUpvote: PropTypes.func.isRequired,
+  onPropDownvote: PropTypes.func.isRequired,
 };
 
 export default Prop;

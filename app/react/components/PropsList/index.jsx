@@ -9,6 +9,8 @@ const PropsList = ({
   onPaginationPrev,
   onPaginationNext,
   currentPage,
+  onPropUpvote,
+  onPropDownvote,
 }) => {
   const handlePrevPageClick = (e) => {
     e.preventDefault();
@@ -20,13 +22,22 @@ const PropsList = ({
     onPaginationNext(currentPage + 1);
   };
 
+  const handlePropUpvote = (id) => {
+    onPropUpvote(id);
+  };
+
+  const handlePropDownvote = (id) => {
+    onPropDownvote(id);
+  };
+
   return (
     <div>
       {propsList.map(prop =>
         <Prop
           key={prop.id}
           prop={prop}
-          voteComponent={null}
+          onPropUpvote={handlePropUpvote}
+          onPropDownvote={handlePropDownvote}
         />
       )}
       <Pagination
@@ -46,6 +57,8 @@ PropsList.propTypes = {
   hasNextPage: PropTypes.bool.isRequired,
   onPaginationPrev: PropTypes.func.isRequired,
   onPaginationNext: PropTypes.func.isRequired,
+  onPropUpvote: PropTypes.func.isRequired,
+  onPropDownvote: PropTypes.func.isRequired,
   currentPage: PropTypes.number.isRequired,
 };
 

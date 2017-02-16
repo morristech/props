@@ -27,3 +27,25 @@ export const fetchProps = (page = 1) => dispatch => (
     dispatch(receivePropsPage(json));
   })
 );
+
+export const upvoteProp = id => (dispatch, getState) => (
+  fetch(`api/v1/props/${id}/upvotes`, {
+    method: 'POST',
+    credentials: 'same-origin',
+  })
+  .then(() => {
+    const { propsPagination } = getState();
+    dispatch(fetchProps(propsPagination.currentPage));
+  })
+);
+
+export const downvoteProp = id => (dispatch, getState) => (
+  fetch(`api/v1/props/${id}/undo_upvotes`, {
+    method: 'DELETE',
+    credentials: 'same-origin',
+  })
+  .then(() => {
+    const { propsPagination } = getState();
+    dispatch(fetchProps(propsPagination.currentPage));
+  })
+);

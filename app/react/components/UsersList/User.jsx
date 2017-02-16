@@ -6,6 +6,7 @@ const User = ({ userObject }) => {
   return (
     <a className="props-receiver-avatar" href={`#users/${userObject.id}`}>
       <img src={userObject.avatar_url} title={userObject.name} alt="avatar" />
+      <span className="props-receiver-name">{userObject.name.match(/^\w*/).toString()}</span>
     </a>
   );
 };
