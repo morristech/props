@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 import PropsList from '../../components/PropsList';
-import { fetchProps, upvoteProp, downvoteProp } from '../../actions/props';
+import {
+  fetchProps,
+  upvoteProp,
+  downvoteProp,
+  giveProp } from '../../actions/props';
 
 
 const mapStateToProps = state => ({
@@ -24,6 +28,9 @@ const mapDispatchToProps = (dispatch, state) => ({
   },
   onPropDownvote: (id) => {
     dispatch(downvoteProp(id));
+  },
+  onPropSubmit: (propserId, usersIds, propBody) => {
+    dispatch(giveProp(propserId, usersIds, propBody));
   },
 });
 

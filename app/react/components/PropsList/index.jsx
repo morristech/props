@@ -15,6 +15,7 @@ const PropsList = ({
   currentPage,
   onPropUpvote,
   onPropDownvote,
+  onPropSubmit,
 }) => {
   const handlePrevPageClick = (e) => {
     e.preventDefault();
@@ -37,7 +38,12 @@ const PropsList = ({
   return (
     <div>
       {
-        !isEmpty(users) && <AddProp users={users} currentUser={currentUser} />
+        !isEmpty(users) &&
+        <AddProp
+          users={users}
+          currentUser={currentUser}
+          onPropSubmit={onPropSubmit}
+        />
       }
       {propsList.map(prop =>
         <Prop
@@ -67,6 +73,7 @@ PropsList.propTypes = {
   onPaginationNext: PropTypes.func.isRequired,
   onPropUpvote: PropTypes.func.isRequired,
   onPropDownvote: PropTypes.func.isRequired,
+  onPropSubmit: PropTypes.func.isRequired,
   currentPage: PropTypes.number.isRequired,
   users: PropTypes.objectOf(PropTypes.object),
   currentUser: PropTypes.shape({

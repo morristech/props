@@ -16,6 +16,7 @@ class AddProp extends Component {
 
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handlePropText = this.handlePropText.bind(this);
+    this.handlePropSubmit = this.handlePropSubmit.bind(this);
   }
 
   getOptions() {
@@ -42,6 +43,18 @@ class AddProp extends Component {
 
   handlePropText(event) {
     this.setState({ propText: event.target.value });
+  }
+
+  handlePropSubmit(e) {
+    e.preventDefault();
+    const propser = this.props.currentUser.id;
+    const users = this.state.praisedUsers.map(u => u.value).join(',');
+    const body = this.state.propText;
+    this.props.onPropSubmit(propser, users, body);
+    this.setState({
+      praisedUsers: [],
+      propText: '',
+    });
   }
 
   render() {
@@ -88,6 +101,14 @@ class AddProp extends Component {
                   onChange={this.handlePropText}
                 />
               </div>
+              <div className="pull-right">
+                <button
+                  className="form-button btn btn-primary"
+                  onClick={this.handlePropSubmit}
+                >
+                  Prop!
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -104,6 +125,7 @@ AddProp.propTypes = {
     email: PropTypes.string,
     avatar_url: PropTypes.string,
   }),
+  onPropSubmit: PropTypes.func,
 };
 
 export default AddProp;
