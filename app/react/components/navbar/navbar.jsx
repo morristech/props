@@ -58,6 +58,7 @@ export default class Navbar extends React.Component {
     const handleLogoClick = (e) => {
       if (this.props.isOnAppPage) {
         e.preventDefault();
+        this.props.fetchInitialData();
         this.props.handleLinkClicked('/app');
       }
     };

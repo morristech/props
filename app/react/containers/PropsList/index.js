@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import PropsList from '../../components/PropsList';
-import { fetchProps } from '../../actions/props';
+import { fetchProps, upvoteProp, downvoteProp } from '../../actions/props';
 
 
 const mapStateToProps = state => ({
@@ -18,6 +18,12 @@ const mapDispatchToProps = (dispatch, state) => ({
   },
   onPaginationNext: (nextPage) => {
     dispatch(fetchProps(nextPage));
+  },
+  onPropUpvote: (id) => {
+    dispatch(upvoteProp(id));
+  },
+  onPropDownvote: (id) => {
+    dispatch(downvoteProp(id));
   },
 });
 
