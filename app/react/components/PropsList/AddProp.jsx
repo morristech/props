@@ -10,10 +10,12 @@ class AddProp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: [],
+      praisedUsers: [],
+      propText: '',
     };
 
     this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handlePropText = this.handlePropText.bind(this);
   }
 
   getOptions() {
@@ -34,8 +36,12 @@ class AddProp extends Component {
     return options;
   }
 
-  handleSelectChange(value) {
-    this.setState({ value });
+  handleSelectChange(praisedUsers) {
+    this.setState({ praisedUsers });
+  }
+
+  handlePropText(event) {
+    this.setState({ propText: event.target.value });
   }
 
   render() {
@@ -50,7 +56,7 @@ class AddProp extends Component {
           >
             <div className="selected-users">
               {
-                this.state.value.map(user => (
+                this.state.praisedUsers.map(user => (
                   <img
                     key={user.value}
                     className="praised-person-avatar"
@@ -61,15 +67,27 @@ class AddProp extends Component {
               }
             </div>
             <form>
-              <Select
-                multi
-                disabled={false}
-                value={this.state.value}
-                placeholder="Whom do you want to give a prop to?"
-                options={this.getOptions()}
-                onChange={this.handleSelectChange}
-                optionComponent={AvatarOption}
-              />
+              <div className="form-group">
+                <Select
+                  multi
+                  disabled={false}
+                  value={this.state.praisedUsers}
+                  placeholder="Whom do you want to give a prop to?"
+                  options={this.getOptions()}
+                  onChange={this.handleSelectChange}
+                  optionComponent={AvatarOption}
+                />
+              </div>
+              <div className="form-group">
+                <textarea
+                  rows="2"
+                  placeholder="What do you want to thank for?"
+                  className="form-control"
+                  type="text"
+                  value={this.state.propText}
+                  onChange={this.handlePropText}
+                />
+              </div>
             </form>
           </div>
         </div>
