@@ -28,7 +28,7 @@ export const fetchProps = (page = 1) => dispatch => (
   })
 );
 
-export const giveProp = (propser_id, user_ids, body) => (dispatch) => (
+export const giveProp = (propser_id, user_ids, body) => dispatch => (
   fetch('api/v1/props', {
     method: 'POST',
     credentials: 'same-origin',

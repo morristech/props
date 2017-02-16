@@ -39,9 +39,16 @@ class AddProp extends Component {
     return options;
   }
 
-  handleSelectChange(praisedUsers) {
-    this.setState({ praisedUsers });
-    this.clearValidation();
+  getValidationMessage() {
+    return (
+      !this.state.isFormValid &&
+      <div
+        className="alert alert-danger text-center"
+        role="alert"
+      >
+        Praised user(s) and  description are required.
+      </div>
+    );
   }
 
   handlePropText(event) {
@@ -67,16 +74,9 @@ class AddProp extends Component {
     });
   }
 
-  getValidationMessage() {
-    return (
-      !this.state.isFormValid &&
-      <div
-        className="alert alert-danger text-center"
-        role="alert"
-      >
-        Praised user(s) and  description are required.
-      </div>
-    );
+  handleSelectChange(praisedUsers) {
+    this.setState({ praisedUsers });
+    this.clearValidation();
   }
 
   clearValidation() {
@@ -96,7 +96,7 @@ class AddProp extends Component {
             <div className="selected-users">
               {
                 this.state.praisedUsers.map(user => (
-                  <UserAvatar user={user} />
+                  <UserAvatar key={user.value} avatarPath={user.avatar} />
                 ))
               }
             </div>
@@ -139,14 +139,17 @@ class AddProp extends Component {
   }
 }
 
-const UserAvatar = ({ user }) => (
+const UserAvatar = ({ avatarPath }) => (
   <img
-    key={user.value}
     className="praised-person-avatar"
-    src={user.avatar}
+    src={avatarPath}
     alt="avatar"
   />
 );
+
+UserAvatar.propTypes = {
+  avatarPath: PropTypes.string,
+};
 
 AddProp.propTypes = {
   users: PropTypes.objectOf(PropTypes.object),
