@@ -12,11 +12,13 @@ class AddProp extends Component {
     this.state = {
       praisedUsers: [],
       propText: '',
+      isFormValid: true,
     };
 
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handlePropText = this.handlePropText.bind(this);
     this.handlePropSubmit = this.handlePropSubmit.bind(this);
+    this.clearValidation = this.clearValidation.bind(this);
   }
 
   getOptions() {
@@ -39,10 +41,12 @@ class AddProp extends Component {
 
   handleSelectChange(praisedUsers) {
     this.setState({ praisedUsers });
+    this.clearValidation();
   }
 
   handlePropText(event) {
     this.setState({ propText: event.target.value });
+    this.clearValidation();
   }
 
   handlePropSubmit(e) {
@@ -50,11 +54,21 @@ class AddProp extends Component {
     const propser = this.props.currentUser.id;
     const users = this.state.praisedUsers.map(u => u.value).join(',');
     const body = this.state.propText;
+
+    if (!users.length || !body.trim()) {
+      this.setState({ isFormValid: false });
+      return;
+    }
+
     this.props.onPropSubmit(propser, users, body);
     this.setState({
       praisedUsers: [],
       propText: '',
     });
+  }
+
+  clearValidation() {
+    this.setState({ isFormValid: true });
   }
 
   render() {
@@ -101,6 +115,15 @@ class AddProp extends Component {
                   onChange={this.handlePropText}
                 />
               </div>
+              {
+                !this.state.isFormValid &&
+                <div
+                  className="alert alert-danger text-center"
+                  role="alert"
+                >
+                  Praised user(s) and  description are required.
+                </div>
+              }
               <div className="pull-right">
                 <button
                   className="form-button btn btn-primary"
