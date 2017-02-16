@@ -45,6 +45,7 @@ class AddProp extends Component {
       <div
         className="alert alert-danger text-center"
         role="alert"
+        data-test="validation-message"
       >
         Praised user(s) and  description are required.
       </div>
@@ -125,6 +126,7 @@ class AddProp extends Component {
               {this.getValidationMessage()}
               <div className="pull-right">
                 <button
+                  data-test="submit"
                   className="form-button btn btn-primary"
                   onClick={this.handlePropSubmit}
                 >
