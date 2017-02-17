@@ -16,9 +16,9 @@ module SessionsServices
       }
 
       auth0_params['token'] = Auth0Client.new(auth0_params).obtain_access_token
+
       auth0 = Auth0Client.new(auth0_params)
       auth0_user = auth0.user(uid, fields: fields)
-
       user_authorized?(auth0_user)
     end
 
