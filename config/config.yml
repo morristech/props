@@ -11,7 +11,7 @@ development: &defaults
   auth0_api_client_id: 'auth0_api_client_id'
   auth0_api_client_secret: 'auth0_api_client_secret'
   auth0_api_audience: 'auth0_api_audience'
-  auth0_domain: 'fiii.eu.auth0.com'
+  auth0_domain: 'auth0_domain'
   rollbar_access_token: 'rollbar_token'
   secret_key_base: 'please-change-me'
   sendgrid_password: 'sendgrid_password'
