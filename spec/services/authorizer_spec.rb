@@ -47,13 +47,6 @@ describe SessionsServices::Authorizer do
 
     before do
       allow_any_instance_of(described_class).to receive(:call).and_return(true)
-
-      # allow(AppConfig).to receive(:[]).with('auth0_api_client_id').and_return(auth0_api_client_id)
-      # allow(AppConfig).to receive(:[]).with('auth0_domain').and_return(auth0_domain)
-
-      # allow(Auth0Client).to receive(:new).with(auth0_params).and_return(auth0)
-      # allow(auth0).to receive(:obtain_access_token).with(no_args).and_return('')
-      # allow(auth0_params).to receive(:[]).with(:token).and_return(access_token)
     end
 
     it 'check proper call settings' do
