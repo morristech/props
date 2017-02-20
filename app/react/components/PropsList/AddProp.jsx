@@ -4,6 +4,7 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import { forIn } from 'lodash';
 import AvatarOption from './AvatarOption';
+import UserAvatar from './UserAvatar';
 import styles from './style.css';
 
 class AddProp extends Component {
@@ -140,18 +141,6 @@ class AddProp extends Component {
     );
   }
 }
-
-const UserAvatar = ({ avatarPath }) => (
-  <img
-    className="praised-person-avatar"
-    src={avatarPath}
-    alt="avatar"
-  />
-);
-
-UserAvatar.propTypes = {
-  avatarPath: PropTypes.string,
-};
 
 AddProp.propTypes = {
   users: PropTypes.objectOf(PropTypes.object),
