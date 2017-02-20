@@ -1,10 +1,16 @@
 import { connect } from 'react-redux';
 import PropsList from '../../components/PropsList';
-import { fetchProps, upvoteProp, downvoteProp } from '../../actions/props';
+import {
+  fetchProps,
+  upvoteProp,
+  downvoteProp,
+  giveProp } from '../../actions/props';
 
 
 const mapStateToProps = state => ({
   propsList: state.props,
+  users: state.users,
+  currentUser: state.user,
   hasPrevPage: state.propsPagination.hasPreviousPage,
   hasNextPage: state.propsPagination.hasNextPage,
   currentPage: state.propsPagination.currentPage,
@@ -22,6 +28,9 @@ const mapDispatchToProps = (dispatch, state) => ({
   },
   onPropDownvote: (id) => {
     dispatch(downvoteProp(id));
+  },
+  onPropSubmit: (propserId, usersIds, propBody) => {
+    dispatch(giveProp(propserId, usersIds, propBody));
   },
 });
 

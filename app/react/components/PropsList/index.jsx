@@ -1,9 +1,13 @@
 import React, { PropTypes } from 'react';
+import { isEmpty } from 'lodash';
 import Pagination from '../shared/pagination';
+import AddProp from './AddProp';
 import Prop from './Prop';
 
 const PropsList = ({
   propsList,
+  users,
+  currentUser,
   hasPrevPage,
   hasNextPage,
   onPaginationPrev,
@@ -11,6 +15,7 @@ const PropsList = ({
   currentPage,
   onPropUpvote,
   onPropDownvote,
+  onPropSubmit,
 }) => {
   const handlePrevPageClick = (e) => {
     e.preventDefault();
@@ -32,6 +37,14 @@ const PropsList = ({
 
   return (
     <div>
+      {
+        !isEmpty(users) &&
+        <AddProp
+          users={users}
+          currentUser={currentUser}
+          onPropSubmit={onPropSubmit}
+        />
+      }
       {propsList.map(prop =>
         <Prop
           key={prop.id}
@@ -40,6 +53,7 @@ const PropsList = ({
           onPropDownvote={handlePropDownvote}
         />
       )}
+
       <Pagination
         hasPreviousPage={hasPrevPage}
         hasNextPage={hasNextPage}
@@ -59,7 +73,15 @@ PropsList.propTypes = {
   onPaginationNext: PropTypes.func.isRequired,
   onPropUpvote: PropTypes.func.isRequired,
   onPropDownvote: PropTypes.func.isRequired,
+  onPropSubmit: PropTypes.func.isRequired,
   currentPage: PropTypes.number.isRequired,
+  users: PropTypes.objectOf(PropTypes.object),
+  currentUser: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    avatar_url: PropTypes.string,
+  }),
 };
 
 export default PropsList;

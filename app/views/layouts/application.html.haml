@@ -10,7 +10,7 @@
     = include_gon init: true
     = csrf_meta_tags
   %body
-    = redux_store 'Store'
+    = redux_store 'Store', { user: Api::V1::Entities::UserBase.new(current_user) }
     %header
       = redux_container 'Navbar',
         props: { isOnAppPage: controller_name == 'authenticated',

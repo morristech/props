@@ -28,6 +28,21 @@ export const fetchProps = (page = 1) => dispatch => (
   })
 );
 
+export const giveProp = (propserId, userIds, body) => dispatch => (
+  fetch('api/v1/props', {
+    method: 'POST',
+    credentials: 'same-origin',
+    body: JSON.stringify({
+      propser_id: propserId,
+      user_ids: userIds,
+      body,
+    }),
+  })
+  .then(() => {
+    dispatch(fetchProps());
+  })
+);
+
 export const upvoteProp = id => (dispatch, getState) => (
   fetch(`api/v1/props/${id}/upvotes`, {
     method: 'POST',

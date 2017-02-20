@@ -4,13 +4,9 @@
   border: 1px solid #272e3a;
 }
 
-.prop {
+.grid {
   max-width: 800px;
   margin: 15px auto;
-
-  &.prop-body {
-    font-size: 26px;
-  }
 }
 
 .prop-body {
@@ -19,4 +15,10 @@
 
 .prop-users {
   padding-bottom: 20px;
+}
+
+.option-avatar {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
 }
