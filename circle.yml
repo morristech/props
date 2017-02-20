@@ -19,3 +19,6 @@ dependencies:
 test:
   override:
     - yarn test
+notify:
+  webhooks:
+    - url: https://webhooks.gitter.im/e/5d08569c0fcb0d849f50
