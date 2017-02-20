@@ -11,3 +11,5 @@ const UserAvatar = ({ avatarPath }) => (
 UserAvatar.propTypes = {
   avatarPath: PropTypes.string,
 };
+
+export default UserAvatar;
