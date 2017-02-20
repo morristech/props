@@ -1,4 +1,4 @@
-export const nopEvent = {
+export const noopEvent = {
   preventDefault: () => {},
   stopPropagation: () => {},
 };

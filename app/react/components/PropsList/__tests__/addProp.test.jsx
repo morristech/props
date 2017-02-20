@@ -4,7 +4,7 @@ import chaiEnzyme from 'chai-enzyme';
 import { shallow } from 'enzyme';
 import chai, { expect } from 'chai';
 import AddProp from '../AddProp';
-import { nopEvent } from '../../../utils/shared';
+import { noopEvent } from '../../../utils/shared';
 
 jest.unmock('../AddProp');
 chai.use(chaiEnzyme());
@@ -25,13 +25,13 @@ describe('<AddProp />', () => {
   });
 
   it('shows validation message', () => {
-    component.find('[data-test="submit"]').simulate('click', nopEvent);
+    component.find('[data-test="submit"]').simulate('click', noopEvent);
     expect(component.find('[data-test="validation-message"]')).to.exist;
   });
 
   it('submits prop', () => {
     component.setState({ praisedUsers: [{ value: 1 }], propText: 'Test props' });
-    component.find('[data-test="submit"]').simulate('click', nopEvent);
+    component.find('[data-test="submit"]').simulate('click', noopEvent);
     expect(handleSubmit.mock.calls.length).equal(1);
   });
 });
