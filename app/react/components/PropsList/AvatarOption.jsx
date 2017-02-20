@@ -8,7 +8,8 @@ const AvatarOption = ({
   onSelect,
   onFocus,
   isFocused,
-  isDisabled }) => {
+  isDisabled,
+}) => {
   const handleMouseDown = (event) => {
     event.preventDefault();
     event.stopPropagation();
