@@ -15,7 +15,7 @@ describe Notifier::MobileNotifier do
       allow(ENV).to receive(:[]).with('ONESIGNAL_USER_AUTH_KEY').and_return(onesignal_user_auth_key)
     end
 
-    it 'checks enviroment variables setting' do
+    it 'assigns enviroment variables setting' do
       expect(Dotenv).to receive(:load).with(no_args).once.ordered
       expect(OneSignal::OneSignal).to receive(:api_key=).with(onesignal_api_key).once.ordered
       expect(OneSignal::OneSignal).to receive(:user_auth_key=).with(onesignal_user_auth_key)
@@ -23,7 +23,7 @@ describe Notifier::MobileNotifier do
       subject
     end
 
-    it 'checks proper notification setting' do
+    it 'assigns proper notification setting' do
       expect(subject.notification).to be(notification)
     end
   end
@@ -60,6 +60,10 @@ describe Notifier::MobileNotifier do
       end
 
       include_examples 'OneSignal::Notification.create called once'
+
+      it 'returns proper value' do
+        expect(subject).to eq returned_value
+      end
     end
 
     context 'OneSignal::OneSignalError is thrown' do
@@ -73,6 +77,10 @@ describe Notifier::MobileNotifier do
       end
 
       include_examples'OneSignal::Notification.create called once'
+
+      it 'raises exception' do
+        expect(subject).to be_nil
+      end
     end
   end
 end
