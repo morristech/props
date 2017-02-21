@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 describe SessionsServices::Authorizer do
-  describe '#initialize' do
-    let(:user) do
-      {
-        'provider' => SecureRandom.hex,
-        'uid' => SecureRandom.hex,
-      }
-    end
+  let(:user) do
+    {
+      'provider' => SecureRandom.hex,
+      'uid' => SecureRandom.hex,
+    }
+  end
 
+  describe '#initialize' do
     let(:uid) { user['provider'] + '|' + user['uid'] }
     subject { described_class.new(user) }
 
@@ -19,39 +19,32 @@ describe SessionsServices::Authorizer do
   end
 
   describe '#call' do
-    let(:auth0_api_client_id) { SecureRandom.hex }
-    let(:auth0_domain) { SecureRandom.hex }
+    let(:auth_params) { double }
     let(:auth0) { double }
-    let(:uid) { SecureRandom.hex }
-    let(:provider) { SecureRandom.hex }
-    let(:access_token) { SecureRandom.hex }
-    let(:auth0_user) { double }
-
-    let(:auth0_params) do
-      {
-        client_id: auth0_api_client_id,
-        domain: auth0_domain,
-        token: '',
-        api_version: 2,
-      }
-    end
-
-    let(:user) do
-      {
-        'provider' => SecureRandom.hex,
-        'uid' => uid,
-      }
-    end
 
     subject { described_class.new(user).call }
 
     before do
-      allow_any_instance_of(described_class).to receive(:call).and_return(true)
+      allow(auth_params).to receive(:[]).with(:token)
+      allow(Auth0Client).to receive(:new).and_return(auth0)
+      allow(auth0).to receive(:obtain_access_token)
+      allow(auth0).to receive(:user).and_return(user)
     end
 
-    it 'check proper call settings' do
-      expect_any_instance_of(described_class).to receive(:call).and_return(true)
-      subject
+    context 'user with proper credentials' do
+      it 'returns true' do
+        allow_any_instance_of(described_class).to receive(:user_authorized?).and_return(true)
+        expect_any_instance_of(described_class).to receive(:user_authorized?).and_return(true)
+        subject
+      end
+    end
+
+    context 'user with wrong credentials' do
+      it 'returns false' do
+        allow_any_instance_of(described_class).to receive(:user_authorized?).and_return(false)
+        expect_any_instance_of(described_class).to receive(:user_authorized?).and_return(false)
+        subject
+      end
     end
   end
 end
