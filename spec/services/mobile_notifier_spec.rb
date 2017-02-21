@@ -68,7 +68,7 @@ describe Notifier::MobileNotifier do
 
       include_examples 'OneSignal::Notification.create called once'
 
-      it 'returns proper value' do
+      it 'call proper value' do
         expect(subject).to eq returned_value
       end
     end
