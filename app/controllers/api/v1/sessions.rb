@@ -13,7 +13,8 @@ module Api
           requires :uid, type: String, desc: 'User Google id'
         end
         get do
-          user = User.find_by(uid: params.uid)
+          data = declared(params)
+          user = User.find_by(uid: data.uid)
           error!({ error: 'User not found' }, 404) if user.nil?
           present user, with: Entities::UserBase
         end
@@ -29,10 +30,11 @@ module Api
         end
 
         post do
+          data = declared(params)
           return error!({ error: 'User not authorized' }, 404) unless
-            SessionsServices::Authorizer.new(params).call
+            SessionsServices::Authorizer.new(data).call
 
-          user = User.create_with_omniauth(params)
+          user = User.create_with_omniauth(data)
           present user, with: Entities::UserBase
         end
       end
