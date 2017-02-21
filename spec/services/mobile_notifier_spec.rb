@@ -37,7 +37,7 @@ describe Notifier::MobileNotifier do
       allow(notification).to receive(:mobile_body).and_return(double)
     end
 
-    it 'returns send_notification method once' do
+    it 'calls send_notification method once' do
       expect(subject).to receive(:send_notification).once
       subject.notify
     end
@@ -68,7 +68,7 @@ describe Notifier::MobileNotifier do
 
       include_examples 'OneSignal::Notification.create called once'
 
-      it 'call proper value' do
+      it 'calls proper value' do
         expect(subject).to eq returned_value
       end
     end
