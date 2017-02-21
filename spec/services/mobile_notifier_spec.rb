@@ -44,6 +44,13 @@ describe Notifier::MobileNotifier do
   end
 
   describe '#send_notification' do
+    shared_examples 'OneSignal::Notification.create called once' do
+      it 'triggers OneSignal::Notification.create once with correct arguments' do
+        expect(OneSignal::Notification).to receive(:create).with(params: params).once
+        subject
+      end
+    end
+
     context 'OneSignal::OneSignalError is not thrown' do
       let(:params) { double }
       let(:returned_value) { double }
@@ -67,8 +74,10 @@ describe Notifier::MobileNotifier do
     end
 
     context 'OneSignal::OneSignalError is thrown' do
-      let(:exception) { OneSignal::OneSignalError }
       let(:params) { double }
+      let(:exception) do
+        OneSignal::OneSignalError.new(message: '', http_status: 404, http_body: '')
+      end
 
       subject { described_class.new(notification).send_notification(params) }
 
@@ -78,8 +87,8 @@ describe Notifier::MobileNotifier do
 
       include_examples'OneSignal::Notification.create called once'
 
-      it 'raises exception' do
-        expect(subject).to be_nil
+      it 'raises exception with status 404' do
+        expect(subject).to eq 404
       end
     end
   end
