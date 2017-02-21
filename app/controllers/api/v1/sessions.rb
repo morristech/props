@@ -2,7 +2,6 @@ module Api
   module V1
     class Sessions < Grape::API
       include Api::V1::Defaults
-
       helpers do
         include Api::V1::Helpers
       end
