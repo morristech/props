@@ -2,7 +2,6 @@ module Api
   module V1
     class Sessions < Grape::API
       include Api::V1::Defaults
-
       helpers do
         include Api::V1::Helpers
       end
@@ -13,7 +12,8 @@ module Api
           requires :uid, type: String, desc: 'User Google id'
         end
         get do
-          user = User.find_by(uid: params.uid)
+          data = declared(params)
+          user = User.find_by(uid: data.uid)
           error!({ error: 'User not found' }, 404) if user.nil?
           present user, with: Entities::UserBase
         end
@@ -30,7 +30,11 @@ module Api
         end
 
         post do
-          user = User.create_with_omniauth(params)
+          data = declared(params)
+          return error!({ error: 'User not authorized' }, 404) unless
+            SessionsServices::Authorizer.new(data).call
+
+          user = User.create_with_omniauth(data)
           present user, with: Entities::UserBase
         end
       end
