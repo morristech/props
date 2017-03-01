@@ -56,9 +56,9 @@ under `omniauth_provider_key` and `omniauth_provider_secret` values.
 
 Auth0 integration:
 
-1. Create non-interactive auth0 client and use AUTH0_API_CLIENT_ID and AUTH0_API_CLIENT_SECRET from that client
+1. Create `non-interactive auth0 client` and use `AUTH0_API_CLIENT_ID` and `AUTH0_API_CLIENT_SECRET` from that client
 2. Go to your auth0 account settings, advanced tab, and turn on 'Enable APIs Section' for be able to see API's view
-3. Under API section, create click button for creating api and after that you will receive AUTH0_API_AUDIENCE 
+3. Under API section, create click button for creating api and after that you will receive `AUTH0_API_AUDIENCE` 
 4. Don't forget to connect and authorise api in Auth0 Management API (non-interactive-clients tab), with your new ni-client, created in point 1
 
 Slack feature:
