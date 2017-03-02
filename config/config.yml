@@ -40,6 +40,7 @@ production:
   secret_key_base: <%= ENV['SECRET_KEY_BASE'] %>
   sendgrid_password: <%= ENV['SENDGRID_PASSWORD'] %>
   sendgrid_user_name: <%= ENV['SENDGRID_USER_NAME'] %>
+  rollbar_access_token: <%= ENV['ROLLBAR_ACCESS_TOKEN'] %>
   slack:
     default_channel: <%= ENV['SLACK_DEFAULT_CHANNEL'] %>
     token: <%= ENV['SLACK_TOKEN'] %>
