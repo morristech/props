@@ -1,1 +1,2 @@
 export const RECEIVE_USERS = 'RECEIVE_USERS';
+export const SET_USERS_QUERY = 'SET_USERS_QUERY';
