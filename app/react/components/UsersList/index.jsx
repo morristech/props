@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import Thumb from './Thumb';
 
 const UsersList = ({ users, filterUsers }) => {
   const handleQuery = (e) => {
@@ -7,11 +8,24 @@ const UsersList = ({ users, filterUsers }) => {
 
   return (
     <div>
-      <h1>Users</h1>
-      <input type="text" onChange={handleQuery} />
-      {
-        users.map(u => <p key={u.id}>{u.name}</p>)
-      }
+      <div className="page-header">
+        <h1>Users</h1>
+        <form>
+          <input type="text" onChange={handleQuery} />
+        </form>
+      </div>
+      <div className="row">
+        {
+          users.map(u => (
+            <Thumb
+              key={u.id}
+              id={u.id}
+              name={u.name}
+              avatarUrl={u.avatar_url}
+            />
+          ))
+        }
+      </div>
     </div>
   );
 };
