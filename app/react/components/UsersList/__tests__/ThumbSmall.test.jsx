@@ -3,33 +3,33 @@ import React from 'react';
 import chaiEnzyme from 'chai-enzyme';
 import { shallow } from 'enzyme';
 import chai, { expect } from 'chai';
-import Thumb from '../Thumb';
+import ThumbSmall from '../ThumbSmall';
 
-jest.unmock('../Thumb');
+jest.unmock('../ThumbSmall');
 chai.use(chaiEnzyme());
 
-const props = {
+const userObject = {
   id: 1,
-  avatarUrl: 'https://test1.img',
-  name: 'user name',
+  avatar_url: 'https://test1.img',
+  name: 'name',
 };
 
 const component = shallow(
-  <Thumb {...props} />
+  <ThumbSmall userObject={userObject} />
 );
 
-describe('<Thumb />', () => {
+describe('<ThumbSmall />', () => {
   it('renders', () => {
     expect(component).to.exist;
   });
 
   it('links to user page', () => {
-    const url = `#users/${props.id}`;
+    const url = `#users/${userObject.id}`;
     expect(component.find({ href: url })).to.exist;
   });
 
   it('displays user avatar', () => {
-    const element = component.find({ src: props.avatarUrl });
+    const element = component.find({ src: userObject.avatar_url });
     expect(element).to.exist;
   });
 });
