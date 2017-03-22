@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import User from '../../components/UsersList/User';
+import User from '../../components/UsersList/ThumbSmall';
 
 
 const mapStateToProps = (state, ownProps) => ({

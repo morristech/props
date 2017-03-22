@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const User = ({ userObject }) => {
+const ThumbSmall = ({ userObject }) => {
   if (!userObject) { return null; }
 
   return (
@@ -11,7 +11,7 @@ const User = ({ userObject }) => {
   );
 };
 
-User.propTypes = {
+ThumbSmall.propTypes = {
   userObject: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
@@ -19,4 +19,4 @@ User.propTypes = {
   }),
 };
 
-export default User;
+export default ThumbSmall;

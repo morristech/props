@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-const Thumb = ({ id, name, avatarUrl}) => {
+const Thumb = ({ id, name, avatarUrl }) => {
   const userUrl = `#users/${id}`;
   return (
     <div className="col-xs-6 col-sm-3 col-md-2">
@@ -12,6 +12,12 @@ const Thumb = ({ id, name, avatarUrl}) => {
       </a>
     </div>
   );
+};
+
+Thumb.propTypes = {
+  id: PropTypes.number,
+  name: PropTypes.string,
+  avatarUrl: PropTypes.string,
 };
 
 export default Thumb;
