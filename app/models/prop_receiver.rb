@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: prop_receivers
+#
+#  id      :integer          not null, primary key
+#  prop_id :integer
+#  user_id :integer
+#
+
 class PropReceiver < ActiveRecord::Base
   belongs_to :prop
   belongs_to :user

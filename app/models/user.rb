@@ -1,6 +1,29 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                  :integer          not null, primary key
+#  name                :string
+#  email               :string
+#  provider            :string
+#  uid                 :string
+#  created_at          :datetime
+#  updated_at          :datetime
+#  admin               :boolean          default(FALSE)
+#  archived_at         :datetime
+#  organisation_id     :integer
+#  first_name          :string
+#  last_name           :string
+#  image_url           :string
+#  slack_uid           :string
+#  slack_token         :string
+#  slack_token_expires :datetime
+#
+
 class User < ActiveRecord::Base
   validates :name, presence: true
   validates :uid, uniqueness: { scope: :provider }
+  belongs_to :organisation
   has_many :props, through: :prop_receivers
   has_many :prop_receivers
 

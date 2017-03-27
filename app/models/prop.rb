@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: props
+#
+#  id            :integer          not null, primary key
+#  propser_id    :integer
+#  body          :string
+#  created_at    :datetime
+#  updated_at    :datetime
+#  upvotes_count :integer          default(0)
+#  slack_ts      :string
+#
+
 class Prop < ActiveRecord::Base
   USER_LIMIT = 15
   private_constant :USER_LIMIT

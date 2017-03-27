@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160512034901) do
+ActiveRecord::Schema.define(version: 20170302101539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,18 @@ ActiveRecord::Schema.define(version: 20160512034901) do
   end
 
   add_index "mail_subscriptions", ["user_id"], name: "index_mail_subscriptions_on_user_id", unique: true, using: :btree
+
+  create_table "organisations", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.string   "subdomain",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "slack_uid"
+    t.string   "image_url"
+  end
+
+  add_index "organisations", ["slack_uid"], name: "index_organisations_on_slack_uid", unique: true, using: :btree
+  add_index "organisations", ["subdomain"], name: "index_organisations_on_subdomain", unique: true, using: :btree
 
   create_table "prop_receivers", force: :cascade do |t|
     t.integer "prop_id"
@@ -73,10 +85,20 @@ ActiveRecord::Schema.define(version: 20160512034901) do
     t.string   "uid"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "admin",       default: false
+    t.boolean  "admin",               default: false
     t.datetime "archived_at"
+    t.integer  "organisation_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "image_url"
+    t.string   "slack_uid"
+    t.string   "slack_token"
+    t.datetime "slack_token_expires"
   end
 
+  add_index "users", ["organisation_id"], name: "index_users_on_organisation_id", using: :btree
   add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true, using: :btree
+  add_index "users", ["slack_uid"], name: "index_users_on_slack_uid", unique: true, using: :btree
 
+  add_foreign_key "users", "organisations"
 end

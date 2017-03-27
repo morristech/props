@@ -20,6 +20,8 @@ development: &defaults
   slack:
     default_channel: 'default_channel'
     token: 'slack_token'
+    api_key: ''
+    api_secret: ''
 
 test:
   <<: *defaults
@@ -43,3 +45,5 @@ production:
   slack:
     default_channel: <%= ENV['SLACK_DEFAULT_CHANNEL'] %>
     token: <%= ENV['SLACK_TOKEN'] %>
+    api_key: ''
+    api_secret: ''

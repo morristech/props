@@ -9,3 +9,5 @@
       .panel-body
         = link_to 'Just sign in and give a prop!', signin_path,
                   class: 'btn btn-primary btn-lg btn-block'
+        = link_to "/auth/slack" do
+          = image_tag("https://api.slack.com/img/sign_in_with_slack.png", srcset: "https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x")

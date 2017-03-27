@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root 'home#index'
   get 'app' => 'authenticated#main_app'
 
+  get '/auth/slack/callback' => 'slack_registrations#create_organisation'
   get '/auth/:provider/callback' => 'sessions#create'
   get '/signin' => 'sessions#new', as: :signin
   get '/signout' => 'sessions#destroy', as: :signout
