@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   expose(:users_repository) { UsersRepository.new }
 
   def new
-    redirect_to '/auth/google_oauth2'
+    redirect_to '/auth/slack'
   end
 
   def create

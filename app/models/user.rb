@@ -24,14 +24,14 @@ class User < ActiveRecord::Base
   end
 
   def self.omniauth_user(auth)
-    find_by_email(auth['info']['email']) || find_by_name(auth['info']['name'])
+    find_by_email(auth['info']['email']) || find_by_name(auth['info']['nickname'])
   end
 
   def self.omniauth_attrs(auth)
     {
       provider: auth['provider'],
       uid: auth['uid'],
-      name: auth['info']['name'] || '',
+      name: auth['info']['nickname'] || '',
       email: auth['info']['email'] || '',
     }
   end
