@@ -9,12 +9,7 @@ class SessionsController < ApplicationController
   def create
     user = users_repository.user_from_auth(request.env['omniauth.auth'])
     session[:user_id] = user.id
-    if user.email.blank?
-      redirect_to edit_user_path(user),
-                  alert: 'Please enter your email address.'
-    else
-      redirect_to app_path, notice: 'Signed in!'
-    end
+    redirect_to app_path, notice: 'Signed in!'
   end
 
   def destroy
