@@ -86,4 +86,5 @@ group :test do
   gem 'codeclimate-test-reporter', require: nil
   gem 'scrutinizer-ocular'
   gem 'email_spec'
+  gem 'shoulda-matchers', '~> 3.1'
 end

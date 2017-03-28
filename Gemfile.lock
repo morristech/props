@@ -439,6 +439,8 @@ GEM
       json
     sexp_processor (4.7.0)
     shellany (0.0.1)
+    shoulda-matchers (3.1.1)
+      activesupport (>= 4.0.0)
     sidekiq (4.1.2)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
@@ -564,6 +566,7 @@ DEPENDENCIES
   scrutinizer-ocular
   searchlight
   sendgrid
+  shoulda-matchers (~> 3.1)
   sidekiq
   skylight
   slack-ruby-client

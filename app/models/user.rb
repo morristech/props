@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   validates :uid, uniqueness: { scope: :provider }
   has_many :props, through: :prop_receivers
   has_many :prop_receivers
+  has_many :memberships
+  has_many :organisations, through: :memberships
 
   def to_s
     name
