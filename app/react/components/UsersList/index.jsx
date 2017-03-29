@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Thumb from './Thumb';
 
-const UsersList = ({ users, filterUsers }) => {
+const UsersList = ({ users, filterUsers, goToUserProfile }) => {
   const handleQuery = (e) => {
     filterUsers(e.target.value);
   };
@@ -22,6 +22,7 @@ const UsersList = ({ users, filterUsers }) => {
               id={u.id}
               name={u.name}
               avatarUrl={u.avatar_url}
+              handleClick={goToUserProfile}
             />
           ))
         }

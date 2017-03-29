@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { values } from 'lodash';
+import { push } from 'react-router-redux';
 import UsersList from '../../components/UsersList';
 import { setUsersQuery } from '../../actions/users';
 
@@ -14,6 +15,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   filterUsers: (query) => {
     dispatch(setUsersQuery(query));
+  },
+  goToUserProfile: (path) => {
+    dispatch(push(path));
   },
 });
 
