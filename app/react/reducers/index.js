@@ -4,12 +4,14 @@ import props from './props';
 import propsPagination from './props-pagination';
 import user from './user';
 import users from './users';
+import usersQuery from './usersQuery';
 
 const rootReducer = combineReducers({
   props,
   propsPagination,
   users,
   user,
+  usersQuery,
   routing: routerReducer,
 });
 
