@@ -34,4 +34,18 @@ class ApplicationController < ActionController::Base
   def session_user
     User.find_by(id: env['rack.session'][:user_id])
   end
+
+  def check_domain!
+    current = Utils::UrlWithBaseDomain.new(request.url, AppConfig.app_domain)
+
+    if user_signed_in?
+      org_subdomain = Organisation.find(session[:organisation_id]).name
+      if current.subdomain != org_subdomain
+        redirect_to app_url(host: "#{org_subdomain}.#{AppConfig.app_domain}")
+      end
+    elsif current.subdomain
+      current.subdomain = ''
+      redirect_to current.to_s
+    end
+  end
 end

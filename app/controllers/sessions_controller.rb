@@ -7,9 +7,9 @@ class SessionsController < ApplicationController
 
   def create
     sign_in = Users::SignIn.new(auth: request.env['omniauth.auth']).call
-    session[:user_id] = sign_in.user_id
-    session[:organisation_id] = sign_in.organisation_id
-    redirect_to app_path, notice: 'Signed in!'
+    session[:user_id] = sign_in.user.id
+    session[:organisation_id] = sign_in.organisation.id
+    redirect_to app_url, notice: 'Signed in!'
   end
 
   def destroy

@@ -13,7 +13,7 @@ module Utils
         raise "Base domain doesn't match the URI"
       end
       domain_parts.pop(components_count)
-      domain_parts.join('.')
+      domain_parts.empty? ? nil : domain_parts.join('.')
     end
 
     def subdomain=(new_subdomain)

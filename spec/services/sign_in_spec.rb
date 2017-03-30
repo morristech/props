@@ -12,8 +12,8 @@ describe Users::SignIn do
 
       result = sign_in.call
 
-      expect(result.user_id).to eq(user.id)
-      expect(result.organisation_id).to eq(organisation.id)
+      expect(result.user.id).to eq(user.id)
+      expect(result.organisation.id).to eq(organisation.id)
     end
 
     it "adds user to the organisation" do

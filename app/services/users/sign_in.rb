@@ -1,17 +1,11 @@
 module Users
   class SignIn
     class Success
+      attr_reader :user, :organisation
+
       def initialize(user, organisation)
         @user = user
         @organisation = organisation
-      end
-
-      def user_id
-        @user.id
-      end
-
-      def organisation_id
-        @organisation.id
       end
     end
 

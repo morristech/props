@@ -8,6 +8,12 @@ describe Utils::UrlWithBaseDomain do
 
       expect(url.subdomain).to eq('aaa')
     end
+
+    it 'returns nil when subdomain is not present in the uri' do
+      url = described_class.new('http://bbb.pl/stuff', 'bbb.pl')
+
+      expect(url.subdomain).to be_nil
+    end
   end
 
   describe '#to_s' do
