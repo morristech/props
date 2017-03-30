@@ -39,6 +39,7 @@ UsersList.propTypes = {
     avatar_url: PropTypes.string,
   })),
   filterUsers: PropTypes.func,
+  goToUserProfile: PropTypes.func,
 };
 
 export default UsersList;

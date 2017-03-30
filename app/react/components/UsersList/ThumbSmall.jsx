@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
 
 const ThumbSmall = ({ userObject, handleClick }) => {
-  const handleProfileClick = () => {
-    const userUrl = `/app/users/${userObject.id}`;
+  const userUrl = `/app/users/${userObject.id}`;
+  const handleProfileClick = (e) => {
+    e.preventDefault();
     handleClick(userUrl);
   };
 
@@ -10,7 +11,11 @@ const ThumbSmall = ({ userObject, handleClick }) => {
   if (!userObject) { return null; }
 
   return (
-    <a className="props-receiver-avatar" onClick={handleProfileClick}>
+    <a
+      href={userUrl}
+      className="props-receiver-avatar"
+      onClick={handleProfileClick}
+    >
       <img src={userObject.avatar_url} title={userObject.name} alt="avatar" />
       <span className="props-receiver-name">{userObject.name.match(/^\w*/).toString()}</span>
     </a>
