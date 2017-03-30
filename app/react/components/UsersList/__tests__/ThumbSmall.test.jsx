@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import React from 'react';
+import _noop from 'lodash/noop';
 import chaiEnzyme from 'chai-enzyme';
 import { shallow } from 'enzyme';
 import chai, { expect } from 'chai';
@@ -8,14 +9,15 @@ import ThumbSmall from '../ThumbSmall';
 jest.unmock('../ThumbSmall');
 chai.use(chaiEnzyme());
 
-const userObject = {
+const props = {
   id: 1,
-  avatar_url: 'https://test1.img',
+  avatarUrl: 'https://test1.img',
   name: 'name',
+  handleClick: _noop,
 };
 
 const component = shallow(
-  <ThumbSmall userObject={userObject} />
+  <ThumbSmall {...props} />
 );
 
 describe('<ThumbSmall />', () => {
@@ -24,12 +26,12 @@ describe('<ThumbSmall />', () => {
   });
 
   it('links to user page', () => {
-    const url = `#users/${userObject.id}`;
+    const url = `/app/users/${props.id}`;
     expect(component.find({ href: url })).to.exist;
   });
 
   it('displays user avatar', () => {
-    const element = component.find({ src: userObject.avatar_url });
+    const element = component.find({ src: props.avatarUrl });
     expect(element).to.exist;
   });
 });
