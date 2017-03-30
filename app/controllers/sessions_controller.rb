@@ -1,14 +1,14 @@
 class SessionsController < ApplicationController
   before_action :reset_session, only: [:create, :destroy]
-  expose(:users_repository) { UsersRepository.new }
 
   def new
     redirect_to '/auth/slack'
   end
 
   def create
-    user = users_repository.user_from_auth(request.env['omniauth.auth'])
-    session[:user_id] = user.id
+    sign_in = Users::SignIn.new(auth: request.env['omniauth.auth']).call
+    session[:user_id] = sign_in.user_id
+    session[:organisation_id] = sign_in.organisation_id
     redirect_to app_path, notice: 'Signed in!'
   end
 
