@@ -24,10 +24,10 @@ const Thumb = ({ id, name, avatarUrl, handleClick }) => {
 };
 
 Thumb.propTypes = {
-  id: PropTypes.number,
-  name: PropTypes.string,
-  avatarUrl: PropTypes.string,
-  handleClick: PropTypes.func,
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  avatarUrl: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 
 export default Thumb;
