@@ -17,7 +17,9 @@ module Utils
     end
 
     def subdomain=(new_subdomain)
-      @uri.host = "#{new_subdomain}.#{@base_domain}"
+      @uri.host = [new_subdomain, @base_domain].reject do |component|
+        component.nil? || component.empty?
+      end.join('.')
     end
 
     def to_s

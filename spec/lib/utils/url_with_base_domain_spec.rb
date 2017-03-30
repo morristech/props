@@ -26,6 +26,22 @@ describe Utils::UrlWithBaseDomain do
 
       expect(uri.to_s).to eq('http://test.bbb.pl/stuff')
     end
+
+    it 'removes subdomain when nil is passed' do
+      uri = described_class.new('http://aaa.bbb.pl/stuff', 'bbb.pl')
+
+      uri.subdomain = nil
+
+      expect(uri.to_s).to eq('http://bbb.pl/stuff')
+    end
+
+    it 'removes subdomain when empty string is passed' do
+      uri = described_class.new('http://aaa.bbb.pl/stuff', 'bbb.pl')
+
+      uri.subdomain = ''
+
+      expect(uri.to_s).to eq('http://bbb.pl/stuff')
+    end
   end
 
 end
