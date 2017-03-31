@@ -3,6 +3,10 @@ class UsersRepository
     User.all.order(:name)
   end
 
+  def for_organisation(organisation)
+    User.where(id: active.select(:id).joins(:organisations).where('organisations.id = ?', organisation.id))
+  end
+
   def active
     all.where('archived_at IS NULL')
   end

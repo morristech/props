@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170330091808) do
+ActiveRecord::Schema.define(version: 20170330212452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,10 +70,12 @@ ActiveRecord::Schema.define(version: 20170330091808) do
     t.string   "body"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "upvotes_count", default: 0
+    t.integer  "upvotes_count",   default: 0
     t.string   "slack_ts"
+    t.integer  "organisation_id"
   end
 
+  add_index "props", ["organisation_id"], name: "index_props_on_organisation_id", using: :btree
   add_index "props", ["propser_id"], name: "index_props_on_propser_id", using: :btree
 
   create_table "upvotes", force: :cascade do |t|
@@ -101,4 +103,5 @@ ActiveRecord::Schema.define(version: 20170330091808) do
 
   add_foreign_key "memberships", "organisations"
   add_foreign_key "memberships", "users"
+  add_foreign_key "props", "organisations"
 end

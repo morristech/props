@@ -27,6 +27,10 @@ module Api
       def session_user
         User.find_by(id: env['rack.session'][:user_id]) || User.find_by(uid: headers['User-Uid'])
       end
+
+      def session_organisation
+        Organisation.find_by(id: env['rack.session'][:organisation_id])
+      end
     end
   end
 end

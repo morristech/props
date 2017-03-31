@@ -6,7 +6,9 @@ class Prop < ActiveRecord::Base
   has_many :prop_receivers
   has_many :upvotes
   belongs_to :propser, class_name: 'User'
+  belongs_to :organisation
 
+  validates :organisation, presence: true
   validates :propser, presence: true
   validate :prop_receivers?, :valid_prop_receivers?, :selfpropsing, :receivers_limit
   validates :body,
