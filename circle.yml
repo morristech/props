@@ -7,7 +7,7 @@ deployment:
     commands:
       - bundle exec cap production deploy
   staging:
-    branch: master
+    branch: new-js-architecture
     heroku:
       appname: netguru-props-staging
 dependencies:
