@@ -77,7 +77,6 @@
     "test": "jest",
     "test-live": "karma start --reporters notify,dots --no-singleRun"
   },
-  "license": "",
   "engines": {
     "node": ">= 0.10"
   },
