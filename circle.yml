@@ -16,3 +16,12 @@ deployment:
 dependencies:
   cache_directories:
     - "node_modules"
+  override:
+    - yarn
+    - bundle install
+test:
+  override:
+    - yarn test
+notify:
+  webhooks:
+    - url: https://webhooks.gitter.im/e/5d08569c0fcb0d849f50
