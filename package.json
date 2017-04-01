@@ -68,7 +68,7 @@
     "webpack": "^1.13.3"
   },
   "scripts": {
-    "heroku-postbuild": "npm run build",
+    "heroku-postbuild": "yarn build",
     "build": "webpack -p --config webpack/production.config.js",
     "rwr-node-dev-server": "forever forever/development.json",
     "rwr-node-server": "forever -o log/rwr-server-out.log -e log/rwr-server-err.log forever/production.json",
