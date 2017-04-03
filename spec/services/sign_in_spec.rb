@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+include OmniauthHelpers
+
 describe Users::SignIn do
   describe '#call' do
     it 'returns object with user_id and organisation_id' do
@@ -34,12 +36,14 @@ describe Users::SignIn do
       expect(user.reload.email).to eq(new_email)
     end
 
-    def create_auth(email: 'aaa@bbb.cc')
-      {
-        'provider' => 'slack',
-        'uid' => 'auth_uid',
-        'info' => { 'nickname' => 'tod', 'email' => email },
-      }
+    it 'saves authenitcation token when organisation is created' do
+      token = 'some_token'
+      auth = create_auth(token: token)
+      sign_in = Users::SignIn.new(auth: auth)
+
+      sign_in.call
+
+      expect(Organisation.first.token).to eq(token)
     end
   end
 end
