@@ -15,9 +15,7 @@ class SessionsController < ApplicationController
     redirect_to root_url, notice: 'Signed out!'
   end
 
-  def failure(message = nil)
-    message ||= params[:message].humanize
-    redirect_to root_url, alert: "Authentication error: #{message}",
-                          status: :unauthorized
+  def failure
+    redirect_to root_url
   end
 end
