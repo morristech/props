@@ -16,6 +16,10 @@ module Utils
       domain_parts.empty? ? nil : domain_parts.join('.')
     end
 
+    def remove_subdomain
+      self.subdomain = nil
+    end
+
     def subdomain=(new_subdomain)
       @uri.host = [new_subdomain, @base_domain].reject do |component|
         component.nil? || component.empty?
