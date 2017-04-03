@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe Api::V1::Users do
   let!(:users) { create_list(:user, 2) }
+  let(:membership) { create(:membership, user: users[0]) }
   let!(:inactive_user) { create(:user, archived_at: Time.now) }
 
   describe 'GET /api/v1/users' do
@@ -18,15 +19,15 @@ describe Api::V1::Users do
 
     context 'user is signed in' do
       before do
-        sign_in(users[0])
+        sign_in(membership)
         get '/api/v1/users'
       end
 
       after { sign_out }
 
-      it 'returns all active users' do
+      it 'returns all active users for current organisation' do
         expect(json_response.class).to be Array
-        expect(json_response.size).to eq UsersRepository.new.active.count
+        expect(json_response.size).to eq UsersRepository.new.for_organisation(membership.organisation).count
       end
     end
   end

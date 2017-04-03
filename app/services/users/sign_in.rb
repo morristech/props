@@ -1,11 +1,10 @@
 module Users
   class SignIn
     class Success
-      attr_reader :user, :organisation
+      attr_reader :membership
 
-      def initialize(user, organisation)
-        @user = user
-        @organisation = organisation
+      def initialize(membership)
+        @membership = membership
       end
     end
 
@@ -23,7 +22,8 @@ module Users
       user = @users_repository.user_from_auth(@auth)
       organisation = @organisations_repository.from_auth(@auth)
       organisation.add_user(user)
-      Success.new(user, organisation)
+      membership = Membership.where(user: user, organisation: organisation).first
+      Success.new(membership)
     end
   end
 end

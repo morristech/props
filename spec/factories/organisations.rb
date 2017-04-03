@@ -1,5 +1,7 @@
 FactoryGirl.define do
   factory :organisation do
-    name FFaker::Company.name
+    sequence :name do |n|
+      "Organisation #{n}"
+    end
   end
 end

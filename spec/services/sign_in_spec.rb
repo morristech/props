@@ -1,47 +1,32 @@
-require 'spec_helper'
-require_relative '../../app/services/users/sign_in'
+require 'rails_helper'
 
 describe Users::SignIn do
   describe '#call' do
     it 'returns object with user_id and organisation_id' do
-      user = create_user
-      users_repo = double('users_repo', user_from_auth: user)
-      organisation = create_organisation
-      organisations_repo = double('organisations_repo', from_auth: organisation)
-      sign_in = create_sign_in(users_repo, organisations_repo)
+      auth = create_auth
+      sign_in = Users::SignIn.new(auth: auth)
 
       result = sign_in.call
 
-      expect(result.user.id).to eq(user.id)
-      expect(result.organisation.id).to eq(organisation.id)
+      expect(result.membership.user_id).to eq(User.first.id)
+      expect(result.membership.organisation_id).to eq(Organisation.first.id)
     end
 
-    it "adds user to the organisation" do
-      user = create_user
-      users_repo = double('users_repo', user_from_auth: user)
-      organisation = create_organisation
-      organisations_repo = double('organisations_repo', from_auth: organisation)
-      sign_in = create_sign_in(users_repo, organisations_repo)
+    it 'adds user to the organisation' do
+      auth = create_auth
+      sign_in = Users::SignIn.new(auth: auth)
 
       sign_in.call
 
-      expect(organisation).to have_received(:add_user).with(user)
+      expect(Organisation.first.users).to include(User.first)
     end
-  end
 
-  def create_organisation
-    double('organisation', id: double('organisation id')).tap do |organisation|
-      allow(organisation).to receive(:add_user)
+    def create_auth
+      {
+        'provider' => 'slack',
+        'uid' => 'auth_uid',
+        'info' => { 'nickname' => 'tod', 'email' => 'aaa@bbb.cc' },
+      }
     end
-  end
-
-  def create_user
-    double('user', id: double('user id'))
-  end
-
-  def create_sign_in(users_repo, organisations_repo)
-    described_class.new(auth: double('auth'),
-                        users_repository: users_repo,
-                        organisations_repository: organisations_repo)
   end
 end

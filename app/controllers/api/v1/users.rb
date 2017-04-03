@@ -18,7 +18,7 @@ module Api
       resources :users do
         desc 'Returns all active users'
         get do
-          users = users_repository.for_organisation(session_organisation)
+          users = users_repository.for_organisation(current_organisation)
           present users, with: Entities::UserBase
         end
 
