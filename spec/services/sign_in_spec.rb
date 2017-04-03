@@ -21,11 +21,24 @@ describe Users::SignIn do
       expect(Organisation.first.users).to include(User.first)
     end
 
-    def create_auth
+    it "updates user's email when it's different from one in the database" do
+      new_email = 'different@email.com'
+      auth = create_auth(email: new_email)
+      user = create(:user,
+                    email: 'some@email.com',
+                    provider: auth['provider'], uid: auth['uid'])
+      sign_in = Users::SignIn.new(auth: auth)
+
+      sign_in.call
+
+      expect(user.reload.email).to eq(new_email)
+    end
+
+    def create_auth(email: 'aaa@bbb.cc')
       {
         'provider' => 'slack',
         'uid' => 'auth_uid',
-        'info' => { 'nickname' => 'tod', 'email' => 'aaa@bbb.cc' },
+        'info' => { 'nickname' => 'tod', 'email' => email },
       }
     end
   end

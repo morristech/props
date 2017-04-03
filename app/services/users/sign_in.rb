@@ -20,6 +20,8 @@ module Users
 
     def call
       user = @users_repository.user_from_auth(@auth)
+      email = @auth['info']['email']
+      user.update_attributes(email: email) unless user.email == email
       organisation = @organisations_repository.from_auth(@auth)
       organisation.add_user(user)
       membership = Membership.where(user: user, organisation: organisation).first
