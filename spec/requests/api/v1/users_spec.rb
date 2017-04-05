@@ -3,7 +3,6 @@ require 'rails_helper'
 describe Api::V1::Users do
   let!(:users) { create_list(:user, 2) }
   let(:membership) { create(:membership, user: users[0]) }
-  let!(:inactive_user) { create(:user, archived_at: Time.now) }
 
   describe 'GET /api/v1/users' do
     include_context 'token accessible api' do
@@ -45,15 +44,30 @@ describe Api::V1::Users do
     end
 
     context 'user is signed in' do
-      before do
-        sign_in(users[0])
-        get "/api/v1/users/#{users[0].id}"
+      it 'returns specific user' do
+        membership = create :membership
+        user = create(:user)
+        membership.organisation.users << user
+        sign_in(membership)
+
+        get "/api/v1/users/#{user.id}"
+
+        expect(json_response['name']).to eq user.name
+
+        sign_out
       end
 
-      after { sign_out }
+      it 'returns forbidden status when accessing user in different organisation' do
+        sign_in(create(:membership))
+        user_in_different_organisation = create :user
+        organisation_b = create :organisation
+        organisation_b.users << user_in_different_organisation
 
-      it 'returns specific user' do
-        expect(json_response['name']).to eq users[0].name
+        get "/api/v1/users/#{user_in_different_organisation.id}"
+
+        expect(response).to have_http_status(403)
+
+        sign_out
       end
     end
   end

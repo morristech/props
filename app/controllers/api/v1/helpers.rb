@@ -3,6 +3,7 @@ module Api
     module Helpers
       extend Grape::API::Helpers
       include SessionHelpers
+      include Pundit
 
       def authenticate_user!
         error!('401 Unauthorized', 401) if current_user.nil?

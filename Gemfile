@@ -42,6 +42,7 @@ gem 'sprockets-rails', '2.3.3' # temporary lock, JST does not work properly with
 gem 'thin'
 gem 'uglifier'
 gem 'whenever', require: false
+gem 'pundit'
 
 # deploy
 gem 'capistrano', '3.3.5'
@@ -87,4 +88,5 @@ group :test do
   gem 'scrutinizer-ocular'
   gem 'email_spec'
   gem 'shoulda-matchers', '~> 3.1'
+  gem 'database_cleaner'
 end

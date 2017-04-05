@@ -2,6 +2,10 @@ module SessionHelpers
   extend ActiveSupport::Concern
 
   included do
+    def pundit_user
+      current_membership
+    end
+
     def current_user
       @current_user ||= current_membership&.user
     end

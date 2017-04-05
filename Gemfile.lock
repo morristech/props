@@ -134,6 +134,7 @@ GEM
     concurrent-ruby (1.0.2)
     connection_pool (2.2.0)
     daemons (1.2.3)
+    database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     decent_exposure (2.3.3)
     descendants_tracker (0.0.4)
@@ -336,6 +337,8 @@ GEM
     pry-rescue (1.4.2)
       interception (>= 0.5)
       pry
+    pundit (1.1.0)
+      activesupport (>= 3.0.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
@@ -519,6 +522,7 @@ DEPENDENCIES
   celluloid-io
   codeclimate-test-reporter
   coffee-rails
+  database_cleaner
   decent_exposure
   easy_tokens
   email_spec
@@ -550,6 +554,7 @@ DEPENDENCIES
   pg
   pry-rails
   pry-rescue
+  pundit
   quiet_assets
   rack-mini-profiler
   rails (~> 4)
