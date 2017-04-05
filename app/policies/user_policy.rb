@@ -1,7 +1,7 @@
 class UserPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope
+      UsersRepository.new.for_organisation(membership.organisation).all
     end
   end
 

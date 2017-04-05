@@ -18,7 +18,7 @@ module Api
       resources :users do
         desc 'Returns all active users'
         get do
-          users = users_repository.for_organisation(current_organisation)
+          users = policy_scope(User)
           present users, with: Entities::UserBase
         end
 
