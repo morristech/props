@@ -7,7 +7,7 @@ module SessionHelpers
     end
 
     def current_user
-      @current_user ||= current_membership&.user
+      @current_user ||= current_membership.try(:user)
     end
 
     def current_organisation
