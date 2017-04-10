@@ -1,4 +1,6 @@
 import fetch from 'isomorphic-fetch';
+import series from 'async/series';
+
 import {
   RECEIVE_USERS,
   SET_USERS_QUERY,
@@ -37,11 +39,31 @@ export const fetchUsers = () => dispatch => (
 );
 
 export const fetchUserProfile = userId => dispatch => (
-  fetch(`/api/v1/users/${userId}`, {
-    credentials: 'same-origin',
-  })
-  .then(req => req.json())
-  .then((json) => {
-    dispatch(receiveUserProfile(json));
+  series({
+    profile: (callback) => {
+      fetch(`/api/v1/users/${userId}`, {
+        credentials: 'same-origin',
+      })
+        .then(req => req.json())
+        .then(json => callback(null, json));
+    },
+    receivedProps: (callback) => {
+      fetch(`/api/v1/props?user_id=${userId}`, {
+        credentials: 'same-origin',
+      })
+        .then(req => req.json())
+        .then(json => callback(null, json));
+    },
+    givenProps: (callback) => {
+      fetch(`/api/v1/props?propser_id=${userId}`, {
+        credentials: 'same-origin',
+      })
+        .then(req => req.json())
+        .then(json => callback(null, json));
+    },
+  }, (err, { profile, receivedProps, givenProps }) => {
+    dispatch(receiveUserProfile(profile));
+    console.log(receivedProps);
+    console.log(givenProps);
   })
 );
