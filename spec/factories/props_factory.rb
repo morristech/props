@@ -12,5 +12,9 @@ FactoryGirl.define do
         prop.upvotes << create(:upvote)
       end
     end
+
+    trait :without_organisation do
+      organisation nil
+    end
   end
 end
