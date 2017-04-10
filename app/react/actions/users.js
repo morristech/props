@@ -7,6 +7,13 @@ import {
   RECEIVE_USER_PROFILE,
 } from '../constants/users';
 
+const fetchData = (path) => (
+  fetch(path, {
+    credentials: 'same-origin',
+  })
+    .then(req => req.json())
+);
+
 export const receiveUsers = users => ({
   type: RECEIVE_USERS,
   payload: {
@@ -41,24 +48,15 @@ export const fetchUsers = () => dispatch => (
 export const fetchUserProfile = userId => dispatch => (
   series({
     profile: (callback) => {
-      fetch(`/api/v1/users/${userId}`, {
-        credentials: 'same-origin',
-      })
-        .then(req => req.json())
+      fetchData(`/api/v1/users/${userId}`)
         .then(json => callback(null, json));
     },
     receivedProps: (callback) => {
-      fetch(`/api/v1/props?user_id=${userId}`, {
-        credentials: 'same-origin',
-      })
-        .then(req => req.json())
+      fetchData(`/api/v1/props?user_id=${userId}`)
         .then(json => callback(null, json));
     },
     givenProps: (callback) => {
-      fetch(`/api/v1/props?propser_id=${userId}`, {
-        credentials: 'same-origin',
-      })
-        .then(req => req.json())
+      fetchData(`/api/v1/props?propser_id=${userId}`)
         .then(json => callback(null, json));
     },
   }, (err, { profile, receivedProps, givenProps }) => {
