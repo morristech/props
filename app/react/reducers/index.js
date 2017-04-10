@@ -5,6 +5,7 @@ import propsPagination from './props-pagination';
 import user from './user';
 import users from './users';
 import usersQuery from './usersQuery';
+import userProfile from './user-profile';
 
 const rootReducer = combineReducers({
   props,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   user,
   usersQuery,
   routing: routerReducer,
+  userProfile,
 });
 
 export default rootReducer;
