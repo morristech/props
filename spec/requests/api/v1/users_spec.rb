@@ -26,7 +26,9 @@ describe Api::V1::Users do
 
       it 'returns all active users for current organisation' do
         expect(json_response.class).to be Array
-        expect(json_response.size).to eq UsersRepository.new.for_organisation(membership.organisation).count
+        expect(json_response.size).to eq(
+          UsersRepository.new.for_organisation(membership.organisation).count,
+        )
       end
     end
   end

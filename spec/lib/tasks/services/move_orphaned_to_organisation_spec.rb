@@ -32,8 +32,9 @@ describe MoveOrphanedToOrganisation do
       orphanded_users = create_list :user, 10
 
       MoveOrphanedToOrganisation.new(organisation.id).call
+      orphanded_users.each(&:reload)
 
-      expect(User.all.map { |user| user.organisations.map(&:id) })
+      expect(orphanded_users.map { |user| user.organisations.map(&:id) })
         .to all(include(organisation.id))
     end
 

@@ -10,7 +10,7 @@ class MoveOrphanedToOrganisation
 
     Membership.create!(
       user_ids.map do |user_id|
-        { user_id: user_id, organisation_id: organisation_id}
+        { user_id: user_id, organisation_id: organisation_id }
       end
     )
   end

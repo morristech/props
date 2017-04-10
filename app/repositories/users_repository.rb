@@ -4,7 +4,9 @@ class UsersRepository
   end
 
   def for_organisation(organisation)
-    User.where(id: active.select(:id).joins(:organisations).where('organisations.id = ?', organisation.id))
+    User.where(
+      id: active.select(:id).joins(:organisations).where('organisations.id = ?', organisation.id),
+    )
   end
 
   def active

@@ -49,5 +49,4 @@ describe Utils::UrlWithBaseDomain do
       expect(uri.to_s).to eq('http://bbb.pl/stuff')
     end
   end
-
 end
