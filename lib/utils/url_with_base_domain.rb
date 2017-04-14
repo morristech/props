@@ -9,7 +9,7 @@ module Utils
       domain_parts = parts(@uri.host)
       base_domain_parts = parts(@base_domain)
       components_count = base_domain_parts.size
-      unless domain_parts.last(components_count) == base_domain_parts
+      unless @uri.host.ends_with?(@base_domain)
         raise "Base domain doesn't match the URI"
       end
       domain_parts.pop(components_count)
@@ -21,9 +21,7 @@ module Utils
     end
 
     def subdomain=(new_subdomain)
-      @uri.host = [new_subdomain, @base_domain].reject do |component|
-        component.nil? || component.empty?
-      end.join('.')
+      @uri.host = [new_subdomain, @base_domain].reject(&:blank?).join('.')
     end
 
     def to_s

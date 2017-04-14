@@ -6,8 +6,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    sign_in = Users::SignIn.new(auth: request.env['omniauth.auth']).call
-    session[:membership_id] = sign_in.membership.id
+    membership = Users::SignIn.new(auth: request.env['omniauth.auth']).call
+    session[:membership_id] = membership.id
     redirect_to app_url, notice: 'Signed in!'
   end
 

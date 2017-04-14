@@ -1,15 +1,5 @@
 module Users
   class SignIn
-    class Success
-      attr_reader :membership
-
-      def initialize(membership)
-        @membership = membership
-      end
-    end
-
-    private_constant :Success
-
     def initialize(auth:,
                    users_repository: UsersRepository.new,
                    organisations_repository: OrganisationsRepository.new)
@@ -24,8 +14,7 @@ module Users
       user.update_attributes(email: email) unless user.email == email
       organisation = @organisations_repository.from_auth(@auth)
       organisation.add_user(user)
-      membership = Membership.where(user: user, organisation: organisation).first
-      Success.new(membership)
+      Membership.find_by(user: user, organisation: organisation)
     end
   end
 end

@@ -1,11 +1,7 @@
 FactoryGirl.define do
   factory :user do
-    sequence :name do |n|
-      "username_#{n}"
-    end
-    sequence :email do |n|
-      "user_#{n}@email.com"
-    end
+    sequence(:name) { |n| "username_#{n}" }
+    sequence(:email) { |n| "user_#{n}@email.com" }
     provider 'provider'
     uid { FFaker::Guid.guid }
 

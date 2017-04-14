@@ -8,10 +8,10 @@ describe Users::SignIn do
       auth = create_auth
       sign_in = Users::SignIn.new(auth: auth)
 
-      result = sign_in.call
+      membership = sign_in.call
 
-      expect(result.membership.user_id).to eq(User.first.id)
-      expect(result.membership.organisation_id).to eq(Organisation.first.id)
+      expect(membership.user_id).to eq(User.first.id)
+      expect(membership.organisation_id).to eq(Organisation.first.id)
     end
 
     it 'adds user to the organisation' do
