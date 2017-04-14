@@ -4,7 +4,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 export default class Announcement extends React.Component {
   static get propTypes() {
     return {
-      propsCount: PropTypes.string.isRequired,
+      propsCount: PropTypes.number.isRequired,
     };
   }
 

@@ -16,7 +16,7 @@ const mapStateToProps = state => ({
   currentPage: state.propsPagination.currentPage,
 });
 
-const mapDispatchToProps = (dispatch, state) => ({
+const mapDispatchToProps = dispatch => ({
   onPaginationPrev: (prevPage) => {
     dispatch(fetchProps(prevPage));
   },
