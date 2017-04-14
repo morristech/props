@@ -4,6 +4,7 @@ import series from 'async/series';
 import {
   RECEIVE_USERS,
   SET_USERS_QUERY,
+  REQUEST_USER_PROFILE,
   RECEIVE_USER_PROFILE,
 } from '../constants/users';
 
@@ -48,8 +49,13 @@ export const fetchUsers = () => dispatch => (
   })
 );
 
-export const fetchUserProfile = userId => dispatch => (
-  series({
+export const requestProfile = () => ({
+  type: REQUEST_USER_PROFILE,
+});
+
+export const fetchUserProfile = userId => (dispatch) => {
+  dispatch(requestProfile());
+  return series({
     profile: (callback) => {
       fetchData(`/api/v1/users/${userId}`, callback);
     },
@@ -61,5 +67,5 @@ export const fetchUserProfile = userId => dispatch => (
     },
   }, (err, { profile, receivedProps, givenProps }) => {
     dispatch(receiveUserProfile(profile, receivedProps.props, givenProps.props));
-  })
-);
+  });
+};

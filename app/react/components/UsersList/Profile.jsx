@@ -3,6 +3,7 @@ import { get } from 'lodash';
 
 import UserStats from './UserStats';
 import PropsList from './UserProps';
+import Loader from '../shared/loader';
 
 class Profile extends Component {
   componentDidMount() {
@@ -23,7 +24,10 @@ class Profile extends Component {
       receivedProps,
       givenProps,
       props_count: count,
+      isFetching,
     } = this.props.userProfile;
+    if (isFetching) { return <Loader />; }
+
     return (
       <div>
         <UserStats
@@ -52,6 +56,7 @@ Profile.propTypes = {
       received: PropTypes.number,
       given: PropTypes.number,
     }),
+    isFetching: PropTypes.bool,
   }),
   params: PropTypes.shape({
     id: PropTypes.string.isRequired,
