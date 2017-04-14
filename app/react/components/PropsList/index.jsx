@@ -49,6 +49,7 @@ const PropsList = ({
         <Prop
           key={prop.id}
           prop={prop}
+          vote
           onPropUpvote={handlePropUpvote}
           onPropDownvote={handlePropDownvote}
         />

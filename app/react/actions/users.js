@@ -29,10 +29,12 @@ export const setUsersQuery = query => ({
   },
 });
 
-export const receiveUserProfile = profile => ({
+export const receiveUserProfile = (profile, receivedProps, givenProps) => ({
   type: RECEIVE_USER_PROFILE,
   payload: {
     profile,
+    receivedProps,
+    givenProps,
   },
 });
 
@@ -58,8 +60,6 @@ export const fetchUserProfile = userId => dispatch => (
       fetchData(`/api/v1/props?propser_id=${userId}`, callback);
     },
   }, (err, { profile, receivedProps, givenProps }) => {
-    dispatch(receiveUserProfile(profile));
-    console.log(receivedProps);
-    console.log(givenProps);
+    dispatch(receiveUserProfile(profile, receivedProps.props, givenProps.props));
   })
 );

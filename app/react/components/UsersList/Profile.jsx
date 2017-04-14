@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { get } from 'lodash';
 
 import UserStats from './UserStats';
+import PropsList from './UserProps';
 
 class Profile extends Component {
   componentDidMount() {
@@ -12,6 +13,8 @@ class Profile extends Component {
     const {
       name,
       archived,
+      receivedProps,
+      givenProps,
       props_count: count,
     } = this.props.userProfile;
     return (
@@ -21,6 +24,11 @@ class Profile extends Component {
           propsReceivedCount={get(count, 'received', 0)}
           propsGivenCount={get(count, 'given', 0)}
           archived={archived}
+        />
+
+        <PropsList
+          givenProps={givenProps || []}
+          receivedProps={receivedProps || []}
         />
       </div>
     );
