@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   validates :uid, uniqueness: { scope: :provider }
   has_many :props, through: :prop_receivers
   has_many :prop_receivers
+  has_many :memberships
+  has_many :organisations, through: :memberships
 
   def to_s
     name
@@ -24,14 +26,14 @@ class User < ActiveRecord::Base
   end
 
   def self.omniauth_user(auth)
-    find_by_email(auth['info']['email']) || find_by_name(auth['info']['name'])
+    find_by(email: auth['info']['email']) || find_by(name: auth['info']['nickname'])
   end
 
   def self.omniauth_attrs(auth)
     {
       provider: auth['provider'],
       uid: auth['uid'],
-      name: auth['info']['name'] || '',
+      name: auth['info']['nickname'] || '',
       email: auth['info']['email'] || '',
     }
   end

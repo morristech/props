@@ -11,7 +11,11 @@ class Notifier
     end
 
     def channel
-      @channel ||= Slack::RealTime::Client.new.web_client
+      @channel ||= Slack::RealTime::Client.new(token: token).web_client
+    end
+
+    def token
+      @token ||= notification.prop.organisation.token
     end
 
     def message
@@ -25,9 +29,10 @@ class Notifier
     def default_options
       {
         channel: AppConfig.slack.default_channel,
-        username: 'PropsApp',
+        username: 'props',
         color: '#0092ca',
         icon_emoji: icon,
+        as_user: false,
       }
     end
   end

@@ -2,9 +2,8 @@ module Api
   module V1
     module Helpers
       extend Grape::API::Helpers
-      def current_user
-        @current_user ||= User.find(session_user_id) if session_user_id
-      end
+      include SessionHelpers
+      include Pundit
 
       def authenticate_user!
         error!('401 Unauthorized', 401) if current_user.nil?
@@ -18,10 +17,6 @@ module Api
       def token_valid?(token)
         return false if token.nil?
         EasyTokens::Token.exists?(value: token, deactivated_at: nil)
-      end
-
-      def session_user_id
-        env['rack.session'][:user_id]
       end
     end
   end

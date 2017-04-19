@@ -43,20 +43,40 @@ Setup config file for your environment:
 cp config/secrets.yml.sample config/secrets.yml
 ```
 
-Generate omniauth credentials for your application by going to [Google Developer
-Console](https://code.google.com/apis/console) and creating new project there.
+Create slack application by going to [Your Apps](https://api.slack.com/apps).
+It is important to set the redirect url for your application to be like `https://yourdomain/auth/slack/callback`.
+You'll also need to select Permission Scopes to be as follows:
+
+- identity.avatar
+- identity.basic
+- identity.email
+- identity.team
+- chat:write:bot
+- team:read
+- users.profile:read
+- users:read
+- users:read.email
+
 
 Development endpoints:
 
 - http://props.dev
-- http://props.dev/auth/google_oauth2/callback
+- http://props.dev/auth/slack/callback
 
 When you have the credentials, put them in the `config/secrets.yml` file
 under `omniauth_provider_key` and `omniauth_provider_secret` values.
 
+Auth0 integration:
+
+1. Create `non-interactive auth0 client` and use `AUTH0_API_CLIENT_ID` and `AUTH0_API_CLIENT_SECRET` from that client
+2. Go to your auth0 account settings, advanced tab, and turn on 'Enable APIs Section' for be able to see API's view
+3. Under API section, create click button for creating api and after that you will receive `AUTH0_API_AUDIENCE` 
+4. Don't forget to connect and authorise api in Auth0 Management API (non-interactive-clients tab), with your new ni-client, created in point 1
+
 Slack feature:
 
-In order to post props notifications and recieve thumbs-ups, you need to create a new Bot Integration and put its API token under `slack.token` in your secrets. Besides token, please provide `slack.default_channel` value (must be valid channel name, e.g. `general`).
+In order to post props notifications and recieve thumbs-ups, you need to set `slack.default_channel` value (must be valid channel name, e.g. `general`) in your secrets.
+
 
 _Note: If you're going to use Heroku Free Dynos, please be aware that you app will sleep at least 6h a day - and because of that you may not receive all reactions from Slack._
 
