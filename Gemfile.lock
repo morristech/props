@@ -134,6 +134,7 @@ GEM
     concurrent-ruby (1.0.2)
     connection_pool (2.2.0)
     daemons (1.2.3)
+    database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     decent_exposure (2.3.3)
     descendants_tracker (0.0.4)
@@ -261,7 +262,7 @@ GEM
       haml_coffee_assets (~> 1.16)
       js-routes (>= 0.9.6)
     json (1.8.3)
-    jwt (1.5.4)
+    jwt (1.5.6)
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -308,23 +309,20 @@ GEM
     notiffany (0.0.8)
       nenv (~> 0.1)
       shellany (~> 0.0)
-    oauth2 (1.0.0)
-      faraday (>= 0.8, < 0.10)
+    oauth2 (1.3.0)
+      faraday (>= 0.8, < 0.11)
       jwt (~> 1.0)
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
-      rack (~> 1.2)
+      rack (>= 1.2, < 3)
     omniauth (1.3.1)
       hashie (>= 1.2, < 4)
       rack (>= 1.0, < 3)
-    omniauth-google-oauth2 (0.4.1)
-      jwt (~> 1.5.2)
-      multi_json (~> 1.3)
-      omniauth (>= 1.1.1)
-      omniauth-oauth2 (>= 1.3.1)
-    omniauth-oauth2 (1.4.0)
+    omniauth-oauth2 (1.3.1)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
+    omniauth-slack (2.3.0)
+      omniauth-oauth2 (~> 1.3.1)
     parser (2.3.1.0)
       ast (~> 2.2)
     pg (0.18.4)
@@ -339,6 +337,8 @@ GEM
     pry-rescue (1.4.2)
       interception (>= 0.5)
       pry
+    pundit (1.1.0)
+      activesupport (>= 3.0.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
@@ -442,6 +442,8 @@ GEM
       json
     sexp_processor (4.7.0)
     shellany (0.0.1)
+    shoulda-matchers (3.1.1)
+      activesupport (>= 4.0.0)
     sidekiq (4.1.2)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
@@ -520,6 +522,7 @@ DEPENDENCIES
   celluloid-io
   codeclimate-test-reporter
   coffee-rails
+  database_cleaner
   decent_exposure
   easy_tokens
   email_spec
@@ -547,10 +550,11 @@ DEPENDENCIES
   lograge
   netguru_theme
   omniauth
-  omniauth-google-oauth2
+  omniauth-slack
   pg
   pry-rails
   pry-rescue
+  pundit
   quiet_assets
   rack-mini-profiler
   rails (~> 4)
@@ -567,6 +571,7 @@ DEPENDENCIES
   scrutinizer-ocular
   searchlight
   sendgrid
+  shoulda-matchers (~> 3.1)
   sidekiq
   skylight
   slack-ruby-client
@@ -578,4 +583,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   1.13.7
+   1.14.6

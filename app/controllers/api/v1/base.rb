@@ -1,6 +1,9 @@
 module Api
   module V1
     class Base < Grape::API
+      rescue_from Pundit::NotAuthorizedError do
+        error!('Permission denied', 403)
+      end
       mount Api::V1::Props
       mount Api::V1::Users
       mount Api::V1::Rankings
