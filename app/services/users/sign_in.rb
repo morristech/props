@@ -10,11 +10,18 @@ module Users
 
     def call
       user = @users_repository.user_from_auth(@auth)
-      email = @auth['info']['email']
-      user.update_attributes(email: email) unless user.email == email
+      update_user(user)
       organisation = @organisations_repository.from_auth(@auth)
       organisation.add_user(user)
       Membership.find_by(user: user, organisation: organisation)
+    end
+
+    private
+
+    def update_user(user)
+      email = @auth['info']['email']
+      name = @auth['info']['name']
+      user.update_attributes(email: email, name: name)
     end
   end
 end
