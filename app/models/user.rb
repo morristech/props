@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
     {
       provider: auth['provider'],
       uid: auth['uid'],
-      name: auth['info']['nickname'] || '',
+      name: auth['info']['name'] || '',
       email: auth['info']['email'] || '',
     }
   end
