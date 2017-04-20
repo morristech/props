@@ -7,6 +7,7 @@ module OmniauthHelpers
       'provider' => 'slack',
       'uid' => 'auth_uid',
       'info' => {
+        'name' => 'Tod tod',
         'nickname' => 'tod',
         'email' => email,
         'team_id' => team_id,
