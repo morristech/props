@@ -23,7 +23,7 @@ export default class NavbarSettings extends React.Component {
           data-toggle="dropdown"
           href="dropdown-menu"
         >
-          {`${this.props.user.name} (${this.props.user.email})`}
+          <span>{`${this.props.user.name} (${this.props.user.email})`}</span>
           <span className="caret" />
         </a>
         <ul className="dropdown-menu" role="menu">

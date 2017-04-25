@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe RankingRepository do
   describe '#hero_of_the_week' do
+    let(:organisation) { create(:organisation) }
     let(:mark) { create(:user) }
     let(:john) { create(:user) }
     let(:jane) { create(:user, name: 'Jane Doe') }
@@ -23,7 +24,8 @@ describe RankingRepository do
 
     def create_prop_for_user(user, propser)
       attrs = attributes_for(:prop).merge(user_ids: user.id.to_s,
-                                          propser_id: propser.id)
+                                          propser_id: propser.id,
+                                          organisation: organisation)
       PropsRepository.new.add(attrs)
     end
   end

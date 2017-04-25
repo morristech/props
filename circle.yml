@@ -13,6 +13,11 @@ deployment:
     branch: new-js-architecture
     heroku:
       appname: netguru-props-staging
+  paas_staging:
+    branch: paas_prototype
+    heroku:
+      appname: netguru-props-paas-prototype
+
 dependencies:
   cache_directories:
     - "node_modules"

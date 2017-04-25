@@ -3,8 +3,13 @@ require 'rails_helper'
 describe Api::V1::Rankings do
   let(:propser) { create(:user) }
   let(:receiver) { create(:user) }
+  let(:organisation) { create(:organisation) }
   let(:prop_receiver) { PropReceiver.create(user: receiver) }
-  let!(:prop) { Prop.create(body: 'sample', propser: propser, prop_receivers: [prop_receiver]) }
+  let!(:prop) do
+    Prop.create(body: 'sample', propser: propser,
+                prop_receivers: [prop_receiver],
+                organisation: organisation)
+  end
   let!(:api_token) { EasyTokens::Token.create(value: 'aaabbbccc', owner_id: propser.id) }
 
   describe 'GET /api/v1/rankings/hero_of_the_week' do
