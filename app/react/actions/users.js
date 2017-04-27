@@ -1,6 +1,4 @@
 import fetch from 'isomorphic-fetch';
-import series from 'async/series';
-
 import {
   RECEIVE_USERS,
   SET_USERS_QUERY,
@@ -8,13 +6,10 @@ import {
   RECEIVE_USER_PROFILE,
 } from '../constants/users';
 
-const fetchData = (path, callback) => (
-  fetch(path, {
-    credentials: 'same-origin',
-  })
-    .then(req => req.json())
-    .then(json => callback(null, json))
-);
+const fetchData = path => fetch(path, {
+  credentials: 'same-origin',
+})
+  .then(req => req.json());
 
 export const receiveUsers = users => ({
   type: RECEIVE_USERS,
@@ -55,17 +50,13 @@ export const requestProfile = () => ({
 
 export const fetchUserProfile = userId => (dispatch) => {
   dispatch(requestProfile());
-  return series({
-    profile: (callback) => {
-      fetchData(`/api/v1/users/${userId}`, callback);
-    },
-    receivedProps: (callback) => {
-      fetchData(`/api/v1/props?user_id=${userId}`, callback);
-    },
-    givenProps: (callback) => {
-      fetchData(`/api/v1/props?propser_id=${userId}`, callback);
-    },
-  }, (err, { profile, receivedProps, givenProps }) => {
-    dispatch(receiveUserProfile(profile, receivedProps.props, givenProps.props));
-  });
+
+  return Promise.all([
+    fetchData(`/api/v1/users/${userId}`),
+    fetchData(`/api/v1/props?user_id=${userId}`),
+    fetchData(`/api/v1/props?propser_id=${userId}`),
+  ])
+    .then(([profile, receivedProps, givenProps]) => {
+      dispatch(receiveUserProfile(profile, receivedProps.props, givenProps.props));
+    });
 };
