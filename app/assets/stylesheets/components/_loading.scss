@@ -11,24 +11,20 @@
 }
 
 .loader {
-  height: 200px;
+  @include sizing(100% 200px);
   margin: 100px 0;
   position: relative;
-  width: 100%;
 
   &::before {
+    @include absolute(top 50% left 50%);
+    @include sizing(50px);
     animation: loader .6s linear infinite;
     border: 5px solid #ccc;
     border-radius: 50%;
     border-top-color: #c27809;
     box-sizing: border-box;
     content: '';
-    height: 50px;
-    left: 50%;
     margin: -25px 0 0 -25px;
-    position: absolute;
-    top: 50%;
-    width: 50px;
   }
 }
 
