@@ -18,6 +18,7 @@ const mapDispatchToProps = dispatch => ({
   },
   goToUserProfile: (path) => {
     dispatch(push(path));
+    dispatch(setUsersQuery(''));
   },
 });
 

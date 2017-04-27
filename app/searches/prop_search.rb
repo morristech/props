@@ -8,6 +8,10 @@ class PropSearch < Searchlight::Search
     query.where(prop_receivers: { user_id: user_id })
   end
 
+  def search_organisation_id
+    query.where(organisation_id: organisation_id)
+  end
+
   def search_after
     query.where('props.created_at >= ?', after)
   end

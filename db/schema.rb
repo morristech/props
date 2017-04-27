@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160512034901) do
+ActiveRecord::Schema.define(version: 20170403134807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,27 @@ ActiveRecord::Schema.define(version: 20160512034901) do
 
   add_index "mail_subscriptions", ["user_id"], name: "index_mail_subscriptions_on_user_id", unique: true, using: :btree
 
+  create_table "memberships", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "organisation_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "memberships", ["organisation_id"], name: "index_memberships_on_organisation_id", using: :btree
+  add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
+
+  create_table "organisations", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "team_id"
+    t.string   "token"
+  end
+
+  add_index "organisations", ["name"], name: "index_organisations_on_name", unique: true, using: :btree
+  add_index "organisations", ["team_id"], name: "index_organisations_on_team_id", unique: true, using: :btree
+
   create_table "prop_receivers", force: :cascade do |t|
     t.integer "prop_id"
     t.integer "user_id"
@@ -50,10 +71,12 @@ ActiveRecord::Schema.define(version: 20160512034901) do
     t.string   "body"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "upvotes_count", default: 0
+    t.integer  "upvotes_count",   default: 0
     t.string   "slack_ts"
+    t.integer  "organisation_id"
   end
 
+  add_index "props", ["organisation_id"], name: "index_props_on_organisation_id", using: :btree
   add_index "props", ["propser_id"], name: "index_props_on_propser_id", using: :btree
 
   create_table "upvotes", force: :cascade do |t|
@@ -79,4 +102,7 @@ ActiveRecord::Schema.define(version: 20160512034901) do
 
   add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true, using: :btree
 
+  add_foreign_key "memberships", "organisations"
+  add_foreign_key "memberships", "users"
+  add_foreign_key "props", "organisations"
 end

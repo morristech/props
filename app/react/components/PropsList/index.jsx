@@ -3,6 +3,7 @@ import { isEmpty } from 'lodash';
 import Pagination from '../shared/pagination';
 import AddProp from './AddProp';
 import Prop from './Prop';
+import Loader from '../shared/loader';
 
 const PropsList = ({
   propsList,
@@ -16,6 +17,7 @@ const PropsList = ({
   onPropUpvote,
   onPropDownvote,
   onPropSubmit,
+  isFetching,
 }) => {
   const handlePrevPageClick = (e) => {
     e.preventDefault();
@@ -35,6 +37,8 @@ const PropsList = ({
     onPropDownvote(id);
   };
 
+  if (isFetching) { return <Loader />; }
+
   return (
     <div>
       {
@@ -49,6 +53,7 @@ const PropsList = ({
         <Prop
           key={prop.id}
           prop={prop}
+          vote
           onPropUpvote={handlePropUpvote}
           onPropDownvote={handlePropDownvote}
         />
@@ -82,6 +87,7 @@ PropsList.propTypes = {
     email: PropTypes.string,
     avatar_url: PropTypes.string,
   }),
+  isFetching: PropTypes.bool,
 };
 
 export default PropsList;

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import _noop from 'lodash/noop';
+
 const Vote = ({
   onUpvote,
   upvotesCount,
@@ -47,11 +49,19 @@ const Vote = ({
 };
 
 Vote.propTypes = {
-  onUpvote: React.PropTypes.func.isRequired,
-  upvotesCount: React.PropTypes.number.isRequired,
-  isUpvotePossible: React.PropTypes.bool.isRequired,
-  isUndoUpvotePossible: React.PropTypes.bool.isRequired,
-  undoUpvote: React.PropTypes.func.isRequired,
+  onUpvote: React.PropTypes.func,
+  upvotesCount: React.PropTypes.number,
+  isUpvotePossible: React.PropTypes.bool,
+  isUndoUpvotePossible: React.PropTypes.bool,
+  undoUpvote: React.PropTypes.func,
+};
+
+Vote.defaultProps = {
+  upvotesCount: 0,
+  onUpvote: _noop,
+  undoUpvote: _noop,
+  isUpvotePossible: false,
+  isUndoUpvotePossible: false,
 };
 
 export default Vote;

@@ -16,13 +16,15 @@ describe PropsRepository do
     let(:jack) { create(:user) }
     let(:jane) { create(:user) }
     let(:john) { create(:user) }
+    let(:organisation) { create(:organisation) }
     let(:archived_user) { create(:user, archived_at: Time.now) }
     let(:user_ids) { "#{john.id},#{jane.id}" }
     let(:attributes) do
       {
         body: "some multiline\nline prop body",
         user_ids: user_ids,
-        propser_id: jack.id
+        propser_id: jack.id,
+        organisation_id: organisation.id,
       }
     end
 

@@ -18,7 +18,8 @@ module Api
       resources :users do
         desc 'Returns all active users'
         get do
-          present users_repository.active, with: Entities::UserBase
+          users = policy_scope(User)
+          present users, with: Entities::UserBase
         end
 
         namespace ':user_id' do
@@ -28,6 +29,7 @@ module Api
           end
           get do
             user = users_repository.find_by_id(params[:user_id])
+            authorize user, :show?
             present user, with: Entities::UserFull
           end
         end
