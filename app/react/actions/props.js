@@ -24,8 +24,8 @@ export const receivePropsPage = props => ({
   },
 });
 
-export const fetchProps = (page = 1) => (dispatch) => {
-  dispatch(requestPropsPage());
+export const fetchProps = (page = 1, showLoader = true) => (dispatch) => {
+  if (showLoader) dispatch(requestPropsPage());
 
   return fetch(`/api/v1/props?page=${page}`, {
     credentials: 'same-origin',
@@ -59,7 +59,7 @@ export const upvoteProp = id => (dispatch, getState) => (
   })
   .then(() => {
     const { propsPagination } = getState();
-    dispatch(fetchProps(propsPagination.currentPage));
+    dispatch(fetchProps(propsPagination.currentPage, false));
   })
 );
 
@@ -70,6 +70,6 @@ export const downvoteProp = id => (dispatch, getState) => (
   })
   .then(() => {
     const { propsPagination } = getState();
-    dispatch(fetchProps(propsPagination.currentPage));
+    dispatch(fetchProps(propsPagination.currentPage, false));
   })
 );
