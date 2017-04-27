@@ -34,27 +34,21 @@ const UserProps = ({ receivedProps, givenProps }) => (
   </div>
 );
 
+
+const propsShape = {
+  id: PropTypes.number,
+  users: PropTypes.arrayOf(PropTypes.number),
+  propser: PropTypes.number,
+  body: PropTypes.string,
+  created_at: PropTypes.string,
+  upvotes_count: PropTypes.number,
+  is_upvote_possible: PropTypes.bool,
+  is_undo_upvote_possible: PropTypes.bool,
+};
+
 UserProps.propTypes = {
-  receivedProps: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    users: PropTypes.arrayOf(PropTypes.number),
-    propser: PropTypes.number,
-    body: PropTypes.string,
-    created_at: PropTypes.string,
-    upvotes_count: PropTypes.number,
-    is_upvote_possible: PropTypes.bool,
-    is_undo_upvote_possible: PropTypes.bool,
-  })),
-  givenProps: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    users: PropTypes.arrayOf(PropTypes.number),
-    propser: PropTypes.number,
-    body: PropTypes.string,
-    created_at: PropTypes.string,
-    upvotes_count: PropTypes.number,
-    is_upvote_possible: PropTypes.bool,
-    is_undo_upvote_possible: PropTypes.bool,
-  })),
+  receivedProps: PropTypes.arrayOf(PropTypes.shape(propsShape)),
+  givenProps: PropTypes.arrayOf(PropTypes.shape(propsShape)),
 };
 
 UserProps.defaultProps = {
