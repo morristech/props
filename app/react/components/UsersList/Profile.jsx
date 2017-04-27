@@ -50,8 +50,26 @@ Profile.propTypes = {
   userProfile: PropTypes.shape({
     name: PropTypes.string,
     archived: PropTypes.bool,
-    receivedProps: PropTypes.arrayOf(PropTypes.object),
-    givenProps: PropTypes.arrayOf(PropTypes.object),
+    receivedProps: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      users: PropTypes.arrayOf(PropTypes.number),
+      propser: PropTypes.number,
+      body: PropTypes.string,
+      created_at: PropTypes.string,
+      upvotes_count: PropTypes.number,
+      is_upvote_possible: PropTypes.bool,
+      is_undo_upvote_possible: PropTypes.bool,
+    })),
+    givenProps: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      users: PropTypes.arrayOf(PropTypes.number),
+      propser: PropTypes.number,
+      body: PropTypes.string,
+      created_at: PropTypes.string,
+      upvotes_count: PropTypes.number,
+      is_upvote_possible: PropTypes.bool,
+      is_undo_upvote_possible: PropTypes.bool,
+    })),
     props_count: PropTypes.shape({
       received: PropTypes.number,
       given: PropTypes.number,
