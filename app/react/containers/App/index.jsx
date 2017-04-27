@@ -6,7 +6,10 @@ import Loader from '../../components//shared/loader';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { total: false };
+    this.state = {
+      isLoading: true,
+      total: 0,
+    };
   }
 
   componentDidMount() {
@@ -15,7 +18,10 @@ class App extends Component {
     })
     .then(req => req.json())
     .then((json) => {
-      this.setState({ total: json });
+      this.setState({
+        isLoading: false,
+        total: json,
+      });
     });
   }
 
@@ -23,7 +29,7 @@ class App extends Component {
     return (
       <div>
         {
-          !this.state.total
+          this.state.isLoading
           ? <Loader />
           : (
             <div>
