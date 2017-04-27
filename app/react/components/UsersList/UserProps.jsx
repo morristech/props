@@ -39,4 +39,9 @@ UserProps.propTypes = {
   givenProps: PropTypes.arrayOf(PropTypes.object),
 };
 
+UserProps.defaultProps = {
+  receivedProps: [],
+  givenProps: [],
+};
+
 export default UserProps;

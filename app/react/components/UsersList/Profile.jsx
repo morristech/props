@@ -38,8 +38,8 @@ class Profile extends Component {
         />
 
         <PropsList
-          givenProps={givenProps || []}
-          receivedProps={receivedProps || []}
+          givenProps={givenProps}
+          receivedProps={receivedProps}
         />
       </div>
     );
