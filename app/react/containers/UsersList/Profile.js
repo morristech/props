@@ -8,10 +8,10 @@ const mapStateToProps = ({ userProfile }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleClick: (path) => {
+  handleClick(path) {
     dispatch(push(path));
   },
-  getProfile: (userId) => {
+  getProfile(userId) {
     dispatch(fetchUserProfile(userId));
   },
 });
