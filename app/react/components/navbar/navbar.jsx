@@ -15,6 +15,7 @@ export default class Navbar extends React.Component {
   }
 
   componentWillMount() {
+    if (!this.props.userSignedIn) return;
     this.props.fetchInitialData();
   }
 

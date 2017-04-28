@@ -19,7 +19,8 @@
     %main
       .container
         #main-region
-        = redux_router 'MainRoutes'
+        - if controller_name == 'authenticated'
+          = redux_router 'MainRoutes'
         = yield
     %footer.text-center
       (c)
