@@ -24,6 +24,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_domain!
+    return if AppConfig.single_domain
     current = Utils::UrlWithBaseDomain.new(request.url, AppConfig.app_domain)
 
     if user_signed_in?
