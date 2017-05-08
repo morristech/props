@@ -44,3 +44,4 @@ production:
   slack:
     default_channel: '<%= ENV['SLACK_DEFAULT_CHANNEL'] %>'
     token: '<%= ENV['SLACK_TOKEN'] %>'
+  single_domain: true
