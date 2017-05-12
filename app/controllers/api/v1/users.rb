@@ -30,7 +30,7 @@ module Api
           get do
             user = users_repository.find_by_id(params[:user_id])
             authorize user, :show?
-            present user, with: Entities::UserFull
+            present user, with: Entities::UserFull, organisation: current_organisation
           end
         end
       end
