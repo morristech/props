@@ -20,6 +20,7 @@ development: &defaults
   slack:
     default_channel: 'default_channel'
     token: 'slack_token'
+  single_domain: true
 
 test:
   <<: *defaults
