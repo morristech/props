@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     current = Utils::UrlWithBaseDomain.new(request.url, AppConfig.app_domain)
 
     if user_signed_in?
-      organisation_name = current_organisation.name
+      organisation_name = current_organisation.name.parameterize
       if current.subdomain != organisation_name
         redirect_to app_url(host: "#{organisation_name}.#{AppConfig.app_domain}")
       end

@@ -1,11 +1,16 @@
 require 'ffaker'
+# Before running seeds, login with your Slack account
+# then all users will be assigned to your organisation
+puts '== Use your organisation'
+organisation = Organisation.first
 
 puts '== Creating users'
 20.times do |number|
   User.create!(name: FFaker::Name.name,
                email: FFaker::Internet.email,
                uid: 123456700 + number,
-               provider: 'google_oauth2')
+               provider: 'google_oauth2',
+               organisations: [organisation])
 end
 
 puts '== Creating props'
@@ -22,9 +27,10 @@ user_ids = User.pluck(:id)
   prop = Prop.new(propser_id: propser_id,
                   body: body,
                   created_at: date,
-                  updated_at: date)
+                  updated_at: date,
+                  organisation: organisation)
   prop.prop_receivers.build(user_id: user_id)
-  prop.save
+  prop.save!
 end
 
 puts '== Creating upvotes'
