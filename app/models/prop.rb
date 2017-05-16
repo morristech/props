@@ -37,7 +37,6 @@ class Prop < ActiveRecord::Base
   end
 
   def selfpropsing
-    return false
     return if prop_receivers.none? { |r| r.user_id == propser_id }
     errors.add(:user_ids, I18n.t('props.errors.selfpropsing'))
   end

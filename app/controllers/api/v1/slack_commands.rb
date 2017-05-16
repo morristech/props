@@ -10,8 +10,8 @@ module Api
         require_api_auth!(params[:token])
       end
 
-      resources :slack_commands do
-        desc 'Create new props from slack command'
+      namespace :slack_commands do
+        desc 'Create new prop from /kudos slack command'
         params do
           requires :token, type: String
           requires :team_id, type: String
@@ -21,7 +21,7 @@ module Api
         end
 
         post :kudos do
-          ::SlackCommands::CreateProp.new(params).call
+          ::SlackCommands::Kudos.new(params).call
         end
       end
     end
