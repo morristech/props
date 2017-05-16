@@ -6,6 +6,10 @@ en:
       no_users: 'ooo... not even a single receiver here? Cmon!'
       archived_user: "wait wait... %{name} is archived! Stop hacking!"
       no_upvote: "you didn't upvote that"
+  slack:
+    messages:
+      props_created: "Kudos was created successfully!"
+      props_not_created: "Something went wrong :/"
   activerecord:
     errors:
       models:
