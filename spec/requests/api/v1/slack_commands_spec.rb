@@ -1,18 +1,20 @@
 require 'rails_helper'
 
-describe Api::V1::Slack do
+describe Api::V1::SlackCommands do
   let!(:user_1) { create(:user) }
   let!(:user_2) { create(:user, uid: 'U5DH4MX6F') }
   let!(:user_3) { create(:user, uid: '4MX6FU5DH') }
   let!(:organisation) { create(:organisation) }
-  let(:path) { '/api/v1/slack/create_prop' }
+  let(:path) { '/api/v1/slack_commands/kudos' }
 
-  describe 'POST /api/v1/slack' do
+  describe 'POST /api/v1/slack_commands/kudos' do
     context 'token is valid' do
+      let!(:api_token) { EasyTokens::Token.create(value: 'aaabbbccc', owner_id: user_1.id) }
+      
       context 'when params are valid' do
         let(:params) do
           { 
-            token: '',
+            token: 'aaabbbccc',
             team_id: organisation.team_id,
             user_id: user_1.uid,
             command: '/props',
@@ -45,7 +47,7 @@ describe Api::V1::Slack do
       context 'when there are 2 props receivers' do
         let(:params) do
           { 
-            token: '',
+            token: 'aaabbbccc',
             team_id: organisation.team_id,
             user_id: user_1.uid,
             command: '/props',
@@ -73,7 +75,7 @@ describe Api::V1::Slack do
       context 'when props receivers is missing' do
         let(:params) do
           { 
-            token: '',
+            token: 'aaabbbccc',
             team_id: organisation.team_id,
             user_id: user_1.uid,
             command: '/props',
@@ -94,11 +96,11 @@ describe Api::V1::Slack do
       end
     end
 
-    # context 'token is invalid' do
-    #   it 'returns unathorized response' do
-    #     post '/api/v1/slack/create_prop'
-    #     expect(response).to have_http_status(401)
-    #   end
-    # end
+    context 'token is invalid' do
+      it 'returns unathorized response' do
+        post path
+        expect(response).to have_http_status(401)
+      end
+    end
   end
 end

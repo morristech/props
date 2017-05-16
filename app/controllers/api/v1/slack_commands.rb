@@ -1,24 +1,16 @@
 module Api
   module V1
-    class Slack < Grape::API
+    class SlackCommands < Grape::API
       include Api::V1::Defaults
       helpers do
         include Api::V1::Helpers
-
-        def prop_params(params)
-          params.merge(propser_id: current_user.id, organisation_id: current_organisation.id)
-        end
-
-        def props_repository
-          PropsRepository.new
-        end
       end
 
-      # before do
-      #   require_api_auth!(params[:token])
-      # end
+      before do
+        require_api_auth!(params[:token])
+      end
 
-      resources :slack do
+      resources :slack_commands do
         desc 'Create new props from slack command'
         params do
           requires :token, type: String
@@ -28,8 +20,8 @@ module Api
           requires :text, type: String
         end
 
-        post :create_prop do
-          ::Slack::CreateProp.new(params).call
+        post :kudos do
+          ::SlackCommands::CreateProp.new(params).call
         end
       end
     end
