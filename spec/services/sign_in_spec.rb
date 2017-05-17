@@ -45,5 +45,25 @@ describe Users::SignIn do
 
       expect(Organisation.first.token).to eq(token)
     end
+
+    it 'saves user as admin if is_admin is true' do
+      token = 'some_token'
+      auth = create_auth(is_admin: true)
+      sign_in = Users::SignIn.new(auth: auth)
+
+      sign_in.call
+
+      expect(User.first.admin).to eq true
+    end
+
+    it 'does not save user as admin if is_admin is false' do
+      token = 'some_token'
+      auth = create_auth(is_admin: false)
+      sign_in = Users::SignIn.new(auth: auth)
+
+      sign_in.call
+
+      expect(User.first.admin).to eq false
+    end
   end
 end
