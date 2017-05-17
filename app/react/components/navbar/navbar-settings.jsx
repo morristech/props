@@ -8,6 +8,7 @@ export default class NavbarSettings extends React.Component {
         email: PropTypes.string,
       }),
       userSignedIn: PropTypes.bool.isRequired,
+      currentOrganisation: PropTypes.string,
     };
   }
 
@@ -23,7 +24,7 @@ export default class NavbarSettings extends React.Component {
           data-toggle="dropdown"
           href="dropdown-menu"
         >
-          <span>{`${this.props.user.name} (${this.props.user.email})`}</span>
+          <span>{`${this.props.currentOrganisation} -  ${this.props.user.name} (${this.props.user.email})`}</span>
           <span className="caret" />
         </a>
         <ul className="dropdown-menu" role="menu">

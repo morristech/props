@@ -11,6 +11,7 @@ export default class Navbar extends React.Component {
       userSignedIn: PropTypes.bool.isRequired,
       handleLinkClicked: PropTypes.func.isRequired,
       fetchInitialData: PropTypes.func.isRequired,
+      currentOrganisation: PropTypes.string,
     };
   }
 
@@ -86,7 +87,7 @@ export default class Navbar extends React.Component {
             <ul className="nav navbar-nav">
               {getNavbarLinks(this.links)}
             </ul>
-            <NavbarSettings user={this.user} userSignedIn={this.props.userSignedIn} />
+            <NavbarSettings user={this.user} userSignedIn={this.props.userSignedIn} currentOrganisation={this.props.currentOrganisation} />
           </div>
         </div>
       </div>
