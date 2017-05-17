@@ -3,6 +3,7 @@ class SettingsController < AuthenticatedController
     subscriptions_repo.find_for_user(current_user) ||
       MailSubscription.new
   end
+  expose(:organisation) { current_organisation }
   expose(:subscriptions_repo) { MailSubscriptionsRepository.new }
 
   def index

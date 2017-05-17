@@ -24,3 +24,5 @@
             = f.radio_button("interval", "weekly")
             Weekly
       = f.submit
+    - if current_user.admin?
+      = organisation.name
