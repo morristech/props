@@ -3,8 +3,6 @@ module SlackCommands
     USER_SLACK_REGEX = /<@([a-zA-z0-9]*)\|[a-zA-z0-9]*>/
     private_constant :USER_SLACK_REGEX
 
-    attr_reader :propser, :organisation, :users, :text
-
     def initialize(params)
       @propser = find_user_by_uid(params[:user_id])
       @organisation = find_organisation_by_team_id(params[:team_id])
@@ -18,18 +16,26 @@ module SlackCommands
       return message(I18n.t('slack_commands.kudos.errors.selfpropsing')) if selfpropsing?
       return message(I18n.t('slack_commands.kudos.errors.params_missing')) if missing_params?
 
-      save_prop
+      prepare_prop
     end
 
     private
 
-    def save_prop
-      prop = Prop.new(propser_id: propser.id, body: text, organisation_id: organisation.id)
+    attr_reader :propser, :organisation, :users, :text, :prop
 
+    def prepare_prop
+      @prop = Prop.new(propser_id: propser.id, body: text, organisation_id: organisation.id)
+      fetch_prop_receivers
+      persist_prop
+    end
+
+    def fetch_prop_receivers
       users.each do |user|
         prop.prop_receivers.build(user_id: user.id)
       end
+    end
 
+    def persist_prop
       if prop.save
         send_notification(prop)
         message(I18n.t('slack_commands.kudos.messages.created'))
