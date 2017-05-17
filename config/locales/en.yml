@@ -12,6 +12,7 @@ en:
         prop_receivers_missing: "Who do you want to thank? Please mention someone who is also using Kudos."
         params_missing: "Some params are missing... That's all we know."
         not_created: "Unfortunately something went wrong..."
+        selfpropsing: "You can't give kudos to yourself!"
       messages:
         created: "Kudos was created successfully!"    
   activerecord:

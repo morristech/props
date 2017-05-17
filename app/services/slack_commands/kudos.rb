@@ -14,6 +14,7 @@ module SlackCommands
 
     def call
       return message(I18n.t('slack_commands.kudos.errors.prop_receivers_missing')) if users.empty?
+      return message(I18n.t('slack_commands.kudos.errors.selfpropsing')) if selfpropsing?
       return message(I18n.t('slack_commands.kudos.errors.params_missing')) if missing_params?
 
       save_prop
@@ -34,6 +35,10 @@ module SlackCommands
       else
         message(I18n.t('slack_commands.kudos.errors.not_created'))
       end
+    end
+
+    def selfpropsing?
+      users.include?(propser)
     end
 
     def missing_params?

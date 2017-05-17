@@ -17,7 +17,7 @@ describe Api::V1::SlackCommands do
             token: 'aaabbbccc',
             team_id: organisation.team_id,
             user_id: user_1.uid,
-            command: '/props',
+            command: '/kudos',
             text: 'some message here <@U5DH4MX6F|hubert>',
           }
         end
@@ -53,7 +53,7 @@ describe Api::V1::SlackCommands do
             token: 'aaabbbccc',
             team_id: organisation.team_id,
             user_id: user_1.uid,
-            command: '/props',
+            command: '/kudos',
             text: 'some message here <@U5DH4MX6F|susan> <@4MX6FU5DH|john>',
           }
         end
@@ -84,7 +84,7 @@ describe Api::V1::SlackCommands do
             token: 'aaabbbccc',
             team_id: organisation.team_id,
             user_id: user_1.uid,
-            command: '/props',
+            command: '/kudos',
             text: 'some message here',
           }
         end
@@ -110,7 +110,7 @@ describe Api::V1::SlackCommands do
             token: 'aaabbbccc',
             team_id: '',
             user_id: '',
-            command: '',
+            command: '/kudos',
             text: 'some message here <@U5DH4MX6F|susan>',
           }
         end
@@ -136,7 +136,7 @@ describe Api::V1::SlackCommands do
             token: 'aaabbbccc',
             team_id: organisation.team_id,
             user_id: user_1.uid,
-            command: '/props',
+            command: '/kudos',
             text: 'some message here <@SL832DXD|terry>',
           }
         end
@@ -162,7 +162,7 @@ describe Api::V1::SlackCommands do
             token: 'aaabbbccc',
             team_id: organisation.team_id,
             user_id: user_1.uid,
-            command: '/props',
+            command: '/kudos',
             text: 'some message here <@U5DH4MX6F|hubert> <@U5DH4MX6F|hubert>',
           }
         end
@@ -184,6 +184,32 @@ describe Api::V1::SlackCommands do
         it 'removes users from message' do
           subject
           expect(Prop.last.body).to eq 'some message here'
+        end
+
+        it 'returns message' do
+          subject
+          expect(response.body).to eq message
+        end
+      end
+
+      context 'when mentioned user is not present in database' do
+        let(:params) do
+          {
+            token: 'aaabbbccc',
+            team_id: organisation.team_id,
+            user_id: user_2.uid,
+            command: '/kudos',
+            text: 'some message here <@U5DH4MX6F|hubert>',
+          }
+        end
+        let(:message) do
+          "{\"text\":\"#{I18n.t('slack_commands.kudos.errors.selfpropsing')}\"}"
+        end
+
+        subject { post path, params }
+
+        it 'does not create prop' do
+          expect { subject }.not_to change { Prop.count }
         end
 
         it 'returns message' do
