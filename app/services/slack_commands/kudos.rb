@@ -13,6 +13,7 @@ module SlackCommands
     end
 
     def call
+      return message(I18n.t('slack_commands.kudos.help')) if need_help?
       return message(I18n.t('slack_commands.kudos.errors.prop_receivers_missing')) if users.empty?
       return message(I18n.t('slack_commands.kudos.errors.selfpropsing')) if selfpropsing?
       return message(I18n.t('slack_commands.kudos.errors.params_missing')) if missing_params?
@@ -75,6 +76,10 @@ module SlackCommands
 
     def send_notification(prop)
       ::NotifierJob.perform_later prop.id
+    end
+
+    def need_help?
+      text == 'help'
     end
   end
 end

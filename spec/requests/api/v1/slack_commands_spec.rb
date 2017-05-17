@@ -217,6 +217,32 @@ describe Api::V1::SlackCommands do
           expect(response.body).to eq message
         end
       end
+
+      context 'when asking for help' do
+        let(:params) do
+          {
+            token: 'aaabbbccc',
+            team_id: organisation.team_id,
+            user_id: user_2.uid,
+            command: '/kudos',
+            text: 'help',
+          }
+        end
+        let(:message) do
+          "{\"text\":\"#{I18n.t('slack_commands.kudos.help')}\"}"
+        end
+
+        subject { post path, params }
+
+        it 'does not create prop' do
+          expect { subject }.not_to change { Prop.count }
+        end
+
+        it 'returns message' do
+          subject
+          expect(response.body).to eq message
+        end
+      end
     end
 
     context 'token is invalid' do
