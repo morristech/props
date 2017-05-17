@@ -87,10 +87,10 @@ export default class Navbar extends React.Component {
             <ul className="nav navbar-nav">
               {getNavbarLinks(this.links)}
             </ul>
-            <NavbarSettings 
-              user={this.user} 
-              userSignedIn={this.props.userSignedIn} 
-              currentOrganisation={this.props.currentOrganisation} 
+            <NavbarSettings
+              user={this.user}
+              userSignedIn={this.props.userSignedIn}
+              currentOrganisation={this.props.currentOrganisation}
             />
           </div>
         </div>
