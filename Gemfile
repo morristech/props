@@ -12,7 +12,6 @@ gem 'celluloid-io', require: ['celluloid/current', 'celluloid/io']
 gem 'crono'
 gem 'decent_exposure'
 gem 'easy_tokens'
-gem 'gon'
 gem 'grape'
 gem 'grape-entity'
 gem 'grape-swagger'
