@@ -68,7 +68,7 @@ services:
     env_file: /home/deploy/apps/props/shared/secrets.env
     networks:
       - swarm
-    command: dumb-init bash -c "bundle exec crono | tee -a log/staging.crono.log"
+    command: dumb-init bash -c "bundle exec crono -L log/staging.crono.log run | tail -f log/staging.crono.log"
 
 networks:
   swarm:
