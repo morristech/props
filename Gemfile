@@ -38,7 +38,7 @@ gem 'sendgrid'
 gem 'sidekiq'
 gem 'skylight'
 gem 'slack-ruby-client'
-gem 'sprockets-rails', '2.3.3' # temporary lock, JST does not work properly with sprockets 3
+gem 'sprockets-rails'
 gem 'thin'
 gem 'uglifier'
 gem 'whenever', require: false
