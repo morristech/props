@@ -4,6 +4,7 @@ services:
     image: ${DOCKER_REPO}:${TIMESTAMP}
     volumes:
       - /var/nfs/props/staging/assets:/app/public/assets
+      - /var/nfs/props/staging/log:/app/log
     hostname: "netguru.props.staging.web"
     labels:
       - "netguru.appname=props"
