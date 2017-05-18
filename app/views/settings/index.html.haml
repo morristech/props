@@ -24,5 +24,12 @@
             = f.radio_button("interval", "weekly")
             Weekly
       = f.submit
+.row
+  .col-xs-12 
+    %h2 Notifications Channel
     - if current_user.admin?
-      = organisation.name
+      = form_for organisation, url: save_slack_channel_settings_path, method: :post do |f|
+        .form-group
+          = f.text_field :slack_channel
+          %p If not set, default slack channel is 'general'
+        = f.submit "Update Slack Channel"

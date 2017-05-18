@@ -14,7 +14,17 @@ class SettingsController < AuthenticatedController
     redirect_to action: :index
   end
 
+  def save_slack_channel
+    organisation.update(organisation_attributes)
+    redirect_to action: :index
+  end
+
   private
+
+  def organisation_attributes
+    params.require(:organisation)
+          .permit(:slack_channel)
+  end
 
   def subscription_attributes
     params.require(:mail_subscription)
