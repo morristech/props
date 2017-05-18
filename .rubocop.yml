@@ -15,6 +15,10 @@ Metrics/LineLength:
   Max: 100
 Rails/ActionFilter:
   Enabled: false
+Rails/DynamicFindBy:
+  Enabled: false
+Rails/HttpPositionalArguments:
+  Enabled: false
 Style/DotPosition:
   EnforcedStyle: leading
 SignalException:

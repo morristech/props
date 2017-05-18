@@ -26,7 +26,7 @@ class SlackBot
   end
 
   def set_reaction_listeners
-    %i(reaction_added reaction_removed).each do |event|
+    %i[reaction_added reaction_removed].each do |event|
       client.on(event) do |data|
         VotingJob.perform_later data.fetch(:reaction),
                                 data.fetch(:item).fetch(:ts),
@@ -37,7 +37,7 @@ class SlackBot
   end
 
   def set_lifecycle_listeners
-    %i(hello close closed).each do |event|
+    %i[hello close closed].each do |event|
       client.on(event) { send(event) }
     end
   end

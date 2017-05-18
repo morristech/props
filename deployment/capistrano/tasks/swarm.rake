@@ -1,7 +1,7 @@
-set :image, -> { "#{ENV["DOCKER_REPO"]}:#{release_timestamp}" }
-set :dockerfile, -> { "docker/staging/Dockerfile" }
+set :image, -> { "#{ENV['DOCKER_REPO']}:#{release_timestamp}" }
+set :dockerfile, -> { 'docker/staging/Dockerfile' }
 
-task "docker:push_image" do
+task 'docker:push_image' do
   on roles(fetch(:capose_role)) do
     within release_path do
       ## build the image
@@ -12,7 +12,7 @@ task "docker:push_image" do
   end
 end
 
-task "docker:stack_deploy" do
+task 'docker:stack_deploy' do
   on roles(fetch(:capose_role)) do
     within release_path do
       execute :docker, "stack deploy -c docker-compose-#{fetch(:stage)}.yml --with-registry-auth #{fetch(:application)}-#{fetch(:stage)}"

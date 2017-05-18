@@ -5,7 +5,6 @@ class Notifier
     def notify
       response = channel.chat_postMessage(message)
       notification.prop.update(slack_ts: response[:ts])
-
     rescue Slack::Web::Api::Error => err
       Rollbar.error "Sending slack notifaction failed. Reason: #{err}"
     end
@@ -23,7 +22,7 @@ class Notifier
     end
 
     def icon
-      %w(:beers: :ok_hand:).sample
+      %w[:beers: :ok_hand:].sample
     end
 
     def default_options

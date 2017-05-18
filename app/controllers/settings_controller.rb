@@ -5,8 +5,7 @@ class SettingsController < AuthenticatedController
   end
   expose(:subscriptions_repo) { MailSubscriptionsRepository.new }
 
-  def index
-  end
+  def index; end
 
   def apply
     subscriptions_repo.update(mail_subscription, subscription_attributes)

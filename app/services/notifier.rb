@@ -14,6 +14,6 @@ class Notifier
   end
 
   def enabled_notifications
-    %w(slack)
+    %w[slack]
   end
 end
