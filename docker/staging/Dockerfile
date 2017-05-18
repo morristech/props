@@ -13,7 +13,11 @@ RUN rm -rf node_modules
 ## Root-lvl tasks
 USER root
 
-RUN echo 'Europe/Warsaw' > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
+#### Set proper timezone
+RUN \
+  ln -fs /usr/share/zoneinfo/Europe/Warsaw /etc/localtime && \
+  dpkg-reconfigure --frontend noninteractive tzdata
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ## Back to our user
