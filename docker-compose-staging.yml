@@ -26,6 +26,28 @@ services:
       - swarm
     command: dumb-init puma -C config/puma.rb
 
+  sidekiq:
+    image: ${DOCKER_REPO}:${TIMESTAMP}
+    volumes:
+      - /var/nfs/props/staging/assets:/app/public/assets
+      - /var/nfs/props/staging/log:/app/log
+    hostname: "netguru.props.staging.sidekiq"
+    labels:
+      - "netguru.appname=props"
+      - "netguru.stage=staging"
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == worker]
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 800M
+    env_file: /home/deploy/apps/props/shared/secrets.env
+    networks:
+      - swarm
+    command: dumb-init bundle exec sidekiq --config ./config/sidekiq.staging.yml | tee -a log/staging.sidekiq.log
+
 networks:
   swarm:
     external:
