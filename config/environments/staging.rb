@@ -55,12 +55,15 @@ Rails.application.configure do
 
   config.lograge.enabled = true
   config.lograge.custom_options = lambda do |event|
-    params = event.payload[:params].reject do |k|
-      ['controller', 'action'].include? k
-    end
-
-    { 'params' => params }
+    {
+      params: event.payload[:params].reject { |k| %w(controller action).include? k },
+      time: event.time,
+    }
   end
+
+  config.logger = Logger.new(STDOUT)
+  log_file = Rails.root.join("log/#{Rails.env}.log")
+  config.logger.extend(ActiveSupport::Logger.broadcast Logger.new log_file)
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
