@@ -15,7 +15,7 @@ class SettingsController < AuthenticatedController
   end
 
   def save_slack_channel
-    organisation.update(organisation_attributes)
+    organisation.update(organisation_attributes) if current_user.admin?
     redirect_to action: :index
   end
 
