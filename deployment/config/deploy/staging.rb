@@ -1,4 +1,4 @@
-server ENV['STAGING_SERVER'], user: ENV['STAGING_USER'], roles: %w[app db web]
+server ENV['STAGING_SERVER'], user: ENV['STAGING_USER'], roles: %w(app db web)
 set :branch, ENV['REVISION'] || 'master'
 set :deploy_to, "/home/deploy/apps/#{fetch(:application)}"
 

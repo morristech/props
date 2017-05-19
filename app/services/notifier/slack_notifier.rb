@@ -22,7 +22,7 @@ class Notifier
     end
 
     def icon
-      %w[:beers: :ok_hand:].sample
+      %w(:beers: :ok_hand:).sample
     end
 
     def default_options
