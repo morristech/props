@@ -1,5 +1,4 @@
 class PropSearch < Searchlight::Search
-
   def base_query
     Prop.with_includes.ordered
   end

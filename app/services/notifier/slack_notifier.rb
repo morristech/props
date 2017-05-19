@@ -24,9 +24,13 @@ class Notifier
 
     def default_options
       {
-        channel: AppConfig.slack.default_channel,
+        channel: slack_channel,
         as_user: false,
       }
+    end
+
+    def slack_channel
+      notification.prop.organisation.slack_channel || AppConfig.slack.default_channel
     end
   end
 end

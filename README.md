@@ -75,7 +75,7 @@ Auth0 integration:
 
 Slack feature:
 
-In order to post props notifications and recieve thumbs-ups, you need to set `slack.default_channel` value (must be valid channel name, e.g. `general`) in your secrets.
+In order to post kudos notifications and recieve thumbs-ups, you need to set slack channel for your organisation in Settings after signing in. If not set, default Slack channel is `general`.
 
 
 _Note: If you're going to use Heroku Free Dynos, please be aware that you app will sleep at least 6h a day - and because of that you may not receive all reactions from Slack._
