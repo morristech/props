@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   resources :settings, only: :index do
     post :apply, on: :collection
+    post :save_slack_channel, on: :collection
   end
 
   mount Api::Base, at: '/api'

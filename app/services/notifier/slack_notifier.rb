@@ -28,12 +28,16 @@ class Notifier
 
     def default_options
       {
-        channel: AppConfig.slack.default_channel,
+        channel: slack_channel,
         username: 'props',
         color: '#0092ca',
         icon_emoji: icon,
         as_user: false,
       }
+    end
+
+    def slack_channel
+      notification.prop.organisation.slack_channel || AppConfig.slack.default_channel
     end
   end
 end
