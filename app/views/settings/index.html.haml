@@ -25,11 +25,11 @@
             Weekly
       = f.submit
 .row
-  .col-xs-12 
+  .col-xs-12
     %h2 Notifications Channel
     - if current_user.admin?
       = form_for organisation, url: save_slack_channel_settings_path, method: :post do |f|
         .form-group
           = f.text_field :slack_channel
-          %p If not set, default slack channel is 'general'
+          %p If not set, default slack channel is '#{AppConfig.slack.default_channel}'
         = f.submit "Update Slack Channel"

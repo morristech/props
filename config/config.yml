@@ -18,6 +18,7 @@ development: &defaults
   sendgrid_user_name: 'sendgrid_user_name'
   skylight_token: 'skylight-token'
   slack:
+    default_channel: 'general'
     token: 'slack_token'
   single_domain: true
 

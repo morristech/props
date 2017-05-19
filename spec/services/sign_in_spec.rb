@@ -47,7 +47,6 @@ describe Users::SignIn do
     end
 
     it 'saves user as admin if is_admin is true' do
-      token = 'some_token'
       auth = create_auth(is_admin: true)
       sign_in = Users::SignIn.new(auth: auth)
 
@@ -57,7 +56,6 @@ describe Users::SignIn do
     end
 
     it 'does not save user as admin if is_admin is false' do
-      token = 'some_token'
       auth = create_auth(is_admin: false)
       sign_in = Users::SignIn.new(auth: auth)
 

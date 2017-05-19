@@ -15,7 +15,7 @@ class SettingsController < AuthenticatedController
   end
 
   def save_slack_channel
-    organisation.update(organisation_attributes) if current_user.admin?
+    organisation.update(organisation_attributes) if can_modify_slack_channel?
     redirect_to action: :index
   end
 
@@ -30,5 +30,9 @@ class SettingsController < AuthenticatedController
     params.require(:mail_subscription)
           .permit(:active, :interval)
           .merge(user_id: current_user.id)
+  end
+
+  def can_modify_slack_channel?
+    current_user.admin? && current_user.organisations.include?(current_organisation)
   end
 end
