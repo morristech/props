@@ -21,6 +21,9 @@ development: &defaults
     token: 'slack_token'
   single_domain: true
 
+staging:
+  <<: *defaults
+
 test:
   <<: *defaults
 

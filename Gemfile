@@ -44,6 +44,7 @@ gem 'thin'
 gem 'uglifier'
 gem 'whenever', require: false
 gem 'pundit'
+gem 'crono'
 
 # deploy
 gem 'capistrano', '3.3.5'
