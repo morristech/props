@@ -21,7 +21,8 @@ module Users
     def update_user(user)
       email = @auth['info']['email']
       name = @auth['info']['name']
-      user.update_attributes(email: email, name: name)
+      admin = @auth['info']['is_admin']
+      user.update_attributes(email: email, name: name, admin: admin)
     end
   end
 end
