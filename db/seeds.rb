@@ -1,8 +1,7 @@
 require 'ffaker'
-# Before running seeds, login with your Slack account
-# then all users will be assigned to your organisation
-puts '== Use your organisation'
-organisation = Organisation.first
+
+puts '== Creating organisation'
+organisation = Organisation.create!(name: FFaker::Company.name)
 
 puts '== Creating users'
 20.times do |number|
