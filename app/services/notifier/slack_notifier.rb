@@ -22,16 +22,9 @@ class Notifier
       default_options.merge!(text: notification.to_s)
     end
 
-    def icon
-      %w(:beers: :ok_hand:).sample
-    end
-
     def default_options
       {
         channel: slack_channel,
-        username: 'props',
-        color: '#0092ca',
-        icon_emoji: icon,
         as_user: false,
       }
     end
