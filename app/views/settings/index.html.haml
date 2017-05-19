@@ -24,10 +24,10 @@
             = f.radio_button("interval", "weekly")
             Weekly
       = f.submit "Update Mail Subscription", class: 'btn btn-primary'
-.row
-  .col-xs-12
-    %h2 Notifications Channel
-    - if current_user.admin?
+- if current_user.admin?
+  .row
+    .col-xs-12
+      %h2 Notifications Channel
       = form_for organisation, url: save_slack_channel_settings_path, method: :post do |f|
         .form-group
           = f.text_field :slack_channel

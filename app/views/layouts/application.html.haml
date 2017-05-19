@@ -7,7 +7,6 @@
     = stylesheet_link_tag 'application', media: 'all'
     = stylesheet_link_tag 'react_bundle', media: 'all'
     = javascript_include_tag 'application'
-    = include_gon init: true
     = csrf_meta_tags
   %body
     = redux_store 'Store', { user: Api::V1::Entities::UserBase.new(current_user) }

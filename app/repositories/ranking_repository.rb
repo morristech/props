@@ -15,7 +15,8 @@ class RankingRepository
   def top_propser_within(time_range)
     UserWithPropsCount.from_array(
       users_repository,
-      props_repository.count_per_user(time_range).max_by { |_k, v| v })
+      props_repository.count_per_user(time_range).max_by { |_k, v| v },
+    )
   end
 
   class UserWithPropsCount
