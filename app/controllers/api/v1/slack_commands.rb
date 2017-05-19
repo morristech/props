@@ -21,7 +21,7 @@ module Api
         end
 
         post :kudos do
-          return unless params[:command] == '/kudos'
+          return unless params[:command] == '/kudos' || params[:command] == '/kudos_stg'
           ::SlackCommands::Kudos.new(params).call
         end
       end
