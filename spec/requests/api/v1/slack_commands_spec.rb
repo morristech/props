@@ -54,7 +54,7 @@ describe Api::V1::SlackCommands do
             team_id: organisation.team_id,
             user_id: user_1.uid,
             command: '/kudos',
-            text: 'some message here <@U5DH4MX6F|susan> <@4MX6FU5DH|john>',
+            text: 'some message here <@U5DH4MX6F|susan> <@4MX6FU5DH|john.example>',
           }
         end
         let(:message) do
