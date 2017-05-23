@@ -21,7 +21,7 @@ Dir.chdir APP_ROOT do
   end
 
   puts "\n== Create DB user =="
-  system "creatuser -s -r props"
+  system "createuser -s -r props"
 
   puts "\n== Preparing database =="
   system "bin/rake db:setup"
