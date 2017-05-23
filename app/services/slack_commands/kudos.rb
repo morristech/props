@@ -1,6 +1,6 @@
 module SlackCommands
   class Kudos
-    USER_SLACK_REGEX = /<@([a-zA-z0-9]*)\|[a-zA-z0-9]*>/
+    USER_SLACK_REGEX = /<@([a-zA-z0-9]*)\|[-\w.]*>/
     private_constant :USER_SLACK_REGEX
 
     def initialize(params)
