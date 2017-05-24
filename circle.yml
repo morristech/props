@@ -29,8 +29,7 @@ dependencies:
     - yarn
     - bundle install
 test:
-  override:
-    - bundle exec rspec spec
+  post:
     - yarn test
 notify:
   webhooks:
