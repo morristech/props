@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170403134807) do
+ActiveRecord::Schema.define(version: 20170517154118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "crono_jobs", force: :cascade do |t|
+    t.string   "job_id",            null: false
+    t.text     "log"
+    t.datetime "last_performed_at"
+    t.boolean  "healthy"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "crono_jobs", ["job_id"], name: "index_crono_jobs_on_job_id", unique: true, using: :btree
 
   create_table "easy_tokens_tokens", force: :cascade do |t|
     t.string   "value"
@@ -48,10 +59,11 @@ ActiveRecord::Schema.define(version: 20170403134807) do
 
   create_table "organisations", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.string   "team_id"
     t.string   "token"
+    t.string   "slack_channel"
   end
 
   add_index "organisations", ["name"], name: "index_organisations_on_name", unique: true, using: :btree

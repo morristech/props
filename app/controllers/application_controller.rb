@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   helper_method :user_signed_in?
   helper_method :correct_user?
+  helper_method :current_organisation
 
   private
 
@@ -24,10 +25,11 @@ class ApplicationController < ActionController::Base
   end
 
   def check_domain!
+    return if AppConfig.single_domain
     current = Utils::UrlWithBaseDomain.new(request.url, AppConfig.app_domain)
 
     if user_signed_in?
-      organisation_name = current_organisation.name
+      organisation_name = current_organisation.name.parameterize
       if current.subdomain != organisation_name
         redirect_to app_url(host: "#{organisation_name}.#{AppConfig.app_domain}")
       end

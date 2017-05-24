@@ -18,8 +18,12 @@ development: &defaults
   sendgrid_user_name: 'sendgrid_user_name'
   skylight_token: 'skylight-token'
   slack:
-    default_channel: 'default_channel'
+    default_channel: 'general'
     token: 'slack_token'
+  single_domain: true
+
+staging:
+  <<: *defaults
 
 test:
   <<: *defaults
@@ -42,5 +46,4 @@ production:
   sendgrid_user_name: '<%= ENV['SENDGRID_USER_NAME'] %>'
   rollbar_access_token: '<%= ENV['ROLLBAR_ACCESS_TOKEN'] %>'
   slack:
-    default_channel: '<%= ENV['SLACK_DEFAULT_CHANNEL'] %>'
     token: '<%= ENV['SLACK_TOKEN'] %>'

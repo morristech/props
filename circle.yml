@@ -1,7 +1,14 @@
+machine:
+  node:
+    version: 6.5.0
 checkout:
   post:
     - cp config/secrets.yml.sample config/secrets.yml
 deployment:
+  master:
+    branch: master
+    commands:
+      - cd deployment; bundle install; bundle exec cap staging deploy
   production:
     branch: production
     commands:
@@ -23,6 +30,7 @@ dependencies:
     - bundle install
 test:
   override:
+    - bundle exec rspec spec
     - yarn test
 notify:
   webhooks:

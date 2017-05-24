@@ -19,28 +19,8 @@ in a geeky way.
 
 ## Setup
 
-Copy database settings:
-
 ```
-cp config/database.yml.sample config/database.yml
-```
-
-Create DB user:
-
-```
-createuser -s -r props
-```
-
-Setup database:
-
-```
-bin/rake db:setup
-```
-
-Setup config file for your environment:
-
-```
-cp config/secrets.yml.sample config/secrets.yml
+bin/setup
 ```
 
 Create slack application by going to [Your Apps](https://api.slack.com/apps).
@@ -70,13 +50,17 @@ Auth0 integration:
 
 1. Create `non-interactive auth0 client` and use `AUTH0_API_CLIENT_ID` and `AUTH0_API_CLIENT_SECRET` from that client
 2. Go to your auth0 account settings, advanced tab, and turn on 'Enable APIs Section' for be able to see API's view
-3. Under API section, create click button for creating api and after that you will receive `AUTH0_API_AUDIENCE` 
+3. Under API section, create click button for creating api and after that you will receive `AUTH0_API_AUDIENCE`
 4. Don't forget to connect and authorise api in Auth0 Management API (non-interactive-clients tab), with your new ni-client, created in point 1
 
 Slack feature:
 
-In order to post props notifications and recieve thumbs-ups, you need to set `slack.default_channel` value (must be valid channel name, e.g. `general`) in your secrets.
+In order to post kudos notifications and recieve thumbs-ups, you need to set slack channel for your organisation in Settings after signing in. If not set, default Slack channel is `general`.
 
+After creating the slash command, you will be provided with the verification token by Slack. In order to verify that requests are actually coming from Slack add the token to the database. In the console run:
+```
+EasyTokens::Token.create(value: 'VERIFICATION_TOKEN')
+```
 
 _Note: If you're going to use Heroku Free Dynos, please be aware that you app will sleep at least 6h a day - and because of that you may not receive all reactions from Slack._
 

@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :reset_session, only: [:create, :destroy]
+  before_action :reset_session, only: %i(create destroy)
 
   def new
     redirect_to '/auth/slack'
