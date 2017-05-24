@@ -6,7 +6,7 @@ ENV PUMA_WORKERS 2
 RUN gem install puma
 
 ## Build react_bundle package
-RUN npm install
+RUN yarn
 RUN npm run build
 RUN rm -rf node_modules
 
