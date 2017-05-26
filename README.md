@@ -43,8 +43,8 @@ Development endpoints:
 - http://props.dev
 - http://props.dev/auth/slack/callback
 
-When you have the credentials, put them in the `config/secrets.yml` file
-under `slack.client_id` and `slack.client_secret` values.
+When you have the credentials, you need to set up the proper variables in the .env file
+under `SLACK_CLIENT_ID` and `SLACK_CLIENT_SECRET` values.
 
 Auth0 integration:
 
