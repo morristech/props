@@ -2,9 +2,7 @@ server ENV['PRODUCTION_SERVER'], user: ENV['PRODUCTION_USER'], roles: %w(web app
 set :branch, 'production'
 
 set :docker_volumes, [
-  "#{shared_path}/config/secrets.yml:/var/www/app/config/secrets.yml",
   "#{shared_path}/log:/var/www/app/log",
-
   "props_production_assets:/var/www/app/public/assets",
 ]
 
