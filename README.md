@@ -43,15 +43,7 @@ Development endpoints:
 - http://props.dev
 - http://props.dev/auth/slack/callback
 
-When you have the credentials, put them in the `config/secrets.yml` file
-under `omniauth_provider_key` and `omniauth_provider_secret` values.
-
-Auth0 integration:
-
-1. Create `non-interactive auth0 client` and use `AUTH0_API_CLIENT_ID` and `AUTH0_API_CLIENT_SECRET` from that client
-2. Go to your auth0 account settings, advanced tab, and turn on 'Enable APIs Section' for be able to see API's view
-3. Under API section, create click button for creating api and after that you will receive `AUTH0_API_AUDIENCE`
-4. Don't forget to connect and authorise api in Auth0 Management API (non-interactive-clients tab), with your new ni-client, created in point 1
+When you have the credentials, you need to set up the proper variables in the .env file under `SLACK_CLIENT_ID` and `SLACK_CLIENT_SECRET` values.
 
 Slack feature:
 
@@ -59,10 +51,8 @@ In order to post kudos notifications and recieve thumbs-ups, you need to set sla
 
 After creating the slash command, you will be provided with the verification token by Slack. In order to verify that requests are actually coming from Slack add the token to the database. In the console run:
 ```
-EasyTokens::Token.create(value: 'VERIFICATION_TOKEN')
+EasyTokens::Token.create(value: 'VERIFICATION_TOKEN', description: 'Slack command verification token')
 ```
-
-_Note: If you're going to use Heroku Free Dynos, please be aware that you app will sleep at least 6h a day - and because of that you may not receive all reactions from Slack._
 
 Install node dependencies:
 ```
