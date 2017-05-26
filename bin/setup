@@ -16,8 +16,8 @@ Dir.chdir APP_ROOT do
   unless File.exist?("config/database.yml")
     system "cp config/database.yml.sample config/database.yml"
   end
-  unless File.exist?("config/.env.example")
-    system "cp config/.env.example config/.env"
+  unless File.exist?(".env")
+    system "cp .env.example .env"
   end
 
   puts "\n== Create DB user =="
