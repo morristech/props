@@ -10,14 +10,30 @@ set :default_env, lambda {
   }
 }
 
-set :capose_project, -> { "#{fetch(:application)}-prerun" }
-set :capose_commands, -> {
-  [
-    'run --rm web bundle exec rake assets:precompile',
-    'run --rm web bundle exec rake db:migrate',
-    'down',
-  ]
-}
+set :image, -> { "#{ENV['DOCKER_REPO']}:#{release_timestamp}" }
+set :dockerfile, -> { 'docker/staging/Dockerfile' }
+set :project, -> { "#{fetch(:application)}-#{fetch(:stage)}" }
 
-before 'capose:deploy', 'docker:push_image'
-after 'capose:deploy', 'docker:stack_deploy'
+namespace :deploy do
+  def compose(cmd)
+    "-p #{fetch(:project)}-prerun -f docker-compose-#{fetch(:stage)}.yml #{cmd}"
+  end
+
+  after :updated, 'swarm:deploy' do
+    on roles(:app) do
+      within release_path do
+        ## build and push image
+        execute :docker, "build -t #{fetch(:image)} -f #{fetch(:dockerfile)} ."
+        execute :docker, "push #{fetch(:image)}"
+
+        ## run pre-run tasks
+        execute :"docker-compose", compose("run --rm web bundle exec rake assets:precompile")
+        execute :"docker-compose", compose("run --rm web bundle exec rake db:migrate")
+        execute :"docker-compose", compose("down")
+
+        ## deploy stack
+        execute :docker, "stack deploy -c docker-compose-#{fetch(:stage)}.yml --with-registry-auth #{fetch(:project)}"
+      end
+    end
+  end
+end
