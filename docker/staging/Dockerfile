@@ -34,4 +34,3 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ## Link configuration files with env variables
 RUN ln -s /app/config/database.yml.env /app/config/database.yml
-RUN ln -s /app/config/secrets.yml.env /app/config/secrets.yml

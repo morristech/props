@@ -44,7 +44,7 @@ Development endpoints:
 - http://props.dev/auth/slack/callback
 
 When you have the credentials, put them in the `config/secrets.yml` file
-under `omniauth_provider_key` and `omniauth_provider_secret` values.
+under `slack.client_id` and `slack.client_secret` values.
 
 Auth0 integration:
 

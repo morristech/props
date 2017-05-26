@@ -1,8 +1,8 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider(
     :slack,
-    AppConfig.omniauth_provider_key,
-    AppConfig.omniauth_provider_secret,
+    AppConfig.slack.client_id,
+    AppConfig.slack.client_secret,
     scope: 'identify,team:read,users.profile:read,users:read,users:read.email,chat:write:bot',
   )
 end
