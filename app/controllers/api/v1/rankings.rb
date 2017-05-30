@@ -20,9 +20,15 @@ module Api
       end
 
       resources :rankings do
+        # It fails when 2 users have the same amount of props
         desc 'Returns user with the most received props'
         get :hero_of_the_week do
           RankingRepository.new(users_repository, props_repository).hero_of_the_week
+        end
+
+        desc 'Returns users in order of received props number'
+        get :top_kudoers do
+          RankingRepository.new(users_repository, props_repository, params[:time_range]).top_kudoers
         end
       end
     end
