@@ -8,7 +8,7 @@ class PropsRepository
   def count_per_user(created_at = nil)
     query = all
     query = query.where(created_at: created_at) if created_at.present?
-    query.joins(:prop_receivers).group('prop_receivers.user_id').count
+    query.joins(:prop_receivers).joins(:users).group('users.name').count
   end
 
   def add(attributes)
