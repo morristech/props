@@ -9,11 +9,11 @@ class RankingRepository
   end
 
   def top_kudoers
-    top_kudoers = top_kudoers_within
+    top_kudoers_within
   end
 
   def team_activity
-    team_activity = team_activity_within
+    team_activity_within
   end
   
   private
@@ -23,11 +23,11 @@ class RankingRepository
   end
 
   def top_kudoers_within
-    hash = props_repository.count_per_user(evaluate_time_range).sort_by { |_k, v| v }.reverse.to_h
+    props_repository.count_per_user(evaluate_time_range).sort_by { |_k, v| v }.reverse.to_h
   end
 
   def team_activity_within
-    hash = props_repository.count_per_time_range(evaluate_time_range, 'week')
+    props_repository.count_per_time_range(evaluate_time_range, count_time_interval)
   end
 
   def evaluate_time_range
@@ -48,6 +48,8 @@ class RankingRepository
   end
 
   def count_time_interval
-
+    #TODO: change interval for "all"
+    return "month" if time_range == "yearly" || "all"
+    "day"
   end
 end
