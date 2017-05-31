@@ -11,6 +11,12 @@ class PropsRepository
     query.joins(:prop_receivers).joins(:users).group('users.name').count
   end
 
+  def count_per_time_range(created_at = nil)
+    query = Prop.all
+    query = query.where(created_at: created_at) if created_at.present?
+    query.order("date_trunc('week', props.created_at)").group("date_trunc('week', props.created_at)").count
+  end
+
   def add(attributes)
     user_ids = attributes.delete(:user_ids) || ''
     user_ids = clean_ids user_ids

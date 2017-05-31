@@ -10,8 +10,11 @@ class RankingRepository
   end
 
   def top_kudoers
-    binding.pry
     top_kudoers = top_kudoers_within(evaluate_time_range)
+  end
+
+  def team_activity
+    team_activity = team_activity_within(evaluate_time_range)
   end
   
   private
@@ -27,24 +30,24 @@ class RankingRepository
     hash = props_repository.count_per_user(time_range).sort_by { |_k, v| v }.reverse.to_h
   end
 
+  def team_activity_within(time_range)
+    hash = props_repository.count_per_time_range(time_range)
+  end
+
   def evaluate_time_range
     case time_range
     when "yearly"
-    {
-      range: (Time.zone.now - 1.year..Time.zone.now),
-      interval: "month",
-    }
+      (Time.zone.now - 1.year..Time.zone.now)
     when "monthly"
-      {range: (Time.zone.now - 1.month..Time.zone.now),
-      interval: "month",}
+      (Time.zone.now - 1.month..Time.zone.now)
     when "weekly"
-      {range: (Time.zone.now - 1.week..Time.zone.now),
-      interval: "month",}
+      (Time.zone.now - 1.week..Time.zone.now)
     when "bi-weekly"
-      {range: (Time.zone.now - 2.week..Time.zone.now),
-      interval: "month",}
+      (Time.zone.now - 2.week..Time.zone.now)
     when "all"
-      (Prop.order(:created_at).first.created_at..Time.zone.now)
+      nil
+    else
+      puts "oops"
     end
   end
 
