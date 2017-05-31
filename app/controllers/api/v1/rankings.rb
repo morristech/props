@@ -33,6 +33,14 @@ module Api
         get :top_kudoers do
           RankingRepository.new(users_repository, props_repository, params[:time_range]).top_kudoers
         end
+        
+        desc 'Returns props count in required time range'
+        params do
+          requires :time_range, type: String
+        end
+        get :team_activity do
+          RankingRepository.new(users_repository, props_repository, params[:time_range]).team_activity
+        end
       end
     end
   end

@@ -18,5 +18,4 @@ Rails.application.routes.draw do
   mount GrapeSwaggerRails::Engine => '/apidoc'
 
   get '/api/rankings/hero_of_the_week', to: redirect { |params, request| "/api/v1/rankings/hero_of_the_week?#{request.params.to_query}" }
-  get '/api/rankings/top_kudoers', to: redirect { |params, request| "/api/v1/rankings/top_kudoers?#{request.params.to_query}" }
 end
