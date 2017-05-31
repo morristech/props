@@ -11,10 +11,10 @@ class PropsRepository
     query.joins(:prop_receivers).joins(:users).group('users.name').count
   end
 
-  def count_per_time_range(created_at = nil)
+  def count_per_time_range(created_at = nil, interval)
     query = Prop.all
     query = query.where(created_at: created_at) if created_at.present?
-    query.order("date_trunc('week', props.created_at)").group("date_trunc('week', props.created_at)").count
+    query.order("date_trunc('#{interval}', props.created_at)").group("date_trunc('#{interval}', props.created_at)").count
   end
 
   def add(attributes)

@@ -2,36 +2,32 @@ class RankingRepository
   pattr_initialize :users_repository, :props_repository, :time_range
 
   def hero_of_the_week
-    top_propser = top_propser_within(evaluate_time_range)
     {
-      user: top_propser.name,
-      props_count: top_propser.props_count,
+      user: top_propser_within.first,
+      props_count: top_propser_within.second,
     }
   end
 
   def top_kudoers
-    top_kudoers = top_kudoers_within(evaluate_time_range)
+    top_kudoers = top_kudoers_within
   end
 
   def team_activity
-    team_activity = team_activity_within(evaluate_time_range)
+    team_activity = team_activity_within
   end
   
   private
 
-  def top_propser_within(time_range)
-    UserWithPropsCount.from_array(
-      users_repository,
-      props_repository.count_per_user(time_range).max_by { |_k, v| v },
-    )
+  def top_propser_within
+    props_repository.count_per_user(evaluate_time_range).max_by { |_k, v| v }
   end
 
-  def top_kudoers_within(time_range)
-    hash = props_repository.count_per_user(time_range).sort_by { |_k, v| v }.reverse.to_h
+  def top_kudoers_within
+    hash = props_repository.count_per_user(evaluate_time_range).sort_by { |_k, v| v }.reverse.to_h
   end
 
-  def team_activity_within(time_range)
-    hash = props_repository.count_per_time_range(time_range)
+  def team_activity_within
+    hash = props_repository.count_per_time_range(evaluate_time_range, 'week')
   end
 
   def evaluate_time_range
@@ -45,17 +41,13 @@ class RankingRepository
     when "bi-weekly"
       (Time.zone.now - 2.week..Time.zone.now)
     when "all"
-      nil
+      (Prop.order(:created_at).first.created_at..Time.zone.now)
     else
       puts "oops"
     end
   end
 
-  class UserWithPropsCount
-    vattr_initialize :props_count, :name
+  def count_time_interval
 
-    def self.from_array(users_repository, arr)
-      new arr[1], users_repository.find_by_id(arr[0]).name
-    end
   end
 end
