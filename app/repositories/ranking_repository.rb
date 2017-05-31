@@ -10,6 +10,7 @@ class RankingRepository
   end
 
   def top_kudoers
+    binding.pry
     top_kudoers = top_kudoers_within(evaluate_time_range)
   end
   
@@ -29,17 +30,21 @@ class RankingRepository
   def evaluate_time_range
     case time_range
     when "yearly"
-      (Time.zone.now - 1.year..Time.zone.now)
+    {
+      range: (Time.zone.now - 1.year..Time.zone.now),
+      interval: "month",
+    }
     when "monthly"
-      (Time.zone.now - 1.month..Time.zone.now)
+      {range: (Time.zone.now - 1.month..Time.zone.now),
+      interval: "month",}
     when "weekly"
-      (Time.zone.now - 1.week..Time.zone.now)
+      {range: (Time.zone.now - 1.week..Time.zone.now),
+      interval: "month",}
     when "bi-weekly"
-      (Time.zone.now - 2.week..Time.zone.now)
+      {range: (Time.zone.now - 2.week..Time.zone.now),
+      interval: "month",}
     when "all"
-      nil
-    else
-      puts "oops"
+      (Prop.order(:created_at).first.created_at..Time.zone.now)
     end
   end
 
