@@ -23,7 +23,7 @@ module Api
         # It fails when 2 users have the same amount of props
         desc 'Returns user with the most received props'
         get :hero_of_the_week do
-          RankingRepository.new(users_repository, props_repository, "week").hero_of_the_week
+          RankingRepository.new(users_repository, props_repository, "weekly").hero_of_the_week
         end
 
         desc 'Returns users in order of received props number'
