@@ -18,10 +18,7 @@ class UsersRepository
   delegate :find_by_email, :find_by_name, to: :all
 
   def user_from_auth(auth)
-    active.where(
-      provider: auth['provider'],
-      uid: auth['uid'].to_s,
-    ).first || User.create_with_omniauth(auth)
+    User.create_with_omniauth(auth)
   end
 
   def user_from_slack(member)
