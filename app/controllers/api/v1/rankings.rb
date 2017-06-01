@@ -41,6 +41,14 @@ module Api
         get :team_activity do
           RankingRepository.new(users_repository, props_repository, params[:time_range]).team_activity
         end
+
+        desc 'Returns users with kudos streak'
+        params do
+          requires :time_range, type: String
+        end
+        get :kudos_streak do
+          RankingRepository.new(users_repository, props_repository, params[:time_range]).kudos_streak
+        end
       end
     end
   end

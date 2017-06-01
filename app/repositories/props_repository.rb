@@ -8,7 +8,7 @@ class PropsRepository
   def count_per_user(created_at = nil)
     query = all
     query = query.where(created_at: created_at) if created_at.present?
-    query.joins(:prop_receivers).joins(:users).group('users.name').count
+    query.joins(:prop_receivers).joins(:users).group('users.id').count
   end
 
   def count_per_time_range(created_at = nil, interval)
