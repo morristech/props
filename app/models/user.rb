@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
       name: auth['info']['name'] || '',
       email: auth['info']['email'] || '',
       admin: auth['info']['is_admin'] || false,
-      avatar: auth['info']['image'] || '',
+      avatar: auth['extra']['user_info']['user']['profile']['image_512'] || '',
     }
   end
 
