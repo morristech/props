@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
   end
 
   def self.slack_attrs(member)
-    # TODO check this OUT! It may be obsolete code.
+    # TODO: check this OUT! It may be obsolete code.
     {
       provider: 'slack',
       uid: member['id'],
