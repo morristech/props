@@ -19,13 +19,8 @@ class RankingRepository
   def kudos_streak
     kudos_streak_within
   end
-  private
 
-  def serialized_users
-    @serialized_users ||= User.all.each_with_object({}) do |user, hsh|
-      hsh[user.id] = user.serializable_hash#(except: :something)
-    end
-  end
+  private
 
   def users_with_kudos_count
     props_repository.count_per_user(evaluate_time_range)
@@ -71,6 +66,13 @@ class RankingRepository
           user: user.serializable_hash
         }
       )
+    end
+  end
+
+  def serialized_users
+    attributes_to_serialize = %i(id name email avatar_url uid)
+    @serialized_users ||= User.all.each_with_object({}) do |user, hsh|
+      hsh[user.id] = user.serializable_hash(only: attributes_to_serialize)
     end
   end
 
