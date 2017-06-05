@@ -18,7 +18,8 @@ describe UsersRepository do
 
   describe '#user_from_auth' do
     new_email = 'different@email.com'
-    let(:auth) { create_auth(email: new_email) }
+    new_avatar = 'slack.com/new_avatar.png'
+    let(:auth) { create_auth(email: new_email, avatar: new_avatar) }
     let(:user_with_uid) { create(:user, uid: auth['uid']) }
 
     subject { repo.user_from_auth(auth) }
@@ -31,6 +32,12 @@ describe UsersRepository do
       user_with_uid
       subject
       expect(user_with_uid.reload.email).to eq(new_email)
+    end
+
+    it "updates user's avatar when it's different from one in the database" do
+      user_with_uid
+      subject
+      expect(user_with_uid.reload.avatar).to eq(new_avatar)
     end
 
     it 'saves user as admin if is_admin is true' do
