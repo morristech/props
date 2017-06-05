@@ -1,4 +1,5 @@
 require 'rails_helper'
+include OmniauthHelpers
 
 describe UsersRepository do
   let(:user) { create(:user, name: 'John Doe', email: 'user@example.com') }
@@ -12,6 +13,36 @@ describe UsersRepository do
 
     it 'returns archived users' do
       expect(repo.find_by_id(archived_user.id)).to eq(archived_user)
+    end
+  end
+
+  describe '#user_from_auth' do
+    new_email = 'different@email.com'
+    let(:auth) { create_auth(email: new_email) }
+    let(:user_with_uid) { create(:user, uid: auth['uid']) }
+
+    subject { repo.user_from_auth(auth) }
+
+    it 'returns user object' do
+      expect(subject).to eq(User.first)
+    end
+
+    it "updates user's email when it's different from one in the database" do
+      user_with_uid
+      subject
+      expect(user_with_uid.reload.email).to eq(new_email)
+    end
+
+    it 'saves user as admin if is_admin is true' do
+      auth['info']['is_admin'] = true
+      subject
+      expect(User.first.admin).to eq true
+    end
+
+    it 'does not save user as admin if is_admin is false' do
+      auth['info']['is_admin'] = false
+      subject
+      expect(User.first.admin).to eq false
     end
   end
 
