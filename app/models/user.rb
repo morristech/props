@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   end
 
   def self.omniauth_user(auth)
-    find_by(email: auth['info']['email']) || find_by(name: auth['info']['nickname'])
+    find_by(uid: auth['uid']) || find_by(email: auth['info']['email'])
   end
 
   def self.omniauth_attrs(auth)
@@ -35,6 +35,7 @@ class User < ActiveRecord::Base
       uid: auth['uid'],
       name: auth['info']['name'] || '',
       email: auth['info']['email'] || '',
+      admin: auth['info']['is_admin'] || false,
     }
   end
 
