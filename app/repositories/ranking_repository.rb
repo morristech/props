@@ -36,7 +36,7 @@ class RankingRepository
         hsh[:top_kudoers].push(
           {
             kudos_count: arr[1],
-            user: serialized_users[arr[0]],
+            user: many_serialized_users[arr[0]],
           }
         )
       end
@@ -47,33 +47,43 @@ class RankingRepository
   end
 
   def kudos_streak_within
-    users_with_kudos_count.each_with_object({ streaks: [] }) do |(k, v), hsh|
-      streak = [0]
-      user = User.find(k)
-      user.props.order(:created_at).each_cons(2) do |a|
-        first_day, second_day = a.first.created_at, a.second.created_at
-        if (first_day + 2.day) > second_day && (first_day + 1.day).day == second_day.day
-          streak[-1] += 1
-        elsif (first_day + 2.day) > second_day && first_day.day == second_day.day
-          next
-        else
-          streak.push(0)
-        end
-      end
+    users_with_kudos_count.each_with_object({ streaks: [] }) do |(user_id, _), hsh|
+      user = User.find(user_id)
+      streak = count_user_streak(user)
       hsh[:streaks].push(
         {
-          streak: streak.max + 1,
-          user: user.serializable_hash
+          streak: streak.max,
+          user: one_serialized_user(user)
         }
       )
     end
   end
 
-  def serialized_users
+  def count_user_streak(user)
+    streak = [1]
+    user.props.order(:created_at).each_cons(2) do |props_pair|
+      first_day, second_day = props_pair.first.created_at, props_pair.second.created_at
+      if (first_day + 2.day) > second_day && (first_day + 1.day).day == second_day.day
+        streak[-1] += 1
+      elsif (first_day + 2.day) > second_day && first_day.day == second_day.day
+        next
+      else
+        streak.push(1)
+      end
+    end
+    streak
+  end
+
+  def many_serialized_users
     attributes_to_serialize = %i(id name email avatar_url uid)
-    @serialized_users ||= User.all.each_with_object({}) do |user, hsh|
+    @many_serialized_users ||= User.all.each_with_object({}) do |user, hsh|
       hsh[user.id] = user.serializable_hash(only: attributes_to_serialize)
     end
+  end
+
+  def one_serialized_user(user)
+    attributes_to_serialize = %i(id name email avatar_url uid)
+    user.serializable_hash(only: attributes_to_serialize)
   end
 
   def evaluate_time_range
