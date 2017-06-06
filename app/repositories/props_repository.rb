@@ -14,7 +14,7 @@ class PropsRepository
   def count_per_time_range(created_at = nil, interval)
     query = Prop.all
     query = query.where(created_at: created_at) if created_at.present?
-    query.order("date_trunc('#{interval}', props.created_at)").group("date_trunc('#{interval}', props.created_at)").count
+    query.group("date_trunc('#{interval}', props.created_at AT TIME ZONE 'MST')").count
   end
 
   def add(attributes)
