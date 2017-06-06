@@ -36,10 +36,12 @@ class User < ActiveRecord::Base
       name: auth['info']['name'] || '',
       email: auth['info']['email'] || '',
       admin: auth['info']['is_admin'] || false,
+      avatar: auth.dig('extra', 'user_info', 'user', 'profile', 'image_512') || '',
     }
   end
 
   def self.slack_attrs(member)
+    # TODO: check this OUT! It may be obsolete code.
     {
       provider: 'slack',
       uid: member['id'],

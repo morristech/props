@@ -17,9 +17,9 @@ describe UsersRepository do
   end
 
   describe '#user_from_auth' do
-    new_email = 'different@email.com'
-    let(:auth) { create_auth(email: new_email) }
-    let(:user_with_uid) { create(:user, uid: auth['uid']) }
+    let(:new_email) { 'different@email.com' }
+    let(:new_avatar) { 'slack.com/new_avatar.png' }
+    let(:auth) { create_auth(email: new_email, avatar: new_avatar) }
 
     subject { repo.user_from_auth(auth) }
 
@@ -27,22 +27,36 @@ describe UsersRepository do
       expect(subject).to eq(User.first)
     end
 
-    it "updates user's email when it's different from one in the database" do
-      user_with_uid
-      subject
-      expect(user_with_uid.reload.email).to eq(new_email)
+    context 'when user is already in the database' do
+      let!(:user_with_uid) { create(:user, uid: auth['uid']) }
+
+      it "updates user's email when it's different from one in the database" do
+        subject
+        expect(user_with_uid.reload.email).to eq(new_email)
+      end
+
+      it "updates user's avatar when it's different from one in the database" do
+        subject
+        expect(user_with_uid.reload.avatar).to eq(new_avatar)
+      end
     end
 
-    it 'saves user as admin if is_admin is true' do
-      auth['info']['is_admin'] = true
-      subject
-      expect(User.first.admin).to eq true
+    context 'when auth is_admin is true' do
+      let(:auth) { create_auth(is_admin: true) }
+
+      it 'saves user as admin' do
+        subject
+        expect(User.first.admin).to eq true
+      end
     end
 
-    it 'does not save user as admin if is_admin is false' do
-      auth['info']['is_admin'] = false
-      subject
-      expect(User.first.admin).to eq false
+    context 'when auth is_admin is false' do
+      let(:auth) { create_auth(is_admin: false) }
+
+      it 'does not save user as admin' do
+        subject
+        expect(User.first.admin).to eq false
+      end
     end
   end
 
