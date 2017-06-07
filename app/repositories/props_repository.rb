@@ -11,7 +11,7 @@ class PropsRepository
     query.joins(:prop_receivers).joins(:users).group('users.id').count
   end
 
-  def count_per_time_range(created_at = nil, interval)
+  def count_per_time_range(interval, created_at = nil)
     query = Prop.all
     query = query.where(created_at: created_at) if created_at.present?
     query.group("date_trunc('#{interval}', props.created_at AT TIME ZONE 'MST')").count

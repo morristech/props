@@ -130,11 +130,11 @@ describe UsersRepository do
 
     def serialized_user(user)
       {
-        "id" => user.id,
-        "name" => user.name,
-        "email" => user.email,
-        "uid" => user.uid,
-        "avatar" => user.avatar || Gravatar.new(user.email).image_url(secure: true),
+        'id' => user.id,
+        'name' => user.name,
+        'email' => user.email,
+        'uid' => user.uid,
+        'avatar' => user.avatar || Gravatar.new(user.email).image_url(secure: true),
       }
     end
 
@@ -160,11 +160,11 @@ describe UsersRepository do
   describe '#user_serialized' do
     let(:expected_result) do
       {
-        "id" => user.id,
-        "name" => user.name,
-        "email" => user.email,
-        "uid" => user.uid,
-        "avatar" => user.avatar || Gravatar.new(user.email).image_url(secure: true),
+        'id' => user.id,
+        'name' => user.name,
+        'email' => user.email,
+        'uid' => user.uid,
+        'avatar' => user.avatar || Gravatar.new(user.email).image_url(secure: true),
       }
     end
 

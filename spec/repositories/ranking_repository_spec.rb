@@ -19,33 +19,40 @@ describe RankingRepository do
 
   describe '#hero_of_the_week' do
     let(:time_range) { 'weekly' }
+    let(:time_now) { Time.zone.now }
     let!(:props) do
       [
-        create_prop_for_user(jane, mark, Time.now),
-        create_prop_for_user(jane, john, Time.now),
-        create_prop_for_user(mark, john, Time.now),
+        create_prop_for_user(jane, mark, time_now),
+        create_prop_for_user(jane, john, time_now),
+        create_prop_for_user(mark, john, time_now),
       ]
+    end
+    let(:expected_result) do
+      {
+        user: jane.name,
+        props_count: 2,
+      }
     end
 
     it 'returns the user with the most props' do
-      expected_result = { user: jane.id, props_count: 2 }
       expect(repo.hero_of_the_week).to eq expected_result
     end
 
   end
 
   describe '#top_kudoers' do
+    let(:time_now) { Time.zone.now }
     let!(:props) do
       [
-        create_prop_for_user(jane, mark, Time.now),
-        create_prop_for_user(jane, john, Time.now - 2.days),
-        create_prop_for_user(mark, john, Time.now - 5.days),
-        create_prop_for_user(jane, john, Time.now - 2.weeks),
-        create_prop_for_user(mark, jane, Time.now - 3.months),
-        create_prop_for_user(mark, jane, Time.now - 5.months),
-        create_prop_for_user(mark, jane, Time.now - 7.months),
-        create_prop_for_user(mark, jane, Time.now - 2.years),
-        create_prop_for_user(john, jane, Time.now - 2.years),
+        create_prop_for_user(jane, mark, time_now),
+        create_prop_for_user(jane, john, time_now - 2.days),
+        create_prop_for_user(mark, john, time_now - 5.days),
+        create_prop_for_user(jane, john, time_now - 2.weeks),
+        create_prop_for_user(mark, jane, time_now - 3.months),
+        create_prop_for_user(mark, jane, time_now - 5.months),
+        create_prop_for_user(mark, jane, time_now - 7.months),
+        create_prop_for_user(mark, jane, time_now - 2.years),
+        create_prop_for_user(john, jane, time_now - 2.years),
       ]
     end
 
@@ -129,14 +136,14 @@ describe RankingRepository do
   end
 
   describe '#team_activity' do
-    let(:today) { Time.now.utc }
+    let(:today) { Time.zone.now }
     let!(:props) do
       [
-        create_prop_for_user(jane, mark, Time.now),
-        create_prop_for_user(jane, john, Time.now - 2.days),
-        create_prop_for_user(mark, john, Time.now - 2.days),
-        create_prop_for_user(jane, john, Time.now - 3.weeks),
-        create_prop_for_user(mark, jane, Time.now - 4.months),
+        create_prop_for_user(jane, mark, today),
+        create_prop_for_user(jane, john, today - 2.days),
+        create_prop_for_user(mark, john, today - 2.days),
+        create_prop_for_user(jane, john, today - 3.weeks),
+        create_prop_for_user(mark, jane, today - 4.months),
       ]
     end
 
@@ -170,7 +177,7 @@ describe RankingRepository do
     end
 
     context 'when returned statictics should be grouped by months' do
-      let(:this_month) { Time.now.utc.beginning_of_month }
+      let(:this_month) { Time.zone.now.beginning_of_month }
       let!(:props) do
         [
           create_prop_for_user(jane, mark, this_month + 1.day),
@@ -258,10 +265,10 @@ describe RankingRepository do
       }
     end
 
-    let(:today) { Time.now.utc }
-    let(:two_weeks_ago) { Time.now.utc - 2.weeks }
-    let(:three_months_ago) { Time.now.utc - 3.months }
-    let(:two_years_ago) { Time.now.utc - 2.years }
+    let(:today) { Time.zone.now }
+    let(:two_weeks_ago) { Time.zone.now - 2.weeks }
+    let(:three_months_ago) { Time.zone.now - 3.months }
+    let(:two_years_ago) { Time.zone.now - 2.years }
     let!(:props) do
       [
         create_prop_for_user(jane, mark, today),
