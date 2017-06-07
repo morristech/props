@@ -200,18 +200,45 @@ describe RankingRepository do
 
       context 'when statistics are requested in etire time range' do
         let(:time_range) { 'all' }
-        let(:expected_result) do
-          {
-            this_month - 16.months => 1,
-            this_month - 14.months => 1,
-            this_month - 7.months => 1,
-            this_month - 1.month => 3,
-            this_month => 1,
-          }
+
+        context 'when kudos were given in long time range' do
+          let(:expected_result) do
+            {
+              this_month - 16.months => 1,
+              this_month - 14.months => 1,
+              this_month - 7.months => 1,
+              this_month - 1.month => 3,
+              this_month => 1,
+            }
+          end
+
+          it 'returns time stamps with organisation kudos count in month interval' do
+            expect(repo.team_activity).to eq expected_result
+          end
         end
 
-        it 'returns time stamps with organisation kudos count' do
-          expect(repo.team_activity).to eq expected_result
+        context 'when first kudos were given not long ago' do
+          let!(:props) do
+            [
+              create_prop_for_user(jane, mark, this_month + 1.day),
+              create_prop_for_user(mark, john, this_month + 1.day),
+              create_prop_for_user(jane, john, this_month - 2.days),
+              create_prop_for_user(mark, john, this_month - 5.days),
+              create_prop_for_user(jane, john, this_month - 4.weeks),
+            ]
+          end
+          let(:expected_result) do
+            {
+              this_month - 4.weeks => 1,
+              this_month - 5.days => 1,
+              this_month - 2.days => 1,
+              this_month + 1.day => 2,
+            }
+          end
+
+          it 'returns time stamps with organisation kudos count in day interval' do
+            expect(repo.team_activity).to eq expected_result
+          end
         end
       end
     end
