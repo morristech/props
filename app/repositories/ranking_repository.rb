@@ -89,8 +89,12 @@ class RankingRepository
   end
 
   def count_time_interval
-    # TODO: change interval for "all"
-    return 'month' if %w(yearly all).include?(time_range)
+    return 'month' if time_range == 'yearly' || entire_time_range_is_long?
     'day'
+  end
+
+  def entire_time_range_is_long?
+    return unless time_range == 'all'
+    Prop.order(:created_at).first.created_at < Time.now - 2.months
   end
 end
