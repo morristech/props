@@ -35,17 +35,21 @@ class RankingRepository
 
   def top_kudoers_within
     serialized_users = users_repository.all_users_serialized
-    users_with_kudos_count.sort_by { |_k, v| v }.reverse
-      .each_with_object(top_kudoers: []) do |arr, hsh|
-        hsh[:top_kudoers].push(
-          kudos_count: arr[1],
-          user: serialized_users[arr[0]],
-        )
-      end
+    sorted_users = users_with_kudos_count.sort_by { |_k, v| v }.reverse
+    sorted_users.each_with_object(top_kudoers: []) do |arr, hsh|
+      hsh[:top_kudoers].push(
+        kudos_count: arr[1],
+        user: serialized_users[arr[0]],
+      )
+    end
   end
 
   def team_activity_within
     props_repository.count_per_time_range(count_time_interval, evaluate_time_range)
+  end
+
+  def sorted_kudos_streak
+    kudos_streak_within.sort { |x, y| y[:streak] <=> x[:streak] }
   end
 
   def kudos_streak_within
@@ -59,25 +63,28 @@ class RankingRepository
     end
   end
 
-  def sorted_kudos_streak
-    kudos_streak_within.sort { |x, y| y[:streak] <=> x[:streak] }
-  end
-
   def count_user_streak(user)
     streak = [1]
     users_props = user.props.where(created_at: evaluate_time_range).order(:created_at)
     users_props.each_cons(2) do |props_pair|
-      first_day = props_pair.first.created_at
-      second_day = props_pair.second.created_at
-      if (first_day + 2.days) > second_day && (first_day + 1.day).day == second_day.day
-        streak[-1] += 1
-      elsif (first_day + 2.days) > second_day && first_day.day == second_day.day
-        next
-      else
-        streak.push(1)
-      end
+      next if kudos_from_the_same_day?(props_pair)
+      kudos_from_two_continuos_days?(props_pair) ? streak[-1] += 1 : streak.push(1)
     end
     streak
+  end
+
+  def kudos_from_two_continuos_days?(props_pair)
+    first_day = props_pair.first.created_at
+    second_day = props_pair.second.created_at
+
+    (first_day + 2.days) > second_day && (first_day + 1.day).day == second_day.day
+  end
+
+  def kudos_from_the_same_day?(props_pair)
+    first_day = props_pair.first.created_at
+    second_day = props_pair.second.created_at
+
+    (first_day + 2.days) > second_day && first_day.day == second_day.day
   end
 
   def evaluate_time_range

@@ -19,7 +19,6 @@ module Api
         end
       end
 
-
       before do
         require_api_auth!(params[:token])
       end
