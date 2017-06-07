@@ -25,6 +25,20 @@ class UsersRepository
     find_by_member(member) || (report_matching_error(member) && User.create_from_slack(member))
   end
 
+  def all_users_serialized
+    attributes_to_serialize = %i(id name email uid)
+    @all_users_serialized ||= User.all.each_with_object({}) do |user, hsh|
+      hsh[user.id] = user.serializable_hash(only: attributes_to_serialize)
+      hsh[user.id]['avatar'] = avatar_url(user)
+    end
+  end
+
+  def user_serialized(user)
+    attributes_to_serialize = %i(id name email uid)
+    serialized_user = user.serializable_hash(only: attributes_to_serialize)
+    serialized_user.merge('avatar' => avatar_url(user))
+  end
+
   private
 
   def allowed_domains
@@ -44,5 +58,13 @@ class UsersRepository
 
   def report_matching_error(member)
     Rollbar.error("Couldn't match slack member: #{member}")
+  end
+
+  def avatar_url(user)
+    user.avatar || gravatar_url(user.email)
+  end
+
+  def gravatar_url(email)
+    Gravatar.new(email).image_url(secure: true)
   end
 end

@@ -57,6 +57,7 @@ describe RankingRepository do
           'name' => user.name,
           'email' => user.email,
           'uid' => user.uid,
+          'avatar' => user.avatar,
         },
       }
     end
@@ -225,6 +226,7 @@ describe RankingRepository do
           'name' => user.name,
           'email' => user.email,
           'uid' => user.uid,
+          'avatar' => user.avatar,
         },
       }
     end

@@ -31,11 +31,12 @@ class RankingRepository
   end
 
   def top_kudoers_within
+    serialized_users = users_repository.all_users_serialized
     users_with_kudos_count.sort_by { |_k, v| v }.reverse
       .each_with_object(top_kudoers: []) do |arr, hsh|
         hsh[:top_kudoers].push(
           kudos_count: arr[1],
-          user: many_serialized_users[arr[0]],
+          user: serialized_users[arr[0]],
         )
       end
   end
@@ -50,7 +51,7 @@ class RankingRepository
       streak = count_user_streak(user)
       arr.push(
         streak: streak.max,
-        user: one_serialized_user(user),
+        user: users_repository.user_serialized(user),
       )
     end
   end
@@ -74,18 +75,6 @@ class RankingRepository
       end
     end
     streak
-  end
-
-  def many_serialized_users
-    attributes_to_serialize = %i(id name email avatar_url uid)
-    @many_serialized_users ||= User.all.each_with_object({}) do |user, hsh|
-      hsh[user.id] = user.serializable_hash(only: attributes_to_serialize)
-    end
-  end
-
-  def one_serialized_user(user)
-    attributes_to_serialize = %i(id name email avatar_url uid)
-    user.serializable_hash(only: attributes_to_serialize)
   end
 
   def evaluate_time_range
