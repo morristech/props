@@ -31,7 +31,7 @@ describe Api::V1::Rankings do
 
       it 'returns user with the most received props' do
         expect(json_response['user']).to eq receiver.name
-        expect(json_response['props_count']).to eq 1
+        expect(json_response['kudos_count']).to eq 1
       end
     end
   end

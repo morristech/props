@@ -24,20 +24,20 @@ module Api
       end
 
       resources :rankings do
-        desc 'Returns user with the most received props'
+        desc 'Returns user with the most received kudos'
         get :hero_of_the_week do
           RankingRepository.new(users_repository, props_repository, 'weekly').hero_of_the_week
         end
 
-        desc 'Returns users in order of received props number'
+        desc 'Returns users in order of received kudos number'
         params do
           requires :time_range, type: String
         end
         get :top_kudoers do
-          RankingRepository.new(users_repository, props_repository, time_range).top_kudoers
+          RankingRepository.new(users_repository, props_repository, time_range).top_kudosers
         end
 
-        desc 'Returns props count in required time range'
+        desc 'Returns kudos count in required time range'
         params do
           requires :time_range, type: String
         end

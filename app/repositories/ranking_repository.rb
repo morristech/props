@@ -2,11 +2,11 @@ class RankingRepository
   pattr_initialize :users_repository, :props_repository, :time_range
 
   def hero_of_the_week
-    top_propser_within
+    top_kudoser_within
   end
 
-  def top_kudoers
-    top_kudoers_within
+  def top_kudosers
+    top_kudosers_within
   end
 
   def team_activity
@@ -19,13 +19,13 @@ class RankingRepository
 
   private
 
-  def top_propser_within
+  def top_kudoser_within
     id_with_count = users_with_kudos_count.max_by { |_k, v| v }
     user = User.find(id_with_count.first)
-    props_count = id_with_count.second
+    kudos_count = id_with_count.second
     {
       user: user.name,
-      props_count: props_count,
+      kudos_count: kudos_count,
     }
   end
 
@@ -33,11 +33,11 @@ class RankingRepository
     props_repository.count_per_user(evaluate_time_range)
   end
 
-  def top_kudoers_within
+  def top_kudosers_within
     serialized_users = users_repository.all_users_serialized
     sorted_users = users_with_kudos_count.sort_by { |_k, v| v }.reverse
-    sorted_users.each_with_object(top_kudoers: []) do |arr, hsh|
-      hsh[:top_kudoers].push(
+    sorted_users.each_with_object(top_kudosers: []) do |arr, hsh|
+      hsh[:top_kudosers].push(
         kudos_count: arr[1],
         user: serialized_users[arr[0]],
       )
@@ -65,27 +65,24 @@ class RankingRepository
 
   def count_user_streak(user)
     streak = [1]
-    users_props = user.props.where(created_at: evaluate_time_range).order(:created_at)
-    users_props.each_cons(2) do |props_pair|
-      next if kudos_from_the_same_day?(props_pair)
-      kudos_from_two_continuos_days?(props_pair) ? streak[-1] += 1 : streak.push(1)
+    users_kudos = user.props.where(created_at: evaluate_time_range).order(:created_at)
+    users_kudos.each_cons(2) do |kudos_pair|
+      next if kudos_same_date?(kudos_pair)
+      kudos_from_two_continuos_days?(kudos_pair) ? streak[-1] += 1 : streak.push(1)
     end
     streak
   end
 
-  def kudos_from_two_continuos_days?(props_pair)
-    first_day = props_pair.first.created_at
-    second_day = props_pair.second.created_at
+  def kudos_from_two_continuos_days?(kudos_pair)
+    first_date = kudos_pair.first.created_at
+    second_date = kudos_pair.second.created_at
 
-    (first_day + 2.days) > second_day && (first_day + 1.day).day == second_day.day
+    (first_date + 1.day).to_date == second_date.to_date
   end
 
-  def kudos_from_the_same_day?(props_pair)
-    first_day = props_pair.first.created_at
-    second_day = props_pair.second.created_at
-
-    (first_day + 2.days) > second_day && first_day.day == second_day.day
-  end
+  def kudos_same_date?(kudos_array)
+   kudos_array.map(&:created_at).map(&:to_date).uniq.one?
+end
 
   def evaluate_time_range
     case time_range
@@ -99,12 +96,12 @@ class RankingRepository
   end
 
   def count_time_interval
-    return 'month' if time_range == 'yearly' || entire_time_range_is_long?
+    return 'month' if time_range == 'yearly' || time_range_above_two_months?
     'day'
   end
 
-  def entire_time_range_is_long?
+  def time_range_above_two_months?
     return unless time_range == 'all'
-    Prop.order(:created_at).first.created_at < Time.zone.now - 2.months
+    Prop.oldest_first.created_at < Time.zone.now - 2.months
   end
 end

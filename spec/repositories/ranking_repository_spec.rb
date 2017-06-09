@@ -9,50 +9,53 @@ describe RankingRepository do
   let(:users_repository) { UsersRepository.new }
   let(:repo) { described_class.new(users_repository, props_repository, time_range) }
 
-  def create_prop_for_user(user, propser, created_at)
-    attrs = attributes_for(:prop).merge(user_ids: user.id.to_s,
-                                        propser_id: propser.id,
-                                        organisation: organisation,
-                                        created_at: created_at)
+  def create_kudos_for_user(user, propser, created_at)
+    kudos_attrs = {
+      user_ids: user.id.to_s,
+      propser_id: propser.id,
+      organisation: organisation,
+      created_at: created_at,
+    }
+    attrs = attributes_for(:prop).merge(kudos_attrs)
     PropsRepository.new.add(attrs)
   end
 
   describe '#hero_of_the_week' do
     let(:time_range) { 'weekly' }
     let(:time_now) { Time.zone.now }
-    let!(:props) do
+    let!(:kudos) do
       [
-        create_prop_for_user(jane, mark, time_now),
-        create_prop_for_user(jane, john, time_now),
-        create_prop_for_user(mark, john, time_now),
+        create_kudos_for_user(jane, mark, time_now),
+        create_kudos_for_user(jane, john, time_now),
+        create_kudos_for_user(mark, john, time_now),
       ]
     end
     let(:expected_result) do
       {
         user: jane.name,
-        props_count: 2,
+        kudos_count: 2,
       }
     end
 
-    it 'returns the user with the most props' do
+    it 'returns the user with the most kudos' do
       expect(repo.hero_of_the_week).to eq expected_result
     end
 
   end
 
-  describe '#top_kudoers' do
+  describe '#top_kudosers' do
     let(:time_now) { Time.zone.now }
-    let!(:props) do
+    let!(:kudos) do
       [
-        create_prop_for_user(jane, mark, time_now),
-        create_prop_for_user(jane, john, time_now - 2.days),
-        create_prop_for_user(mark, john, time_now - 5.days),
-        create_prop_for_user(jane, john, time_now - 2.weeks),
-        create_prop_for_user(mark, jane, time_now - 3.months),
-        create_prop_for_user(mark, jane, time_now - 5.months),
-        create_prop_for_user(mark, jane, time_now - 7.months),
-        create_prop_for_user(mark, jane, time_now - 2.years),
-        create_prop_for_user(john, jane, time_now - 2.years),
+        create_kudos_for_user(jane, mark, time_now),
+        create_kudos_for_user(jane, john, time_now - 2.days),
+        create_kudos_for_user(mark, john, time_now - 5.days),
+        create_kudos_for_user(jane, john, time_now - 2.weeks),
+        create_kudos_for_user(mark, jane, time_now - 3.months),
+        create_kudos_for_user(mark, jane, time_now - 5.months),
+        create_kudos_for_user(mark, jane, time_now - 7.months),
+        create_kudos_for_user(mark, jane, time_now - 2.years),
+        create_kudos_for_user(john, jane, time_now - 2.years),
       ]
     end
 
@@ -72,7 +75,7 @@ describe RankingRepository do
     context 'when statistics are requested in weekly time range' do
       let(:expected_result) do
         {
-          top_kudoers: [
+          top_kudosers: [
             user_with_kudos_count(jane, 2),
             user_with_kudos_count(mark, 1),
           ],
@@ -81,14 +84,14 @@ describe RankingRepository do
       let(:time_range) { 'weekly' }
 
       it 'returns users with their kudos count from last week' do
-        expect(repo.top_kudoers).to eq expected_result
+        expect(repo.top_kudosers).to eq expected_result
       end
     end
 
     context 'when statistics are requested in monthly time range' do
       let(:expected_result) do
         {
-          top_kudoers: [
+          top_kudosers: [
             user_with_kudos_count(jane, 3),
             user_with_kudos_count(mark, 1),
           ],
@@ -97,14 +100,14 @@ describe RankingRepository do
       let(:time_range) { 'monthly' }
 
       it 'returns users with their kudos count from last month' do
-        expect(repo.top_kudoers).to eq expected_result
+        expect(repo.top_kudosers).to eq expected_result
       end
     end
 
     context 'when statistics are requested in yearly time range' do
       let(:expected_result) do
         {
-          top_kudoers: [
+          top_kudosers: [
             user_with_kudos_count(mark, 4),
             user_with_kudos_count(jane, 3),
           ],
@@ -113,14 +116,14 @@ describe RankingRepository do
       let(:time_range) { 'yearly' }
 
       it 'returns users with their kudos count from last year' do
-        expect(repo.top_kudoers).to eq expected_result
+        expect(repo.top_kudosers).to eq expected_result
       end
     end
 
     context 'when statistics are requested in etire time range' do
       let(:expected_result) do
         {
-          top_kudoers: [
+          top_kudosers: [
             user_with_kudos_count(mark, 5),
             user_with_kudos_count(jane, 3),
             user_with_kudos_count(john, 1),
@@ -130,20 +133,20 @@ describe RankingRepository do
       let(:time_range) { 'all' }
 
       it 'returns users with their kudos count' do
-        expect(repo.top_kudoers).to eq expected_result
+        expect(repo.top_kudosers).to eq expected_result
       end
     end
   end
 
   describe '#team_activity' do
     let(:today) { Time.zone.now }
-    let!(:props) do
+    let!(:kudos) do
       [
-        create_prop_for_user(jane, mark, today),
-        create_prop_for_user(jane, john, today - 2.days),
-        create_prop_for_user(mark, john, today - 2.days),
-        create_prop_for_user(jane, john, today - 3.weeks),
-        create_prop_for_user(mark, jane, today - 4.months),
+        create_kudos_for_user(jane, mark, today),
+        create_kudos_for_user(jane, john, today - 2.days),
+        create_kudos_for_user(mark, john, today - 2.days),
+        create_kudos_for_user(jane, john, today - 3.weeks),
+        create_kudos_for_user(mark, jane, today - 4.months),
       ]
     end
 
@@ -178,15 +181,15 @@ describe RankingRepository do
 
     context 'when returned statictics should be grouped by months' do
       let(:this_month) { Time.zone.now.beginning_of_month }
-      let!(:props) do
+      let!(:kudos) do
         [
-          create_prop_for_user(jane, mark, this_month + 1.day),
-          create_prop_for_user(jane, john, this_month - 2.days),
-          create_prop_for_user(mark, john, this_month - 5.days),
-          create_prop_for_user(jane, john, this_month - 4.weeks),
-          create_prop_for_user(mark, jane, this_month - (6.months + 2.days)),
-          create_prop_for_user(mark, jane, this_month - (13.months + 2.days)),
-          create_prop_for_user(mark, jane, this_month - (15.months + 2.days)),
+          create_kudos_for_user(jane, mark, this_month + 1.day),
+          create_kudos_for_user(jane, john, this_month - 2.days),
+          create_kudos_for_user(mark, john, this_month - 5.days),
+          create_kudos_for_user(jane, john, this_month - 4.weeks),
+          create_kudos_for_user(mark, jane, this_month - (6.months + 2.days)),
+          create_kudos_for_user(mark, jane, this_month - (13.months + 2.days)),
+          create_kudos_for_user(mark, jane, this_month - (15.months + 2.days)),
         ]
       end
 
@@ -225,13 +228,13 @@ describe RankingRepository do
         end
 
         context 'when first kudos were given not long ago' do
-          let!(:props) do
+          let!(:kudos) do
             [
-              create_prop_for_user(jane, mark, this_month + 1.day),
-              create_prop_for_user(mark, john, this_month + 1.day),
-              create_prop_for_user(jane, john, this_month - 2.days),
-              create_prop_for_user(mark, john, this_month - 5.days),
-              create_prop_for_user(jane, john, this_month - 4.weeks),
+              create_kudos_for_user(jane, mark, this_month + 1.day),
+              create_kudos_for_user(mark, john, this_month + 1.day),
+              create_kudos_for_user(jane, john, this_month - 2.days),
+              create_kudos_for_user(mark, john, this_month - 5.days),
+              create_kudos_for_user(jane, john, this_month - 4.weeks),
             ]
           end
           let(:expected_result) do
@@ -269,15 +272,15 @@ describe RankingRepository do
     let(:two_weeks_ago) { Time.zone.now - 2.weeks }
     let(:three_months_ago) { Time.zone.now - 3.months }
     let(:two_years_ago) { Time.zone.now - 2.years }
-    let!(:props) do
+    let!(:kudos) do
       [
-        create_prop_for_user(jane, mark, today),
-        create_prop_for_user(mark, john, two_weeks_ago),
-        create_prop_for_user(mark, john, two_weeks_ago - 1.day),
-        create_prop_for_user(jane, john, three_months_ago),
-        create_prop_for_user(jane, john, three_months_ago - 1.day),
-        create_prop_for_user(jane, john, three_months_ago - 2.days),
-        create_prop_for_user(john, jane, two_years_ago),
+        create_kudos_for_user(jane, mark, today),
+        create_kudos_for_user(mark, john, two_weeks_ago),
+        create_kudos_for_user(mark, john, two_weeks_ago - 1.day),
+        create_kudos_for_user(jane, john, three_months_ago),
+        create_kudos_for_user(jane, john, three_months_ago - 1.day),
+        create_kudos_for_user(jane, john, three_months_ago - 2.days),
+        create_kudos_for_user(john, jane, two_years_ago),
       ]
     end
 
@@ -334,6 +337,39 @@ describe RankingRepository do
 
       it 'returns users with their highest kudos streaks' do
         expect(repo.kudos_streak).to eq expected_result
+      end
+
+      context 'when user get few kudos at the same day it does not count to streak' do
+        let(:time_range) { 'all' }
+        let!(:kudos) do
+          [
+            create_kudos_for_user(jane, mark, today),
+            create_kudos_for_user(jane, mark, today),
+            create_kudos_for_user(jane, mark, today),
+            create_kudos_for_user(jane, mark, today),
+            create_kudos_for_user(mark, john, two_weeks_ago),
+            create_kudos_for_user(mark, john, two_weeks_ago),
+            create_kudos_for_user(mark, john, two_weeks_ago),
+            create_kudos_for_user(mark, john, two_weeks_ago - 1.day),
+            create_kudos_for_user(jane, john, three_months_ago),
+            create_kudos_for_user(jane, john, three_months_ago - 1.day),
+            create_kudos_for_user(jane, john, three_months_ago - 1.day),
+            create_kudos_for_user(jane, john, three_months_ago - 1.day),
+            create_kudos_for_user(jane, john, three_months_ago - 2.days),
+            create_kudos_for_user(john, jane, two_years_ago),
+          ]
+        end
+        let(:expected_result) do
+          [
+            user_with_streak(jane, 3),
+            user_with_streak(mark, 2),
+            user_with_streak(john, 1),
+          ]
+        end
+
+        it 'returns users with their highest kudos streaks' do
+          expect(repo.kudos_streak).to eq expected_result
+        end
       end
     end
   end
