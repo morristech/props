@@ -14,7 +14,7 @@ class RankingRepository
   end
 
   def kudos_streak
-    sorted_kudos_streak
+    kudos_streak_within
   end
 
   private
@@ -34,7 +34,6 @@ class RankingRepository
   end
 
   def top_kudosers_within
-    serialized_users = users_repository.all_users_serialized
     sorted_users = users_with_kudos_count.sort_by { |_k, v| v }.reverse
     sorted_users.each_with_object(top_kudosers: []) do |arr, hsh|
       hsh[:top_kudosers].push(
@@ -48,41 +47,36 @@ class RankingRepository
     props_repository.count_per_time_range(count_time_interval, evaluate_time_range)
   end
 
-  def sorted_kudos_streak
-    kudos_streak_within.sort { |x, y| y[:streak] <=> x[:streak] }
+  def kudos_streak_within
+    kudos_with_receivers = props_repository.kudos_with_receivers(evaluate_time_range)
+    splitted_array = split_on_users(kudos_with_receivers)
+    sort_on_streak_count serialize_streak(splitted_array)
   end
 
-  def kudos_streak_within
-    users_with_kudos_count.each_with_object([]) do |(user_id, _), arr|
-      user = User.find(user_id)
-      streak = count_user_streak(user)
+  def split_on_users(kudos_with_receivers)
+    kudos_with_receivers.chunk_while { |a, b| a.first == b.first }.to_a
+  end
+
+  def sort_on_streak_count(users_streak)
+    users_streak.sort { |x, y| y[:streak] <=> x[:streak] }
+  end
+
+  def serialize_streak(splitted_array)
+    splitted_array.each_with_object([]) do |elem, arr|
       arr.push(
-        streak: streak.max,
-        user: users_repository.user_serialized(user),
+        streak: count_user_streak(elem),
+        user: serialized_users[elem.first.first],
       )
     end
   end
 
-  def count_user_streak(user)
-    streak = [1]
-    users_kudos = user.props.where(created_at: evaluate_time_range).order(:created_at)
-    users_kudos.each_cons(2) do |kudos_pair|
-      next if kudos_same_date?(kudos_pair)
-      kudos_from_two_continuos_days?(kudos_pair) ? streak[-1] += 1 : streak.push(1)
-    end
-    streak
+  def count_user_streak(user_and_kudos_date)
+    user_and_kudos_date.uniq.chunk_while { |a, b| a.second + 1.day == b.second }.map(&:count).max
   end
 
-  def kudos_from_two_continuos_days?(kudos_pair)
-    first_date = kudos_pair.first.created_at
-    second_date = kudos_pair.second.created_at
-
-    (first_date + 1.day).to_date == second_date.to_date
+  def serialized_users
+    @serialized_users ||= users_repository.all_users_serialized
   end
-
-  def kudos_same_date?(kudos_array)
-   kudos_array.map(&:created_at).map(&:to_date).uniq.one?
-end
 
   def evaluate_time_range
     case time_range

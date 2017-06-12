@@ -20,6 +20,17 @@ describe RankingRepository do
     PropsRepository.new.add(attrs)
   end
 
+  def create_kudos_for_users(users, propser, created_at)
+    kudos_attrs = {
+      user_ids: users.map(&:id).join(','),
+      propser_id: propser.id,
+      organisation: organisation,
+      created_at: created_at,
+    }
+    attrs = attributes_for(:prop).merge(kudos_attrs)
+    PropsRepository.new.add(attrs)
+  end
+
   describe '#hero_of_the_week' do
     let(:time_range) { 'weekly' }
     let(:time_now) { Time.zone.now }
@@ -139,7 +150,7 @@ describe RankingRepository do
   end
 
   describe '#team_activity' do
-    let(:today) { Time.zone.now }
+    let(:today) { Time.zone.now.beginning_of_day }
     let!(:kudos) do
       [
         create_kudos_for_user(jane, mark, today),
@@ -268,10 +279,10 @@ describe RankingRepository do
       }
     end
 
-    let(:today) { Time.zone.now }
-    let(:two_weeks_ago) { Time.zone.now - 2.weeks }
-    let(:three_months_ago) { Time.zone.now - 3.months }
-    let(:two_years_ago) { Time.zone.now - 2.years }
+    let(:today) { Time.zone.now.beginning_of_day }
+    let(:two_weeks_ago) { today - 2.weeks }
+    let(:three_months_ago) { today - 3.months }
+    let(:two_years_ago) { today - 2.years }
     let!(:kudos) do
       [
         create_kudos_for_user(jane, mark, today),
@@ -347,6 +358,7 @@ describe RankingRepository do
             create_kudos_for_user(jane, mark, today),
             create_kudos_for_user(jane, mark, today),
             create_kudos_for_user(jane, mark, today),
+            create_kudos_for_users([jane, mark], john, today),
             create_kudos_for_user(mark, john, two_weeks_ago),
             create_kudos_for_user(mark, john, two_weeks_ago),
             create_kudos_for_user(mark, john, two_weeks_ago),
@@ -357,13 +369,14 @@ describe RankingRepository do
             create_kudos_for_user(jane, john, three_months_ago - 1.day),
             create_kudos_for_user(jane, john, three_months_ago - 2.days),
             create_kudos_for_user(john, jane, two_years_ago),
+            create_kudos_for_users([john, jane], mark, two_years_ago - 1.day),
           ]
         end
         let(:expected_result) do
           [
             user_with_streak(jane, 3),
             user_with_streak(mark, 2),
-            user_with_streak(john, 1),
+            user_with_streak(john, 2),
           ]
         end
 
