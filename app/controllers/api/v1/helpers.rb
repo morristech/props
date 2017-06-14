@@ -22,7 +22,8 @@ module Api
       end
 
       def require_user_agent!(user_agent)
-        error!('Wrong user agent', 401) unless permited_bot?(user_agent)
+        message = I18n.t('slack_commands.kudos.errors.wrong_user_agent')
+        error!(message, 401) unless permited_bot?(user_agent)
       end
 
       def permited_bot?(user_agent)

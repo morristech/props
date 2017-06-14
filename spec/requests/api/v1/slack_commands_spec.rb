@@ -32,10 +32,16 @@ describe Api::V1::SlackCommands do
           text: 'some message here <@U5DH4MX6F|hubert>',
         }
       end
+      let(:response_message) { '{"error":"Your request was sent from a prohibited device."}' }
 
       it 'returns unathorized response' do
         subject
         expect(response).to have_http_status(401)
+      end
+
+      it 'returns proper response message' do
+        subject
+        expect(response.body).to eq response_message
       end
     end
 
