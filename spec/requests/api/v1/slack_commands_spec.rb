@@ -8,7 +8,6 @@ describe Api::V1::SlackCommands do
   let(:path) { '/api/v1/slack_commands/kudos' }
 
   describe 'POST /api/v1/slack_commands/kudos' do
-
     subject { post path, params, headers }
 
     context 'token is invalid' do
