@@ -8,8 +8,51 @@ describe Api::V1::SlackCommands do
   let(:path) { '/api/v1/slack_commands/kudos' }
 
   describe 'POST /api/v1/slack_commands/kudos' do
-    context 'token is valid' do
+
+    subject { post path, params, headers }
+
+    context 'token is invalid' do
+      it 'returns unathorized response' do
+        post path
+        expect(response).to have_http_status(401)
+      end
+    end
+
+    context 'when user agent is invalid' do
       let!(:api_token) { EasyTokens::Token.create(value: 'aaabbbccc', owner_id: user_1.id) }
+      let(:headers) do
+        { 'HTTP_USER_AGENT' => 'Invalid User Agent 1.0' }
+      end
+      let(:params) do
+        {
+          token: 'aaabbbccc',
+          team_id: organisation.team_id,
+          user_id: user_1.uid,
+          command: '/kudos',
+          text: 'some message here <@U5DH4MX6F|hubert>',
+        }
+      end
+
+      it 'returns unathorized response' do
+        subject
+        expect(response).to have_http_status(401)
+      end
+    end
+
+    context 'token and user agent are valid' do
+      let!(:api_token) { EasyTokens::Token.create(value: 'aaabbbccc', owner_id: user_1.id) }
+      let(:headers) do
+        { 'HTTP_USER_AGENT' => 'Slackbot 1.0 (+https://api.slack.com/robots)' }
+      end
+      let(:params) do
+        {
+          token: 'aaabbbccc',
+          team_id: organisation.team_id,
+          user_id: user_1.uid,
+          command: '/kudos',
+          text: 'some message here <@U5DH4MX6F|hubert>',
+        }
+      end
 
       context 'when params are valid' do
         let(:params) do
@@ -24,8 +67,6 @@ describe Api::V1::SlackCommands do
         let(:message) do
           "{\"text\":\"#{I18n.t('slack_commands.kudos.messages.created')}\"}"
         end
-
-        subject { post path, params }
 
         it 'creates prop' do
           expect { subject }.to change { Prop.count }.from(0).to(1)
@@ -61,8 +102,6 @@ describe Api::V1::SlackCommands do
           "{\"text\":\"#{I18n.t('slack_commands.kudos.messages.created')}\"}"
         end
 
-        subject { post path, params }
-
         it 'creates prop' do
           expect { subject }.to change { Prop.count }.from(0).to(1)
         end
@@ -92,8 +131,6 @@ describe Api::V1::SlackCommands do
           "{\"text\":\"#{I18n.t('slack_commands.kudos.errors.prop_receivers_missing')}\"}"
         end
 
-        subject { post path, params }
-
         it 'does not create prop' do
           expect { subject }.not_to change { Prop.count }
         end
@@ -117,8 +154,6 @@ describe Api::V1::SlackCommands do
         let(:message) do
           "{\"text\":\"#{I18n.t('slack_commands.kudos.errors.params_missing')}\"}"
         end
-
-        subject { post path, params }
 
         it 'does not create prop' do
           expect { subject }.not_to change { Prop.count }
@@ -144,8 +179,6 @@ describe Api::V1::SlackCommands do
           "{\"text\":\"#{I18n.t('slack_commands.kudos.errors.prop_receivers_missing')}\"}"
         end
 
-        subject { post path, params }
-
         it 'does not create prop' do
           expect { subject }.not_to change { Prop.count }
         end
@@ -169,8 +202,6 @@ describe Api::V1::SlackCommands do
         let(:message) do
           "{\"text\":\"#{I18n.t('slack_commands.kudos.messages.created')}\"}"
         end
-
-        subject { post path, params }
 
         it 'creates prop' do
           expect { subject }.to change { Prop.count }.from(0).to(1)
@@ -206,8 +237,6 @@ describe Api::V1::SlackCommands do
           "{\"text\":\"#{I18n.t('slack_commands.kudos.errors.selfpropsing')}\"}"
         end
 
-        subject { post path, params }
-
         it 'does not create prop' do
           expect { subject }.not_to change { Prop.count }
         end
@@ -232,8 +261,6 @@ describe Api::V1::SlackCommands do
           "{\"text\":\"#{I18n.t('slack_commands.kudos.help')}\"}"
         end
 
-        subject { post path, params }
-
         it 'does not create prop' do
           expect { subject }.not_to change { Prop.count }
         end
@@ -242,13 +269,6 @@ describe Api::V1::SlackCommands do
           subject
           expect(response.body).to eq message
         end
-      end
-    end
-
-    context 'token is invalid' do
-      it 'returns unathorized response' do
-        post path
-        expect(response).to have_http_status(401)
       end
     end
   end
