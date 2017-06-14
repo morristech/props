@@ -79,23 +79,23 @@ class RankingRepository
   end
 
   def evaluate_time_range
-    case time_range
-    when 'yearly' then (Time.zone.now - 1.year..Time.zone.now)
-    when 'monthly' then (Time.zone.now - 1.month..Time.zone.now)
-    when 'weekly' then (Time.zone.now - 1.week..Time.zone.now)
-    when 'bi-weekly' then (Time.zone.now - 2.weeks..Time.zone.now)
-    when 'all' then (Prop.order(:created_at).first.created_at..Time.zone.now)
-    else raise 'Wrong params'
-    end
+    hash = {
+      'yearly' => (1.year.ago..Time.current),
+      'monthly' => (1.month.ago..Time.current),
+      'weekly' => (1.week.ago..Time.current),
+      'bi-weekly' => (2.weeks.ago..Time.current),
+      'all' => (Prop.order(:created_at).first.created_at..Time.current),
+    }
+    hash.fetch(time_range) { raise 'Wrong params' }
   end
 
   def count_time_interval
-    return 'month' if time_range == 'yearly' || time_range_above_two_months?
+    return 'month' if time_range.inquiry.yearly? || time_range_above_two_months?
     'day'
   end
 
   def time_range_above_two_months?
-    return unless time_range == 'all'
-    Prop.oldest_first.created_at < Time.zone.now - 2.months
+    return unless time_range.inquiry.all?
+    Prop.oldest_first.created_at < 2.months.ago
   end
 end
