@@ -5,6 +5,8 @@ module Api
       include SessionHelpers
       include Pundit
 
+      PERMITED_BOT = 'Slackbot 1.0 (+https://api.slack.com/robots)'.freeze
+
       def authenticate_user!
         error!('401 Unauthorized', 401) if current_user.nil?
       end
@@ -17,6 +19,14 @@ module Api
       def token_valid?(token)
         return false if token.nil?
         EasyTokens::Token.exists?(value: token, deactivated_at: nil)
+      end
+
+      def require_user_agent!(user_agent)
+        error!('Wrong user agent', 401) unless permited_bot?(user_agent)
+      end
+
+      def permited_bot?(user_agent)
+        user_agent == PERMITED_BOT
       end
     end
   end
