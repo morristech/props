@@ -14,10 +14,14 @@ class RankingRepository
   end
 
   def kudos_streak
-    kudos_streak_within
+    Rankings::KudosStreak.new(users_repository, props_repository, evaluate_time_range).call
   end
 
   private
+
+  def evaluate_time_range
+    Rankings::EvaluateTimeRange.new(time_range).call
+  end
 
   def top_kudoser_within
     id_with_count = users_with_kudos_count.max_by { |_k, v| v }
@@ -47,46 +51,8 @@ class RankingRepository
     props_repository.count_per_time_range(count_time_interval, evaluate_time_range)
   end
 
-  def kudos_streak_within
-    kudos_with_receivers = props_repository.kudos_with_receivers(evaluate_time_range)
-    splitted_array = split_on_users(kudos_with_receivers)
-    sort_on_streak_count serialize_streak(splitted_array)
-  end
-
-  def split_on_users(kudos_with_receivers)
-    kudos_with_receivers.chunk_while { |a, b| a.first == b.first }.to_a
-  end
-
-  def sort_on_streak_count(users_streak)
-    users_streak.sort { |x, y| y[:streak] <=> x[:streak] }
-  end
-
-  def serialize_streak(splitted_array)
-    splitted_array.each_with_object([]) do |elem, arr|
-      arr.push(
-        streak: count_user_streak(elem),
-        user: serialized_users[elem.first.first],
-      )
-    end
-  end
-
-  def count_user_streak(user_and_kudos_date)
-    user_and_kudos_date.uniq.chunk_while { |a, b| a.second + 1.day == b.second }.map(&:count).max
-  end
-
   def serialized_users
     @serialized_users ||= users_repository.all_users_serialized
-  end
-
-  def evaluate_time_range
-    hash = {
-      'yearly' => (1.year.ago..Time.current),
-      'monthly' => (1.month.ago..Time.current),
-      'weekly' => (1.week.ago..Time.current),
-      'bi-weekly' => (2.weeks.ago..Time.current),
-      'all' => (Prop.order(:created_at).first.created_at..Time.current),
-    }
-    hash.fetch(time_range) { raise 'Wrong params' }
   end
 
   def count_time_interval
