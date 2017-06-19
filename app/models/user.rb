@@ -15,9 +15,20 @@ class User < ActiveRecord::Base
     create! omniauth_attrs(auth)
   end
 
+  def self.create_with_slack_fetch(user_info)
+    return update_with_slack_fetch(user_info) if slack_user(user_info)
+    create! slack_fetch_attrs(user_info)
+  end
+
   def self.update_with_omniauth(auth)
     omniauth_user(auth).tap do |user|
       user.update omniauth_attrs(auth)
+    end
+  end
+
+  def self.update_with_slack_fetch(user_info)
+    slack_user(user_info).tap do |user|
+      user.update slack_fetch_attrs(user_info)
     end
   end
 
@@ -29,6 +40,10 @@ class User < ActiveRecord::Base
     find_by(uid: auth['uid']) || find_by(email: auth['info']['email'])
   end
 
+  def self.slack_user(user_info)
+    find_by(uid: user_info['id']) || find_by(email: user_info['profile']['email'])
+  end
+
   def self.omniauth_attrs(auth)
     {
       provider: auth['provider'],
@@ -38,6 +53,21 @@ class User < ActiveRecord::Base
       admin: auth['info']['is_admin'] || false,
       avatar: big_avatar_512(auth) || small_avatar_192(auth),
     }
+  end
+
+  def self.slack_fetch_attrs(user_info)
+    {
+      provider: 'slack',
+      uid: user_info['id'],
+      name: (user_info['real_name'].blank? ? user_info['name'] : user_info['real_name']),
+      email: user_info['profile']['email'] || '',
+      admin: user_info['is_admin'] || false,
+      avatar: user_info['profile']['image_512'] || '',
+    }
+  end
+
+  def name_from_user_info
+    user_info['real_name'].blank? ? user_info['real_name'] : 'x'
   end
 
   def self.slack_attrs(member)
