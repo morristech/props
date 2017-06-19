@@ -9,12 +9,12 @@ describe Rankings::TopKudosers do
   let(:props_repository) { PropsRepository.new }
   let(:users_repository) { UsersRepository.new }
   let(:time_range_processor) { Rankings::ProcessTimeRange.new(time_range_string) }
+  let(:time_range) { time_range_processor.time_range }
 
   subject { described_class.new(users_repository, props_repository, time_range) }
 
   describe '#hero_of_the_week' do
     let(:time_range_string) { 'weekly' }
-    let(:time_range) { time_range_processor.time_range }
     let(:time_now) { Time.zone.now }
     let!(:kudos) do
       [
@@ -75,7 +75,6 @@ describe Rankings::TopKudosers do
         }
       end
       let(:time_range_string) { 'weekly' }
-      let(:time_range) { time_range_processor.time_range }
 
       it 'returns users with their kudos count from last week' do
         expect(subject.top_kudosers).to eq expected_result
@@ -92,7 +91,6 @@ describe Rankings::TopKudosers do
         }
       end
       let(:time_range_string) { 'monthly' }
-      let(:time_range) { time_range_processor.time_range }
 
       it 'returns users with their kudos count from last month' do
         expect(subject.top_kudosers).to eq expected_result
@@ -109,7 +107,6 @@ describe Rankings::TopKudosers do
         }
       end
       let(:time_range_string) { 'yearly' }
-      let(:time_range) { time_range_processor.time_range }
 
       it 'returns users with their kudos count from last year' do
         expect(subject.top_kudosers).to eq expected_result
@@ -127,7 +124,6 @@ describe Rankings::TopKudosers do
         }
       end
       let(:time_range_string) { 'all' }
-      let(:time_range) { time_range_processor.time_range }
 
       it 'returns users with their kudos count' do
         expect(subject.top_kudosers).to eq expected_result

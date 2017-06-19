@@ -14,7 +14,7 @@ class RankingRepository
   end
 
   def kudos_streak
-    Rankings::KudosStreak.new(users_repository, props_repository, time_range).call
+    Rankings::KudosStreak.new(users_repository, props_repository, time_range).kudos_streak
   end
 
   private

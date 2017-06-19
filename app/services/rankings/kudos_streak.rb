@@ -2,7 +2,7 @@ module Rankings
   class KudosStreak
     pattr_initialize :users_repository, :props_repository, :time_range
 
-    def call
+    def kudos_streak
       kudos_streak_within
     end
 
