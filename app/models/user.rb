@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
       name: auth['info']['name'] || '',
       email: auth['info']['email'] || '',
       admin: auth['info']['is_admin'] || false,
-      avatar: auth.dig('extra', 'user_info', 'user', 'profile', 'image_512') || '',
+      avatar: big_avatar_512(auth) || small_avatar_192(auth),
     }
   end
 
@@ -48,5 +48,17 @@ class User < ActiveRecord::Base
       name: member['profile']['real_name'] || '',
       email: member['profile']['email'] || '',
     }
+  end
+
+  class << self
+    private
+
+    def big_avatar_512(auth)
+      auth.dig('extra', 'user_info', 'user', 'profile', 'image_512')
+    end
+
+    def small_avatar_192(auth)
+      auth['info']['image']
+    end
   end
 end
