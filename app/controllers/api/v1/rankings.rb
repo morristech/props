@@ -26,7 +26,10 @@ module Api
       resources :rankings do
         desc 'Returns user with the most received kudos'
         get :hero_of_the_week do
-          RankingRepository.new(users_repository, props_repository, 'weekly').hero_of_the_week
+          RankingRepository.new(users_repository: users_repository,
+                                props_repository: props_repository,
+                                organisation: current_organisation,
+                                time_range_string: 'weekly').hero_of_the_week
         end
 
         desc 'Returns users in order of received kudos number'
@@ -34,7 +37,10 @@ module Api
           requires :time_range, type: String
         end
         get :top_kudoers do
-          RankingRepository.new(users_repository, props_repository, time_range).top_kudosers
+          RankingRepository.new(users_repository: users_repository,
+                                props_repository: props_repository,
+                                organisation: current_organisation,
+                                time_range_string: time_range).top_kudosers
         end
 
         desc 'Returns kudos count in required time range'
@@ -42,7 +48,10 @@ module Api
           requires :time_range, type: String
         end
         get :team_activity do
-          RankingRepository.new(users_repository, props_repository, time_range).team_activity
+          RankingRepository.new(users_repository: users_repository,
+                                props_repository: props_repository,
+                                organisation: current_organisation,
+                                time_range_string: time_range).team_activity
         end
 
         desc 'Returns users with kudos streak'
@@ -50,7 +59,10 @@ module Api
           requires :time_range, type: String
         end
         get :kudos_streak do
-          RankingRepository.new(users_repository, props_repository, time_range).kudos_streak
+          RankingRepository.new(users_repository: users_repository,
+                                props_repository: props_repository,
+                                organisation: current_organisation,
+                                time_range_string: time_range).kudos_streak
         end
       end
     end

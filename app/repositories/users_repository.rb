@@ -3,6 +3,17 @@ class UsersRepository
     User.all.order(:name)
   end
 
+  def users_from_organisation(organisation)
+    organisation.users.order(:name)
+  end
+
+  def all_users_serialized(organisation)
+    users_from_organisation(organisation).each_with_object({}) do |user, hsh|
+      hsh[user.id] = user.serializable_hash(only: attributes_to_serialize)
+      hsh[user.id]['avatar'] = avatar_url(user)
+    end
+  end
+
   def for_organisation(organisation)
     active.joins(:organisations).where('organisations.id = ?', organisation.id)
   end
@@ -23,13 +34,6 @@ class UsersRepository
 
   def user_from_slack(member)
     find_by_member(member) || (report_matching_error(member) && User.create_from_slack(member))
-  end
-
-  def all_users_serialized
-    User.all.each_with_object({}) do |user, hsh|
-      hsh[user.id] = user.serializable_hash(only: attributes_to_serialize)
-      hsh[user.id]['avatar'] = avatar_url(user)
-    end
   end
 
   def user_serialized(user)

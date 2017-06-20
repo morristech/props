@@ -1,6 +1,6 @@
 module Rankings
   class KudosStreak
-    pattr_initialize :users_repository, :props_repository, :time_range
+    pattr_initialize %i(users_repository! props_repository! organisation! time_range!)
 
     def kudos_streak
       kudos_streak_within
@@ -9,7 +9,7 @@ module Rankings
     private
 
     def kudos_streak_within
-      kudos_with_receivers = props_repository.kudos_with_receivers(time_range)
+      kudos_with_receivers = props_repository.kudos_with_receivers(organisation, time_range)
       splitted_array = split_on_users(kudos_with_receivers)
       sort_on_streak_count serialize_streak(splitted_array)
     end
@@ -36,7 +36,7 @@ module Rankings
     end
 
     def serialized_users
-      @serialized_users ||= users_repository.all_users_serialized
+      @serialized_users ||= users_repository.all_users_serialized(organisation)
     end
   end
 end

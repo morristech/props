@@ -3,14 +3,25 @@ include RankingsHelpers
 
 describe Rankings::KudosStreak do
   let(:organisation) { create(:organisation) }
-  let(:mark) { create(:user) }
-  let(:john) { create(:user) }
-  let(:jane) { create(:user, name: 'Jane Doe') }
+  let(:mark) { create(:user, :with_organisation, name: 'Mark Banana') }
+  let(:john) { create(:user, :with_organisation, name: 'John Smith') }
+  let(:jane) { create(:user, :with_organisation, name: 'Jane Doe') }
   let(:props_repository) { PropsRepository.new }
   let(:users_repository) { UsersRepository.new }
   let(:time_range_processor) { Rankings::ProcessTimeRange.new(time_range_string) }
 
-  subject { described_class.new(users_repository, props_repository, time_range) }
+  subject do
+    described_class.new(users_repository: users_repository,
+                        props_repository: props_repository,
+                        organisation: organisation,
+                        time_range: time_range)
+  end
+
+  before do
+    organisation.add_user(mark)
+    organisation.add_user(john)
+    organisation.add_user(jane)
+  end
 
   def user_with_streak(user, streak)
     {
@@ -131,6 +142,54 @@ describe Rankings::KudosStreak do
         it 'returns users with their highest kudos streaks' do
           expect(subject.kudos_streak).to eq expected_result
         end
+      end
+    end
+
+    context 'when multiple organisations have kudos' do
+      let(:organisation_one)   { create(:organisation) }
+      let(:organisation_two)   { create(:organisation) }
+      let(:organisation_three) { create(:organisation) }
+      let(:mark) { create(:user, name: 'Mark Banana') }
+      let(:john) { create(:user, name: 'John Smith') }
+      let(:jane) { create(:user, name: 'Jane Doe') }
+      let(:alex) { create(:user, name: 'Alex Crow') }
+      let(:carl) { create(:user, name: 'Carl Starsky') }
+      let(:leia) { create(:user, name: 'Leia Ordana') }
+      let!(:kudos) do
+        [
+          create_kudos_in_org(organisation_one, mark, john, today),
+          create_kudos_in_org(organisation_one, mark, john, today - 1.day),
+          create_kudos_in_org(organisation_two, jane, alex, two_weeks_ago),
+          create_kudos_in_org(organisation_two, jane, alex, two_weeks_ago - 1.day),
+          create_kudos_in_org(organisation_three, leia, carl, three_months_ago),
+          create_kudos_in_org(organisation_three, leia, carl, three_months_ago - 1.day),
+        ]
+      end
+      let(:time_range_string) { 'all' }
+      let(:expected_result) do
+        [
+          user_with_streak(jane, 2),
+        ]
+      end
+
+      subject do
+        described_class.new(users_repository: users_repository,
+                            props_repository: props_repository,
+                            organisation: organisation_two,
+                            time_range: time_range)
+      end
+
+      before do
+        organisation_one.add_user(mark)
+        organisation_one.add_user(john)
+        organisation_two.add_user(jane)
+        organisation_two.add_user(alex)
+        organisation_three.add_user(carl)
+        organisation_three.add_user(leia)
+      end
+
+      it 'returns streak only for given organisation (organisation_two in this case)' do
+        expect(subject.kudos_streak).to eq expected_result
       end
     end
   end

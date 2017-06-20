@@ -1,6 +1,6 @@
 module Rankings
   class TopKudosers
-    pattr_initialize :users_repository, :props_repository, :time_range
+    pattr_initialize %i(users_repository! props_repository! organisation! time_range!)
 
     def hero_of_the_week
       top_kudoser_within
@@ -33,11 +33,11 @@ module Rankings
     end
 
     def users_with_kudos_count
-      props_repository.count_per_user(time_range)
+      props_repository.count_per_user(organisation, time_range)
     end
 
     def serialized_users
-      @serialized_users ||= users_repository.all_users_serialized
+      @serialized_users ||= users_repository.all_users_serialized(organisation)
     end
   end
 end
