@@ -15,7 +15,6 @@ module Users
     def create_or_update_users(organisation)
       users_array(organisation).each do |user_info|
         next if bot?(user_info)
-        puts user_info['name']
         user = users_repository.user_from_slack_fetch(user_info)
         organisation.add_user(user)
       end

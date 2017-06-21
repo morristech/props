@@ -59,15 +59,11 @@ class User < ActiveRecord::Base
     {
       provider: 'slack',
       uid: user_info['id'],
-      name: (user_info['real_name'].blank? ? user_info['name'] : user_info['real_name']),
+      name: name_from_user_info(user_info),
       email: user_info['profile']['email'] || '',
       admin: user_info['is_admin'] || false,
-      avatar: user_info['profile']['image_512'] || '',
+      avatar: user_info['profile']['image_512'],
     }
-  end
-
-  def name_from_user_info
-    user_info['real_name'].blank? ? user_info['real_name'] : 'x'
   end
 
   def self.slack_attrs(member)
@@ -89,6 +85,10 @@ class User < ActiveRecord::Base
 
     def small_avatar_192(auth)
       auth['info']['image']
+    end
+
+    def name_from_user_info(user_info)
+      user_info['real_name'].blank? ? user_info['name'] : user_info['real_name']
     end
   end
 end
