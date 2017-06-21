@@ -3,18 +3,12 @@ class RankingRepository
 
   def hero_of_the_week
     return no_kudos_yet unless organisation_has_kudos?
-    Rankings::TopKudosers.new(users_repository: users_repository,
-                              props_repository: props_repository,
-                              organisation: organisation,
-                              time_range: time_range).hero_of_the_week
+    Rankings::TopKudosers.new(arguments_hash).hero_of_the_week
   end
 
   def top_kudosers
     return no_kudos_yet unless organisation_has_kudos?
-    Rankings::TopKudosers.new(users_repository: users_repository,
-                              props_repository: props_repository,
-                              organisation: organisation,
-                              time_range: time_range).top_kudosers
+    Rankings::TopKudosers.new(arguments_hash).top_kudosers
   end
 
   def team_activity
@@ -24,13 +18,19 @@ class RankingRepository
 
   def kudos_streak
     return no_kudos_yet unless organisation_has_kudos?
-    Rankings::KudosStreak.new(users_repository: users_repository,
-                              props_repository: props_repository,
-                              organisation: organisation,
-                              time_range: time_range).kudos_streak
+    Rankings::KudosStreak.new(arguments_hash).kudos_streak
   end
 
   private
+
+  def arguments_hash
+    {
+      users_repository: users_repository,
+      props_repository: props_repository,
+      organisation: organisation,
+      time_range: time_range,
+    }
+  end
 
   def no_kudos_yet
     { text: 'Organisation does not have any kudos yet' }
