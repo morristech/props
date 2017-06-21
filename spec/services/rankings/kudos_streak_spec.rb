@@ -153,16 +153,16 @@ describe Rankings::KudosStreak do
       let(:john) { create(:user, name: 'John Smith') }
       let(:jane) { create(:user, name: 'Jane Doe') }
       let(:alex) { create(:user, name: 'Alex Crow') }
-      let(:carl) { create(:user, name: 'Carl Starsky') }
-      let(:leia) { create(:user, name: 'Leia Ordana') }
+      let(:dave) { create(:user, name: 'Dave Starsky') }
+      let(:leia) { create(:user, name: 'Leia Organa') }
       let!(:kudos) do
         [
           create_kudos_in_org(organisation_one, mark, john, today),
           create_kudos_in_org(organisation_one, mark, john, today - 1.day),
           create_kudos_in_org(organisation_two, jane, alex, two_weeks_ago),
           create_kudos_in_org(organisation_two, jane, alex, two_weeks_ago - 1.day),
-          create_kudos_in_org(organisation_three, leia, carl, three_months_ago),
-          create_kudos_in_org(organisation_three, leia, carl, three_months_ago - 1.day),
+          create_kudos_in_org(organisation_three, leia, dave, three_months_ago),
+          create_kudos_in_org(organisation_three, leia, dave, three_months_ago - 1.day),
         ]
       end
       let(:time_range_string) { 'all' }
@@ -184,7 +184,7 @@ describe Rankings::KudosStreak do
         organisation_one.add_user(john)
         organisation_two.add_user(jane)
         organisation_two.add_user(alex)
-        organisation_three.add_user(carl)
+        organisation_three.add_user(dave)
         organisation_three.add_user(leia)
       end
 
