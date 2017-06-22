@@ -17,6 +17,15 @@ module Api
         def time_range
           params[:time_range]
         end
+
+        def arguments_hash
+          {
+            users_repository: users_repository,
+            props_repository: props_repository,
+            organisation: current_organisation,
+            time_range_string: time_range,
+          }
+        end
       end
 
       before do
@@ -37,10 +46,7 @@ module Api
           requires :time_range, type: String
         end
         get :top_kudoers do
-          RankingRepository.new(users_repository: users_repository,
-                                props_repository: props_repository,
-                                organisation: current_organisation,
-                                time_range_string: time_range).top_kudosers
+          RankingRepository.new(arguments_hash).top_kudosers
         end
 
         desc 'Returns kudos count in required time range'
@@ -48,10 +54,7 @@ module Api
           requires :time_range, type: String
         end
         get :team_activity do
-          RankingRepository.new(users_repository: users_repository,
-                                props_repository: props_repository,
-                                organisation: current_organisation,
-                                time_range_string: time_range).team_activity
+          RankingRepository.new(arguments_hash).team_activity
         end
 
         desc 'Returns users with kudos streak'
@@ -59,10 +62,7 @@ module Api
           requires :time_range, type: String
         end
         get :kudos_streak do
-          RankingRepository.new(users_repository: users_repository,
-                                props_repository: props_repository,
-                                organisation: current_organisation,
-                                time_range_string: time_range).kudos_streak
+          RankingRepository.new(arguments_hash).kudos_streak
         end
       end
     end
