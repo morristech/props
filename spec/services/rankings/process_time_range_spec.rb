@@ -98,11 +98,11 @@ describe Rankings::ProcessTimeRange do
 
         context 'and there is alreade a saved Kudos' do
           let!(:first_kudos) do
-            create(:prop, organisation: organisation_two, created_at: 13.months.ago)
+            create(:prop, organisation: organisation_two, created_at: current_time - 13.months)
           end
           let(:time_range) { first_kudos.created_at..current_time }
 
-          it 'returns time range from first Kudos creation date untill now' do
+          it 'returns time range from first Kudos creation date until now' do
             expect(subject.time_range).to eq(time_range)
           end
         end
