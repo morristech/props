@@ -77,7 +77,7 @@ describe Rankings::ProcessTimeRange do
         let(:time_range_string) { 'all' }
         let(:organisation_one) { create(:organisation) }
         let(:organisation_two) { create(:organisation) }
-        let!(:kudos) { create(:prop, organisation: organisation_one)}
+        let!(:kudos) { create(:prop, organisation: organisation_one) }
         let(:arguments) do
           {
             time_range_string: time_range_string,
@@ -179,9 +179,10 @@ describe Rankings::ProcessTimeRange do
 
         context 'and there is alreade a saved Kudos' do
 
-
           context 'which is younger than two months' do
-            let!(:first_kudos) { create(:prop, organisation: organisation_two, created_at: 1.month.ago) }
+            let!(:first_kudos) do
+              create(:prop, organisation: organisation_two, created_at: 1.month.ago)
+            end
             let(:time_interval) { 'day' }
 
             it 'returns "day" time interval' do
@@ -190,7 +191,9 @@ describe Rankings::ProcessTimeRange do
           end
 
           context 'which is older than two months' do
-            let!(:first_kudos) { create(:prop, organisation: organisation_two, created_at: 11.months.ago) }
+            let!(:first_kudos) do
+              create(:prop, organisation: organisation_two, created_at: 11.months.ago)
+            end
             let(:time_interval) { 'month' }
 
             it 'returns "month" time interval' do
