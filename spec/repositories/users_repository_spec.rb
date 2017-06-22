@@ -18,8 +18,8 @@ describe UsersRepository do
 
   describe '#user_from_auth' do
     let(:new_email) { 'different@email.com' }
-    let(:new_avatar) { 'slack.com/new_avatar.png' }
-    let(:auth) { create_auth(email: new_email, avatar: new_avatar) }
+    let(:big_avatar) { 'slack.com/big_avatar.png' }
+    let(:auth) { create_auth(email: new_email, big_avatar: big_avatar) }
 
     subject { repo.user_from_auth(auth) }
 
@@ -37,7 +37,17 @@ describe UsersRepository do
 
       it "updates user's avatar when it's different from one in the database" do
         subject
-        expect(user_with_uid.reload.avatar).to eq(new_avatar)
+        expect(user_with_uid.reload.avatar).to eq(big_avatar)
+      end
+
+      context 'when big avatar in auth hash is nil' do
+        let(:small_avatar) { 'slack.com/small_avatar.png' }
+        let(:auth) { create_auth(email: new_email, big_avatar: nil, small_avatar: small_avatar) }
+
+        it 'assigns small avatar' do
+          subject
+          expect(user_with_uid.reload.avatar).to eq(small_avatar)
+        end
       end
     end
 

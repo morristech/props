@@ -3,7 +3,8 @@ module OmniauthHelpers
                   token: 'valid_token',
                   team_id: 'team_id',
                   team_name: 'team_name',
-                  avatar: 'slack.com/sample_avatar.png',
+                  small_avatar: 'slack.com/sample_small_avatar_192.png',
+                  big_avatar: 'slack.com/sample_avatar.png',
                   is_admin: false)
     {
       'provider' => 'slack',
@@ -15,12 +16,13 @@ module OmniauthHelpers
         'team_id' => team_id,
         'team' => team_name,
         'is_admin' => is_admin,
+        'image' => small_avatar,
       },
       'extra' => {
         'user_info' => {
           'user' => {
             'profile' => {
-              'image_512' => avatar,
+              'image_512' => big_avatar,
             },
           },
         },
