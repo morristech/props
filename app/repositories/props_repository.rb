@@ -6,23 +6,27 @@ class PropsRepository
   end
 
   def count_per_user(organisation, created_at = nil)
-    query = kudos_from_organisation(organisation)
+    query = kudos_in_organisation(organisation)
     query = query.where(created_at: created_at) if created_at.present?
     query.joins(:prop_receivers).joins(:users).group('users.id').count
   end
 
   def count_per_time_range(organisation, interval, created_at = nil)
-    query = kudos_from_organisation(organisation)
+    query = kudos_in_organisation(organisation)
     query = query.where(created_at: created_at) if created_at.present?
     query.group("date_trunc('#{interval}', props.created_at AT TIME ZONE 'MST')").count
   end
 
   def kudos_with_receivers(organisation, created_at)
-    kudos_from_organisation(organisation)
+    kudos_in_organisation(organisation)
       .where(created_at: created_at).joins(:prop_receivers)
       .group('prop_receivers.id, props.created_at, props.id')
       .order("prop_receivers.user_id, date_trunc('day', created_at)")
       .pluck("prop_receivers.user_id, date_trunc('day', created_at)")
+  end
+
+  def oldest_kudos_date(organisation)
+    kudos_in_organisation(organisation).oldest_first.created_at
   end
 
   def any_kudos?(organisation)
@@ -55,7 +59,7 @@ class PropsRepository
     end
   end
 
-  def kudos_from_organisation(organisation)
+  def kudos_in_organisation(organisation)
     organisation.props
   end
 end

@@ -41,10 +41,22 @@ class RankingRepository
   end
 
   def time_range
-    Rankings::ProcessTimeRange.new(time_range_string).time_range
+    time_range_processor.time_range
   end
 
   def time_interval
-    Rankings::ProcessTimeRange.new(time_range_string).time_interval
+    time_range_processor.time_interval
+  end
+
+  def time_range_processor
+    @time_range_processor ||= Rankings::ProcessTimeRange.new(processor_arguments_hash)
+  end
+
+  def processor_arguments_hash
+    {
+      time_range_string: time_range_string,
+      props_repository: props_repository,
+      organisation: organisation,
+    }
   end
 end

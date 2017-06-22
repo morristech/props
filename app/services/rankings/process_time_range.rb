@@ -1,6 +1,6 @@
 module Rankings
   class ProcessTimeRange
-    pattr_initialize :time_range_string
+    pattr_initialize %i(time_range_string! props_repository! organisation!)
     TIME_RANGE_ARRAY = %w(yearly monthly weekly bi-weekly all).freeze
     private_constant :TIME_RANGE_ARRAY
 
@@ -35,11 +35,11 @@ module Rankings
     end
 
     def all_time_range
-      Prop.any? ? from_first_prop_until_now : (1.week.ago..Time.current)
+      from_first_prop_until_now || (1.week.ago..Time.current)
     end
 
     def from_first_prop_until_now
-      Prop.oldest_first.created_at..Time.current
+      oldest_kudos_date..Time.current if any_kudos?
     end
 
     def count_time_interval
@@ -49,7 +49,15 @@ module Rankings
 
     def time_range_above_two_months?
       return unless time_range_string.inquiry.all?
-      Prop.any? ? Prop.oldest_first.created_at < 2.months.ago : false
+      any_kudos? ? oldest_kudos_date < 2.months.ago : false
+    end
+
+    def oldest_kudos_date
+      props_repository.oldest_kudos_date(organisation)
+    end
+
+    def any_kudos?
+      props_repository.any_kudos?(organisation)
     end
   end
 end

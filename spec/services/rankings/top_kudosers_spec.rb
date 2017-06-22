@@ -48,7 +48,14 @@ describe Rankings::TopKudosers do
   let(:jane) { create(:user, name: 'Jane Doe') }
   let(:props_repository) { PropsRepository.new }
   let(:users_repository) { UsersRepository.new }
-  let(:time_range_processor) { Rankings::ProcessTimeRange.new(time_range_string) }
+  let(:processor_arguments) do
+    {
+      time_range_string: time_range_string,
+      props_repository: props_repository,
+      organisation: organisation,
+    }
+  end
+  let(:time_range_processor) { Rankings::ProcessTimeRange.new(processor_arguments) }
   let(:time_range) { time_range_processor.time_range }
 
   subject do

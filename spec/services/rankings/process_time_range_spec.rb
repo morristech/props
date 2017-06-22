@@ -11,7 +11,17 @@ describe Rankings::ProcessTimeRange do
     end
   end
 
-  subject { described_class.new(time_range_string) }
+  let(:props_repository) { PropsRepository.new }
+  let(:organisation) { create(:organisation) }
+  let(:arguments) do
+    {
+      time_range_string: time_range_string,
+      props_repository: props_repository,
+      organisation: organisation,
+    }
+  end
+
+  subject { described_class.new(arguments) }
 
   describe '#time_range' do
     context 'when time range string is improper' do
@@ -65,7 +75,20 @@ describe Rankings::ProcessTimeRange do
 
       context 'when time range is "all"' do
         let(:time_range_string) { 'all' }
-        context 'and there are no Kudos in database' do
+        let(:organisation_one) { create(:organisation) }
+        let(:organisation_two) { create(:organisation) }
+        let!(:kudos) { create(:prop, organisation: organisation_one)}
+        let(:arguments) do
+          {
+            time_range_string: time_range_string,
+            props_repository: props_repository,
+            organisation: organisation_two,
+          }
+        end
+
+        subject { described_class.new(arguments) }
+
+        context 'and there are no Kudos in given organisation' do
           let(:time_range) { 1.week.ago..current_time }
 
           it 'returns one week time range' do
@@ -74,7 +97,9 @@ describe Rankings::ProcessTimeRange do
         end
 
         context 'and there is alreade a saved Kudos' do
-          let!(:first_kudos) { create(:prop, created_at: 13.months.ago) }
+          let!(:first_kudos) do
+            create(:prop, organisation: organisation_two, created_at: 13.months.ago)
+          end
           let(:time_range) { first_kudos.created_at..current_time }
 
           it 'returns time range from first Kudos creation date untill now' do
@@ -131,6 +156,18 @@ describe Rankings::ProcessTimeRange do
 
       context 'when time range is "all"' do
         let(:time_range_string) { 'all' }
+        let(:organisation_one) { create(:organisation) }
+        let(:organisation_two) { create(:organisation) }
+        let!(:kudos) { create(:prop, organisation: organisation_one) }
+        let(:arguments) do
+          {
+            time_range_string: time_range_string,
+            props_repository: props_repository,
+            organisation: organisation_two,
+          }
+        end
+
+        subject { described_class.new(arguments) }
 
         context 'and there are no Kudos in database' do
           let(:time_interval) { 'day' }
@@ -141,8 +178,10 @@ describe Rankings::ProcessTimeRange do
         end
 
         context 'and there is alreade a saved Kudos' do
+
+
           context 'which is younger than two months' do
-            let!(:first_kudos) { create(:prop, created_at: 1.month.ago) }
+            let!(:first_kudos) { create(:prop, organisation: organisation_two, created_at: 1.month.ago) }
             let(:time_interval) { 'day' }
 
             it 'returns "day" time interval' do
@@ -151,7 +190,7 @@ describe Rankings::ProcessTimeRange do
           end
 
           context 'which is older than two months' do
-            let!(:first_kudos) { create(:prop, created_at: 11.months.ago) }
+            let!(:first_kudos) { create(:prop, organisation: organisation_two, created_at: 11.months.ago) }
             let(:time_interval) { 'month' }
 
             it 'returns "month" time interval' do

@@ -119,6 +119,7 @@ describe UsersRepository do
   end
 
   describe '#all_users_serialized' do
+    let(:organisation) { create(:organisation) }
     let(:expected_result) do
       {
         john.id => serialized_user(john),
@@ -126,7 +127,12 @@ describe UsersRepository do
       }
     end
 
-    subject { repo.all_users_serialized }
+    subject { repo.all_users_serialized(organisation) }
+
+    before do
+      organisation.add_user(john)
+      organisation.add_user(jane)
+    end
 
     def serialized_user(user)
       {

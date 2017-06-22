@@ -103,7 +103,14 @@ describe PropsRepository do
   end
 
   describe '#count_per_time_range' do
-    let(:time_range_processor) { Rankings::ProcessTimeRange.new(time_range_string) }
+    let(:processor_arguments) do
+      {
+        time_range_string: time_range_string,
+        props_repository: described_class.new,
+        organisation: organisation,
+      }
+    end
+    let(:time_range_processor) { Rankings::ProcessTimeRange.new(processor_arguments) }
     let(:time_range) { time_range_processor.time_range }
     let(:time_interval) { time_range_processor.time_interval }
     let(:jack) { create(:user) }
@@ -121,7 +128,13 @@ describe PropsRepository do
       ]
     end
 
-    subject { repo.count_per_time_range(time_interval, time_range) }
+    subject { repo.count_per_time_range(organisation, time_interval, time_range) }
+
+    before do
+      organisation.add_user(jack)
+      organisation.add_user(john)
+      organisation.add_user(jane)
+    end
 
     context 'when statistics are requested in weekly time range' do
       let(:time_range_string) { 'weekly' }

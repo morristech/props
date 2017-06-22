@@ -3,10 +3,6 @@ class UsersRepository
     User.all.order(:name)
   end
 
-  def users_from_organisation(organisation)
-    organisation.users.order(:name)
-  end
-
   def all_users_serialized(organisation)
     users_from_organisation(organisation).each_with_object({}) do |user, hsh|
       hsh[user.id] = user.serializable_hash(only: attributes_to_serialize)
@@ -42,6 +38,10 @@ class UsersRepository
   end
 
   private
+
+  def users_from_organisation(organisation)
+    organisation.users.order(:name)
+  end
 
   def allowed_domains
     AppConfig.extra_domains.to_s.split(',') << AppConfig.domain_name.to_s
