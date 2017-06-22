@@ -35,10 +35,8 @@ module Api
       resources :rankings do
         desc 'Returns user with the most received kudos'
         get :hero_of_the_week do
-          RankingRepository.new(users_repository: users_repository,
-                                props_repository: props_repository,
-                                organisation: current_organisation,
-                                time_range_string: 'weekly').hero_of_the_week
+          time_range_string = { time_range_string: 'weekly' }
+          RankingRepository.new(arguments_hash.merge(time_range_string)).hero_of_the_week
         end
 
         desc 'Returns users in order of received kudos number'
