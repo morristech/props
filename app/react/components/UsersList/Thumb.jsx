@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import UserAvatar from '../PropsList/UserAvatar';
 
 const Thumb = ({ id, name, avatarUrl, handleClick }) => {
   const userUrl = `/app/users/${id}`;
@@ -14,7 +15,7 @@ const Thumb = ({ id, name, avatarUrl, handleClick }) => {
         className="thumbnail user-card"
         onClick={handleProfileClick}
       >
-        <img src={avatarUrl} alt="avatar" />
+        <UserAvatar avatarPath={avatarUrl} />
         <div className="caption">
           {name}
         </div>

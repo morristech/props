@@ -29,9 +29,4 @@ describe('<Thumb />', () => {
     const url = `/app/users/${props.id}`;
     expect(component.find({ href: url })).to.exist;
   });
-
-  it('displays user avatar', () => {
-    const element = component.find({ src: props.avatarUrl });
-    expect(element).to.exist;
-  });
 });
