@@ -5,18 +5,18 @@ module Rankings
     private_constant :TIME_RANGE_ARRAY
 
     def time_range
-      time_range_allowed?
+      validate_time_range
       evaluate_time_range
     end
 
     def time_interval
-      time_range_allowed?
+      validate_time_range
       count_time_interval
     end
 
     private
 
-    def time_range_allowed?
+    def validate_time_range
       raise 'Wrong time range' unless TIME_RANGE_ARRAY.include? time_range_string
     end
 
