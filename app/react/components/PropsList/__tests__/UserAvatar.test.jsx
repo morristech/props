@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-expressions */
 import React from 'react';
-// import _noop from 'lodash/noop';
 import chaiEnzyme from 'chai-enzyme';
 import { shallow } from 'enzyme';
 import chai, { expect } from 'chai';
