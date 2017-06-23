@@ -42,7 +42,7 @@ describe Rankings::ProcessTimeRange do
         let(:time_range) { 1.week.ago..current_time }
 
         it 'returns proper ruby time range' do
-          expect(subject.time_range).to eq(time_range)
+          expect(subject.time_range.to_s).to eq(time_range.to_s)
         end
       end
 
@@ -51,7 +51,7 @@ describe Rankings::ProcessTimeRange do
         let(:time_range) { 2.weeks.ago..current_time }
 
         it 'returns proper ruby time range' do
-          expect(subject.time_range).to eq(time_range)
+          expect(subject.time_range.to_s).to eq(time_range.to_s)
         end
       end
 
@@ -60,7 +60,7 @@ describe Rankings::ProcessTimeRange do
         let(:time_range) { 1.month.ago..current_time }
 
         it 'returns proper ruby time range' do
-          expect(subject.time_range).to eq(time_range)
+          expect(subject.time_range.to_s).to eq(time_range.to_s)
         end
       end
 
@@ -69,7 +69,7 @@ describe Rankings::ProcessTimeRange do
         let(:time_range) { 1.year.ago..current_time }
 
         it 'returns proper ruby time range' do
-          expect(subject.time_range).to eq(time_range)
+          expect(subject.time_range.to_s).to eq(time_range.to_s)
         end
       end
 
@@ -92,7 +92,7 @@ describe Rankings::ProcessTimeRange do
           let(:time_range) { 1.week.ago..current_time }
 
           it 'returns one week time range' do
-            expect(subject.time_range).to eq(time_range)
+            expect(subject.time_range.to_s).to eq(time_range.to_s)
           end
         end
 
@@ -103,7 +103,7 @@ describe Rankings::ProcessTimeRange do
           let(:time_range) { first_kudos.created_at..current_time }
 
           it 'returns time range from first Kudos creation date until now' do
-            expect(subject.time_range).to eq(time_range)
+            expect(subject.time_range.to_s).to eq(time_range.to_s)
           end
         end
       end
