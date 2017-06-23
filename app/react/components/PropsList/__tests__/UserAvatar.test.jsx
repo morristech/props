@@ -8,7 +8,7 @@ import UserAvatar from '../UserAvatar';
 jest.unmock('../UserAvatar');
 chai.use(chaiEnzyme());
 
-const avatarUrl = 'https://test1.img'
+const avatarUrl = 'https://test1.img';
 
 const component = shallow(
   <UserAvatar avatarPath={avatarUrl} />
