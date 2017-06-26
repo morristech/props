@@ -1,16 +1,12 @@
 module Users
   class DownloadUsers
+    vattr_initialize [:organisation!]
+
     def call
-      fetch_users_from_every_organisation
+      create_or_update_users(organisation)
     end
 
     private
-
-    def fetch_users_from_every_organisation
-      Organisation.all.each do |organisation|
-        create_or_update_users(organisation)
-      end
-    end
 
     def create_or_update_users(organisation)
       users_array(organisation).each do |user_info|
@@ -38,7 +34,7 @@ module Users
     end
 
     def bot?(user_info)
-      user_info.is_bot? || user_info.name.inquiry.slackbot?
+      user_info['is_bot'] || user_info['name'].inquiry.slackbot?
     end
   end
 end
