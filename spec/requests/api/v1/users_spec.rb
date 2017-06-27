@@ -106,7 +106,8 @@ describe Api::V1::Users do
       let(:members) { users_list_array(users_number: 1) }
 
       before do
-        allow_any_instance_of(Slack::RealTime::Client).to receive_message_chain(:web_client, :users_list) { users_list }
+        allow_any_instance_of(Slack::RealTime::Client)
+          .to receive_message_chain(:web_client, :users_list) { users_list }
         sign_in(membership)
         post '/api/v1/users/download_users'
       end
