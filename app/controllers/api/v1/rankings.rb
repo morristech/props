@@ -43,7 +43,7 @@ module Api
         params do
           requires :time_range, type: String
         end
-        get :top_kudoers do
+        get :top_kudosers do
           RankingRepository.new(arguments_hash).top_kudosers
         end
 
