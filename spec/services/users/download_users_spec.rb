@@ -13,7 +13,7 @@ describe Users::DownloadUsers do
       allow_any_instance_of(Slack::RealTime::Client).to receive_message_chain(:web_client, :users_list) { users_list }
     end
 
-    context 'when there is new user in Slack organisation' do
+    context 'when there is a new user in Slack organisation' do
       let(:members) { users_list_array(users_number: 1) }
 
       it 'creates new user' do
