@@ -11,6 +11,10 @@ module Api
         error!('401 Unauthorized', 401) if current_user.nil?
       end
 
+      def authenticate_admin!
+        error!('401 Unauthorized', 401) unless current_user.admin?
+      end
+
       def require_api_auth!(token)
         return if current_user.present?
         error!('Invalid token', 401) unless token_valid?(token)

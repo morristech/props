@@ -33,6 +33,12 @@ module Api
             present user, with: Entities::UserFull, organisation: current_organisation
           end
         end
+
+        desc 'Downloads users from Slack and creates/updates them'
+        post :download_users do
+          authenticate_admin!
+          ::Users::DownloadUsers.new(organisation: current_organisation).call
+        end
       end
     end
   end
