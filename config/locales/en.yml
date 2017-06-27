@@ -9,6 +9,7 @@ en:
   slack_commands:
     kudos:
       errors:
+        wrong_user_agent: "Your request was sent from a prohibited device."
         prop_receivers_missing: "Who do you want to thank? Please mention someone who is also using Kudos. Use '/kudos help' for more details."
         params_missing: "Some params are missing... That's all we know. Use '/kudos help' for more details."
         not_created: "Unfortunately something went wrong. Use '/kudos help' for more details."
