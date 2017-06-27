@@ -63,6 +63,9 @@ class PropsRepository
   end
 
   def kudos_in_organisation(organisation)
-    organisation.props
+    @kudos_in_organisation ||= Hash.new do |h, key|
+      h[key] = key.props
+    end
+    @kudos_in_organisation[organisation]
   end
 end
