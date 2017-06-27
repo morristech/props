@@ -97,5 +97,31 @@ describe Users::DownloadUsers do
         expect(user.reload.name).to eq(members.first['real_name'])
       end
     end
+
+    context 'when there are few organisations' do
+      let(:members) { users_list_array(users_number: 1) }
+      let(:uid) { members.first['id'] }
+      let(:email) { members.first['profile']['email'] }
+      let(:user_one) do
+        create(:user, uid: uid, email: email, name: 'Old Name')
+      end
+      let(:user_two) { create(:user, name: 'Other Name') }
+      let!(:organisation_one) { create(:organisation, users: [user_one]) }
+      let!(:organisation_two) { create(:organisation, users: [user_two]) }
+
+      subject { described_class.new(organisation: organisation_one).call }
+
+      it 'updates user data', :aggregate_failures do
+        expect(organisation_one.users.last.name).to eq(user_one.name)
+        subject
+        expect(user_one.reload.name).to eq(members.first['real_name'])
+      end
+
+      it 'updates users only from provided orgaisation', :aggregate_failures do
+        expect(organisation_two.users.last.name).to eq(user_two.name)
+        subject
+        expect(user_two.reload.name).to eq(user_two.name)
+      end
+    end
   end
 end
