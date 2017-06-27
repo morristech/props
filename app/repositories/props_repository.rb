@@ -30,7 +30,10 @@ class PropsRepository
   end
 
   def any_kudos?(organisation)
-    organisation.props.any?
+    @any_kudos ||= Hash.new do |h, key|
+      h[key] = kudos_in_organisation(key).exists?
+    end
+    @any_kudos[organisation]
   end
 
   def add(attributes)
