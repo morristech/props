@@ -3,6 +3,16 @@ require 'rails_helper'
 include OmniauthHelpers
 
 describe Users::DownloadUsers do
+  shared_examples 'do not create users or add them to organisation' do
+    it 'does not create a new user' do
+      expect { subject }.not_to change { User.count }
+    end
+
+    it 'does not add user to organisation' do
+      expect { subject }.not_to change { organisation.users.count }
+    end
+  end
+
   describe '#call' do
     let(:organisation) { create(:organisation) }
     let(:users_list) { double('users_list', members: members) }
@@ -51,17 +61,11 @@ describe Users::DownloadUsers do
     context 'when an user is a bot' do
       let(:members) { users_list_array(users_number: 2, is_bot: true) }
 
-      it 'does not create a new user' do
-        expect { subject }.not_to change { User.count }
-      end
+      include_examples 'do not create users or add them to organisation'
 
       it 'omits only bot users and creates normal user' do
         members.second['is_bot'] = false
         expect { subject }.to change { User.count }.by(1)
-      end
-
-      it 'does not add user to organisation' do
-        expect { subject }.not_to change { organisation.users.count }
       end
     end
 
@@ -69,15 +73,46 @@ describe Users::DownloadUsers do
       let(:members) { users_list_array(users_number: 2) }
 
       before do
-        members.first['name'] = 'slackbot'
+        members.each { |member| member['name'] = 'slackbot' }
       end
 
-      it 'does not create a new user' do
-        members.second['name'] = 'slackbot'
-        expect { subject }.not_to change { User.count }
-      end
+      include_examples 'do not create users or add them to organisation'
 
-      it 'omits only bot users and creates normal user' do
+      it 'omits only bot user and creates normal user' do
+        members.second['name'] = 'John Doe'
+        expect { subject }.to change { User.count }.by(1)
+      end
+    end
+
+    context 'when an user is a guest' do
+      let(:members) { users_list_array(users_number: 2, is_guest: true) }
+
+      include_examples 'do not create users or add them to organisation'
+
+      it 'omits only guest user and creates normal user' do
+        members.second['profile']['guest_channels'] = nil
+        expect { subject }.to change { User.count }.by(1)
+      end
+    end
+
+    context 'when an user is restricted' do
+      let(:members) { users_list_array(users_number: 2, is_restricted: true) }
+
+      include_examples 'do not create users or add them to organisation'
+
+      it 'omits only guest user and creates normal user' do
+        members.second['is_restricted'] = false
+        expect { subject }.to change { User.count }.by(1)
+      end
+    end
+
+    context 'when an user is ultra restricted' do
+      let(:members) { users_list_array(users_number: 2, is_ultra_restricted: true) }
+
+      include_examples 'do not create users or add them to organisation'
+
+      it 'omits only guest user and creates normal user' do
+        members.second['is_ultra_restricted'] = false
         expect { subject }.to change { User.count }.by(1)
       end
     end
