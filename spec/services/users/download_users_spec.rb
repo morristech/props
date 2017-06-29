@@ -20,7 +20,8 @@ describe Users::DownloadUsers do
     subject { described_class.new(organisation: organisation).call }
 
     before do
-      allow_any_instance_of(Slack::RealTime::Client).to receive_message_chain(:web_client, :users_list) { users_list }
+      allow_any_instance_of(Slack::RealTime::Client)
+        .to receive_message_chain(:web_client, :users_list) { users_list }
     end
 
     context 'when there is a new user in Slack organisation' do
@@ -130,6 +131,19 @@ describe Users::DownloadUsers do
         expect(organisation.users.last.name).to eq(user.name)
         subject
         expect(user.reload.name).to eq(members.first['real_name'])
+      end
+    end
+
+    context 'when user is deleted from Slack organisation' do
+      let(:members) { users_list_array(users_number: 1) }
+
+      before do
+        members.first['deleted'] = true
+        allow_any_instance_of(UsersRepository).to receive(:user_from_slack_fetch) { nil }
+      end
+
+      it 'does not add user to organisation' do
+        expect { subject }.not_to change { organisation.users.count }
       end
     end
 

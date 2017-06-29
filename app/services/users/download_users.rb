@@ -12,7 +12,7 @@ module Users
       users_array(organisation).each do |user_info|
         next if invalid_user?(user_info)
         user = users_repository.user_from_slack_fetch(user_info)
-        organisation.add_user(user)
+        organisation.add_user(user) if user.present?
       end
     end
 
