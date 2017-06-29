@@ -36,7 +36,7 @@ module Users
     def invalid_user?(user_info)
       user_info['is_bot'] ||
         user_info['name'].inquiry.slackbot? ||
-        !user_info['profile']['guest_channels'].blank? ||
+        user_info['profile']['guest_channels'].present? ||
         user_info['is_restricted'] ||
         user_info['is_ultra_restricted']
     end
