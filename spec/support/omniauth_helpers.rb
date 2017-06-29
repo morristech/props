@@ -38,7 +38,10 @@ module OmniauthHelpers
                        real_name: 'John Doe',
                        big_avatar: 'slack.com/sample_avatar.png',
                        is_admin: false,
-                       is_bot: false)
+                       is_bot: false,
+                       is_guest: false,
+                       is_restricted: false,
+                       is_ultra_restricted: false)
     users_list_array = []
     users_number.times do |i|
       i = i.to_s
@@ -52,9 +55,12 @@ module OmniauthHelpers
           {
             'email' => i + email,
             'image_512' => i + big_avatar,
+            'guest_channels' => is_guest ? ['chann_id'] : nil,
           },
           'is_admin' => is_admin,
           'is_bot' => is_bot,
+          'is_restricted' => is_restricted,
+          'is_ultra_restricted' => is_ultra_restricted,
         }
     end
     users_list_array
