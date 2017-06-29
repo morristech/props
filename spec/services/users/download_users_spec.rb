@@ -39,6 +39,11 @@ describe Users::DownloadUsers do
       it 'adds user to organisation' do
         expect { subject }.to change { organisation.users.count }.by(1)
       end
+
+      context 'when new user is deleted' do
+        before { members.first['deleted'] = true }
+        include_examples 'do not create users or add them to organisation'
+      end
     end
 
     context 'when there are few new users in the Slack organisation' do

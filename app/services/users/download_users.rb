@@ -38,7 +38,12 @@ module Users
         user_info['name'].inquiry.slackbot? ||
         user_info['profile']['guest_channels'].present? ||
         user_info['is_restricted'] ||
-        user_info['is_ultra_restricted']
+        user_info['is_ultra_restricted'] ||
+        new_archived_user?(user_info)
+    end
+
+    def new_archived_user?(user_info)
+      User.find_by(uid: user_info['id']).blank? && user_info['deleted']
     end
   end
 end
