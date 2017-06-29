@@ -16,7 +16,9 @@ class User < ActiveRecord::Base
   end
 
   def self.create_with_slack_fetch(user_info)
-    return update_with_slack_fetch(user_info) if slack_user(user_info)
+    user = slack_user(user_info)
+    return Users::ArchiveUser.new(user).call if user.present? && deleted?(user_info)
+    return update_with_slack_fetch(user_info) if user.present?
     create! slack_fetch_attrs(user_info)
   end
 
@@ -68,6 +70,10 @@ class User < ActiveRecord::Base
       find_by(uid: user_info['id']) || find_by(email: user_info['profile']['email'])
     end
 
+    def deleted?(user_info)
+      user_info['deleted']
+    end
+
     def slack_fetch_attrs(user_info)
       {
         provider: 'slack',
@@ -76,6 +82,7 @@ class User < ActiveRecord::Base
         email: user_info['profile']['email'] || '',
         admin: user_info['is_admin'] || false,
         avatar: user_info['profile']['image_512'],
+        archived_at: nil,
       }
     end
 

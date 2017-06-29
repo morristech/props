@@ -58,6 +58,43 @@ describe User do
           expect { subject }.not_to change { User.count }
         end
       end
+
+      context 'when user is deleted from Sack organisation' do
+        let!(:user) { create(:user, uid: uid) }
+        let(:uid) { user_info['id'] }
+        let(:time_now) { Time.current }
+
+        before do
+          user_info['deleted'] = true
+        end
+
+        it 'archives user', :aggregate_failures do
+          expect(user.archived_at?).to eq(false)
+          subject
+          expect(user.reload.archived_at?).to eq(true)
+          expect(user.reload.archived_at.to_s).to eq(time_now.to_s)
+        end
+
+        it 'does not create new user' do
+          expect { subject }.not_to change { User.count }
+        end
+      end
+
+      context 'when user is was deleted from Sack organisation, but is no longer' do
+        let!(:user) { create(:user, uid: uid, archived_at: time_now) }
+        let(:uid) { user_info['id'] }
+        let(:time_now) { Time.current }
+
+        it 'archives user', :aggregate_failures do
+          expect(user.archived_at.to_s).to eq(time_now.to_s)
+          subject
+          expect(user.reload.archived_at?).to eq(false)
+        end
+
+        it 'does not create new user' do
+          expect { subject }.not_to change { User.count }
+        end
+      end
     end
 
     context 'when real_name in Slack response is blank' do
