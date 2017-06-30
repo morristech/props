@@ -15,13 +15,6 @@ class User < ActiveRecord::Base
     create! omniauth_attrs(auth)
   end
 
-  def self.create_with_slack_fetch(user_info)
-    user = slack_user(user_info)
-    return Users::ArchiveUser.new(user).call if user.present? && deleted?(user_info)
-    return update_with_slack_fetch(user_info) if user.present?
-    create! slack_fetch_attrs(user_info)
-  end
-
   def self.update_with_omniauth(auth)
     omniauth_user(auth).tap do |user|
       user.update omniauth_attrs(auth)
@@ -59,36 +52,6 @@ class User < ActiveRecord::Base
 
   class << self
     private
-
-    def update_with_slack_fetch(user_info)
-      slack_user(user_info).tap do |user|
-        user.update slack_fetch_attrs(user_info)
-      end
-    end
-
-    def slack_user(user_info)
-      find_by(uid: user_info['id']) || find_by(email: user_info['profile']['email'])
-    end
-
-    def deleted?(user_info)
-      user_info['deleted']
-    end
-
-    def slack_fetch_attrs(user_info)
-      {
-        provider: 'slack',
-        uid: user_info['id'],
-        name: name_from_user_info(user_info),
-        email: user_info['profile']['email'] || '',
-        admin: user_info['is_admin'] || false,
-        avatar: user_info['profile']['image_512'],
-        archived_at: nil,
-      }
-    end
-
-    def name_from_user_info(user_info)
-      user_info['real_name'].blank? ? user_info['name'] : user_info['real_name']
-    end
 
     def big_avatar_512(auth)
       auth.dig('extra', 'user_info', 'user', 'profile', 'image_512')
