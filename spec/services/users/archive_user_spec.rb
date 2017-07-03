@@ -8,7 +8,7 @@ describe Users::ArchiveUser do
     it 'archives user', :aggregate_failures do
       subject
       expect(user.reload.archived_at?).to eq(true)
-      expect(user.archived_at).to eq(Time.current)
+      expect(user.archived_at.to_s).to eq(Time.current.to_s)
     end
 
     it 'returns nil' do
