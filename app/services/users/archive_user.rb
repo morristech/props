@@ -1,13 +1,9 @@
 module Users
   class ArchiveUser
-    attr_accessor :user
-
-    def initialize(user)
-      self.user = user
-    end
+    pattr_initialize [:user!]
 
     def call
-      user.archived_at = Time.zone.now
+      user.archived_at = Time.current
       user.save!
       remove_mail_subscription!
     end
