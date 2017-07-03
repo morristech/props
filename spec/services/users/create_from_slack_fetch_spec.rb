@@ -5,33 +5,27 @@ include OmniauthHelpers
 describe Users::CreateFromSlackFetch do
   describe '#call' do
     let(:user_info) { users_list_array.first }
-    let(:organisation) { create(:organisation) }
 
     subject { described_class.new(user_info: user_info).call }
 
     context 'when there is a new user in Slack organisation' do
-      it 'creates new user' do
-        expect { subject }.to change(User, :count).by(1)
-      end
-
       it 'creates new user with proper attributes', :aggregate_failures do
-        subject
-        expect(User.last.provider).to eq('slack')
-        expect(User.last.uid).to eq(user_info['id'])
-        expect(User.last.name).to eq(user_info['real_name'])
-        expect(User.last.email).to eq(user_info['profile']['email'])
-        expect(User.last.admin).to eq(user_info['is_admin'])
-        expect(User.last.avatar).to eq(user_info['profile']['image_512'])
+        expect { subject }.to change(User, :count).by(1)
+        user = User.last
+        expect(user.provider).to eq('slack')
+        expect(user.uid).to eq(user_info['id'])
+        expect(user.name).to eq(user_info['real_name'])
+        expect(user.email).to eq(user_info['profile']['email'])
+        expect(user.admin).to eq(user_info['is_admin'])
+        expect(user.avatar).to eq(user_info['profile']['image_512'])
       end
     end
 
-    context 'when user was already in the database' do
+    context 'when user was already in the database', :freeze_time do
       let(:uid) { user_info['id'] }
-      let(:time_now) { Time.current }
 
       context 'when user uid is matching' do
         let!(:user) { create(:user, uid: uid, name: 'Old Name') }
-        let(:uid) { user_info['id'] }
 
         it 'updates user data' do
           subject
@@ -69,7 +63,7 @@ describe Users::CreateFromSlackFetch do
           subject
           user.reload
           expect(user.archived_at?).to eq(true)
-          expect(user.archived_at.to_s).to eq(time_now.to_s)
+          expect(user.archived_at.to_s).to eq(Time.current.to_s)
         end
 
         it 'does not create new user' do
@@ -77,11 +71,10 @@ describe Users::CreateFromSlackFetch do
         end
       end
 
-      context 'when user is was deleted from Slack organisation, but is no longer' do
-        let!(:user) { create(:user, uid: uid, archived_at: time_now) }
+      context 'when user was deleted from Slack organisation, but is no longer' do
+        let!(:user) { create(:user, uid: uid, archived_at: Time.current) }
 
-        it 'archives user', :aggregate_failures do
-          expect(user.archived_at.to_s).to eq(time_now.to_s)
+        it 'unarchives user' do
           subject
           expect(user.reload.archived_at?).to eq(false)
         end
@@ -101,7 +94,7 @@ describe Users::CreateFromSlackFetch do
     end
 
     context 'when email in Slack response is nil' do
-      it 'asigns blank string in place of real name' do
+      it 'assigns blank string in place of real name' do
         user_info['profile']['email'] = nil
         subject
         expect(User.last.email).to eq('')
