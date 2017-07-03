@@ -102,7 +102,7 @@ describe Users::CreateFromSlackFetch do
     end
 
     context 'when there is no info in Slack response about admins status' do
-      it 'asigns false' do
+      it 'assigns false' do
         user_info['is_admin'] = nil
         subject
         expect(User.last.admin).to eq(false)
