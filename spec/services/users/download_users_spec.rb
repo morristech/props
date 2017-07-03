@@ -5,11 +5,11 @@ include OmniauthHelpers
 describe Users::DownloadUsers do
   shared_examples 'do not create users or add them to organisation' do
     it 'does not create a new user' do
-      expect { subject }.not_to change { User.count }
+      expect { subject }.not_to change(User, :count)
     end
 
     it 'does not add user to organisation' do
-      expect { subject }.not_to change { organisation.users.count }
+      expect { subject }.not_to change(organisation.users, :count)
     end
   end
 
@@ -28,7 +28,7 @@ describe Users::DownloadUsers do
       let(:members) { users_list_array(users_number: 1) }
 
       it 'creates new user' do
-        expect { subject }.to change { User.count }.by(1)
+        expect { subject }.to change(User, :count).by(1)
       end
 
       it 'creates new user with proper attributes' do
@@ -37,7 +37,7 @@ describe Users::DownloadUsers do
       end
 
       it 'adds user to organisation' do
-        expect { subject }.to change { organisation.users.count }.by(1)
+        expect { subject }.to change(organisation.users, :count).by(1)
       end
 
       context 'when new user is deleted' do
@@ -50,7 +50,7 @@ describe Users::DownloadUsers do
       let(:members) { users_list_array(users_number: 3) }
 
       it 'creates few new users' do
-        expect { subject }.to change { User.count }.by(3)
+        expect { subject }.to change(User, :count).by(3)
       end
 
       it 'creates new user with proper attributes', :aggregate_failures do
@@ -60,7 +60,7 @@ describe Users::DownloadUsers do
       end
 
       it 'adds users to organisation' do
-        expect { subject }.to change { organisation.users.count }.by(3)
+        expect { subject }.to change(organisation.users, :count).by(3)
       end
     end
 
@@ -71,7 +71,7 @@ describe Users::DownloadUsers do
 
       it 'omits only bot users and creates normal user' do
         members.second['is_bot'] = false
-        expect { subject }.to change { User.count }.by(1)
+        expect { subject }.to change(User, :count).by(1)
       end
     end
 
@@ -86,7 +86,7 @@ describe Users::DownloadUsers do
 
       it 'omits only bot user and creates normal user' do
         members.second['name'] = 'John Doe'
-        expect { subject }.to change { User.count }.by(1)
+        expect { subject }.to change(User, :count).by(1)
       end
     end
 
@@ -97,7 +97,7 @@ describe Users::DownloadUsers do
 
       it 'omits only guest user and creates normal user' do
         members.second['profile']['guest_channels'] = nil
-        expect { subject }.to change { User.count }.by(1)
+        expect { subject }.to change(User, :count).by(1)
       end
     end
 
@@ -108,7 +108,7 @@ describe Users::DownloadUsers do
 
       it 'omits only guest user and creates normal user' do
         members.second['is_restricted'] = false
-        expect { subject }.to change { User.count }.by(1)
+        expect { subject }.to change(User, :count).by(1)
       end
     end
 
@@ -119,7 +119,7 @@ describe Users::DownloadUsers do
 
       it 'omits only guest user and creates normal user' do
         members.second['is_ultra_restricted'] = false
-        expect { subject }.to change { User.count }.by(1)
+        expect { subject }.to change(User, :count).by(1)
       end
     end
 
@@ -148,7 +148,7 @@ describe Users::DownloadUsers do
       end
 
       it 'does not add user to organisation' do
-        expect { subject }.not_to change { organisation.users.count }
+        expect { subject }.not_to change(organisation.users, :count)
       end
     end
 
