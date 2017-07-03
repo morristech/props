@@ -3,7 +3,6 @@ module Users
     pattr_initialize [:user_info!]
 
     def call
-      user_info['real_name']
       return Users::ArchiveUser.new(slack_user).call if slack_user.present? && deleted?
       return update_with_slack_fetch if slack_user.present?
       User.create! slack_fetch_attrs
