@@ -3,7 +3,6 @@ module Users
     pattr_initialize [:user_info!]
 
     def call
-      return Users::ArchiveUser.new(slack_user).call if slack_user.present? && deleted?
       return update_with_slack_fetch if slack_user.present?
       User.create! slack_fetch_attrs
     end
@@ -14,6 +13,7 @@ module Users
       slack_user.tap do |user|
         user.update slack_fetch_attrs
       end
+      manage_archivisation
     end
 
     def slack_user
@@ -21,7 +21,20 @@ module Users
                       User.find_by(email: user_info['profile']['email'])
     end
 
-    def deleted?
+    def manage_archivisation
+      return Users::ArchiveUser.new(user: slack_user).call if to_archive?
+      Users::UnarchiveUser.new(user: slack_user).call if to_unarchive?
+    end
+
+    def to_archive?
+      !slack_user.archived_at? && deleted_from_slack?
+    end
+
+    def to_unarchive?
+      slack_user.archived_at? && !deleted_from_slack?
+    end
+
+    def deleted_from_slack?
       user_info['deleted']
     end
 
@@ -33,7 +46,6 @@ module Users
         email: user_info['profile']['email'] || '',
         admin: user_info['is_admin'] || false,
         avatar: user_info['profile']['image_512'],
-        archived_at: nil,
       }
     end
 
