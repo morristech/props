@@ -11,7 +11,7 @@ module Users
     def create_or_update_users(organisation)
       users_array(organisation).each do |user_info|
         next if invalid_user?(user_info)
-        user = create_from_slack_fetch.call(user_info)
+        user = Users::CreateFromSlackFetch.new(user_info: user_info).call
         organisation.add_user(user) if user.present?
       end
     end
@@ -27,10 +27,6 @@ module Users
 
     def client(token)
       Slack::RealTime::Client.new(token: token).web_client
-    end
-
-    def create_from_slack_fetch 
-      @create_from_slack_fetch ||= Users::CreateFromSlackFetch.new
     end
 
     def invalid_user?(user_info)

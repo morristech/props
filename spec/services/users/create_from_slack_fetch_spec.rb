@@ -7,7 +7,7 @@ describe Users::CreateFromSlackFetch do
     let(:user_info) { users_list_array.first }
     let(:organisation) { create(:organisation) }
 
-    subject { described_class.new.call(user_info) }
+    subject { described_class.new(user_info: user_info).call }
 
     context 'when there is a new user in Slack organisation' do
       it 'creates new user' do
