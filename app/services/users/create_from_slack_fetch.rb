@@ -43,12 +43,18 @@ module Users
         name: name_from_user_info,
         email: user_info['profile']['email'] || '',
         admin: user_info['is_admin'] || false,
-        avatar: user_info['profile']['image_512'],
+        avatar: choose_avatar,
       }
     end
 
     def name_from_user_info
       user_info['real_name'].presence || user_info['name']
+    end
+
+    def choose_avatar
+      user_info['profile']['image_512'] ||
+        user_info['profile']['image_original'] || 
+        user_info['profile']['image_192']
     end
   end
 end

@@ -54,7 +54,9 @@ module OmniauthHelpers
           'profile' =>
           {
             'email' => i + email,
+            'image_192' => i + '_small_version_' + big_avatar,
             'image_512' => i + big_avatar,
+            'image_original' => i + '_original_' + big_avatar,
             'guest_channels' => is_guest ? ['chann_id'] : nil,
           },
           'is_admin' => is_admin,

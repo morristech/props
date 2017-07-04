@@ -197,5 +197,20 @@ describe Users::CreateFromSlackFetch do
         expect(User.last.admin).to eq(false)
       end
     end
+
+    context 'when user has smaller avatar' do
+      it 'uses "original_image" first' do
+        user_info['profile']['image_512'] = nil
+        subject
+        expect(User.last.avatar).to eq(user_info['profile']['image_original'])
+      end
+
+      it 'uses "image_192" when no bigger image is available' do
+        user_info['profile']['image_512'] = nil
+        user_info['profile']['image_original'] = nil
+        subject
+        expect(User.last.avatar).to eq(user_info['profile']['image_192'])
+      end
+    end
   end
 end
