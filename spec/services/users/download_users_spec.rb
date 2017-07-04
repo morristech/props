@@ -46,10 +46,10 @@ describe Users::DownloadUsers do
       end
     end
 
-    context 'when there are few new users in the Slack organisation' do
+    context 'when there are a few new users in the Slack organisation' do
       let(:members) { users_list_array(users_number: 3) }
 
-      it 'creates few new users' do
+      it 'creates a few new users' do
         expect { subject }.to change(User, :count).by(3)
       end
 
@@ -64,7 +64,7 @@ describe Users::DownloadUsers do
       end
     end
 
-    context 'when an user is a bot' do
+    context 'when a user is a bot' do
       let(:members) { users_list_array(users_number: 2, is_bot: true) }
 
       include_examples 'do not create users or add them to organisation'
@@ -75,7 +75,7 @@ describe Users::DownloadUsers do
       end
     end
 
-    context 'when an user has "slackbot" name' do
+    context 'when a user has "slackbot" name' do
       let(:members) { users_list_array(users_number: 2) }
 
       before do
@@ -90,7 +90,7 @@ describe Users::DownloadUsers do
       end
     end
 
-    context 'when an user is a guest' do
+    context 'when a user is a guest' do
       let(:members) { users_list_array(users_number: 2, is_guest: true) }
 
       include_examples 'do not create users or add them to organisation'
@@ -101,7 +101,7 @@ describe Users::DownloadUsers do
       end
     end
 
-    context 'when an user is restricted' do
+    context 'when a user is restricted' do
       let(:members) { users_list_array(users_number: 2, is_restricted: true) }
 
       include_examples 'do not create users or add them to organisation'
@@ -112,7 +112,7 @@ describe Users::DownloadUsers do
       end
     end
 
-    context 'when an user is ultra restricted' do
+    context 'when a user is ultra restricted' do
       let(:members) { users_list_array(users_number: 2, is_ultra_restricted: true) }
 
       include_examples 'do not create users or add them to organisation'
@@ -123,7 +123,7 @@ describe Users::DownloadUsers do
       end
     end
 
-    context 'when user was already in the database' do
+    context 'when user has already been in the database' do
       let(:members) { users_list_array(users_number: 1) }
       let(:uid) { members.first['id'] }
       let(:email) { members.first['profile']['email'] }
@@ -139,7 +139,7 @@ describe Users::DownloadUsers do
       end
     end
 
-    context 'when user is deleted from Slack organisation' do
+    context 'when a user is deleted from the Slack organisation' do
       let(:members) { users_list_array(users_number: 1) }
 
       before do
@@ -152,7 +152,7 @@ describe Users::DownloadUsers do
       end
     end
 
-    context 'when there are few organisations' do
+    context 'when there are a few organisations' do
       let(:members) { users_list_array(users_number: 1) }
       let(:uid) { members.first['id'] }
       let(:email) { members.first['profile']['email'] }

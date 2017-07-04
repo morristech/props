@@ -12,9 +12,9 @@ module Users
     private
 
     def restore_mail_subscription!
-      repo = MailSubscriptionsRepository.new
-      sub = repo.find_for_user(user)
-      sub.update_column(:active, true) if sub.present?
+      repository = MailSubscriptionsRepository.new
+      subscription = repository.find_for_user(user)
+      subscription.update_column(:active, true) if subscription.present?
     end
   end
 end

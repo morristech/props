@@ -11,9 +11,7 @@ describe Users::ArchiveUser do
       expect(user.archived_at.to_s).to eq(Time.current.to_s)
     end
 
-    it 'returns nil' do
-      expect(subject).to eq(nil)
-    end
+    it { expect(subject).to be nil }
 
     context 'when user had a mail subscribtion' do
       let!(:mail_subscription) { create(:mail_subscription, user: user, active: true) }

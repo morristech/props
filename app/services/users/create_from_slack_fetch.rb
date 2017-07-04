@@ -10,9 +10,7 @@ module Users
     private
 
     def update_with_slack_fetch
-      slack_user.tap do |user|
-        user.update slack_fetch_attrs
-      end
+      slack_user.update slack_fetch_attrs
       manage_archivisation
     end
 
