@@ -84,22 +84,19 @@ describe Api::V1::Users do
       end
     end
 
-    # I turned off admin authentication for easier testing on staging
-    # It will be turned on before deploy to production
+    context 'when user is signed in but not as an admin' do
+      before do
+        sign_in(membership)
+        post '/api/v1/users/download_users'
+      end
 
-    # context 'when user is signed in but not as an admin' do
-    #   before do
-    #     sign_in(membership)
-    #     post '/api/v1/users/download_users'
-    #   end
+      after { sign_out }
 
-    #   after { sign_out }
-
-    #   it 'returns unathorized response' do
-    #     post '/api/v1/users/download_users'
-    #     expect(response).to have_http_status(401)
-    #   end
-    # end
+      it 'returns unathorized response' do
+        post '/api/v1/users/download_users'
+        expect(response).to have_http_status(401)
+      end
+    end
 
     context 'when admin is signed in' do
       let(:organisation) { create(:organisation) }

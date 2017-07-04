@@ -36,10 +36,8 @@ module Api
 
         desc 'Downloads users from Slack and creates/updates them'
         post :download_users do
-          # I turned off admin authentication for easier testing on staging
-          # It will be turned on before deploy to production
-          # authenticate_admin!
-          ::Users::DownloadUsers.new(organisation: current_organisation).call
+          authenticate_admin!
+          DownloadUsersJob.perform_later(organisation: current_organisation)
         end
       end
     end
