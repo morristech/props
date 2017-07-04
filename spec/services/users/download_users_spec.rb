@@ -5,11 +5,11 @@ include OmniauthHelpers
 describe Users::DownloadUsers do
   shared_examples 'do not create users or add them to organisation' do
     it 'does not create a new user' do
-      expect { subject }.not_to change { User.count }
+      expect { subject }.not_to change(User, :count)
     end
 
     it 'does not add user to organisation' do
-      expect { subject }.not_to change { organisation.users.count }
+      expect { subject }.not_to change(organisation.users, :count)
     end
   end
 
@@ -20,14 +20,15 @@ describe Users::DownloadUsers do
     subject { described_class.new(organisation: organisation).call }
 
     before do
-      allow_any_instance_of(Slack::RealTime::Client).to receive_message_chain(:web_client, :users_list) { users_list }
+      allow_any_instance_of(Slack::RealTime::Client)
+        .to receive_message_chain(:web_client, :users_list) { users_list }
     end
 
     context 'when there is a new user in Slack organisation' do
       let(:members) { users_list_array(users_number: 1) }
 
       it 'creates new user' do
-        expect { subject }.to change { User.count }.by(1)
+        expect { subject }.to change(User, :count).by(1)
       end
 
       it 'creates new user with proper attributes' do
@@ -36,15 +37,20 @@ describe Users::DownloadUsers do
       end
 
       it 'adds user to organisation' do
-        expect { subject }.to change { organisation.users.count }.by(1)
+        expect { subject }.to change(organisation.users, :count).by(1)
+      end
+
+      context 'when new user is deleted' do
+        before { members.first['deleted'] = true }
+        include_examples 'do not create users or add them to organisation'
       end
     end
 
-    context 'when there are few new users in the Slack organisation' do
+    context 'when there are a few new users in the Slack organisation' do
       let(:members) { users_list_array(users_number: 3) }
 
-      it 'creates few new users' do
-        expect { subject }.to change { User.count }.by(3)
+      it 'creates a few new users' do
+        expect { subject }.to change(User, :count).by(3)
       end
 
       it 'creates new user with proper attributes', :aggregate_failures do
@@ -54,22 +60,22 @@ describe Users::DownloadUsers do
       end
 
       it 'adds users to organisation' do
-        expect { subject }.to change { organisation.users.count }.by(3)
+        expect { subject }.to change(organisation.users, :count).by(3)
       end
     end
 
-    context 'when an user is a bot' do
+    context 'when a user is a bot' do
       let(:members) { users_list_array(users_number: 2, is_bot: true) }
 
       include_examples 'do not create users or add them to organisation'
 
       it 'omits only bot users and creates normal user' do
         members.second['is_bot'] = false
-        expect { subject }.to change { User.count }.by(1)
+        expect { subject }.to change(User, :count).by(1)
       end
     end
 
-    context 'when an user has "slackbot" name' do
+    context 'when a user has "slackbot" name' do
       let(:members) { users_list_array(users_number: 2) }
 
       before do
@@ -80,44 +86,44 @@ describe Users::DownloadUsers do
 
       it 'omits only bot user and creates normal user' do
         members.second['name'] = 'John Doe'
-        expect { subject }.to change { User.count }.by(1)
+        expect { subject }.to change(User, :count).by(1)
       end
     end
 
-    context 'when an user is a guest' do
+    context 'when a user is a guest' do
       let(:members) { users_list_array(users_number: 2, is_guest: true) }
 
       include_examples 'do not create users or add them to organisation'
 
       it 'omits only guest user and creates normal user' do
         members.second['profile']['guest_channels'] = nil
-        expect { subject }.to change { User.count }.by(1)
+        expect { subject }.to change(User, :count).by(1)
       end
     end
 
-    context 'when an user is restricted' do
+    context 'when a user is restricted' do
       let(:members) { users_list_array(users_number: 2, is_restricted: true) }
 
       include_examples 'do not create users or add them to organisation'
 
       it 'omits only guest user and creates normal user' do
         members.second['is_restricted'] = false
-        expect { subject }.to change { User.count }.by(1)
+        expect { subject }.to change(User, :count).by(1)
       end
     end
 
-    context 'when an user is ultra restricted' do
+    context 'when a user is ultra restricted' do
       let(:members) { users_list_array(users_number: 2, is_ultra_restricted: true) }
 
       include_examples 'do not create users or add them to organisation'
 
       it 'omits only guest user and creates normal user' do
         members.second['is_ultra_restricted'] = false
-        expect { subject }.to change { User.count }.by(1)
+        expect { subject }.to change(User, :count).by(1)
       end
     end
 
-    context 'when user was already in the database' do
+    context 'when user has already been in the database' do
       let(:members) { users_list_array(users_number: 1) }
       let(:uid) { members.first['id'] }
       let(:email) { members.first['profile']['email'] }
@@ -133,7 +139,20 @@ describe Users::DownloadUsers do
       end
     end
 
-    context 'when there are few organisations' do
+    context 'when a user is deleted from the Slack organisation' do
+      let(:members) { users_list_array(users_number: 1) }
+
+      before do
+        members.first['deleted'] = true
+        allow_any_instance_of(UsersRepository).to receive(:user_from_slack_fetch) { nil }
+      end
+
+      it 'does not add user to organisation' do
+        expect { subject }.not_to change(organisation.users, :count)
+      end
+    end
+
+    context 'when there are a few organisations' do
       let(:members) { users_list_array(users_number: 1) }
       let(:uid) { members.first['id'] }
       let(:email) { members.first['profile']['email'] }

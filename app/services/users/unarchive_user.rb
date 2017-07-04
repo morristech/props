@@ -1,19 +1,20 @@
 module Users
-  class ArchiveUser
+  class UnarchiveUser
     pattr_initialize [:user!]
 
     def call
-      user.archived_at = Time.current
+      user.archived_at = nil
       user.save!
-      remove_mail_subscription!
+      restore_mail_subscription!
+      user
     end
 
     private
 
-    def remove_mail_subscription!
+    def restore_mail_subscription!
       repository = MailSubscriptionsRepository.new
       subscription = repository.find_for_user(user)
-      subscription.update_column(:active, false) if subscription.present?
+      subscription.update_column(:active, true) if subscription.present?
     end
   end
 end

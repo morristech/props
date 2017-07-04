@@ -469,6 +469,7 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.7)
+    timecop (0.8.1)
     timers (4.1.1)
       hitimes
     tzinfo (1.2.3)
@@ -562,6 +563,7 @@ DEPENDENCIES
   spring-commands-rspec
   sprockets-rails
   thin
+  timecop
   uglifier
   whenever
 
