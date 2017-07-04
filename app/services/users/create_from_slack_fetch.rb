@@ -53,7 +53,7 @@ module Users
 
     def choose_avatar
       user_info['profile']['image_512'] ||
-        user_info['profile']['image_original'] || 
+        user_info['profile']['image_original'] ||
         user_info['profile']['image_192']
     end
   end
