@@ -84,22 +84,18 @@ describe Api::V1::Users do
       end
     end
 
-    # I turned off admin authentication for easier testing on staging
-    # It will be turned on before deploy to production
+    context 'when user is signed in but not as an admin' do
+      before do
+        sign_in(membership)
+        post '/api/v1/users/download_users'
+      end
 
-    # context 'when user is signed in but not as an admin' do
-    #   before do
-    #     sign_in(membership)
-    #     post '/api/v1/users/download_users'
-    #   end
+      after { sign_out }
 
-    #   after { sign_out }
-
-    #   it 'returns unathorized response' do
-    #     post '/api/v1/users/download_users'
-    #     expect(response).to have_http_status(401)
-    #   end
-    # end
+      it 'returns unathorized response' do
+        expect(response).to have_http_status(401)
+      end
+    end
 
     context 'when admin is signed in' do
       let(:organisation) { create(:organisation) }
@@ -107,6 +103,9 @@ describe Api::V1::Users do
       let(:membership) { create(:membership, user: admin, organisation: organisation) }
       let(:users_list) { double('users_list', members: members) }
       let(:members) { users_list_array(users_number: 1) }
+      let(:response_body) do
+        { text: 'Processing in the background' }
+      end
 
       before do
         allow_any_instance_of(Slack::RealTime::Client)
@@ -119,6 +118,10 @@ describe Api::V1::Users do
 
       it 'has OK response status' do
         expect(response).to have_http_status(201)
+      end
+
+      it 'has proper response body' do
+        expect(response.body).to eq(response_body.to_json)
       end
     end
   end
