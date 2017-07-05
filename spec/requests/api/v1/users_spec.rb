@@ -104,6 +104,9 @@ describe Api::V1::Users do
       let(:membership) { create(:membership, user: admin, organisation: organisation) }
       let(:users_list) { double('users_list', members: members) }
       let(:members) { users_list_array(users_number: 1) }
+      let(:response_body) do
+        { text: 'Processing in the background' }
+      end
 
       before do
         allow_any_instance_of(Slack::RealTime::Client)
@@ -116,6 +119,10 @@ describe Api::V1::Users do
 
       it 'has OK response status' do
         expect(response).to have_http_status(201)
+      end
+
+      it 'has proper response body' do
+        expect(response.body).to eq(response_body.to_json)
       end
     end
   end

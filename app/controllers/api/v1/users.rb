@@ -38,6 +38,7 @@ module Api
         post :download_users do
           authenticate_admin!
           DownloadUsersJob.perform_later(organisation: current_organisation)
+          { text: I18n.t('props.messages.background_process') }
         end
       end
     end
