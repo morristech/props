@@ -15,8 +15,19 @@ module Users
     end
 
     def slack_user
-      @slack_user ||= User.find_by(uid: user_info['id']) ||
-                      User.find_by(email: user_info['profile']['email'])
+      @slack_user ||= user_found_by_uid || user_found_by_email
+    end
+
+    def user_found_by_uid
+      User.find_by(uid: user_info['id'])
+    end
+
+    def user_found_by_email
+      User.find_by('email LIKE ?', "#{email_without_domain}%") if email_without_domain.present?
+    end
+
+    def email_without_domain
+      user_info['profile']['email']&.split('@')&.first
     end
 
     def manage_archivisation

@@ -7,7 +7,7 @@ describe Users::CreateFromSlackFetch do
     shared_examples 'assign proper attributes to user' do
       it 'assigns proper attributes to user', :aggregate_failures do
         subject
-        user = User.last
+        user.reload
         expect(user.provider).to eq('slack')
         expect(user.uid).to eq(user_info['id'])
         expect(user.name).to eq(user_info['real_name'])
@@ -54,7 +54,16 @@ describe Users::CreateFromSlackFetch do
     subject { described_class.new(user_info: user_info).call }
 
     context 'when there is a new user in Slack organisation' do
-      include_examples 'assign proper attributes to user'
+      it 'assigns proper attributes to user', :aggregate_failures do
+        subject
+        user = User.last
+        expect(user.provider).to eq('slack')
+        expect(user.uid).to eq(user_info['id'])
+        expect(user.name).to eq(user_info['real_name'])
+        expect(user.email).to eq(user_info['profile']['email'])
+        expect(user.admin).to eq(user_info['is_admin'])
+        expect(user.avatar).to eq(user_info['profile']['image_512'])
+      end
 
       it 'creates new user with proper attributes', :aggregate_failures do
         expect { subject }.to change(User, :count).by(1)
@@ -63,6 +72,7 @@ describe Users::CreateFromSlackFetch do
 
     context 'when user has already been in the database', :freeze_time do
       let(:uid) { user_info['id'] }
+      let(:email) { user_info['profile']['email'] }
 
       context 'when user uid matches' do
         let!(:user) { create(:user, uid: uid, name: 'Old Name') }
@@ -76,12 +86,58 @@ describe Users::CreateFromSlackFetch do
 
       context 'when user email matches' do
         let!(:user) { create(:user, email: email, name: 'Old Name') }
-        let(:email) { user_info['profile']['email'] }
 
         include_examples 'assign proper attributes to user'
 
         it 'does not create new user' do
           expect { subject }.not_to change(User, :count)
+        end
+      end
+
+      context 'when user email matches but without domain' do
+        let!(:user) { create(:user, email: email + 'domain.com', name: 'Old Name') }
+
+        include_examples 'assign proper attributes to user'
+
+        it 'does not create new user' do
+          expect { subject }.not_to change(User, :count)
+        end
+
+        context 'when user account is archived' do
+          let!(:user) { create(:user, email: email + 'domain.com', archived_at: 3.days.ago) }
+
+          include_examples 'assign proper attributes to user'
+
+          it 'does not create new user' do
+            expect { subject }.not_to change(User, :count)
+          end
+        end
+
+        context 'when user has two accounts and one is archived' do
+          let!(:user_second_account) { create(:user, email: email, archived_at: 3.days.ago) }
+          let!(:user_sec_acc_attributes) { user_second_account.attributes }
+
+          it 'does not create new user' do
+            expect { subject }.not_to change(User, :count)
+          end
+
+          it 'does not update archived account' do
+            subject
+            expect(user_second_account.reload.attributes).to eq(user_sec_acc_attributes)
+          end
+        end
+      end
+
+      context 'when both uid and email without domain matches' do
+        let!(:user) { create(:user, uid: uid) }
+        let!(:user_with_email) { create(:user, email: email + 'domain.com') }
+        let!(:user_with_email_attributes) { user_with_email.attributes }
+
+        include_examples 'assign proper attributes to user'
+
+        it 'does not update user with matching email' do
+          subject
+          expect(user_with_email.reload.attributes).to eq(user_with_email_attributes)
         end
       end
 
@@ -183,7 +239,7 @@ describe Users::CreateFromSlackFetch do
     end
 
     context 'when email in Slack response is nil' do
-      it 'assigns blank string in place of real name' do
+      it 'assigns blank string in place of email' do
         user_info['profile']['email'] = nil
         subject
         expect(User.last.email).to eq('')
