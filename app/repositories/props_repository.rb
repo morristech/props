@@ -1,6 +1,8 @@
 class PropsRepository
   delegate :find, :find_by_slack_ts, to: :all
 
+  attr_reader :variable
+
   def all
     Prop.includes(:users, :propser)
   end
@@ -49,6 +51,12 @@ class PropsRepository
     PropSearch.new attributes
   end
 
+  def test_kudos_in_organisation(organisation)
+    @test_kudos_in_organisation = nil
+    memoize(organisation, ) do |organisation|
+      organisation.props
+    end
+  end
   private
 
   def clean_ids(ids_as_text)
@@ -63,9 +71,18 @@ class PropsRepository
   end
 
   def kudos_in_organisation(organisation)
+
     @kudos_in_organisation ||= Hash.new do |h, key|
       h[key] = key.props
     end
     @kudos_in_organisation[organisation]
+  end
+
+  def memoize(object, variable_name)
+
+    variable ||= Hash.new do |h, key|
+      h[key] = yield(key)
+    end
+    variable[object]
   end
 end
