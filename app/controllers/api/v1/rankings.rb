@@ -3,6 +3,8 @@ module Api
     class Rankings < Grape::API
       include Api::V1::Defaults
 
+      rescue_from ArgumentError
+
       helpers do
         include Api::V1::Helpers
 

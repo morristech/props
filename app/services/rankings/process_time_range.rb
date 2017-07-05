@@ -1,8 +1,13 @@
 module Rankings
   class ProcessTimeRange
-    pattr_initialize %i(time_range_string! props_repository! organisation!)
-    TIME_RANGE_ARRAY = %w(yearly monthly weekly bi-weekly all).freeze
+    TIME_RANGE_ARRAY = %w(yearly monthly weekly bi-weekly all).map(&:freeze).freeze
     private_constant :TIME_RANGE_ARRAY
+
+    def initialize(time_range_string:, props_repository:, organisation:)
+      @time_range_string = time_range_string.inquiry
+      @props_repository = props_repository
+      @organisation = organisation
+    end
 
     def time_range
       validate_time_range
@@ -16,8 +21,10 @@ module Rankings
 
     private
 
+    attr_reader :time_range_string, :props_repository, :organisation
+
     def validate_time_range
-      raise 'Wrong time range' unless TIME_RANGE_ARRAY.include? time_range_string
+      raise ArgumentError, 'Wrong time range' unless TIME_RANGE_ARRAY.include? time_range_string
     end
 
     def evaluate_time_range
@@ -43,12 +50,12 @@ module Rankings
     end
 
     def count_time_interval
-      return 'month' if time_range_string.inquiry.yearly? || time_range_above_two_months?
+      return 'month' if time_range_string.yearly? || time_range_above_two_months?
       'day'
     end
 
     def time_range_above_two_months?
-      return unless time_range_string.inquiry.all?
+      return unless time_range_string.all?
       any_kudos? ? oldest_kudos_date < 2.months.ago : false
     end
 

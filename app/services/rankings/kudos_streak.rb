@@ -9,17 +9,21 @@ module Rankings
     private
 
     def kudos_streak_within
-      kudos_with_receivers = props_repository.kudos_with_receivers(organisation, time_range)
-      splitted_array = split_on_users(kudos_with_receivers)
+      users_with_kudos_date = props_repository.users_with_kudos_date(organisation, time_range)
+      splitted_array = split_on_users(users_with_kudos_date)
       sort_on_streak_count serialize_streak(splitted_array)
     end
 
-    def split_on_users(kudos_with_receivers)
-      kudos_with_receivers.chunk_while { |a, b| a.first == b.first }.to_a
+    def split_on_users(users_with_kudos_date)
+      users_with_kudos_date.chunk_while do |first_pair, second_pair|
+        first_user = first_pair.first
+        second_user = second_pair.first
+        first_user == second_user
+      end.to_a
     end
 
     def sort_on_streak_count(users_streak)
-      users_streak.sort { |x, y| y[:streak] <=> x[:streak] }
+      users_streak.sort { |first_hash, second_hash| second_hash[:streak] <=> first_hash[:streak] }
     end
 
     def serialize_streak(splitted_array)
@@ -31,8 +35,12 @@ module Rankings
       end
     end
 
-    def count_user_streak(user_and_kudos_date)
-      user_and_kudos_date.uniq.chunk_while { |a, b| a.second + 1.day == b.second }.map(&:count).max
+    def count_user_streak(one_user_and_kudos_dates)
+      one_user_and_kudos_dates.uniq.chunk_while do |first_pair, second_pair|
+        first_date = first_pair.second
+        next_date = second_pair.second
+        first_date + 1.day == next_date
+      end.map(&:count).max
     end
 
     def serialized_users

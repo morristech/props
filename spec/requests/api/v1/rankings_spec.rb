@@ -47,12 +47,12 @@ describe Api::V1::Rankings do
     end
   end
 
-  describe 'GET /api/v1/rankings/top_kudoers' do
+  describe 'GET /api/v1/rankings/top_kudosers' do
     context 'with invalid api token' do
       let(:token) { 'cccbbbaaa' }
 
       it "returns 'Invalid token' response" do
-        get '/api/v1/rankings/top_kudoers', token: token
+        get '/api/v1/rankings/top_kudosers', token: token
         result = json_response['error']
         expect(result).to eq 'Invalid token'
       end
@@ -71,7 +71,7 @@ describe Api::V1::Rankings do
 
       context 'without time_range param' do
         it "returns 'time_range is missing' response" do
-          get '/api/v1/rankings/top_kudoers', token: token
+          get '/api/v1/rankings/top_kudosers', token: token
           result = json_response['error']
           expect(result).to eq 'time_range is missing'
         end
@@ -81,7 +81,7 @@ describe Api::V1::Rankings do
         let(:time_range) { 'weekly' }
 
         it 'returns user with the most received props' do
-          get '/api/v1/rankings/top_kudoers', token: token, time_range: time_range
+          get '/api/v1/rankings/top_kudosers', token: token, time_range: time_range
           expect(response).to have_http_status(:ok)
         end
       end

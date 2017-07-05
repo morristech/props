@@ -6,6 +6,8 @@ en:
       no_users: 'ooo... not even a single receiver here? Cmon!'
       archived_user: "wait wait... %{name} is archived! Stop hacking!"
       no_upvote: "you didn't upvote that"
+    messages:
+      no_kudos_yet: "Organisation does not have any kudos yet"
   slack_commands:
     kudos:
       errors:

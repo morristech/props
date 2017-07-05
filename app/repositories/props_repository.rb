@@ -19,7 +19,7 @@ class PropsRepository
     query.group("date_trunc('#{interval}', props.created_at AT TIME ZONE 'MST')").count
   end
 
-  def kudos_with_receivers(organisation, created_at)
+  def users_with_kudos_date(organisation, created_at)
     kudos_in_organisation(organisation)
       .where(created_at: created_at).joins(:prop_receivers)
       .group('prop_receivers.id, props.created_at, props.id')
@@ -28,7 +28,10 @@ class PropsRepository
   end
 
   def oldest_kudos_date(organisation)
-    kudos_in_organisation(organisation).oldest_first.created_at
+    @oldest_kudos_date ||= Hash.new do |h, key|
+      h[key] = kudos_in_organisation(key).oldest_first.first.created_at
+    end
+    @oldest_kudos_date[organisation]
   end
 
   def any_kudos?(organisation)
@@ -51,12 +54,6 @@ class PropsRepository
     PropSearch.new attributes
   end
 
-  def test_kudos_in_organisation(organisation)
-    @test_kudos_in_organisation = nil
-    memoize(organisation, ) do |organisation|
-      organisation.props
-    end
-  end
   private
 
   def clean_ids(ids_as_text)
@@ -71,18 +68,9 @@ class PropsRepository
   end
 
   def kudos_in_organisation(organisation)
-
     @kudos_in_organisation ||= Hash.new do |h, key|
       h[key] = key.props
     end
     @kudos_in_organisation[organisation]
-  end
-
-  def memoize(object, variable_name)
-
-    variable ||= Hash.new do |h, key|
-      h[key] = yield(key)
-    end
-    variable[object]
   end
 end

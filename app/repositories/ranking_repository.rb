@@ -33,7 +33,7 @@ class RankingRepository
   end
 
   def no_kudos_yet
-    { text: 'Organisation does not have any kudos yet' }
+    { text: I18n.t('props.messages.no_kudos_yet') }
   end
 
   def organisation_has_kudos?
