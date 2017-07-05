@@ -93,7 +93,6 @@ describe Api::V1::Users do
       after { sign_out }
 
       it 'returns unathorized response' do
-        post '/api/v1/users/download_users'
         expect(response).to have_http_status(401)
       end
     end
