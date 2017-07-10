@@ -135,8 +135,6 @@ describe Users::CreateFromOmniauth do
       it 'does not update user - raises validation error' do
         auth['extra']['user_info']['user']['profile']['real_name'] = nil
         auth['info']['name'] = nil
-        # subject
-        # expect(User.last.name).to eq(auth['info']['nickname'])
         expect { subject }.to raise_exception(ActiveRecord::RecordInvalid)
       end
     end
