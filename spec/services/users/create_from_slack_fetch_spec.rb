@@ -8,12 +8,7 @@ describe Users::CreateFromSlackFetch do
       it 'assigns proper attributes to user', :aggregate_failures do
         subject
         user.reload
-        expect(user.provider).to eq('slack')
-        expect(user.uid).to eq(user_info['id'])
-        expect(user.name).to eq(user_info['real_name'])
-        expect(user.email).to eq(user_info['profile']['email'])
-        expect(user.admin).to eq(user_info['is_admin'])
-        expect(user.avatar).to eq(user_info['profile']['image_512'])
+        assert_user(user)
       end
     end
 
@@ -57,12 +52,7 @@ describe Users::CreateFromSlackFetch do
       it 'assigns proper attributes to user', :aggregate_failures do
         subject
         user = User.last
-        expect(user.provider).to eq('slack')
-        expect(user.uid).to eq(user_info['id'])
-        expect(user.name).to eq(user_info['real_name'])
-        expect(user.email).to eq(user_info['profile']['email'])
-        expect(user.admin).to eq(user_info['is_admin'])
-        expect(user.avatar).to eq(user_info['profile']['image_512'])
+        assert_user(user)
       end
 
       it 'creates new user with proper attributes', :aggregate_failures do
@@ -270,5 +260,16 @@ describe Users::CreateFromSlackFetch do
         expect(User.last.avatar).to eq(user_info['profile']['image_192'])
       end
     end
+  end
+
+  private
+
+  def assert_user(user)
+    expect(user.provider).to eq('slack')
+    expect(user.uid).to eq(user_info['id'])
+    expect(user.name).to eq(user_info['real_name'])
+    expect(user.email).to eq(user_info['profile']['email'])
+    expect(user.admin).to eq(user_info['is_admin'])
+    expect(user.avatar).to eq(user_info['profile']['image_512'])
   end
 end

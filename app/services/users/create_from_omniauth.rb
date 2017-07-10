@@ -10,9 +10,7 @@ module Users
     private
 
     def update_with_slack_fetch
-      slack_user.tap do |user|
-        user.update omniauth_attrs
-      end
+      slack_user.tap { |user| user.update omniauth_attrs }
     end
 
     def slack_user

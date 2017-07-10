@@ -8,12 +8,17 @@ describe Users::CreateFromOmniauth do
       it 'assigns proper attributes to user', :aggregate_failures do
         subject
         user.reload
-        expect(user.provider).to eq('slack')
-        expect(user.uid).to eq(auth['uid'])
-        expect(user.name).to eq(auth.dig('extra', 'user_info', 'user', 'profile', 'real_name'))
-        expect(user.email).to eq(auth['info']['email'])
-        expect(user.admin).to eq(auth['info']['is_admin'])
-        expect(user.avatar).to eq(auth.dig('extra', 'user_info', 'user', 'profile', 'image_512'))
+        assert_user(user)
+      end
+    end
+
+    shared_examples 'not create new user and return user object' do
+      it 'does not create new user' do
+        expect { subject }.not_to change(User, :count)
+      end
+
+      it 'returns user object' do
+        expect(subject).to eq(user.reload)
       end
     end
 
@@ -24,12 +29,7 @@ describe Users::CreateFromOmniauth do
       it 'assigns proper attributes to user', :aggregate_failures do
         subject
         user = User.last
-        expect(user.provider).to eq('slack')
-        expect(user.uid).to eq(auth['uid'])
-        expect(user.name).to eq(auth.dig('extra', 'user_info', 'user', 'profile', 'real_name'))
-        expect(user.email).to eq(auth['info']['email'])
-        expect(user.admin).to eq(auth['info']['is_admin'])
-        expect(user.avatar).to eq(auth.dig('extra', 'user_info', 'user', 'profile', 'image_512'))
+        assert_user(user)
       end
 
       it 'creates new user' do
@@ -49,56 +49,34 @@ describe Users::CreateFromOmniauth do
         let!(:user) { create(:user, uid: uid, name: 'Old Name') }
 
         include_examples 'assign proper attributes to user'
-
-        it 'does not create new user' do
-          expect { subject }.not_to change(User, :count)
-        end
-
-        it 'returns user object' do
-          expect(subject).to eq(user.reload)
-        end
+        include_examples 'not create new user and return user object'
       end
 
       context 'when user email matches' do
         let!(:user) { create(:user, email: email, name: 'Old Name') }
 
         include_examples 'assign proper attributes to user'
-
-        it 'does not create new user' do
-          expect { subject }.not_to change(User, :count)
-        end
-
-        it 'returns user object' do
-          expect(subject).to eq(user.reload)
-        end
+        include_examples 'not create new user and return user object'
       end
 
       context 'when user email matches but without domain' do
         let!(:user) { create(:user, email: email + 'domain.com', name: 'Old Name') }
 
         include_examples 'assign proper attributes to user'
-
-        it 'does not create new user' do
-          expect { subject }.not_to change(User, :count)
-        end
+        include_examples 'not create new user and return user object'
 
         context 'when user account is archived' do
           let!(:user) { create(:user, email: email + 'domain.com', archived_at: 3.days.ago) }
 
           include_examples 'assign proper attributes to user'
-
-          it 'does not create new user' do
-            expect { subject }.not_to change(User, :count)
-          end
+          include_examples 'not create new user and return user object'
         end
 
         context 'when user has two accounts and one is archived' do
           let!(:user_second_account) { create(:user, email: email, archived_at: 3.days.ago) }
           let!(:user_sec_acc_attributes) { user_second_account.attributes.to_s }
 
-          it 'does not create new user' do
-            expect { subject }.not_to change(User, :count)
-          end
+          include_examples 'not create new user and return user object'
 
           it 'does not update archived account' do
             subject
@@ -114,6 +92,7 @@ describe Users::CreateFromOmniauth do
         let!(:user_with_email_attributes) { user_with_email.attributes.to_s }
 
         include_examples 'assign proper attributes to user'
+        include_examples 'not create new user and return user object'
 
         it 'does not update user with matching email' do
           subject
@@ -162,5 +141,16 @@ describe Users::CreateFromOmniauth do
         expect(User.last.avatar).to eq(auth['info']['image'])
       end
     end
+  end
+
+  private
+
+  def assert_user(user)
+    expect(user.provider).to eq('slack')
+    expect(user.uid).to eq(auth['uid'])
+    expect(user.name).to eq(auth.dig('extra', 'user_info', 'user', 'profile', 'real_name'))
+    expect(user.email).to eq(auth['info']['email'])
+    expect(user.admin).to eq(auth['info']['is_admin'])
+    expect(user.avatar).to eq(auth.dig('extra', 'user_info', 'user', 'profile', 'image_512'))
   end
 end
