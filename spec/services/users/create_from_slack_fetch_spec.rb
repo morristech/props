@@ -115,7 +115,7 @@ describe Users::CreateFromSlackFetch do
 
         context 'when user has two accounts and one is archived' do
           let!(:user_second_account) { create(:user, email: email, archived_at: 3.days.ago) }
-          let!(:user_sec_acc_attributes) { user_second_account.attributes }
+          let!(:user_sec_acc_attributes) { user_second_account.attributes.to_s }
 
           it 'does not create new user' do
             expect { subject }.not_to change(User, :count)
@@ -123,7 +123,8 @@ describe Users::CreateFromSlackFetch do
 
           it 'does not update archived account' do
             subject
-            expect(user_second_account.reload.attributes).to eq(user_sec_acc_attributes)
+            users_attributes = user_second_account.reload.attributes.to_s
+            expect(users_attributes).to eq(user_sec_acc_attributes)
           end
         end
       end
@@ -131,13 +132,14 @@ describe Users::CreateFromSlackFetch do
       context 'when both uid and email without domain matches' do
         let!(:user) { create(:user, uid: uid) }
         let!(:user_with_email) { create(:user, email: email + 'domain.com') }
-        let!(:user_with_email_attributes) { user_with_email.attributes }
+        let!(:user_with_email_attributes) { user_with_email.attributes.to_s }
 
         include_examples 'assign proper attributes to user'
 
         it 'does not update user with matching email' do
           subject
-          expect(user_with_email.reload.attributes).to eq(user_with_email_attributes)
+          users_attributes = user_with_email.reload.attributes.to_s
+          expect(users_attributes).to eq(user_with_email_attributes)
         end
       end
 
