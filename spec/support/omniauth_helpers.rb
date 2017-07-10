@@ -10,7 +10,7 @@ module OmniauthHelpers
       'provider' => 'slack',
       'uid' => 'auth_uid',
       'info' => {
-        'name' => 'Tod tod',
+        'name' => 'Tod T',
         'nickname' => 'tod',
         'email' => email,
         'team_id' => team_id,
@@ -22,6 +22,7 @@ module OmniauthHelpers
         'user_info' => {
           'user' => {
             'profile' => {
+              'real_name' => 'Tod Tod',
               'image_512' => big_avatar,
             },
           },
