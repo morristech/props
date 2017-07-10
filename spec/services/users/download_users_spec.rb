@@ -144,7 +144,6 @@ describe Users::DownloadUsers do
 
       before do
         members.first['deleted'] = true
-        allow_any_instance_of(UsersRepository).to receive(:user_from_slack_fetch) { nil }
       end
 
       it 'does not add user to organisation' do

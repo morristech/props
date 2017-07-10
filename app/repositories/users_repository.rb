@@ -21,10 +21,6 @@ class UsersRepository
     User.create_with_omniauth(auth)
   end
 
-  def user_from_slack_fetch(user_info)
-    User.create_with_slack_fetch(user_info)
-  end
-
   def user_from_slack(member)
     find_by_member(member) || (report_matching_error(member) && User.create_from_slack(member))
   end
