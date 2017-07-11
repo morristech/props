@@ -22,11 +22,15 @@ module Users
     end
 
     def user_found_by_email
-      User.find_by('email LIKE ?', "#{email_without_domain}%") if email_without_domain.present?
+      User.find_by('email LIKE ?', "#{email_without_domain}%") if email_from_auth.present?
+    end
+
+    def email_from_auth
+      auth['info']['email']
     end
 
     def email_without_domain
-      auth['info']['email']&.split('@')&.first
+      email_from_auth.split('@').first
     end
 
     def omniauth_attrs
