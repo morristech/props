@@ -8,7 +8,7 @@ AllCops:
     - 'Gemfile.lock'
     - 'Guardfile'
     - 'Rakefile'
-  TargetRubyVersion: 2.2 # no 2.3 because of frozen strings comment (it's a little bit annoying right now
+  TargetRubyVersion: 2.3
 Documentation:
   Enabled: false
 Metrics/LineLength:
