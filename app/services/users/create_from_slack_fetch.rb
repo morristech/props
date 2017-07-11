@@ -23,11 +23,15 @@ module Users
     end
 
     def user_found_by_email
-      User.find_by('email LIKE ?', "#{email_without_domain}%") if email_without_domain.present?
+      User.find_by('email LIKE ?', "#{email_without_domain}%") if email_from_user_info.present?
+    end
+
+    def email_from_user_info
+      user_info['profile']['email']
     end
 
     def email_without_domain
-      user_info['profile']['email']&.split('@')&.first
+      email_from_user_info.split('@').first
     end
 
     def manage_archivisation
