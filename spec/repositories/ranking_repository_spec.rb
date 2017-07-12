@@ -25,7 +25,7 @@ describe RankingRepository do
     end
   end
 
-  let(:repo) do 
+  let(:repo) do
     described_class.new(users_repository: users_repository,
                         props_repository: props_repository,
                         organisation: organisation,
