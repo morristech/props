@@ -8,6 +8,7 @@ module Api
 
       before do
         require_api_auth!(params[:token])
+        require_user_agent!(request.user_agent)
       end
 
       namespace :slack_commands do

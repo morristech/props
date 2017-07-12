@@ -33,6 +33,13 @@ module Api
             present user, with: Entities::UserFull, organisation: current_organisation
           end
         end
+
+        desc 'Downloads users from Slack and creates/updates them'
+        post :download_users do
+          authenticate_admin!
+          DownloadUsersJob.perform_later(organisation: current_organisation)
+          { text: I18n.t('props.messages.background_process') }
+        end
       end
     end
   end

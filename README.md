@@ -13,7 +13,7 @@ in a geeky way.
 ## Technologies
 
 * Ruby on Rails 4.2
-* Ruby 2.2.3
+* Ruby 2.3.1
 * Postgres
 * React with [react_webpack_rails](https://github.com/netguru/react_webpack_rails)
 
