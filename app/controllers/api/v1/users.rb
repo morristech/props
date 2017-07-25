@@ -38,6 +38,11 @@ module Api
         post :download_users do
           authenticate_admin!
           DownloadUsersJob.perform_later(organisation: current_organisation)
+          # Redirection is a hack letting us use this action in
+          # the Rails view (settings/index.html.haml).
+          # It has to be removed when new react frontend will be provided
+          # TODO: remove redirection, when fronts will be ready
+          redirect '/app/users'
           { text: I18n.t('props.messages.background_process') }
         end
       end

@@ -35,3 +35,7 @@
             If not set, default Slack channel is
             %code= AppConfig.slack.default_channel
         = f.submit "Update Slack Channel", class: 'btn btn-primary'
+      %h2 Sync users with Slack organisation
+      %p Users will be updated to the Slack state. Avatars and names will be updated and new users created.
+      %p Users deleted from the Slack organisation will be archived in Kudos.
+      = link_to("Sync users with Slack", "/api/v1/users/download_users", method: :post, class: 'btn btn-primary')
