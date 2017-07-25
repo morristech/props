@@ -106,6 +106,7 @@ describe Api::V1::Users do
       let(:response_body) do
         { text: 'Processing in the background' }
       end
+      let(:redirection_msg) { 'This resource has been moved temporarily to /app/users.' }
 
       before do
         allow_any_instance_of(Slack::RealTime::Client)
@@ -117,11 +118,15 @@ describe Api::V1::Users do
       after { sign_out }
 
       it 'has OK response status' do
-        expect(response).to have_http_status(201)
+        expect(response).to have_http_status(302)
+        # 302 because of redirection - see explanation in the controller
+        # expect(response).to have_http_status(201)
       end
 
       it 'has proper response body' do
-        expect(response.body).to eq(response_body.to_json)
+        expect(response.body).to eq(redirection_msg.to_json)
+        # Changed because of redirection - see explanation in the controller
+        # expect(response.body).to eq(response_body.to_json)
       end
     end
   end

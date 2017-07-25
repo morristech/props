@@ -26,6 +26,8 @@ Style/DotPosition:
   EnforcedStyle: leading
 SignalException:
   Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
 Style/StringLiterals:
   EnforcedStyle: single_quotes
 Style/TrailingCommaInLiteral:
