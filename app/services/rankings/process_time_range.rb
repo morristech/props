@@ -50,8 +50,7 @@ module Rankings
     end
 
     def count_time_interval
-      return 'month' if time_range_string.yearly? || time_range_above_two_months?
-      'day'
+      time_range_string.yearly? || time_range_above_two_months? ? 'month' : 'day'
     end
 
     def time_range_above_two_months?

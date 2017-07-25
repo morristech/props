@@ -1,8 +1,6 @@
 class PropsRepository
   delegate :find, :find_by_slack_ts, to: :all
 
-  attr_reader :variable
-
   def all
     Prop.includes(:users, :propser)
   end
@@ -29,7 +27,7 @@ class PropsRepository
 
   def oldest_kudos_date(organisation)
     @oldest_kudos_date ||= Hash.new do |h, key|
-      h[key] = kudos_in_organisation(key).oldest_first.first.created_at
+      h[key] = kudos_in_organisation(key).oldest_first.first&.created_at
     end
     @oldest_kudos_date[organisation]
   end

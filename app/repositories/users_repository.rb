@@ -1,12 +1,15 @@
 class UsersRepository
+  ATTRIBUTES_TO_SERIALIZE = %i(id name email uid).freeze
+  private_constant :ATTRIBUTES_TO_SERIALIZE
+
   def all
     User.all.order(:name)
   end
 
   def all_users_serialized(organisation)
     users_from_organisation(organisation).each_with_object({}) do |user, hash|
-      hash[user.id] = user.serializable_hash(only: attributes_to_serialize)
-      hash[user.id]['avatar'] = avatar_url(user)
+      hash[user.id] = user_serialized(user)
+      # hash[user.id]['avatar'] = avatar_url(user)
     end
   end
 
@@ -33,7 +36,7 @@ class UsersRepository
   end
 
   def user_serialized(user)
-    serialized_user = user.serializable_hash(only: attributes_to_serialize)
+    serialized_user = user.serializable_hash(only: ATTRIBUTES_TO_SERIALIZE)
     serialized_user.merge('avatar' => avatar_url(user))
   end
 
@@ -60,10 +63,6 @@ class UsersRepository
 
   def report_matching_error(member)
     Rollbar.error("Couldn't match slack member: #{member}")
-  end
-
-  def attributes_to_serialize
-    %i(id name email uid)
   end
 
   def avatar_url(user)
