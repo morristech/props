@@ -9,7 +9,6 @@ class UsersRepository
   def all_users_serialized(organisation)
     users_from_organisation(organisation).each_with_object({}) do |user, hash|
       hash[user.id] = user_serialized(user)
-      # hash[user.id]['avatar'] = avatar_url(user)
     end
   end
 

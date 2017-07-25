@@ -23,13 +23,16 @@ module Rankings
     end
 
     def list_top_kudosers_within
-      sorted_users = users_with_kudos_count.sort_by { |_k, v| v }.reverse
       sorted_users.each_with_object(top_kudosers: []) do |arr, hsh|
         hsh[:top_kudosers].push(
           kudos_count: arr[1],
           user: serialized_users[arr[0]],
         )
       end
+    end
+
+    def sorted_users
+      @sorted_users ||= users_with_kudos_count.sort_by { |_k, v| v }.reverse
     end
 
     def users_with_kudos_count
