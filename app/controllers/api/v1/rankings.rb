@@ -41,9 +41,9 @@ module Api
           RankingRepository.new(arguments_hash.merge(time_range_string)).hero_of_the_week
         end
 
-        desc 'Returns users in order of received kudos number'
+        desc 'Returns users in order of received kudos number.'
         params do
-          requires :time_range, type: String
+          requires :time_range, type: String, desc: 'weekly, bi-weekly, monthly, yearly, all'
         end
         get :top_kudosers do
           RankingRepository.new(arguments_hash).top_kudosers
@@ -51,7 +51,7 @@ module Api
 
         desc 'Returns kudos count in required time range'
         params do
-          requires :time_range, type: String
+          requires :time_range, type: String, desc: 'weekly, bi-weekly, monthly, yearly, all'
         end
         get :team_activity do
           RankingRepository.new(arguments_hash).team_activity
@@ -59,7 +59,7 @@ module Api
 
         desc 'Returns users with kudos streak'
         params do
-          requires :time_range, type: String
+          requires :time_range, type: String, desc: 'weekly, bi-weekly, monthly, yearly, all'
         end
         get :kudos_streak do
           RankingRepository.new(arguments_hash).kudos_streak
