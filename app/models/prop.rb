@@ -18,6 +18,7 @@ class Prop < ActiveRecord::Base
   scope :with_includes, -> { includes(:users, :propser) }
   scope :ordered, -> { order('props.created_at DESC') }
   scope :not_notified, -> { where(slack_ts: nil) }
+  scope :oldest_first, -> { order(:created_at) }
 
   def rating
     upvotes_count

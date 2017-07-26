@@ -1,6 +1,15 @@
 class UsersRepository
+  ATTRIBUTES_TO_SERIALIZE = %i(id name email uid).freeze
+  private_constant :ATTRIBUTES_TO_SERIALIZE
+
   def all
     User.all.order(:name)
+  end
+
+  def all_users_serialized(organisation)
+    users_from_organisation(organisation).each_with_object({}) do |user, hash|
+      hash[user.id] = user_serialized(user)
+    end
   end
 
   def for_organisation(organisation)
@@ -25,7 +34,16 @@ class UsersRepository
     find_by_member(member) || (report_matching_error(member) && User.create_from_slack(member))
   end
 
+  def user_serialized(user)
+    serialized_user = user.serializable_hash(only: ATTRIBUTES_TO_SERIALIZE)
+    serialized_user.merge('avatar' => avatar_url(user))
+  end
+
   private
+
+  def users_from_organisation(organisation)
+    organisation.users.order(:name)
+  end
 
   def allowed_domains
     AppConfig.extra_domains.to_s.split(',') << AppConfig.domain_name.to_s
@@ -44,5 +62,13 @@ class UsersRepository
 
   def report_matching_error(member)
     Rollbar.error("Couldn't match slack member: #{member}")
+  end
+
+  def avatar_url(user)
+    user.avatar || gravatar_url(user.email)
+  end
+
+  def gravatar_url(email)
+    Gravatar.new(email).image_url(secure: true)
   end
 end

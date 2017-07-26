@@ -127,4 +127,79 @@ describe UsersRepository do
       end
     end
   end
+
+  describe '#all_users_serialized' do
+    let(:organisation) { create(:organisation) }
+    let(:expected_result) do
+      {
+        john.id => serialized_user(john),
+        jane.id => serialized_user(jane),
+      }
+    end
+
+    subject { repo.all_users_serialized(organisation) }
+
+    before do
+      organisation.add_user(john)
+      organisation.add_user(jane)
+    end
+
+    def serialized_user(user)
+      {
+        'id' => user.id,
+        'name' => user.name,
+        'email' => user.email,
+        'uid' => user.uid,
+        'avatar' => user.avatar || Gravatar.new(user.email).image_url(secure: true),
+      }
+    end
+
+    context 'when users have saved avatars' do
+      let!(:john) { create(:user) }
+      let!(:jane) { create(:user) }
+
+      it 'returns serialized users with slack avatars' do
+        expect(subject).to eq expected_result
+      end
+    end
+
+    context 'when users do not have saved avatars' do
+      let!(:john) { create(:user, avatar: nil) }
+      let!(:jane) { create(:user, avatar: nil) }
+
+      it 'returns serialized users with gravatars' do
+        expect(subject).to eq expected_result
+      end
+    end
+  end
+
+  describe '#user_serialized' do
+    let(:expected_result) do
+      {
+        'id' => user.id,
+        'name' => user.name,
+        'email' => user.email,
+        'uid' => user.uid,
+        'avatar' => user.avatar || Gravatar.new(user.email).image_url(secure: true),
+      }
+    end
+
+    subject { repo.user_serialized(user) }
+
+    context 'when user has saved avatar' do
+      let!(:user) { create(:user) }
+
+      it 'returns serialized user with slack avatar' do
+        expect(subject).to eq expected_result
+      end
+    end
+
+    context 'when user does not have saved avatar' do
+      let!(:user) { create(:user, avatar: nil) }
+
+      it 'returns serialized user with gravatar' do
+        expect(subject).to eq expected_result
+      end
+    end
+  end
 end
