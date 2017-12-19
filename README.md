@@ -19,58 +19,47 @@ in a geeky way.
 
 ## Setup
 
-```
+```bash
 bin/setup
 ```
 
-Create slack application by going to [Your Apps](https://api.slack.com/apps).
-It is important to set the redirect url for your application to be like `https://yourdomain/auth/slack/callback`.
-You'll also need to select Permission Scopes to be as follows:
-
-- identity.avatar
-- identity.basic
-- identity.email
-- identity.team
-- chat:write:bot
-- team:read
-- users.profile:read
-- users:read
-- users:read.email
-
-
-Development endpoints:
-
-- http://props.dev
-- http://props.dev/auth/slack/callback
-
-When you have the credentials, you need to set up the proper variables in the .env file under `SLACK_CLIENT_ID` and `SLACK_CLIENT_SECRET` values.
-
-Slack feature:
-
-In order to post kudos notifications and recieve thumbs-ups, you need to set slack channel for your organisation in Settings after signing in. If not set, default Slack channel is `general`.
-
-After creating the slash command, you will be provided with the verification token by Slack. In order to verify that requests are actually coming from Slack add the token to the database. In the console run:
-```
-EasyTokens::Token.create(value: 'VERIFICATION_TOKEN', description: 'Slack command verification token')
-```
-
-Install node dependencies:
-```
+Install Node.js dependencies:
+```bash
 $ npm install
 ```
 
 Generate react-bundle for the first time:
-
-```
+```bash
 $ npm build
 ```
+
+#### Slack application setup
+
+1. Create slack application by going to [Your Apps](https://api.slack.com/apps).
+2. Under **"OAuth & Permissions"** tab (`https://api.slack.com/apps/APP_ID/oauth`) add new redirect URL, looking like this: `https://YOUR_DOMAIN/auth/slack/callback`.
+3. Under **"OAuth & Permissions"** tab (`https://api.slack.com/apps/APP_ID/oauth`) add following permission scopes:
+  - `chat:write:bot`
+  - `team:read`
+  - `users.profile:read`
+  - `users:read`
+  - `users:read.email`
+4. Under **"Slash Commands"** tab (`https://api.slack.com/apps/APP_ID/slack-commands`) add slash command of your liking, remembering to set following settings:
+  - **"Request URL"**: `https://YOUR_DOMAIN/api/v1/slack_commands/kudos`.
+  - **"Escape channels, users, and links sent to your app"** - YES (checkbox).
+5. Under **"Basic Information"** tab - install app to your workspace.
+6. Under **"Basic Information"** tab - read **Client ID**, **Client Secret** values available under **App Credentials** section and set them as `SLACK_CLIENT_ID`, `SLACK_CLIENT_SECRET` environment variables available to your Props application.
+6. Under **"Basic Information"** tab - read **Verification Token** available under **App Credentials** section and add it to Props application database by running Rails command line (`rails c`) and executing following command:
+```ruby
+EasyTokens::Token.create(value: 'VERIFICATION_TOKEN', description: 'Slack command verification token')
+```
+7. In order to post Slack notifications about new Kudos and handle Slack reactions added to them, you need to set Slack channel for your organisation in Settings after signing into your Props application. If not set, default Slack channel is `general`.
 
 ## Development
 * run rails server.
 * run webpack in watch mode:
-  ```
-  $ npm start
-  ```
+```bash
+$ npm start
+```
 
 ## Tests
 
