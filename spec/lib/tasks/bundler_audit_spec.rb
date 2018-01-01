@@ -6,6 +6,6 @@ describe 'bundler_audit:audit' do
   it 'updates the ruby-advisory-db and runs audit' do
     expect(Bundler::Audit::CLI).to receive(:start).with(['update'])
     expect(Bundler::Audit::CLI).to receive(:start).with(['check'])
-    rake['bundler:audit'].invoke
+    Rake.application['bundler:audit'].invoke
   end
 end

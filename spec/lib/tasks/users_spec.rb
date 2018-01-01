@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe 'users:archive' do
   include_context 'rake'
-  it_behaves_like 'including environment'
   let(:email) { 'test@example.com' }
   let!(:user) { create(:user, email: email) }
 
