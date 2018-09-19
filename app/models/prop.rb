@@ -1,5 +1,5 @@
 class Prop < ActiveRecord::Base
-  USER_LIMIT = 15
+  USER_LIMIT = 25
   private_constant :USER_LIMIT
 
   has_many :users, through: :prop_receivers
