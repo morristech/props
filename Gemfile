@@ -18,6 +18,7 @@ gem 'grape'
 gem 'grape-entity'
 gem 'grape-swagger'
 gem 'grape-swagger-rails'
+gem 'grape_logging'
 gem 'gravatar-ultimate'
 gem 'haml-rails'
 gem 'hashie-forbidden_attributes'
@@ -43,6 +44,12 @@ gem 'sprockets-rails'
 gem 'thin'
 gem 'uglifier'
 gem 'whenever', require: false
+gem 'xmlrpc'
+
+gem 'prometheus-client'
+gem 'yabeda-prometheus'
+gem 'yabeda-rails'
+gem 'yabeda-sidekiq', '~> 0.1.1'
 
 # deploy
 gem 'capistrano', '3.3.5'

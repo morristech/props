@@ -81,8 +81,8 @@ describe UsersRepository do
     end
 
     before do
-      AppConfig.stub(:[]).with('domain_name').and_return('example.com')
-      AppConfig.stub(:[]).with('extra_domains').and_return('example.co')
+      allow(AppConfig).to receive(:[]).with('domain_name').and_return('example.com')
+      allow(AppConfig).to receive(:[]).with('extra_domains').and_return('example.co')
       user.reload
     end
 

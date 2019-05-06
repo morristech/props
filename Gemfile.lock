@@ -67,7 +67,6 @@ GEM
       httmultiparty (~> 0.3.16)
     autoprefixer-rails (6.3.6)
       execjs
-    awesome_print (1.6.1)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -142,6 +141,7 @@ GEM
     dotenv-rails (2.2.1)
       dotenv (= 2.2.1)
       railties (>= 3.2, < 5.2)
+    dry-initializer (3.0.1)
     easy_tokens (0.4.0)
       rails (>= 4.0.0)
     email_spec (2.1.1)
@@ -169,26 +169,24 @@ GEM
     gli (2.13.4)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
-    grape (0.14.0)
+    grape (1.2.3)
       activesupport
       builder
-      hashie (>= 2.1.0)
-      multi_json (>= 1.3.2)
-      multi_xml (>= 0.5.2)
+      mustermann-grape (~> 1.0.0)
       rack (>= 1.3.0)
       rack-accept
-      rack-mount
       virtus (>= 1.0.0)
     grape-entity (0.5.1)
       activesupport
       multi_json (>= 1.3.2)
-    grape-swagger (0.20.2)
-      awesome_print
-      grape (>= 0.12.0, <= 0.14.0)
-      grape-entity
+    grape-swagger (0.25.3)
+      grape (>= 0.12.0)
     grape-swagger-rails (0.2.0)
       grape-swagger (>= 0.7.2)
       railties (>= 3.2.12)
+    grape_logging (1.8.1)
+      grape
+      rack
     gravatar-ultimate (2.0.0)
       activesupport (>= 2.3.14)
       rack
@@ -279,6 +277,9 @@ GEM
     multi_json (1.12.0)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
+    mustermann (1.0.3)
+    mustermann-grape (1.0.0)
+      mustermann (~> 1.0.0)
     nenv (0.3.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -312,6 +313,8 @@ GEM
       ast (~> 2.2)
     pg (0.18.4)
     powerpack (0.1.1)
+    prometheus-client (0.9.0)
+      quantile (~> 0.2.1)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -324,6 +327,7 @@ GEM
     public_suffix (2.0.5)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
+    quantile (0.2.1)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.8)
@@ -331,8 +335,6 @@ GEM
       rack (>= 0.4)
     rack-mini-profiler (0.10.4)
       rack (>= 1.2.0)
-    rack-mount (0.8.3)
-      rack (>= 1.0.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.10)
@@ -489,6 +491,18 @@ GEM
     websocket-extensions (0.1.2)
     whenever (0.9.4)
       chronic (>= 0.6.3)
+    xmlrpc (0.3.0)
+    yabeda (0.1.3)
+      concurrent-ruby
+      dry-initializer
+    yabeda-prometheus (0.1.4)
+      yabeda
+    yabeda-rails (0.1.3)
+      rails
+      yabeda
+    yabeda-sidekiq (0.1.3)
+      sidekiq
+      yabeda
 
 PLATFORMS
   ruby
@@ -521,6 +535,7 @@ DEPENDENCIES
   grape-entity
   grape-swagger
   grape-swagger-rails
+  grape_logging
   gravatar-ultimate
   guard-bundler
   guard-rails
@@ -537,6 +552,7 @@ DEPENDENCIES
   omniauth
   omniauth-slack
   pg
+  prometheus-client
   pry-rails
   pry-rescue
   pundit
@@ -567,6 +583,10 @@ DEPENDENCIES
   timecop
   uglifier
   whenever
+  xmlrpc
+  yabeda-prometheus
+  yabeda-rails
+  yabeda-sidekiq (~> 0.1.1)
 
 BUNDLED WITH
-   1.14.6
+   1.17.3
