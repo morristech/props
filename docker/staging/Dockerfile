@@ -6,7 +6,7 @@ ENV RUBY_VERSION 2.5.1
 RUN \
   apt-get update -q && \
   ruby-install --system --cleanup ruby $RUBY_VERSION && \
-  gem install bundler
+  gem install bundler -v '1.17.3'
 
 ## Copy Gemfile & bundle
 ADD Gemfile* $APP_HOME/
