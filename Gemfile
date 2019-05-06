@@ -44,6 +44,7 @@ gem 'sprockets-rails'
 gem 'thin'
 gem 'uglifier'
 gem 'whenever', require: false
+gem 'xmlrpc'
 
 gem 'prometheus-client'
 gem 'yabeda-prometheus'
