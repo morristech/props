@@ -52,7 +52,7 @@ gem 'yabeda-rails'
 gem 'yabeda-sidekiq', '~> 0.1.1'
 
 # deploy
-gem 'capistrano', '3.3.5'
+gem 'capistrano', "~> 3.11"
 gem 'capistrano-docker', git: 'https://github.com/netguru/capistrano-docker', tag: 'v0.2.6'
 
 source 'https://rails-assets.org' do
