@@ -1,0 +1,103 @@
+defaults: &defaults
+  working_directory: ~/props
+  docker:
+    - image: circleci/ruby:2.5.1-node-browsers
+      environment:
+        - RAILS_ENV=test
+    - image: circleci/postgres:latest
+      environment:
+        - POSTGRES_USER=props
+
+version: 2
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/props
+      - restore-cache:
+          key: node-{{ checksum "yarn.lock" }}
+      - run: yarn
+      - save_cache:
+          key: node-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - restore_cache:
+          key: ruby-{{ checksum "Gemfile.lock" }}
+      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle --without development
+      - save-cache:
+          key: ruby-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - persist_to_workspace:
+          root: .
+          paths:
+            - vendor/bundle
+            - node_modules
+
+  run_tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/props
+      - run: bundle --path vendor/bundle --without development
+      - run: cp config/database.yml.sample config/database.yml
+      - run: bundle exec rake db:create db:schema:load --trace
+      - run: bundle exec rake db:migrate
+      - run: yarn test
+      - run: bundle exec rspec --colour --profile 10 --order rand spec --format progress
+
+  deploy_master:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: ruby-{{ checksum "deployment/Gemfile.lock" }}
+      - run:
+          name: Install Ruby Dependencies
+          command: bundle install --jobs=4 --retry=3 --path vendor/bundle --without development
+          working_directory: deployment
+      - save-cache:
+          key: ruby-{{ checksum "deployment/Gemfile.lock" }}
+          paths:
+            - deployment/vendor
+      - run:
+          name: Run Cap Master Deploy
+          command: bundle exec cap staging deploy
+          working_directory: deployment
+
+  deploy_production:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/props
+      - run: bundle --path vendor/bundle --without development
+      - run: bundle exec cap production deploy
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - run_tests:
+          requires:
+            - build
+      - deploy_master:
+          requires:
+            - run_tests
+          filters:
+            branches:
+              only: master
+      - deploy_production:
+          requires:
+            - run_tests
+          filters:
+            branches:
+              only: production
+
+notify:
+  webhooks:
+    - url: https://webhooks.gitter.im/e/5d08569c0fcb0d849f50
