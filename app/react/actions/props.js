@@ -40,6 +40,7 @@ export const fetchProps = (page = 1, showLoader = true) => (dispatch) => {
 export const giveProp = (propserId, userIds, body) => dispatch => (
   fetch('api/v1/props', {
     method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     credentials: 'same-origin',
     body: JSON.stringify({
       propser_id: propserId,
