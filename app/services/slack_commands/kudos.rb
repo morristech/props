@@ -37,6 +37,7 @@ module SlackCommands
 
     def persist_prop
       if prop.save
+        Yabeda.application.props_given.increment(by: 1)
         send_notification(prop)
         message(I18n.t('slack_commands.kudos.messages.created'))
       else
