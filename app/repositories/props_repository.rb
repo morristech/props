@@ -44,7 +44,7 @@ class PropsRepository
     user_ids = clean_ids user_ids
     prop = Prop.new attributes
     add_prop_receivers prop, user_ids
-    prop.save
+    Yabeda.application.props_given.increment(by: 1) if prop.save
     prop
   end
 
