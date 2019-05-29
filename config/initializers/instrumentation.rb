@@ -16,6 +16,39 @@ Yabeda.configure do
     db_query_duration.measure(labels, (event.duration / 1000).round(3))
   end
 
+  group :perform do
+    counter     :active_job_total, comment: 'perform total'
+    histogram   :active_job_duration, unit: :seconds, buckets: BUCKETS, comment: 'active job duration'
+  end
+
+  ActiveSupport::Notifications.subscribe('perform.active_job') do |*args|
+    event = ActiveSupport::Notifications::Event.new(*args)
+    labels = {
+      adapter: event.payload[:adapter],
+      active_job_class: event.payload[:job].class,
+    }
+    perform_active_job_total.increment(labels)
+    perform_active_job_duration.measure(labels, (event.duration / 1000).round(3))
+  end
+
+  group :deprecation do
+    counter     :test, comment: 'comment'
+  end
+
+  ActiveSupport::Notifications.subscribe('deprecation.rails') do |*args|
+    event = ActiveSupport::Notifications::Event.new(*args)
+    labels = {
+      message: event.payload[:message],
+      callstack: event.payload[:callstack]
+    }
+    deprecation_test.increment(labels)
+  end
+
+  group :application do
+    counter     :props_given, comment: "props given"
+    counter     :props_email_sent, comment: "props email sent"
+  end
+
   # Grape API metrics
   group :grape_api do
     counter   :requests_total, comment: 'A counter of the total number of HTTP requests grape_api processed.'
