@@ -49,20 +49,6 @@ Yabeda.configure do
     counter     :props_email_sent, comment: "props email sent"
   end
 
-  group :sidekiq do
-    gauge     :processed, comment: "processed"
-    gauge     :failed, comment: "failed"
-    gauge     :workers_size, comment: "workers size"
-    gauge     :enqueued, comment: "enqueued"
-
-    stats = Sidekiq::Stats.new
-
-    sidekiq.processed.set({}, stats.processed)
-    sidekiq.failed.set({}, stats.failed)
-    sidekiq.workers_size.set({}, stats.workers_size)
-    sidekiq.enqueued.set({}, stats.enqueued)
-  end
-
   # Grape API metrics
   group :grape_api do
     counter   :requests_total, comment: 'A counter of the total number of HTTP requests grape_api processed.'
