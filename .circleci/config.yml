@@ -8,7 +8,7 @@ defaults: &defaults
       environment:
         - POSTGRES_USER=props
 
-version: 2
+version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@0.1.16
   aws-code-deploy: circleci/aws-code-deploy@0.0.9
