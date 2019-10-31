@@ -20,7 +20,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/props
-      - restore-cache:
+      - restore_cache:
           key: node-{{ checksum "yarn.lock" }}
       - run: yarn
       - save_cache:
@@ -30,7 +30,7 @@ jobs:
       - restore_cache:
           key: ruby-{{ checksum "Gemfile.lock" }}
       - run: bundle install --jobs=4 --retry=3 --path vendor/bundle --without development
-      - save-cache:
+      - save_cache:
           key: ruby-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
@@ -63,7 +63,7 @@ jobs:
           name: Install Ruby Dependencies
           command: bundle install --jobs=4 --retry=3 --path vendor/bundle --without development
           working_directory: deployment
-      - save-cache:
+      - save_cache:
           key: ruby-{{ checksum "deployment/Gemfile.lock" }}
           paths:
             - deployment/vendor
