@@ -9,6 +9,10 @@ defaults: &defaults
         - POSTGRES_USER=props
 
 version: 2
+orbs:
+  aws-cli: circleci/aws-cli@0.1.16
+  aws-code-deploy: circleci/aws-code-deploy@0.0.9
+
 jobs:
   build:
     <<: *defaults
@@ -63,19 +67,29 @@ jobs:
           key: ruby-{{ checksum "deployment/Gemfile.lock" }}
           paths:
             - deployment/vendor
-      - run:
-          name: Run Cap Master Deploy
-          command: bundle exec cap staging deploy
-          working_directory: deployment
+      - aws-cli/install
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          aws-region: AWS_DEFAULT_REGION
+      - aws-code-deploy/push-bundle:
+          application-name: calluna-props-staging-main_app
+          bundle-bucket: calluna-bucket-props-staging
+          bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
+      - aws-code-deploy/deploy-bundle:
+          application-name: calluna-props-staging-main_app
+          deployment-group: calluna-props-staging-main_app-group
+          bundle-bucket: calluna-bucket-props-staging
+          bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
 
-  deploy_production:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/props
-      - run: bundle --path vendor/bundle --without development
-      - run: bundle exec cap production deploy
+#  deploy_production:
+#    <<: *defaults
+#    steps:
+#      - checkout
+#      - attach_workspace:
+#          at: ~/props
+#      - run: bundle --path vendor/bundle --without development
+#      - run: bundle exec cap production deploy
 
 workflows:
   version: 2
@@ -90,14 +104,14 @@ workflows:
             - run_tests
           filters:
             branches:
-              only: master
-      - deploy_production:
-          requires:
-            - run_tests
-          filters:
-            branches:
-              only: production
+              only: calluna-staging
+#      - deploy_production:
+#          requires:
+#            - run_tests
+#          filters:
+#            branches:
+#              only: production
 
-notify:
-  webhooks:
-    - url: https://webhooks.gitter.im/e/5d08569c0fcb0d849f50
+#notify:
+#  webhooks:
+#    - url: https://webhooks.gitter.im/e/5d08569c0fcb0d849f50
