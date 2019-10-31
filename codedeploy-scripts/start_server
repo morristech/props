@@ -35,7 +35,7 @@ for envvar in ${VARS}; do
   echo $envvar >> /opt/secrets.env;
 done
 cd /opt/codedeploy-agent/deployment-root/${DEPLOYMENT_GROUP_ID}/${DEPLOYMENT_ID}/deployment-archive
-
+export IMAGE= ${DOCKER_REPO}:${DEPLOYMENT_ID}
         ## build and push image
 docker build -t ${DOCKER_REPO}:${DEPLOYMENT_ID} -f docker/staging/Dockerfile .
 

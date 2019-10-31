@@ -288,7 +288,7 @@ GEM
       bourbon (~> 3.2.3)
       sass (~> 3.2)
       thor
-    nio4r (1.2.1)
+    nio4r (2.5.2)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
     notiffany (0.1.1)
@@ -548,6 +548,7 @@ DEPENDENCIES
   letter_opener
   lograge
   netguru_theme
+  nio4r (= 2.5.2)
   omniauth
   omniauth-slack
   pg

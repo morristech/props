@@ -11,6 +11,7 @@ gem 'app_konfig'
 gem 'attr_extras'
 gem 'auth0'
 gem 'celluloid-io', require: ['celluloid/current', 'celluloid/io']
+gem 'nio4r', '2.5.2'
 gem 'crono'
 gem 'decent_exposure'
 gem 'easy_tokens'
