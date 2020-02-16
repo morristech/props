@@ -1,0 +1,30 @@
+version: "2.3"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: docker/production/Dockerfile
+    volumes:
+      - /home/deploy/apps/profile/shared/log:/var/www/app/log
+    hostname: "netguru.props.production.web"
+    restart: always
+    env_file: /home/deploy/apps/props/shared/envfile
+    labels:
+      - "netguru.appname=props"
+      - "netguru.stage=production"
+    networks:
+      - frontend
+      - backend
+    expose:
+      - "3000"
+    external_links:
+      - redis-3-0:redis
+      - postgres-9-4:postgres
+
+networks:
+  frontend:
+    external:
+      name: frontend
+  backend:
+    external:
+      name: backend
