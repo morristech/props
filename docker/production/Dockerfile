@@ -1,4 +1,4 @@
-FROM quay.io/netguru/ng-ruby:2.5.1
+FROM quay.io/netguru/baseimage:0.11.3
 
 ## Passenger
 RUN /opt/passenger/install

@@ -1,4 +1,4 @@
-FROM quay.io/netguru/baseimage:0.10.0
+FROM quay.io/netguru/baseimage:0.11.3
 
 ENV RUBY_VERSION 2.5.1
 
