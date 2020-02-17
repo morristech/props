@@ -1,6 +1,6 @@
 FROM quay.io/netguru/baseimage:0.11.3
 
-ENV RUBY_VERSION 2.5.1
+ENV RUBY_VERSION 2.6.5
 
 ## Install Ruby
 RUN \
