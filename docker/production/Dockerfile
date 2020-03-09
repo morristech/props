@@ -1,8 +1,5 @@
 FROM quay.io/netguru/ng-ruby:2.5.1
 
-# Install latest security updates
-RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
-
 ## Passenger
 RUN /opt/passenger/install
 
