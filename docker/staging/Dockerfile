@@ -2,6 +2,9 @@ FROM quay.io/netguru/baseimage:0.10.0
 
 ENV RUBY_VERSION 2.5.1
 
+# Install latest security updates
+RUN apt-get update && apt-get upgrade --allow-unauthenticated -y -o Dpkg::Options::="--force-confold"
+
 ## Install Ruby
 RUN \
   apt-get update -q && \
