@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Treat unset variables and parameters [...] as an error when performing parameter expansion (substituting).
+set -u
+# Print a trace of simple commands
+set -x
+
+# env
+# pwd
+
+# EC2s are configured with instance profile (a specific role) and all the required policies.
+
+# Environment variables retrieved from System Manager / Parameter Store (configured with Calluna)
+
+REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r ".region")
+VARS=$(aws --region $REGION ssm get-parameters-by-path --recursive --path /calluna/propsapp/staging --with-decryption | jq -r '.Parameters | .[] | .Name + "=" + .Value' | sed -e s#/calluna/propsapp/staging/##g)
+
+for envvar in ${VARS}; do
+  export $envvar;
+done
+
+cd /opt/codedeploy-agent/deployment-root/${DEPLOYMENT_GROUP_ID}/${DEPLOYMENT_ID}/deployment-archive
+
+export $(cat codedeploy/parameters | xargs)
+
+docker network create backend
+
+$(aws ecr get-login --region eu-central-1 --no-include-email)
+
+COMPOSE="docker-compose -p propsapp -f docker-compose-staging.yml"
+
+${COMPOSE} build
+${COMPOSE} up -d
+${COMPOSE} run --rm web bundle exec rake assets:precompile
+${COMPOSE} run --rm web bundle exec rake db:migrate
+
+# Remove unused data, do not prompt for confirmation
+docker image prune -f
