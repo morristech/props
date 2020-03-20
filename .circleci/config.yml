@@ -9,7 +9,13 @@ defaults: &defaults
         - POSTGRES_USER=props
         - POSTGRES_HOST_AUTH_METHOD=trust
 
-version: 2
+version: 2.1
+
+orbs:
+  aws-cli: circleci/aws-cli@0.1.13
+  aws-code-deploy: circleci/aws-code-deploy@0.0.7
+  aws-ecr: circleci/aws-ecr@6.3.0
+
 jobs:
   build:
     <<: *defaults
@@ -17,20 +23,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/props
-      - restore-cache:
-          key: node-{{ checksum "yarn.lock" }}
       - run: yarn
-      - save_cache:
-          key: node-{{ checksum "yarn.lock" }}
-          paths:
-            - node_modules
-      - restore_cache:
-          key: ruby-{{ checksum "Gemfile.lock" }}
       - run: bundle install --jobs=4 --retry=3 --path vendor/bundle --without development
-      - save-cache:
-          key: ruby-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
       - persist_to_workspace:
           root: .
           paths:
@@ -50,24 +44,50 @@ jobs:
       - run: yarn test
       - run: bundle exec rspec --colour --profile 10 --order rand spec --format progress
 
-  deploy_master:
+  build_image:
     <<: *defaults
     steps:
+      - run:
+          name: 'set ENV for deploying staging'
+          command: |
+            echo 'export AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID' >> $BASH_ENV;
+            echo 'export AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
+            source $BASH_ENV
+      - aws-ecr/build-and-push-image:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          region: AWS_DEFAULT_REGION
+          account-url: STAGING_AWS_ECR_ACCOUNT_URL
+          repo: calluna-ecr-propsapp-staging
+          tag: ${CIRCLE_SHA1}
+          dockerfile: docker/staging/Dockerfile
+          setup-remote-docker: true
+
+  deploy_to_staging:
+    working_directory: ~/props
+    executor: aws-cli/default
+    steps:
+      - run:
+          name: 'set ENV for deploying staging'
+          command: |
+            echo 'export AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID' >> $BASH_ENV;
+            echo 'export AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
+            source $BASH_ENV
       - checkout
-      - restore_cache:
-          key: ruby-{{ checksum "deployment/Gemfile.lock" }}
       - run:
-          name: Install Ruby Dependencies
-          command: bundle install --jobs=4 --retry=3 --path vendor/bundle --without development
-          working_directory: deployment
-      - save-cache:
-          key: ruby-{{ checksum "deployment/Gemfile.lock" }}
-          paths:
-            - deployment/vendor
-      - run:
-          name: Run Cap Master Deploy
-          command: bundle exec cap staging deploy
-          working_directory: deployment
+          name: Configure deployment
+          command: |
+            echo IMAGE=${STAGING_AWS_ECR_ACCOUNT_URL}/calluna-ecr-propsapp-staging:${CIRCLE_SHA1} >> codedeploy/parameters
+      - aws-cli/install
+      - aws-code-deploy/push-bundle:
+          application-name: calluna-propsapp-staging-main_app
+          bundle-bucket: calluna-bucket-propsapp-staging
+          bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
+      - aws-code-deploy/deploy-bundle:
+          application-name: calluna-propsapp-staging-main_app
+          deployment-group: calluna-propsapp-staging-main_app-group
+          bundle-bucket: calluna-bucket-propsapp-staging
+          bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
 
   deploy_production:
     <<: *defaults
@@ -86,9 +106,15 @@ workflows:
       - run_tests:
           requires:
             - build
-      - deploy_master:
+      - build_image:
           requires:
             - run_tests
+          filters:
+            branches:
+              only: master
+      - deploy_to_staging:
+          requires:
+            - build_image
           filters:
             branches:
               only: master
