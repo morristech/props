@@ -98,3 +98,5 @@ group :test do
   gem 'email_spec'
   gem 'shoulda-matchers', '~> 3.1'
 end
+
+gem 'passenger'
