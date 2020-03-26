@@ -9,7 +9,8 @@ ENV REDIS_URL redis://redis:6379/0
 
 WORKDIR $APP_HOME
 
-RUN apk update && apk add bash
+RUN apk update && apk add bash && apk add curl-dev && apk add pcre-dev
+RUN apk add ca-certificates wget && update-ca-certificates
 
 RUN mkdir -p $APP_HOME
 
@@ -34,6 +35,7 @@ RUN bundle install --jobs=8 --retry=3 --without development test --deployment
 ADD . $APP_HOME/
 ADD docker/production/entrypoint.sh /entrypoint.sh
 ADD docker/production/service/sidekiq /etc/service/sidekiq/run
+RUN bundle exec passenger-config compile-nginx-engine
 
 ### Build react_bundle package
 RUN yarn
@@ -46,7 +48,7 @@ RUN bundle exec whenever --update-crontab --set environment=production
 EXPOSE 3000
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/sbin/my_init"]
-
+# CMD ["/sbin/my_init"]
+# CMD bundle exec passenger start --auto
 ### Cleanup
 RUN rm -rf /tmp/* /var/tmp/*

@@ -20,6 +20,7 @@ services:
     external_links:
       - redis-3-0:redis
       - postgres-9-4:postgres
+    command: dumb-init bash -c "bundle exec passenger start --auto"
 
 networks:
   frontend:
