@@ -29,7 +29,6 @@ $(aws ecr get-login --region eu-central-1 --no-include-email)
 
 COMPOSE="docker-compose -p propsapp -f docker-compose-staging.yml"
 
-${COMPOSE} build
 ${COMPOSE} up -d
 ${COMPOSE} run --rm web bundle exec rake assets:precompile
 ${COMPOSE} run --rm web bundle exec rake db:migrate
