@@ -117,7 +117,9 @@ workflows:
             - build_image
           filters:
             branches:
-              only: codedeploy
+              only:
+                - master
+                - codedeploy
       - deploy_production:
           requires:
             - run_tests
