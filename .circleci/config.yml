@@ -58,7 +58,7 @@ jobs:
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           region: AWS_DEFAULT_REGION
           account-url: STAGING_AWS_ECR_ACCOUNT_URL
-          repo: calluna-ecr-propsapp-staging
+          repo: calluna-ecr-props-be-staging
           tag: ${CIRCLE_SHA1}
           dockerfile: docker/staging/Dockerfile
           setup-remote-docker: true
