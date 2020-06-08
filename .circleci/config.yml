@@ -80,12 +80,12 @@ jobs:
             echo IMAGE=${STAGING_AWS_ECR_ACCOUNT_URL}/calluna-ecr-props-be-staging:${CIRCLE_SHA1} >> codedeploy/parameters
       - aws-cli/install
       - aws-code-deploy/push-bundle:
-          application-name: calluna-propsapp-staging-main_app
+          application-name: calluna-props-be-staging-main_app
           bundle-bucket: calluna-bucket-props-be-staging
           bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
       - aws-code-deploy/deploy-bundle:
-          application-name: calluna-propsapp-staging-main_app
-          deployment-group: calluna-propsapp-staging-main_app-group
+          application-name: calluna-props-be-staging-main_app
+          deployment-group: calluna-props-be-staging-main_app-group
           bundle-bucket: calluna-bucket-props-be-staging
           bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
 
