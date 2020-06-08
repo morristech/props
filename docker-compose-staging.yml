@@ -76,5 +76,3 @@ services:
 
 networks:
   backend:
-    external:
-      name: backend
