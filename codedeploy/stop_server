@@ -8,7 +8,7 @@ set -x
 DIR=$(cat /opt/codedeploy-agent/deployment-root/deployment-instructions/${DEPLOYMENT_GROUP_ID}_most_recent_install)
 cd $DIR/deployment-archive/
 
-COMPOSE="docker-compose -p propsapp -f docker-compose-staging.yml"
+COMPOSE="docker-compose -p props-be -f docker-compose-staging.yml"
 
 
 ${COMPOSE} down | true

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 
-CONTAINER_NAME = 'propsapp_web_1'
+CONTAINER_NAME = 'props-be_web_1'
 # replace it with your docker app port
 APP_PORT = 3000
 
