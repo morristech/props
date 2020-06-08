@@ -63,7 +63,6 @@ jobs:
           repo: calluna-ecr-props-be-staging
           tag: ${CIRCLE_SHA1}
           dockerfile: docker/staging/Dockerfile
-          setup-remote-docker: true
 
   deploy_to_staging:
     working_directory: ~/props
