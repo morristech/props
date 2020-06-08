@@ -77,7 +77,7 @@ jobs:
       - run:
           name: Configure deployment
           command: |
-            echo IMAGE=${STAGING_AWS_ECR_ACCOUNT_URL}:${CIRCLE_SHA1} >> codedeploy/parameters
+            echo IMAGE=${STAGING_AWS_ECR_ACCOUNT_URL}/calluna-ecr-props-be-staging:${CIRCLE_SHA1} >> codedeploy/parameters
       - aws-cli/install
       - aws-code-deploy/push-bundle:
           application-name: calluna-propsapp-staging-main_app
