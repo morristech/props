@@ -45,7 +45,9 @@ jobs:
       - run: bundle exec rspec --colour --profile 10 --order rand spec --format progress
 
   build_image:
-    <<: *defaults
+    executor:
+      name: aws-ecr/default
+      use-docker-layer-caching: true
     steps:
       - run:
           name: 'set ENV for deploying staging'
