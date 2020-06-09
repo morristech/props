@@ -20,7 +20,7 @@ services:
       - SLACK_CLIENT_ID
       - SLACK_CLIENT_SECRET
       - DATABASE_URL
-      - SECRET_KEY_BASE=$STAGING_SECRET_KEY_BASE
+      - SECRET_KEY_BASE
       - REDISCLOUD_URL=$REDIS_URL
       - REDIS_URL
     ports:
@@ -45,7 +45,7 @@ services:
       - SLACK_CLIENT_ID
       - SLACK_CLIENT_SECRET
       - DATABASE_URL
-      - SECRET_KEY_BASE=$STAGING_SECRET_KEY_BASE
+      - SECRET_KEY_BASE
       - REDISCLOUD_URL=$REDIS_URL
       - REDIS_URL
     command: dumb-init bash -c "bundle exec sidekiq --config ./config/sidekiq.staging.yml | tee -a log/staging.sidekiq.log"
@@ -67,7 +67,7 @@ services:
       - SLACK_CLIENT_ID
       - SLACK_CLIENT_SECRET
       - DATABASE_URL
-      - SECRET_KEY_BASE=$STAGING_SECRET_KEY_BASE
+      - SECRET_KEY_BASE
       - REDISCLOUD_URL=$REDIS_URL
       - REDIS_URL
     networks:

@@ -54,12 +54,14 @@ jobs:
           command: |
             echo 'export AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID' >> $BASH_ENV;
             echo 'export AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
+            echo 'export SECRET_KEY_BASE=$STAGING_SECRET_KEY_BASE' >> $BASH_ENV;
             source $BASH_ENV
       - aws-ecr/build-and-push-image:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           region: AWS_DEFAULT_REGION
           account-url: STAGING_AWS_ECR_ACCOUNT_URL
+          secret-key-base: SECRET_KEY_BASE
           repo: calluna-ecr-props-be-staging
           tag: ${CIRCLE_SHA1}
           dockerfile: docker/staging/Dockerfile
