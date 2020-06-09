@@ -6,6 +6,7 @@ CONTAINER_NAME = 'props-be_web_1'
 APP_PORT = 3000
 
 container_ip = `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "#{CONTAINER_NAME}"`.strip
+p "container_ip: #{container_ip}"
 sleep(15)
 container_status = `curl -I "#{container_ip}:#{APP_PORT}/healthcheck/" |head -n 1|cut -d$' ' -f2`.strip.to_i
 

@@ -75,4 +75,6 @@ services:
     command: dumb-init bash -c "bundle exec crono -L log/staging.crono.log run | tail -f log/staging.crono.log"
 
 networks:
-  backend:
+  backend: 
+    external:
+      name: backend 
