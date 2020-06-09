@@ -73,6 +73,7 @@ jobs:
           command: |
             echo 'export AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID' >> $BASH_ENV;
             echo 'export AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
+            echo 'export SECRET_KEY_BASE=$STAGING_SECRET_KEY_BASE' >> $BASH_ENV;
             source $BASH_ENV
       - checkout
       - run:
@@ -81,7 +82,6 @@ jobs:
             echo IMAGE=${STAGING_AWS_ECR_ACCOUNT_URL}/calluna-ecr-props-be-staging:${CIRCLE_SHA1} >> codedeploy/parameters
       - aws-cli/setup:
           aws-region: AWS_DEFAULT_REGION
-          secret-key-base: SECRET_KEY_BASE
       - aws-code-deploy/push-bundle:
           application-name: calluna-props-be-staging-main_app
           bundle-bucket: calluna-bucket-props-be-staging
