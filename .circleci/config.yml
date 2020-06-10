@@ -54,7 +54,6 @@ jobs:
           command: |
             echo 'export AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID' >> $BASH_ENV;
             echo 'export AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
-            echo 'export SECRET_KEY_BASE=$STAGING_SECRET_KEY_BASE' >> $BASH_ENV;
             source $BASH_ENV
       - aws-ecr/build-and-push-image:
           aws-access-key-id: AWS_ACCESS_KEY_ID
@@ -74,7 +73,6 @@ jobs:
           command: |
             echo 'export AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID' >> $BASH_ENV;
             echo 'export AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
-            echo 'export SECRET_KEY_BASE=$STAGING_SECRET_KEY_BASE' >> $BASH_ENV;
             source $BASH_ENV
       - checkout
       - run:
