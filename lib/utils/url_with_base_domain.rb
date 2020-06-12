@@ -10,7 +10,7 @@ module Utils
       base_domain_parts = parts(@base_domain)
       components_count = base_domain_parts.size
       unless @uri.host.ends_with?(@base_domain)
-        raise "Base domain doesn't match the URI"
+        raise "Base domain: `#{@base_domain}` doesn't match the URI: `#{@uri}`"
       end
       domain_parts.pop(components_count)
       domain_parts.empty? ? nil : domain_parts.join('.')
