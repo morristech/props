@@ -23,6 +23,7 @@ services:
       - SECRET_KEY_BASE
       - REDISCLOUD_URL=$REDIS_URL
       - REDIS_URL
+      - ROLLBAR_ACCESS_TOKEN
     ports:
       - "80:3000"
 
@@ -48,6 +49,7 @@ services:
       - SECRET_KEY_BASE
       - REDISCLOUD_URL=$REDIS_URL
       - REDIS_URL
+      - ROLLBAR_ACCESS_TOKEN
     command: dumb-init bash -c "bundle exec sidekiq --config ./config/sidekiq.staging.yml | tee -a log/staging.sidekiq.log"
 
   crono:
@@ -70,6 +72,7 @@ services:
       - SECRET_KEY_BASE
       - REDISCLOUD_URL=$REDIS_URL
       - REDIS_URL
+      - ROLLBAR_ACCESS_TOKEN
     networks:
       - backend
     command: dumb-init bash -c "bundle exec crono -L log/staging.crono.log run | tail -f log/staging.crono.log"
