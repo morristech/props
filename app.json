@@ -30,12 +30,8 @@
       "SECRET_KEY_BASE": {
         "generator": "secret"
       },
-      "SENDGRID_PASSWORD": {
-        "value": "sendgrid_password",
-        "required": false
-      },
-      "SENDGRID_USER_NAME": {
-        "value": "sendgrid_user_name",
+      "SENDGRID_API_KEY": {
+        "value": "sendgrid_api_key",
         "required": false
       },
       "REDIS_PROVIDER": {

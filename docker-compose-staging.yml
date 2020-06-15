@@ -15,8 +15,7 @@ services:
     environment:
       - APP_DOMAIN
       - SINGLE_DOMAIN_MODE
-      - SENDGRID_USERNAME
-      - SENDGRID_PASSWORD
+      - SENDGRID_API_KEY
       - SLACK_CLIENT_ID
       - SLACK_CLIENT_SECRET
       - DATABASE_URL
@@ -41,8 +40,7 @@ services:
     environment:
       - APP_DOMAIN
       - SINGLE_DOMAIN_MODE
-      - SENDGRID_USERNAME
-      - SENDGRID_PASSWORD
+      - SENDGRID_API_KEY
       - SLACK_CLIENT_ID
       - SLACK_CLIENT_SECRET
       - DATABASE_URL
@@ -64,8 +62,7 @@ services:
     environment:
       - APP_DOMAIN
       - SINGLE_DOMAIN_MODE
-      - SENDGRID_USERNAME
-      - SENDGRID_PASSWORD
+      - SENDGRID_API_KEY
       - SLACK_CLIENT_ID
       - SLACK_CLIENT_SECRET
       - DATABASE_URL
