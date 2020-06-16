@@ -110,7 +110,7 @@ workflows:
   build-and-deploy:
     jobs:
       - checkout_code
-      - build
+      - build:
         requires:
           - checkout_code
       - run_tests:
