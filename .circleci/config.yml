@@ -112,8 +112,6 @@ jobs:
   notify_slack:
     <<: *defaults
     steps:
-      - run: |
-          apk update && apk add bash && apk add curl
       - slack/notify:
           message: Deployment done
 
