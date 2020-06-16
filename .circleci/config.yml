@@ -76,13 +76,14 @@ jobs:
     working_directory: ~/props
     executor: aws-cli/default
     steps:
+      - attach_workspace:
+          at: ~/props
       - run:
           name: 'set ENV for deploying staging'
           command: |
             echo 'export AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID' >> $BASH_ENV;
             echo 'export AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
             source $BASH_ENV
-      - checkout
       - run:
           name: Configure deployment
           command: |
