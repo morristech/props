@@ -19,6 +19,7 @@ orbs:
 
 jobs:
   checkout_code:
+    <<: *defaults
     steps:
       - checkout
       - persist_to_workspace:
