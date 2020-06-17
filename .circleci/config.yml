@@ -41,6 +41,23 @@ jobs:
             - vendor/bundle
             - node_modules
 
+  run_rubocop:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/props
+      - restore-cache:
+          key: gems-v1-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: bundle config
+          command: bundle config --local path ~/props/vendor/bundle
+      - run:
+          command: bundle exec rubocop --out rubocop_results/rubocop || true # true makes sure rubocop exits with success even after finding offenses
+      - persist_to_workspace:
+          root: ~/props
+          paths:
+            - rubocop_results/rubocop
+
   run_tests:
     <<: *defaults
     steps:
@@ -123,9 +140,13 @@ workflows:
       - build_dependencies:
           requires:
             - checkout_code
+      - run_rubocop:
+          requires:
+            - bundle_dependencies
       - run_tests:
           requires:
             - build_dependencies
+            - run_rubocop
       - build_and_push_image_to_ecr:
           requires:
             - run_tests
