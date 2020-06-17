@@ -48,9 +48,9 @@ jobs:
           at: ~/props
       - run:
           name: bundle config
-          command: bundle config --local path ~/props/vendor/bundle
+          command: bundle --path vendor/bundle --without development
       - run:
-          command: bundle exec rubocop --out rubocop_results/rubocop || true # true makes sure rubocop exits with success even after finding offenses
+          command: bundle exec rubocop --out rubocop_results/rubocop # || true # true makes sure rubocop exits with success even after finding offenses
       - persist_to_workspace:
           root: ~/props
           paths:
