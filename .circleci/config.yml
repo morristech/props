@@ -46,8 +46,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/props
-      - restore-cache:
-          key: gems-v1-{{ checksum "Gemfile.lock" }}
       - run:
           name: bundle config
           command: bundle config --local path ~/props/vendor/bundle
