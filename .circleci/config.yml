@@ -140,7 +140,7 @@ workflows:
             - checkout_code
       - run_rubocop:
           requires:
-            - bundle_dependencies
+            - build_dependencies
       - run_tests:
           requires:
             - build_dependencies
