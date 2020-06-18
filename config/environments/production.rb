@@ -80,8 +80,8 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   config.action_mailer.smtp_settings = {
-    user_name: "apikey",
-    password: AppConfig.sendgrid_api_key,
+    user_name: AppConfig.sendgrid_user_name,
+    password: AppConfig.sendgrid_password,
     domain: AppConfig.app_domain,
     address: "smtp.sendgrid.net",
     port: 587,
