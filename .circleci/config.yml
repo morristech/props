@@ -116,14 +116,112 @@ jobs:
           bundle-bucket: calluna-bucket-props-be-staging
           bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
 
-  deploy_production:
-    <<: *defaults
+  build_and_push_image_to_ecr_production:
+    executor:
+      name: aws-ecr/default
+      use-docker-layer-caching: true
+    steps:
+      - run:
+          name: 'set ENV for deploying production'
+          command: |
+            echo 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID' >> $BASH_ENV;
+            echo 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
+            source $BASH_ENV
+      - aws-ecr/build-and-push-image:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          region: AWS_DEFAULT_REGION
+          account-url: AWS_ECR_ACCOUNT_URL
+          repo: ecr-props-production
+          tag: ${CIRCLE_SHA1}
+          dockerfile: docker/production/Dockerfile
+
+  # deploy_to_production:
+  #   working_directory: ~/props
+  #   executor: aws-cli/default
+  #   steps:
+  #     - attach_workspace:
+  #         at: ~/props
+  #     - run:
+  #         name: 'set ENV for deploying production'
+  #         command: |
+  #           echo 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID' >> $BASH_ENV;
+  #           echo 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
+  #           source $BASH_ENV
+  #     - run:
+  #         name: Configure deployment
+  #         command: |
+  #           echo IMAGE=${AWS_ECR_ACCOUNT_URL}/ecr-props-production:${CIRCLE_SHA1} >> codedeploy/parameters
+  #     - aws-cli/setup:
+  #         aws-region: AWS_DEFAULT_REGION
+  #     - aws-code-deploy/push-bundle:
+  #         application-name: props-production-main-app
+  #         bundle-bucket: props-production-app-bucket
+  #         bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
+  #     - aws-code-deploy/deploy-bundle:
+  #         application-name: props-production-main-app
+  #         deployment-group: props-production-main-group
+  #         bundle-bucket: props-production-app-bucket
+  #         bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
+
+  deploy:
+    executor: aws-cli/default
+    parameters:
+      env:
+        type: string
+        default: ""
+      s3_bucket_name:
+        type: string
+      app_name:
+        type: string
+      dep_group_name:
+        type: string
+      aws_key_id:
+        type: env_var_name
+      aws_secret_key:
+        type: env_var_name
+      aws_region:
+        type: env_var_name
+      aws_ecr_account_url:
+        type: env_var_name
     steps:
       - attach_workspace:
           at: ~/props
-      - run: bundle --path vendor/bundle --without development
-      - run: bundle exec cap production deploy
-  
+      # - run:
+      #     name: 'set ENV for deploying'
+      #     command: |
+      #       echo 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID' >> $BASH_ENV;
+      #       echo 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
+      #       source $BASH_ENV
+      - run:
+          command: |
+            if [ ! -f ./codedeploy/parameters ]
+            then
+              touch ./codedeploy/parameters
+            fi
+
+            echo "debugging..."
+            printenv
+
+            echo IMAGE=<< parameters.aws_ecr_account_url >>/<< parameters.ecr-repo-name >>:${CIRCLE_SHA1} >> codedeploy/parameters
+      - run:
+          name: Use proper appspec.yml file
+          command: mv appspec.yml.<< parameters.env >> appspec.yml
+      - aws-cli/install
+      - aws-cli/setup:
+          aws-access-key-id: << parameters.aws_key_id >>
+          aws-secret-access-key: << parameters.aws_secret_key >>
+          aws-region: << parameters.aws_region >>
+      - aws-code-deploy/push-bundle:
+          application-name: << parameters.app_name >>
+          bundle-bucket: << parameters.s3_bucket_name >>
+          bundle-key: codedeploy/${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BUILD_NUM}
+      - aws-code-deploy/deploy-bundle:
+          application-name: << parameters.app_name >>
+          deployment-group: << parameters.dep_group_name >>
+          bundle-bucket: << parameters.s3_bucket_name >>
+          bundle-key: codedeploy/${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BUILD_NUM}
+
   notify_slack:
     <<: *defaults
     steps:
@@ -161,15 +259,56 @@ workflows:
               only:
                 - master
                 - codedeploy
-      - deploy_production:
+      - notify_slack:
+          requires:
+            - deploy_to_staging
+          filters:
+            branches:
+              only:
+                - master
+                - codedeploy
+  build-and-deploy-production:
+    jobs:
+      - checkout_code
+      - build_dependencies:
+          requires:
+            - checkout_code
+      - run_rubocop:
+          requires:
+            - build_dependencies
+      - run_tests:
+          requires:
+            - build_dependencies
+            - run_rubocop
+      - build_and_push_image_to_ecr_production:
           requires:
             - run_tests
           filters:
             branches:
-              only: production
+              only:
+                - master
+                - codedeploy
+      - deploy:
+          name: "Deploy to production"
+          env: production
+          s3_bucket_name: props-production-app-bucket
+          app_name: props-production-main-app
+          dep_group_name: props-production-main-group
+          aws_key_id: AWS_ACCESS_KEY_ID
+          aws_secret_key: AWS_SECRET_ACCESS_KEY
+          aws_region: AWS_DEFAULT_REGION
+          aws_ecr_account_url: AWS_ECR_ACCOUNT_URL
+          aws_ecr_repo_name: ecr-props-production
+          requires:
+            - build_and_push_image_to_ecr_production
+          filters:
+            branches:
+              only:
+                - master
+                - codedeploy
       - notify_slack:
           requires:
-            - deploy_to_staging
+            - deploy
           filters:
             branches:
               only:
