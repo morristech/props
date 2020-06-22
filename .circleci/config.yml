@@ -184,6 +184,8 @@ jobs:
         type: env_var_name
       aws_ecr_account_url:
         type: env_var_name
+      aws_ecr_repo_name:
+        type: env_var_name
     steps:
       - attach_workspace:
           at: ~/props
