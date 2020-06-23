@@ -205,7 +205,7 @@ jobs:
             echo "debugging..."
             printenv
 
-            echo IMAGE=<< parameters.aws_ecr_account_url >>/<< parameters.aws-ecr-repo-name >>:${CIRCLE_SHA1} >> codedeploy/parameters
+            echo IMAGE=<< parameters.aws_ecr_account_url >>/<< parameters.aws_ecr_repo_name >>:${CIRCLE_SHA1} >> codedeploy/parameters
       - run:
           name: Use proper appspec.yml file
           command: mv appspec.yml.<< parameters.env >> appspec.yml
