@@ -306,7 +306,7 @@ workflows:
                 - codedeploy
       - notify_slack:
           requires:
-            - deploy
+            - "Deploy to production"
           filters:
             branches:
               only:
