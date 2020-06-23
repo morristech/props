@@ -206,6 +206,9 @@ jobs:
             source $BASH_ENV
       - run:
           command: |
+            echo "Debugging..."
+            echo << parameters.aws_ecr_account_url >>
+            echo ${<< parameters.aws_ecr_account_url >>}
             echo IMAGE=${<< parameters.aws_ecr_account_url >>}/<< parameters.aws_ecr_repo_name >>:${CIRCLE_SHA1} >> codedeploy/parameters
       - run:
           name: Use proper appspec.yml file
