@@ -104,6 +104,9 @@ jobs:
           name: Configure deployment
           command: |
             echo IMAGE=${STAGING_AWS_ECR_ACCOUNT_URL}/calluna-ecr-props-be-staging:${CIRCLE_SHA1} >> codedeploy/parameters
+      - run:
+          name: Use proper appspec.yml file
+          command: mv appspec.yml.staging appspec.yml
       - aws-cli/setup:
           aws-region: AWS_DEFAULT_REGION
       - aws-code-deploy/push-bundle:
