@@ -167,6 +167,11 @@ jobs:
   #         bundle-bucket: props-production-app-bucket
   #         bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
 
+  #if [ ! -f ./codedeploy/parameters ]
+  #then
+  #  touch ./codedeploy/parameters
+  #fi
+
 
   deploy:
     executor: aws-cli/default
@@ -201,11 +206,6 @@ jobs:
             source $BASH_ENV
       - run:
           command: |
-            if [ ! -f ./codedeploy/parameters ]
-            then
-              touch ./codedeploy/parameters
-            fi
-
             echo IMAGE=${<< parameters.aws_ecr_account_url >>}/<< parameters.aws_ecr_repo_name >>:${CIRCLE_SHA1} >> codedeploy/parameters
       - run:
           name: Use proper appspec.yml file
