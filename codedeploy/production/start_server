@@ -12,7 +12,7 @@ set -a
 source ./codedeploy/parameters
 set +a
 
-aws s3 cp s3://props-production-app-bucket/shared/secrets.env ./secrets-prod.env
+aws s3 cp s3://props-production-app-bucket/shared/secrets.env.txt ./secrets-prod.env
 
 for envvar in $(cat ./secrets-prod.env); do
   export $envvar;
