@@ -20,7 +20,7 @@ done
 
 $(aws ecr get-login --region=eu-central-1 --no-include-email)
 
-COMPOSE="docker-compose -p ${INSTANCE_NAME} -f ./docker/production/docker-compose-production.yml"
+COMPOSE="docker-compose -p ${INSTANCE_NAME} -f ./docker-compose-production.yml"
 ${COMPOSE} build
 ${COMPOSE} run --rm web bundle exec rails db:migrate
 ${COMPOSE} up -d
