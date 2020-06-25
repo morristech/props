@@ -24,8 +24,4 @@ services:
 
 networks:
   frontend:
-    external:
-      name: frontend
   backend:
-    external:
-      name: backend
