@@ -22,8 +22,8 @@ RUN mkdir -p $APP_HOME
 RUN apk add --no-cache build-base dumb-init git postgresql-client postgresql-dev tzdata
 
 ### get libcrypt.so for passenger
-RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main openssl
-RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing gdal-dev
+# RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main openssl
+# RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing gdal-dev
 
 ### Install Nodejs, NPM and Yarn
 RUN apk add  --no-cache --repository $NODE_REPOSITORY_URL nodejs=$NODE_VERSION npm yarn
