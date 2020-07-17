@@ -48,7 +48,7 @@
     "http": "*",
     "httpdispatcher": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.6.1",
+    "lodash": "^4.17.19",
     "moment": "^2.10.6",
     "node-sass": "^3.3.3",
     "postcss-loader": "^1.1.0",
