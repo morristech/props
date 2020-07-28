@@ -1,4 +1,4 @@
-FROM ruby:2.5.8-alpine3.21
+FROM ruby:2.5.7-alpine3.11
 
 ENV APP_HOME /var/www/app
 ENV NODE_REPOSITORY_URL http://dl-cdn.alpinelinux.org/alpine/v3.6/main/
@@ -26,6 +26,7 @@ RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/ma
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing gdal-dev
 # RUN apk add zlib zlib-dev libressl libressl-dev
 # RUN apt add libffi-dev build-essential
+RUN apt add libc6-compat
 # ENV PATH="usr/lib64:${PATH}"
 
 ### Install Nodejs, NPM and Yarn
