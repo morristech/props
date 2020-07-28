@@ -26,7 +26,7 @@ RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/ma
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing gdal-dev
 # RUN apk add zlib zlib-dev libressl libressl-dev
 # RUN apt add libffi-dev build-essential
-RUN apt add libc6-compat
+RUN apk add libc6-compat
 # ENV PATH="usr/lib64:${PATH}"
 
 ### Install Nodejs, NPM and Yarn
