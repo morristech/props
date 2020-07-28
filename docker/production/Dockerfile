@@ -1,4 +1,4 @@
-FROM ruby:2.5.7-alpine3.11
+FROM ruby:2.5.8-alpine3.21
 
 ENV APP_HOME /var/www/app
 ENV NODE_REPOSITORY_URL http://dl-cdn.alpinelinux.org/alpine/v3.6/main/
@@ -25,8 +25,8 @@ RUN apk add --no-cache build-base dumb-init git postgresql-client postgresql-dev
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main openssl
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing gdal-dev
 # RUN apk add zlib zlib-dev libressl libressl-dev
-RUN apt add libffi-dev build-essential
-ENV PATH="usr/lib64:${PATH}"
+# RUN apt add libffi-dev build-essential
+# ENV PATH="usr/lib64:${PATH}"
 
 ### Install Nodejs, NPM and Yarn
 RUN apk add  --no-cache --repository $NODE_REPOSITORY_URL nodejs=$NODE_VERSION npm yarn
