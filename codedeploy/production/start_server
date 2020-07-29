@@ -12,11 +12,19 @@ set -a
 source ./codedeploy/parameters
 set +a
 
+echo "copying envs"
+
 aws s3 cp s3://props-production-app-bucket/shared/secrets.env.txt ./secrets-prod.env
+
+echo "setting envs"
 
 for envvar in $(cat ./secrets-prod.env); do
   export $envvar;
 done
+
+printenv APP_DOMAIN
+
+echo "done setting envs"
 
 $(aws ecr get-login --region=eu-central-1 --no-include-email)
 
