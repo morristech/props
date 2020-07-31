@@ -68,7 +68,7 @@ ENV APP_HOME=/app
 ENV NODE_REPOSITORY_URL http://dl-cdn.alpinelinux.org/alpine/v3.6/main/
 ENV NODE_VERSION 6.10.3-r2
 ENV TZ Europe/Warsaw
-ENV RAILS_ENV staging
+ENV RAILS_ENV production
 ENV PUMA_WORKERS 2
 
 RUN apk update && apk add bash
