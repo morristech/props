@@ -72,105 +72,92 @@ jobs:
     executor:
       name: aws-ecr/default
       use-docker-layer-caching: true
+    parameters:
+      env:
+        type: string
+        default: ""
+      s3_bucket_name:
+        type: string
+      app_name:
+        type: string
+      dep_group_name:
+        type: string
+      aws_key_id:
+        type: env_var_name
+      aws_secret_key:
+        type: env_var_name
+      aws_region:
+        type: env_var_name
+      aws_ecr_account_url:
+        type: env_var_name
+      aws_ecr_repo_name:
+        type: string
     steps:
       - run:
-          name: 'set ENV for deploying staging'
+          name: 'set ENV for deploying to << parameters.env >>'
           command: |
-            echo 'export AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID' >> $BASH_ENV;
-            echo 'export AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
+            echo 'export AWS_ACCESS_KEY_ID=${<< parameters.aws_key_id >>}' >> $BASH_ENV;
+            echo 'export AWS_SECRET_ACCESS_KEY=${<< parameters.aws_secret_key >>}' >> $BASH_ENV;
             source $BASH_ENV
       - aws-ecr/build-and-push-image:
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          region: AWS_DEFAULT_REGION
-          account-url: STAGING_AWS_ECR_ACCOUNT_URL
-          repo: calluna-ecr-props-be-staging
+          aws-access-key-id: << parameters.aws_key_id >>
+          aws-secret-access-key: << parameters.aws_secret_key >>
+          aws-region: << parameters.aws_region >>
+          account-url: << parameters.aws_ecr_account_url >>
+          repo: << parameters.aws_ecr_repo_name >>
           tag: ${CIRCLE_SHA1}
-          dockerfile: docker/staging/Dockerfile
+          dockerfile: docker/<< parameters.env >>/Dockerfile
 
-  deploy_to_staging:
-    working_directory: ~/props
-    executor: aws-cli/default
-    steps:
-      - attach_workspace:
-          at: ~/props
-      - run:
-          name: 'set ENV for deploying staging'
-          command: |
-            echo 'export AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID' >> $BASH_ENV;
-            echo 'export AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
-            source $BASH_ENV
-      - run:
-          name: Configure deployment
-          command: |
-            echo IMAGE=${STAGING_AWS_ECR_ACCOUNT_URL}/calluna-ecr-props-be-staging:${CIRCLE_SHA1} >> codedeploy/parameters
-      - run:
-          name: Use proper appspec.yml file
-          command: mv appspec.yml.staging appspec.yml
-      - aws-cli/setup:
-          aws-region: AWS_DEFAULT_REGION
-      - aws-code-deploy/push-bundle:
-          application-name: calluna-props-be-staging-main_app
-          bundle-bucket: calluna-bucket-props-be-staging
-          bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
-      - aws-code-deploy/deploy-bundle:
-          application-name: calluna-props-be-staging-main_app
-          deployment-group: calluna-props-be-staging-main_app-group
-          bundle-bucket: calluna-bucket-props-be-staging
-          bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
-
-  build_and_push_image_to_ecr_production:
-    executor:
-      name: aws-ecr/default
-      use-docker-layer-caching: true
-    steps:
-      - run:
-          name: 'set ENV for deploying production'
-          command: |
-            echo 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID' >> $BASH_ENV;
-            echo 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
-            source $BASH_ENV
-      - aws-ecr/build-and-push-image:
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          region: AWS_DEFAULT_REGION
-          account-url: AWS_ECR_ACCOUNT_URL
-          repo: ecr-props-production
-          tag: ${CIRCLE_SHA1}
-          dockerfile: docker/production/Dockerfile
-
-  # deploy_to_production:
-  #   working_directory: ~/props
-  #   executor: aws-cli/default
+  # build_and_push_image_to_ecr_production:
+  #   executor:
+  #     name: aws-ecr/default
+  #     use-docker-layer-caching: true
   #   steps:
-  #     - attach_workspace:
-  #         at: ~/props
   #     - run:
   #         name: 'set ENV for deploying production'
   #         command: |
   #           echo 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID' >> $BASH_ENV;
   #           echo 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
   #           source $BASH_ENV
+  #     - aws-ecr/build-and-push-image:
+  #         aws-access-key-id: AWS_ACCESS_KEY_ID
+  #         aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+  #         region: AWS_DEFAULT_REGION
+  #         account-url: AWS_ECR_ACCOUNT_URL
+  #         repo: ecr-props-production
+  #         tag: ${CIRCLE_SHA1}
+  #         dockerfile: docker/production/Dockerfile
+
+  # deploy_to_staging:
+  #   working_directory: ~/props
+  #   executor: aws-cli/default
+  #   steps:
+  #     - attach_workspace:
+  #         at: ~/props
+  #     - run:
+  #         name: 'set ENV for deploying staging'
+  #         command: |
+  #           echo 'export AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID' >> $BASH_ENV;
+  #           echo 'export AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
+  #           source $BASH_ENV
   #     - run:
   #         name: Configure deployment
   #         command: |
-  #           echo IMAGE=${AWS_ECR_ACCOUNT_URL}/ecr-props-production:${CIRCLE_SHA1} >> codedeploy/parameters
+  #           echo IMAGE=${STAGING_AWS_ECR_ACCOUNT_URL}/calluna-ecr-props-be-staging:${CIRCLE_SHA1} >> codedeploy/parameters
+  #     - run:
+  #         name: Use proper appspec.yml file
+  #         command: mv appspec.yml.staging appspec.yml
   #     - aws-cli/setup:
   #         aws-region: AWS_DEFAULT_REGION
   #     - aws-code-deploy/push-bundle:
-  #         application-name: props-production-main-app
-  #         bundle-bucket: props-production-app-bucket
+  #         application-name: calluna-props-be-staging-main_app
+  #         bundle-bucket: calluna-bucket-props-be-staging
   #         bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
   #     - aws-code-deploy/deploy-bundle:
-  #         application-name: props-production-main-app
-  #         deployment-group: props-production-main-group
-  #         bundle-bucket: props-production-app-bucket
+  #         application-name: calluna-props-be-staging-main_app
+  #         deployment-group: calluna-props-be-staging-main_app-group
+  #         bundle-bucket: calluna-bucket-props-be-staging
   #         bundle-key: codedeploy/$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM
-
-  #if [ ! -f ./codedeploy/parameters ]
-  #then
-  #  touch ./codedeploy/parameters
-  #fi
 
 
   deploy:
@@ -202,8 +189,8 @@ jobs:
       - run:
           name: 'set ENV for deploying'
           command: |
-            echo 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID' >> $BASH_ENV;
-            echo 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY' >> $BASH_ENV;
+            echo 'export AWS_ACCESS_KEY_ID=${<< parameters.aws_key_id >>}' >> $BASH_ENV;
+            echo 'export AWS_SECRET_ACCESS_KEY=${<< parameters.aws_secret_key >>}' >> $BASH_ENV;
             source $BASH_ENV
       - run:
           command: |
@@ -251,6 +238,15 @@ workflows:
             - build_dependencies
             - run_rubocop
       - build_and_push_image_to_ecr:
+          env: staging
+          s3_bucket_name: calluna-bucket-props-be-staging
+          app_name: calluna-props-be-staging-main_app
+          dep_group_name: calluna-props-be-staging-main_app-group
+          aws_key_id: STAGING_AWS_ACCESS_KEY_ID
+          aws_secret_key: STAGING_AWS_SECRET_ACCESS_KEY
+          aws_region: AWS_DEFAULT_REGION
+          aws_ecr_account_url: STAGING_AWS_ECR_ACCOUNT_URL
+          aws_ecr_repo_name: calluna-ecr-props-be-staging
           requires:
             - run_tests
           filters:
@@ -266,9 +262,27 @@ workflows:
               only:
                 - master
                 - codedeploy
+      - deploy:
+          name: "Deploy to staging"
+          env: staging
+          s3_bucket_name: calluna-bucket-props-be-staging
+          app_name: calluna-props-be-staging-main_app
+          dep_group_name: calluna-props-be-staging-main_app-group
+          aws_key_id: STAGING_AWS_ACCESS_KEY_ID
+          aws_secret_key: STAGING_AWS_SECRET_ACCESS_KEY
+          aws_region: AWS_DEFAULT_REGION
+          aws_ecr_account_url: STAGING_AWS_ECR_ACCOUNT_URL
+          aws_ecr_repo_name: calluna-ecr-props-be-staging
+          requires:
+            - build_and_push_image_to_ecr
+          filters:
+            branches:
+              only:
+                - master
+                - codedeploy
       - notify_slack:
           requires:
-            - deploy_to_staging
+            - "Deploy to staging"
           filters:
             branches:
               only:
@@ -287,7 +301,16 @@ workflows:
           requires:
             - build_dependencies
             - run_rubocop
-      - build_and_push_image_to_ecr_production:
+      - build_and_push_image_to_ecr:
+          env: production
+          s3_bucket_name: props-production-app-bucket
+          app_name: props-production-main-app
+          dep_group_name: props-production-main-group
+          aws_key_id: AWS_ACCESS_KEY_ID
+          aws_secret_key: AWS_SECRET_ACCESS_KEY
+          aws_region: AWS_DEFAULT_REGION
+          aws_ecr_account_url: AWS_ECR_ACCOUNT_URL
+          aws_ecr_repo_name: ecr-props-production
           requires:
             - run_tests
           filters:
@@ -307,7 +330,7 @@ workflows:
           aws_ecr_account_url: AWS_ECR_ACCOUNT_URL
           aws_ecr_repo_name: ecr-props-production
           requires:
-            - build_and_push_image_to_ecr_production
+            - build_and_push_image_to_ecr
           filters:
             branches:
               only:
