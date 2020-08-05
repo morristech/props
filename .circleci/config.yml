@@ -224,70 +224,70 @@ jobs:
 
 workflows:
   version: 2
-  build-and-deploy:
-    jobs:
-      - checkout_code
-      - build_dependencies:
-          requires:
-            - checkout_code
-      - run_rubocop:
-          requires:
-            - build_dependencies
-      - run_tests:
-          requires:
-            - build_dependencies
-            - run_rubocop
-      - build_and_push_image_to_ecr:
-          env: staging
-          s3_bucket_name: calluna-bucket-props-be-staging
-          app_name: calluna-props-be-staging-main_app
-          dep_group_name: calluna-props-be-staging-main_app-group
-          aws_key_id: STAGING_AWS_ACCESS_KEY_ID
-          aws_secret_key: STAGING_AWS_SECRET_ACCESS_KEY
-          aws_region: AWS_DEFAULT_REGION
-          aws_ecr_account_url: STAGING_AWS_ECR_ACCOUNT_URL
-          aws_ecr_repo_name: calluna-ecr-props-be-staging
-          requires:
-            - run_tests
-          filters:
-            branches:
-              only:
-                - master
-                - codedeploy
-      - deploy_to_staging:
-          requires:
-            - build_and_push_image_to_ecr
-          filters:
-            branches:
-              only:
-                - master
-                - codedeploy
-      - deploy:
-          name: "Deploy to staging"
-          env: staging
-          s3_bucket_name: calluna-bucket-props-be-staging
-          app_name: calluna-props-be-staging-main_app
-          dep_group_name: calluna-props-be-staging-main_app-group
-          aws_key_id: STAGING_AWS_ACCESS_KEY_ID
-          aws_secret_key: STAGING_AWS_SECRET_ACCESS_KEY
-          aws_region: AWS_DEFAULT_REGION
-          aws_ecr_account_url: STAGING_AWS_ECR_ACCOUNT_URL
-          aws_ecr_repo_name: calluna-ecr-props-be-staging
-          requires:
-            - build_and_push_image_to_ecr
-          filters:
-            branches:
-              only:
-                - master
-                - codedeploy
-      - notify_slack:
-          requires:
-            - "Deploy to staging"
-          filters:
-            branches:
-              only:
-                - master
-                - codedeploy
+  # build-and-deploy:
+  #   jobs:
+  #     - checkout_code
+  #     - build_dependencies:
+  #         requires:
+  #           - checkout_code
+  #     - run_rubocop:
+  #         requires:
+  #           - build_dependencies
+  #     - run_tests:
+  #         requires:
+  #           - build_dependencies
+  #           - run_rubocop
+  #     - build_and_push_image_to_ecr:
+  #         env: staging
+  #         s3_bucket_name: calluna-bucket-props-be-staging
+  #         app_name: calluna-props-be-staging-main_app
+  #         dep_group_name: calluna-props-be-staging-main_app-group
+  #         aws_key_id: STAGING_AWS_ACCESS_KEY_ID
+  #         aws_secret_key: STAGING_AWS_SECRET_ACCESS_KEY
+  #         aws_region: AWS_DEFAULT_REGION
+  #         aws_ecr_account_url: STAGING_AWS_ECR_ACCOUNT_URL
+  #         aws_ecr_repo_name: calluna-ecr-props-be-staging
+  #         requires:
+  #           - run_tests
+  #         filters:
+  #           branches:
+  #             only:
+  #               - master
+  #               - codedeploy
+  #     - deploy_to_staging:
+  #         requires:
+  #           - build_and_push_image_to_ecr
+  #         filters:
+  #           branches:
+  #             only:
+  #               - master
+  #               - codedeploy
+  #     - deploy:
+  #         name: "Deploy to staging"
+  #         env: staging
+  #         s3_bucket_name: calluna-bucket-props-be-staging
+  #         app_name: calluna-props-be-staging-main_app
+  #         dep_group_name: calluna-props-be-staging-main_app-group
+  #         aws_key_id: STAGING_AWS_ACCESS_KEY_ID
+  #         aws_secret_key: STAGING_AWS_SECRET_ACCESS_KEY
+  #         aws_region: AWS_DEFAULT_REGION
+  #         aws_ecr_account_url: STAGING_AWS_ECR_ACCOUNT_URL
+  #         aws_ecr_repo_name: calluna-ecr-props-be-staging
+  #         requires:
+  #           - build_and_push_image_to_ecr
+  #         filters:
+  #           branches:
+  #             only:
+  #               - master
+  #               - codedeploy
+  #     - notify_slack:
+  #         requires:
+  #           - "Deploy to staging"
+  #         filters:
+  #           branches:
+  #             only:
+  #               - master
+  #               - codedeploy
   build-and-deploy-production:
     jobs:
       - checkout_code
