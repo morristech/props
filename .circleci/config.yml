@@ -102,7 +102,7 @@ jobs:
       - aws-ecr/build-and-push-image:
           aws-access-key-id: << parameters.aws_key_id >>
           aws-secret-access-key: << parameters.aws_secret_key >>
-          aws-region: << parameters.aws_region >>
+          region: << parameters.aws_region >>
           account-url: << parameters.aws_ecr_account_url >>
           repo: << parameters.aws_ecr_repo_name >>
           tag: ${CIRCLE_SHA1}
