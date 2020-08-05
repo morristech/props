@@ -254,14 +254,6 @@ workflows:
               only:
                 - master
                 - codedeploy
-      - deploy_to_staging:
-          requires:
-            - build_and_push_image_to_ecr
-          filters:
-            branches:
-              only:
-                - master
-                - codedeploy
       - deploy:
           name: "Deploy to staging"
           env: staging
