@@ -1,4 +1,4 @@
-FROM ruby:2.5.7-alpine3.11
+FROM ruby:2.7.1-alpine3.12
 
 ENV APP_HOME=/app
 ENV NODE_REPOSITORY_URL http://dl-cdn.alpinelinux.org/alpine/v3.6/main/
