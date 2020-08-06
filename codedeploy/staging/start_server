@@ -12,7 +12,8 @@ set -x
 
 # Environment variables retrieved from System Manager / Parameter Store (configured with Calluna)
 
-REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r ".region")
+SYSTEM_MANAGER_IP=169.254.169.254
+REGION=$(curl -s $SYSTEM_MANAGER_IP/latest/dynamic/instance-identity/document | jq -r ".region")
 VARS=$(aws --region $REGION ssm get-parameters-by-path --recursive --path /calluna/props-be/staging --with-decryption | jq -r '.Parameters | .[] | .Name + "=" + .Value' | sed -e s#/calluna/props-be/staging/##g)
 
 for envvar in ${VARS}; do
