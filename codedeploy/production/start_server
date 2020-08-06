@@ -18,13 +18,7 @@ for envvar in $(cat ./secrets-prod.env); do
   export $envvar;
 done
 
-echo "debug_1"
-printenv DATABASE_URL
-
 $(aws ecr get-login --region=eu-central-1 --no-include-email)
-
-echo "debug_2"
-printenv DATABASE_URL
 
 COMPOSE="docker-compose -p ${INSTANCE_NAME} -f ./docker-compose-production.yml"
 
