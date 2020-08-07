@@ -24,8 +24,6 @@ cd /opt/codedeploy-agent/deployment-root/${DEPLOYMENT_GROUP_ID}/${DEPLOYMENT_ID}
 
 export $(cat codedeploy/parameters | xargs)
 
-docker network create backend
-
 $(aws ecr get-login --region eu-central-1 --no-include-email)
 
 COMPOSE="docker-compose -p props-be -f docker-compose-staging.yml"
