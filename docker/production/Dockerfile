@@ -21,6 +21,7 @@ RUN apk add  --no-cache --repository $NODE_REPOSITORY_URL nodejs=$NODE_VERSION n
 
 ### Copy Gemfile & bundle
 ADD Gemfile* $APP_HOME/
+RUN gem install bundler:1.17.3
 RUN bundle install --jobs=8 --retry=3 --without development test --deployment
 
 RUN gem install puma
