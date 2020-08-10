@@ -1,80 +1,45 @@
 version: '3.2'
+
+x-common:
+  &common-settings
+  image: ${IMAGE}
+  volumes:
+    - /var/nfs/props/production/assets:/app/public/assets
+    - /var/nfs/props/production/log:/app/log
+  environment:
+    - APP_DOMAIN
+    - SINGLE_DOMAIN_MODE
+    - SENDGRID_USER_NAME
+    - SENDGRID_PASSWORD
+    - SLACK_CLIENT_ID
+    - SLACK_CLIENT_SECRET
+    - DATABASE_URL
+    - SECRET_KEY_BASE
+    - REDISCLOUD_URL=$REDIS_URL
+    - REDIS_URL
+    - ROLLBAR_ACCESS_TOKEN
+  labels:
+    - "netguru.appname=props"
+    - "netguru.stage=production"
+  networks:
+    - backend
+
 services:
   web:
-    image: ${IMAGE}
-    volumes:
-      - /var/nfs/props/staging/assets:/app/public/assets
-      - /var/nfs/props/staging/log:/app/log
+    << : *common-settings
     hostname: "netguru.props.production.web"
-    labels:
-      - "netguru.appname=props"
-      - "netguru.stage=production"
-    networks:
-      - backend
     command: dumb-init bash -c "bundle exec puma -C config/puma.rb"
-    environment:
-      - APP_DOMAIN
-      - SINGLE_DOMAIN_MODE
-      - SENDGRID_USER_NAME
-      - SENDGRID_PASSWORD
-      - SLACK_CLIENT_ID
-      - SLACK_CLIENT_SECRET
-      - DATABASE_URL
-      - SECRET_KEY_BASE
-      - REDISCLOUD_URL=$REDIS_URL
-      - REDIS_URL
-      - ROLLBAR_ACCESS_TOKEN
     ports:
       - "80:3000"
 
   sidekiq:
-    image: ${IMAGE}
-    volumes:
-      - /var/nfs/props/production/assets:/app/public/assets
-      - /var/nfs/props/production/log:/app/log
+    << : *common-settings
     hostname: "netguru.props.production.sidekiq"
-    labels:
-      - "netguru.appname=props"
-      - "netguru.stage=production"
-    networks:
-      - backend
-    environment:
-      - APP_DOMAIN
-      - SINGLE_DOMAIN_MODE
-      - SENDGRID_USER_NAME
-      - SENDGRID_PASSWORD
-      - SLACK_CLIENT_ID
-      - SLACK_CLIENT_SECRET
-      - DATABASE_URL
-      - SECRET_KEY_BASE
-      - REDISCLOUD_URL=$REDIS_URL
-      - REDIS_URL
-      - ROLLBAR_ACCESS_TOKEN
     command: dumb-init bash -c "bundle exec sidekiq --config ./config/sidekiq.production.yml | tee -a log/production.sidekiq.log"
 
   crono:
-    image: ${IMAGE}
-    volumes:
-      - /var/nfs/props/production/assets:/app/public/assets
-      - /var/nfs/props/production/log:/app/log
+    << : *common-settings
     hostname: "netguru.props.production.crono"
-    labels:
-      - "netguru.appname=props"
-      - "netguru.stage=production"
-    environment:
-      - APP_DOMAIN
-      - SINGLE_DOMAIN_MODE
-      - SENDGRID_USER_NAME
-      - SENDGRID_PASSWORD
-      - SLACK_CLIENT_ID
-      - SLACK_CLIENT_SECRET
-      - DATABASE_URL
-      - SECRET_KEY_BASE
-      - REDISCLOUD_URL=$REDIS_URL
-      - REDIS_URL
-      - ROLLBAR_ACCESS_TOKEN
-    networks:
-      - backend
     command: dumb-init bash -c "bundle exec crono -L log/production.crono.log run | tail -f log/production.crono.log"
 
 networks:
