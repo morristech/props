@@ -1,5 +1,6 @@
 # FROM ruby:2.6.6-alpine3.12
-FROM timbru31/ruby-node:2.5-alpine
+# FROM timbru31/ruby-node:2.5-alpine
+FROM timbru31/ruby-node:2.6
 
 ENV APP_HOME=/app
 #ENV NODE_REPOSITORY_URL http://dl-cdn.alpinelinux.org/alpine/v3.6/main/
