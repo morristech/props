@@ -1,8 +1,9 @@
-FROM ruby:2.6.6-alpine3.12
+# FROM ruby:2.6.6-alpine3.12
+FROM timbru31/ruby-node:2.5-alpine
 
 ENV APP_HOME=/app
-ENV NODE_REPOSITORY_URL http://dl-cdn.alpinelinux.org/alpine/v3.6/main/
-ENV NODE_VERSION 6.10.3-r2
+#ENV NODE_REPOSITORY_URL http://dl-cdn.alpinelinux.org/alpine/v3.6/main/
+#ENV NODE_VERSION 6.10.3-r2
 ENV TZ Europe/Warsaw
 ENV RAILS_ENV production
 ENV PUMA_WORKERS 2
@@ -17,7 +18,7 @@ RUN mkdir -p $APP_HOME
 RUN apk add --no-cache build-base dumb-init git postgresql-client postgresql-dev tzdata
 
 ### Install Nodejs, NPM and Yarn
-RUN apk add  --no-cache --repository $NODE_REPOSITORY_URL nodejs=$NODE_VERSION npm yarn
+# RUN apk add  --no-cache --repository $NODE_REPOSITORY_URL nodejs=$NODE_VERSION npm yarn
 
 ### Copy Gemfile & bundle
 ADD Gemfile* $APP_HOME/
