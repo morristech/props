@@ -17,7 +17,7 @@ RUN mkdir -p $APP_HOME
 RUN apk add --no-cache build-base dumb-init git postgresql-client postgresql-dev tzdata
 
 ### Install Nodejs, NPM and Yarn
-# RUN apk add  --no-cache --repository $NODE_REPOSITORY_URL nodejs=$NODE_VERSION npm yarn
+RUN apk add  --no-cache --repository $NODE_REPOSITORY_URL nodejs=$NODE_VERSION npm yarn
 
 ### Copy Gemfile & bundle
 ADD Gemfile* $APP_HOME/
