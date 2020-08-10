@@ -1,10 +1,8 @@
-# FROM ruby:2.6.6-alpine3.12
-# FROM timbru31/ruby-node:2.5-alpine
-FROM timbru31/ruby-node:2.6
+FROM ruby:2.6.6-alpine3.12
 
 ENV APP_HOME=/app
-#ENV NODE_REPOSITORY_URL http://dl-cdn.alpinelinux.org/alpine/v3.6/main/
-#ENV NODE_VERSION 6.10.3-r2
+ENV NODE_REPOSITORY_URL http://dl-cdn.alpinelinux.org/alpine/v3.6/main/
+ENV NODE_VERSION 6.10.3-r2
 ENV TZ Europe/Warsaw
 ENV RAILS_ENV production
 ENV PUMA_WORKERS 2
