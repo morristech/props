@@ -258,8 +258,8 @@ workflows:
           s3_bucket_name: props-production-app-bucket
           app_name: props-production-main-app
           dep_group_name: props-production-main-group
-          aws_key_id: AWS_ACCESS_KEY_ID
-          aws_secret_key: AWS_SECRET_ACCESS_KEY
+          aws_key_id: PRODUCTION_AWS_ACCESS_KEY_ID
+          aws_secret_key: PRODUCTION_AWS_SECRET_ACCESS_KEY
           aws_region: AWS_DEFAULT_REGION
           aws_ecr_account_url: AWS_ECR_ACCOUNT_URL
           aws_ecr_repo_name: ecr-props-production
@@ -276,8 +276,8 @@ workflows:
           s3_bucket_name: props-production-app-bucket
           app_name: props-production-main-app
           dep_group_name: props-production-main-group
-          aws_key_id: AWS_ACCESS_KEY_ID
-          aws_secret_key: AWS_SECRET_ACCESS_KEY
+          aws_key_id: PRODUCTION_AWS_ACCESS_KEY_ID
+          aws_secret_key: PRODUCTION_AWS_SECRET_ACCESS_KEY
           aws_region: AWS_DEFAULT_REGION
           aws_ecr_account_url: AWS_ECR_ACCOUNT_URL
           aws_ecr_repo_name: ecr-props-production
