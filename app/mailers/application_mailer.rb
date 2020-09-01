@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: AppConfig.emails.default_from
+  default from: "props@#{AppConfig.app_domain}"
   layout 'mailer'
 end
