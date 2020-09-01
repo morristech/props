@@ -131,9 +131,16 @@ describe PropsRepository do
     subject { repo.count_per_time_range(organisation, time_interval, time_range) }
 
     before do
+      # debugging
+      Timecop.travel(3.days.from_now)
       organisation.add_user(jack)
       organisation.add_user(john)
       organisation.add_user(jane)
+    end
+
+    # debugging
+    after do
+      Timecop.return
     end
 
     context 'when statistics are requested in weekly time range' do
