@@ -25,9 +25,6 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_netguru_subdomain_to_root
-    host = URI.parse(request.url)&.host
-    return unless host && host.include?(AppConfig.app_domain)
-
     current = Utils::UrlWithBaseDomain.new(request.url, AppConfig.app_domain)
 
     if current.subdomain == "netguru"
