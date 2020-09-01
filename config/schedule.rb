@@ -6,7 +6,7 @@ every "0 17 * * 1-5" do
 end
 
 every :friday, at: "4pm" do
-  rake "email_digests:weekly"
+  rake "email_digests:send_weekly"
 end
 
 every 1.day, at: "3pm" do
