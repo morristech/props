@@ -45,7 +45,6 @@ gem 'thin'
 gem 'uglifier'
 gem 'whenever', require: false
 gem 'xmlrpc'
-gem 'timecop'
 
 gem 'prometheus-client'
 gem 'yabeda-prometheus'
