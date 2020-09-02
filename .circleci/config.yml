@@ -174,9 +174,19 @@ jobs:
       - slack/notify:
           message: Deployment done
 
+staging_only: &staging_only
+  filters:
+    branches:
+      only: staging
+    
+staging_only: &production_only
+  filters:
+    branches:
+      only: master
+    
 workflows:
   version: 2
-  build-and-deploy-staging:
+  build_and_deploy:
     jobs:
       - checkout_code
       - build_dependencies:
@@ -194,6 +204,7 @@ workflows:
             - build_dependencies
             - run_rspec
       - build_and_push_image_to_ecr:
+          name: "Build and push to staging"
           env: staging
           s3_bucket_name: calluna-bucket-props-be-staging
           app_name: calluna-props-be-staging-main_app
@@ -203,13 +214,23 @@ workflows:
           aws_region: AWS_DEFAULT_REGION
           aws_ecr_account_url: STAGING_AWS_ECR_ACCOUNT_URL
           aws_ecr_repo_name: calluna-ecr-props-be-staging
+          <<: *staging_only
           requires:
             - run_yarn_tests
-          filters:
-            branches:
-              only:
-                - master
-                - codedeploy
+      - build_and_push_image_to_ecr:
+          name: "Build and push to production"
+          env: production
+          s3_bucket_name: props-production-app-bucket
+          app_name: props-production-main-app
+          dep_group_name: props-production-main-group
+          aws_key_id: PRODUCTION_AWS_ACCESS_KEY_ID
+          aws_secret_key: PRODUCTION_AWS_SECRET_ACCESS_KEY
+          aws_region: AWS_DEFAULT_REGION
+          aws_ecr_account_url: AWS_ECR_ACCOUNT_URL
+          aws_ecr_repo_name: ecr-props-production
+          <<: *production_only
+          requires:
+            - run_yarn_tests
       - deploy:
           name: "Deploy to staging"
           env: staging
@@ -221,55 +242,9 @@ workflows:
           aws_region: AWS_DEFAULT_REGION
           aws_ecr_account_url: STAGING_AWS_ECR_ACCOUNT_URL
           aws_ecr_repo_name: calluna-ecr-props-be-staging
+          <<: *staging_only
           requires:
-            - build_and_push_image_to_ecr
-          filters:
-            branches:
-              only:
-                - master
-                - codedeploy
-      - notify_slack:
-          requires:
-            - "Deploy to staging"
-          filters:
-            branches:
-              only:
-                - master
-                - codedeploy
-  build-and-deploy-production:
-    jobs:
-      - checkout_code
-      - build_dependencies:
-          requires:
-            - checkout_code
-      - run_rubocop:
-          requires:
-            - build_dependencies
-      - run_rspec:
-          requires:
-            - build_dependencies
-            - run_rubocop
-      - run_yarn_tests:
-          requires:
-            - build_dependencies
-            - run_rspec
-      - build_and_push_image_to_ecr:
-          env: production
-          s3_bucket_name: props-production-app-bucket
-          app_name: props-production-main-app
-          dep_group_name: props-production-main-group
-          aws_key_id: PRODUCTION_AWS_ACCESS_KEY_ID
-          aws_secret_key: PRODUCTION_AWS_SECRET_ACCESS_KEY
-          aws_region: AWS_DEFAULT_REGION
-          aws_ecr_account_url: AWS_ECR_ACCOUNT_URL
-          aws_ecr_repo_name: ecr-props-production
-          requires:
-            - run_yarn_tests
-          filters:
-            branches:
-              only:
-                - master
-                - codedeploy
+            - "Build and push to staging"
       - deploy:
           name: "Deploy to production"
           env: production
@@ -281,21 +256,17 @@ workflows:
           aws_region: AWS_DEFAULT_REGION
           aws_ecr_account_url: AWS_ECR_ACCOUNT_URL
           aws_ecr_repo_name: ecr-props-production
+          <<: *production_only
           requires:
-            - build_and_push_image_to_ecr
-          filters:
-            branches:
-              only:
-                - master
-                - codedeploy
+            - "Build and push to production"
       - notify_slack:
+          <<: *staging_only
+          requires:
+            - "Deploy to staging"
+      - notify_slack:
+          <<: *production_only
           requires:
             - "Deploy to production"
-          filters:
-            branches:
-              only:
-                - master
-                - codedeploy
 
 notify:
   webhooks:
