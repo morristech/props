@@ -179,7 +179,7 @@ staging_only: &staging_only
     branches:
       only: staging
     
-staging_only: &production_only
+production_only: &production_only
   filters:
     branches:
       only: master
