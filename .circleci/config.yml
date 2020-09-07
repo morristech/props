@@ -113,8 +113,8 @@ jobs:
           account-url: << parameters.aws_ecr_account_url >>
           repo: << parameters.aws_ecr_repo_name >>
           tag: ${CIRCLE_SHA1}
-          extra-build-args: "--build-arg TEST_ECR_ENV=hii" 
-          dockerfile: docker/<< parameters.env >>/Dockerfile
+          #extra-build-args: "--build-arg TEST_ECR_ENV=hii" 
+          dockerfile: docker/<< parameters.env >>/Dockerfile --build-arg TEST_ECR_ENV=hii
 
   deploy:
     executor: aws-cli/default
