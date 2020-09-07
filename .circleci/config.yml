@@ -178,7 +178,9 @@ jobs:
 staging_only: &staging_only
   filters:
     branches:
-      only: staging
+      only:
+        - staging
+        - codedeploy
     
 production_only: &production_only
   filters:
