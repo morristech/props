@@ -16,7 +16,7 @@ WORKDIR $APP_HOME
 RUN apk update && apk add bash && \
   mkdir -p $APP_HOME && \
   apk add --no-cache build-base dumb-init git postgresql-client postgresql-dev tzdata && \
-  apk add  --no-cache --repository $NODE_REPOSITORY_URL nodejs=$NODE_VERSION npm yarn
+  apk add --no-cache --repository $NODE_REPOSITORY_URL nodejs=$NODE_VERSION npm yarn
 
 ### Copy Gemfile & bundle
 ADD Gemfile* $APP_HOME/
