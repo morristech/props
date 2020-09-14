@@ -88,6 +88,18 @@ If you add functionality to this application, create an alternative
 implementation, or build an application that is similar, please contact
 me and I’ll add a note to the README so that others can find your work.
 
+## Deployment
+
+Staging environment is on calluna as props-be project. Run infrastructure re-apply if using it.
+
+To trigger circle ci deployment to staging merge your changes to staging branch.
+
+https://props-be.calluna.devguru.co
+
+To trigger circle ci deployment to production merge your changes to master branch.
+
+https://props.devguru.co
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
