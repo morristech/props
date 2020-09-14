@@ -24,6 +24,15 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, alert: 'You need to sign in for access to this page.'
   end
 
+  def redirect_netguru_subdomain_to_root
+    current = Utils::UrlWithBaseDomain.new(request.url, AppConfig.app_domain)
+
+    if current.subdomain == "netguru"
+      current.remove_subdomain
+      redirect_to current.to_s
+    end
+  end
+
   def check_domain!
     return if AppConfig.single_domain_mode.present?
     current = Utils::UrlWithBaseDomain.new(request.url, AppConfig.app_domain)

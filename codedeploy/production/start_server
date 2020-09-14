@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+set -u
+set -x
+
+INSTANCE_NAME="props"
+
+cd /opt/codedeploy-agent/deployment-root/${DEPLOYMENT_GROUP_ID}/${DEPLOYMENT_ID}/deployment-archive
+
+set -a
+source ./codedeploy/parameters
+set +a
+
+aws s3 cp s3://props-production-app-bucket/shared/secrets.env.txt ./secrets-prod.env
+
+for envvar in $(cat ./secrets-prod.env); do
+  export $envvar;
+done
+
+$(aws ecr get-login --region=eu-central-1 --no-include-email)
+
+COMPOSE="docker-compose -p ${INSTANCE_NAME} -f ./docker-compose-production.yml"
+
+${COMPOSE} up -d
+${COMPOSE} run --rm web bundle exec rake assets:precompile
+${COMPOSE} run --rm web bundle exec rake db:migrate
+
+# Remove unused data, do not prompt for confirmation
+docker image prune -f

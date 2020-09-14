@@ -55,6 +55,7 @@ gem 'yabeda-sidekiq', '~> 0.1.1'
 gem 'capistrano', "~> 3.11"
 gem 'capistrano-docker', git: 'https://github.com/netguru/capistrano-docker', tag: 'v0.2.6'
 
+gem 'puma'
 source 'https://rails-assets.org' do
   gem 'rails-assets-select2', '3.5.2'
 end

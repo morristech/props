@@ -11,7 +11,7 @@ module CronTasks
 
     class WeeklyJob
       def perform
-        Rake::Task["email_digests:weekly"].execute
+        Rake::Task["email_digests:send_weekly"].execute
       end
     end
 

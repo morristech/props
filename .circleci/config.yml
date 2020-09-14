@@ -9,38 +9,56 @@ defaults: &defaults
         - POSTGRES_USER=props
         - POSTGRES_HOST_AUTH_METHOD=trust
 
-version: 2
+version: 2.1
+
+orbs:
+  aws-cli: circleci/aws-cli@0.1.22
+  aws-code-deploy: circleci/aws-code-deploy@1.0.1
+  aws-ecr: circleci/aws-ecr@6.8.2
+  tools: netguru/tools@dev:internal
+  slack: circleci/slack@3.4.2
+
 jobs:
-  build:
+  checkout_code:
     <<: *defaults
     steps:
       - checkout
+      - persist_to_workspace:
+          root: ~/props
+          paths:
+            - .
+
+  build_dependencies:
+    <<: *defaults
+    steps:
       - attach_workspace:
           at: ~/props
-      - restore-cache:
-          key: node-{{ checksum "yarn.lock" }}
       - run: yarn
-      - save_cache:
-          key: node-{{ checksum "yarn.lock" }}
-          paths:
-            - node_modules
-      - restore_cache:
-          key: ruby-{{ checksum "Gemfile.lock" }}
       - run: bundle install --jobs=4 --retry=3 --path vendor/bundle --without development
-      - save-cache:
-          key: ruby-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
       - persist_to_workspace:
           root: .
           paths:
             - vendor/bundle
             - node_modules
 
-  run_tests:
+  run_rubocop:
     <<: *defaults
     steps:
-      - checkout
+      - attach_workspace:
+          at: ~/props
+      - run:
+          name: bundle config
+          command: bundle --path vendor/bundle --without development
+      - run:
+          command: bundle exec rubocop --out rubocop_results/rubocop || true # true makes sure rubocop exits with success even after finding offenses
+      - persist_to_workspace:
+          root: ~/props
+          paths:
+            - rubocop_results/rubocop
+
+  run_rspec:
+    <<: *defaults
+    steps:
       - attach_workspace:
           at: ~/props
       - run: bundle --path vendor/bundle --without development
@@ -50,54 +68,208 @@ jobs:
       - run: yarn test
       - run: bundle exec rspec --colour --profile 10 --order rand spec --format progress
 
-  deploy_master:
+  run_yarn_tests:
     <<: *defaults
     steps:
-      - checkout
-      - restore_cache:
-          key: ruby-{{ checksum "deployment/Gemfile.lock" }}
-      - run:
-          name: Install Ruby Dependencies
-          command: bundle install --jobs=4 --retry=3 --path vendor/bundle --without development
-          working_directory: deployment
-      - save-cache:
-          key: ruby-{{ checksum "deployment/Gemfile.lock" }}
-          paths:
-            - deployment/vendor
-      - run:
-          name: Run Cap Master Deploy
-          command: bundle exec cap staging deploy
-          working_directory: deployment
-
-  deploy_production:
-    <<: *defaults
-    steps:
-      - checkout
       - attach_workspace:
           at: ~/props
-      - run: bundle --path vendor/bundle --without development
-      - run: bundle exec cap production deploy
+      - run: yarn test
 
+  build_and_push_image_to_ecr:
+    executor:
+      name: aws-ecr/default
+      use-docker-layer-caching: true
+    parameters:
+      env:
+        type: string
+        default: ""
+      s3_bucket_name:
+        type: string
+      app_name:
+        type: string
+      dep_group_name:
+        type: string
+      aws_key_id:
+        type: env_var_name
+      aws_secret_key:
+        type: env_var_name
+      aws_region:
+        type: env_var_name
+      aws_ecr_account_url:
+        type: env_var_name
+      aws_ecr_repo_name:
+        type: string
+    steps:
+      - run:
+          name: 'set ENV for deploying to << parameters.env >>'
+          command: |
+            echo 'export AWS_ACCESS_KEY_ID=${<< parameters.aws_key_id >>}' >> $BASH_ENV;
+            echo 'export AWS_SECRET_ACCESS_KEY=${<< parameters.aws_secret_key >>}' >> $BASH_ENV;
+            source $BASH_ENV
+      - aws-ecr/build-and-push-image:
+          aws-access-key-id: << parameters.aws_key_id >>
+          aws-secret-access-key: << parameters.aws_secret_key >>
+          region: << parameters.aws_region >>
+          account-url: << parameters.aws_ecr_account_url >>
+          repo: << parameters.aws_ecr_repo_name >>
+          tag: ${CIRCLE_SHA1}
+          extra-build-args: --build-arg RAILS_ENV=<< parameters.env >>
+          dockerfile: docker/Dockerfile
+
+  deploy:
+    executor: aws-cli/default
+    parameters:
+      env:
+        type: string
+        default: ""
+      s3_bucket_name:
+        type: string
+      app_name:
+        type: string
+      dep_group_name:
+        type: string
+      aws_key_id:
+        type: env_var_name
+      aws_secret_key:
+        type: env_var_name
+      aws_region:
+        type: env_var_name
+      aws_ecr_account_url:
+        type: env_var_name
+      aws_ecr_repo_name:
+        type: string
+    working_directory: ~/props
+    steps:
+      - attach_workspace:
+          at: ~/props
+      - run:
+          name: 'set ENV for deploying'
+          command: |
+            echo 'export AWS_ACCESS_KEY_ID=${<< parameters.aws_key_id >>}' >> $BASH_ENV;
+            echo 'export AWS_SECRET_ACCESS_KEY=${<< parameters.aws_secret_key >>}' >> $BASH_ENV;
+            source $BASH_ENV
+      - run:
+          command: |
+            echo IMAGE=${<< parameters.aws_ecr_account_url >>}/<< parameters.aws_ecr_repo_name >>:${CIRCLE_SHA1} >> codedeploy/parameters
+      - run:
+          name: Use proper appspec.yml file
+          command: mv appspec.yml.<< parameters.env >> appspec.yml
+      - aws-cli/install
+      - aws-cli/setup:
+          aws-access-key-id: << parameters.aws_key_id >>
+          aws-secret-access-key: << parameters.aws_secret_key >>
+          aws-region: << parameters.aws_region >>
+      - aws-code-deploy/push-bundle:
+          application-name: << parameters.app_name >>
+          bundle-bucket: << parameters.s3_bucket_name >>
+          bundle-key: codedeploy/${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BUILD_NUM}
+      - aws-code-deploy/deploy-bundle:
+          application-name: << parameters.app_name >>
+          deployment-group: << parameters.dep_group_name >>
+          bundle-bucket: << parameters.s3_bucket_name >>
+          bundle-key: codedeploy/${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BUILD_NUM}
+
+  notify_slack:
+    <<: *defaults
+    steps:
+      - slack/notify:
+          message: Deployment done
+
+staging_only: &staging_only
+  filters:
+    branches:
+      only:
+        - staging
+        - codedeploy
+    
+production_only: &production_only
+  filters:
+    branches:
+      only: master
+    
 workflows:
   version: 2
-  build-and-deploy:
+  build_and_deploy:
     jobs:
-      - build
-      - run_tests:
+      - checkout_code
+      - build_dependencies:
           requires:
-            - build
-      - deploy_master:
+            - checkout_code
+      - run_rubocop:
           requires:
-            - run_tests
-          filters:
-            branches:
-              only: master
-      - deploy_production:
+            - build_dependencies
+      - run_rspec:
           requires:
-            - run_tests
-          filters:
-            branches:
-              only: production
+            - build_dependencies
+            - run_rubocop
+      - run_yarn_tests:
+          requires:
+            - build_dependencies
+            - run_rspec
+      - build_and_push_image_to_ecr:
+          name: "Build and push to staging"
+          env: staging
+          s3_bucket_name: calluna-bucket-props-be-staging
+          app_name: calluna-props-be-staging-main_app
+          dep_group_name: calluna-props-be-staging-main_app-group
+          aws_key_id: STAGING_AWS_ACCESS_KEY_ID
+          aws_secret_key: STAGING_AWS_SECRET_ACCESS_KEY
+          aws_region: AWS_DEFAULT_REGION
+          aws_ecr_account_url: STAGING_AWS_ECR_ACCOUNT_URL
+          aws_ecr_repo_name: calluna-ecr-props-be-staging
+          <<: *staging_only
+          requires:
+            - run_yarn_tests
+      - build_and_push_image_to_ecr:
+          name: "Build and push to production"
+          env: production
+          s3_bucket_name: props-production-app-bucket
+          app_name: props-production-main-app
+          dep_group_name: props-production-main-group
+          aws_key_id: PRODUCTION_AWS_ACCESS_KEY_ID
+          aws_secret_key: PRODUCTION_AWS_SECRET_ACCESS_KEY
+          aws_region: AWS_DEFAULT_REGION
+          aws_ecr_account_url: AWS_ECR_ACCOUNT_URL
+          aws_ecr_repo_name: ecr-props-production
+          <<: *production_only
+          requires:
+            - run_yarn_tests
+      - deploy:
+          name: "Deploy to staging"
+          env: staging
+          s3_bucket_name: calluna-bucket-props-be-staging
+          app_name: calluna-props-be-staging-main_app
+          dep_group_name: calluna-props-be-staging-main_app-group
+          aws_key_id: STAGING_AWS_ACCESS_KEY_ID
+          aws_secret_key: STAGING_AWS_SECRET_ACCESS_KEY
+          aws_region: AWS_DEFAULT_REGION
+          aws_ecr_account_url: STAGING_AWS_ECR_ACCOUNT_URL
+          aws_ecr_repo_name: calluna-ecr-props-be-staging
+          <<: *staging_only
+          requires:
+            - "Build and push to staging"
+      - deploy:
+          name: "Deploy to production"
+          env: production
+          s3_bucket_name: props-production-app-bucket
+          app_name: props-production-main-app
+          dep_group_name: props-production-main-group
+          aws_key_id: PRODUCTION_AWS_ACCESS_KEY_ID
+          aws_secret_key: PRODUCTION_AWS_SECRET_ACCESS_KEY
+          aws_region: AWS_DEFAULT_REGION
+          aws_ecr_account_url: AWS_ECR_ACCOUNT_URL
+          aws_ecr_repo_name: ecr-props-production
+          <<: *production_only
+          requires:
+            - "Build and push to production"
+      - notify_slack:
+          <<: *staging_only
+          requires:
+            - "Deploy to staging"
+      - notify_slack:
+          <<: *production_only
+          requires:
+            - "Deploy to production"
 
 notify:
   webhooks:

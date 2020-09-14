@@ -1,76 +1,46 @@
-version: '3.2'
+version: '3.7'
+
+x-common:
+  &common-settings
+  image: ${IMAGE}
+  volumes:
+    - /var/nfs/props/staging/assets:/app/public/assets
+    - /var/nfs/props/staging/log:/app/log
+  environment:
+    - APP_DOMAIN
+    - SINGLE_DOMAIN_MODE
+    - SENDGRID_USER_NAME
+    - SENDGRID_PASSWORD
+    - SLACK_CLIENT_ID
+    - SLACK_CLIENT_SECRET
+    - DATABASE_URL
+    - SECRET_KEY_BASE
+    - REDISCLOUD_URL=$REDIS_URL
+    - REDIS_URL
+    - ROLLBAR_ACCESS_TOKEN
+  labels:
+    - "netguru.appname=props"
+    - "netguru.stage=staging"
+  networks:
+    - backend
+
 services:
   web:
-    image: ${DOCKER_REPO}:${TIMESTAMP}
-    volumes:
-      - /var/nfs/props/staging/assets:/app/public/assets
-      - /var/nfs/props/staging/log:/app/log
+    << : *common-settings
     hostname: "netguru.props.staging.web"
-    labels:
-      - "netguru.appname=props"
-      - "netguru.stage=staging"
-    deploy:
-      replicas: 1
-      placement:
-        constraints: [node.role == worker]
-      labels:
-        - "traefik.frontend.rule=HostRegexp: ${VIRTUAL_HOST}, {subdomain:[a-z]+}.${VIRTUAL_HOST}"
-        - "traefik.port=3000"
-        - "traefik.docker.network=swarm"
-      resources:
-        limits:
-          cpus: "0.25"
-          memory: 800M
-    env_file: /home/deploy/apps/props/shared/secrets.env
-    networks:
-      - swarm
-    command: dumb-init puma -C config/puma.rb
+    command: dumb-init bash -c "bundle exec puma -C config/puma.rb"
+    ports:
+      - "80:3000"
 
   sidekiq:
-    image: ${DOCKER_REPO}:${TIMESTAMP}
-    volumes:
-      - /var/nfs/props/staging/assets:/app/public/assets
-      - /var/nfs/props/staging/log:/app/log
+    << : *common-settings
     hostname: "netguru.props.staging.sidekiq"
-    labels:
-      - "netguru.appname=props"
-      - "netguru.stage=staging"
-    deploy:
-      replicas: 1
-      placement:
-        constraints: [node.role == worker]
-      resources:
-        limits:
-          cpus: "0.25"
-          memory: 800M
-    env_file: /home/deploy/apps/props/shared/secrets.env
-    networks:
-      - swarm
     command: dumb-init bash -c "bundle exec sidekiq --config ./config/sidekiq.staging.yml | tee -a log/staging.sidekiq.log"
 
   crono:
-    image: ${DOCKER_REPO}:${TIMESTAMP}
-    volumes:
-      - /var/nfs/props/staging/assets:/app/public/assets
-      - /var/nfs/props/staging/log:/app/log
+    << : *common-settings
     hostname: "netguru.props.staging.crono"
-    labels:
-      - "netguru.appname=props"
-      - "netguru.stage=staging"
-    deploy:
-      replicas: 1
-      placement:
-        constraints: [node.role == worker]
-      resources:
-        limits:
-          cpus: "0.25"
-          memory: 800M
-    env_file: /home/deploy/apps/props/shared/secrets.env
-    networks:
-      - swarm
     command: dumb-init bash -c "bundle exec crono -L log/staging.crono.log run | tail -f log/staging.crono.log"
 
 networks:
-  swarm:
-    external:
-      name: swarm
+  backend: 
