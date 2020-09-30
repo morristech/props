@@ -1,5 +1,5 @@
 require 'rake'
-Rails.application.load_tasks
+Rails.app_class.load_tasks
 
 module CronTasks
   module EmailDigests
