@@ -5,19 +5,19 @@ module CronTasks
   module EmailDigests
     class SendDailyJob
       def perform
-        Rake::Task["email_digests:send_daily"].execute
+        EmailDigests::SendDaily.new.call
       end
     end
 
     class WeeklyJob
       def perform
-        Rake::Task["email_digests:send_weekly"].execute
+        EmailDigests::SendWeekly.new.call
       end
     end
 
     class CreateSubscriptionsJob
       def perform
-        Rake::Task["email_digests:create_subscriptions"].execute
+        EmailDigests::CreateSubscriptions.new.call
       end
     end
   end
