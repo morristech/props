@@ -1,11 +1,9 @@
 module EmailDigests
   class CreateSubscriptions
     def call
-      Rails.logger.tagged('Email Digest') do |logger|
-        user_without_subscription_ids.each do |user_id|
-          MailSubscription.create!(user_id: user_id)
-          logger.info "Mail subscription created for User##{user_id}"
-        end
+      user_without_subscription_ids.each do |user_id|
+        MailSubscription.create!(user_id: user_id)
+        Crono.logger.info "Mail subscription created for User##{user_id}"
       end
     end
 

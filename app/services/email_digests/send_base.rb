@@ -1,14 +1,13 @@
 module EmailDigests
   class SendBase
     def call
-      Rails.logger.tagged('Email Digest') do |logger|
-        logger.info "Found #{subscriptions.count} subscriptions to process " \
-          "in #{self.class}"
-        subscriptions.each do |sub|
-          digest = EmailDigest.new(since_timestamp: sub.last_sent_at,
-                                   user: sub.user)
-          process_digest(digest, sub, logger)
-        end
+      logger = Crono.logger
+      logger.info "Found #{subscriptions.count} subscriptions to process " \
+        "in #{self.class}"
+      subscriptions.each do |sub|
+        digest = EmailDigest.new(since_timestamp: sub.last_sent_at,
+                                  user: sub.user)
+        process_digest(digest, sub, logger)
       end
     end
 
