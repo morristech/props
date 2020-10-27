@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/props
   docker:
-    - image: circleci/ruby:2.5.1-node-browsers
+    - image: circleci/ruby:2.6.6-node-browsers
       environment:
         - RAILS_ENV=test
     - image: circleci/postgres:latest
@@ -181,12 +181,12 @@ staging_only: &staging_only
       only:
         - staging
         - codedeploy
-    
+
 production_only: &production_only
   filters:
     branches:
       only: master
-    
+
 workflows:
   version: 2
   build_and_deploy:
