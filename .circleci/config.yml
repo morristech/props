@@ -4,6 +4,7 @@ defaults: &defaults
     - image: circleci/ruby:2.6.6-node-browsers
       environment:
         - RAILS_ENV=test
+        - NODE_VERSION=6.10.3
     - image: circleci/postgres:latest
       environment:
         - POSTGRES_USER=props
